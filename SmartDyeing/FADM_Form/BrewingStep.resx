@@ -118,26 +118,189 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="lab_ProportionOrTime.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 141</value>
-  </data>
-  <data name="txt_ProportionOrTime.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="lab_StepNum.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
   </data>
   <data name="lab_StepNum.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 9</value>
   </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="lab_StepNum.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 42</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="lab_StepNum.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="lab_StepNum.Text" xml:space="preserve">
+    <value>步号:</value>
+  </data>
+  <data name="lab_StepNum.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;lab_StepNum.Name" xml:space="preserve">
+    <value>lab_StepNum</value>
+  </data>
+  <data name="&gt;&gt;lab_StepNum.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lab_StepNum.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lab_StepNum.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="lab_TechnologyName.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
+  </data>
+  <data name="lab_TechnologyName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 75</value>
+  </data>
+  <data name="lab_TechnologyName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 42</value>
+  </data>
+  <data name="lab_TechnologyName.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="lab_TechnologyName.Text" xml:space="preserve">
+    <value>操作流程:</value>
+  </data>
+  <data name="lab_TechnologyName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;lab_TechnologyName.Name" xml:space="preserve">
+    <value>lab_TechnologyName</value>
+  </data>
+  <data name="&gt;&gt;lab_TechnologyName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lab_TechnologyName.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lab_TechnologyName.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="lab_ProportionOrTime.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
+  </data>
+  <data name="lab_ProportionOrTime.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 141</value>
+  </data>
+  <data name="lab_ProportionOrTime.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 42</value>
+  </data>
+  <data name="lab_ProportionOrTime.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lab_ProportionOrTime.Text" xml:space="preserve">
+    <value>百分比(%)/时间(s):</value>
+  </data>
+  <data name="lab_ProportionOrTime.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;lab_ProportionOrTime.Name" xml:space="preserve">
+    <value>lab_ProportionOrTime</value>
+  </data>
+  <data name="&gt;&gt;lab_ProportionOrTime.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lab_ProportionOrTime.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lab_ProportionOrTime.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="txt_StepNum.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="txt_StepNum.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
+  </data>
+  <data name="txt_StepNum.Location" type="System.Drawing.Point, System.Drawing">
+    <value>200, 16</value>
+  </data>
+  <data name="txt_StepNum.Size" type="System.Drawing.Size, System.Drawing">
+    <value>202, 29</value>
+  </data>
+  <data name="txt_StepNum.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;txt_StepNum.Name" xml:space="preserve">
+    <value>txt_StepNum</value>
+  </data>
+  <data name="&gt;&gt;txt_StepNum.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txt_StepNum.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
+  <data name="&gt;&gt;txt_StepNum.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="txt_ProportionOrTime.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
+  </data>
+  <data name="txt_ProportionOrTime.Location" type="System.Drawing.Point, System.Drawing">
+    <value>200, 148</value>
+  </data>
+  <data name="txt_ProportionOrTime.Size" type="System.Drawing.Size, System.Drawing">
+    <value>202, 29</value>
+  </data>
+  <data name="txt_ProportionOrTime.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;txt_ProportionOrTime.Name" xml:space="preserve">
+    <value>txt_ProportionOrTime</value>
+  </data>
+  <data name="&gt;&gt;txt_ProportionOrTime.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txt_ProportionOrTime.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;txt_ProportionOrTime.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="btn_Save.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
+  </data>
+  <data name="btn_Save.Location" type="System.Drawing.Point, System.Drawing">
+    <value>172, 207</value>
+  </data>
+  <data name="btn_Save.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 42</value>
+  </data>
+  <data name="btn_Save.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="btn_Save.Text" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="&gt;&gt;btn_Save.Name" xml:space="preserve">
+    <value>btn_Save</value>
+  </data>
+  <data name="&gt;&gt;btn_Save.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btn_Save.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btn_Save.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="cbo_TechnologyName.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
+  </data>
+  <data name="cbo_TechnologyName.Items" xml:space="preserve">
+    <value>手动加染助剂</value>
+  </data>
+  <data name="cbo_TechnologyName.Items1" xml:space="preserve">
+    <value>加大冷水</value>
+  </data>
   <data name="cbo_TechnologyName.Items2" xml:space="preserve">
     <value>加小冷水</value>
   </data>
-  <data name="&gt;&gt;lab_TechnologyName.Name" xml:space="preserve">
-    <value>lab_TechnologyName</value>
+  <data name="cbo_TechnologyName.Items3" xml:space="preserve">
+    <value>加热水</value>
   </data>
   <data name="cbo_TechnologyName.Items4" xml:space="preserve">
     <value>搅拌</value>
@@ -145,111 +308,35 @@
   <data name="cbo_TechnologyName.Items5" xml:space="preserve">
     <value>加补充剂</value>
   </data>
-  <data name="&gt;&gt;lab_ProportionOrTime.Name" xml:space="preserve">
-    <value>lab_ProportionOrTime</value>
+  <data name="cbo_TechnologyName.Items6" xml:space="preserve">
+    <value>加温水</value>
   </data>
-  <data name="&gt;&gt;txt_ProportionOrTime.Name" xml:space="preserve">
-    <value>txt_ProportionOrTime</value>
-  </data>
-  <data name="&gt;&gt;lab_StepNum.Name" xml:space="preserve">
-    <value>lab_StepNum</value>
-  </data>
-  <data name="&gt;&gt;cbo_TechnologyName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="lab_TechnologyName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
-  </data>
-  <data name="lab_StepNum.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
-  </data>
-  <data name="&gt;&gt;lab_ProportionOrTime.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;txt_StepNum.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;lab_TechnologyName.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btn_Save.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;lab_TechnologyName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btn_Save.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="txt_StepNum.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="txt_StepNum.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 14.25pt</value>
-  </data>
-  <data name="&gt;&gt;lab_StepNum.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="lab_ProportionOrTime.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 14.25pt</value>
-  </data>
-  <data name="cbo_TechnologyName.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="txt_StepNum.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 29</value>
-  </data>
-  <data name="&gt;&gt;lab_StepNum.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="lab_StepNum.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;lab_ProportionOrTime.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cbo_TechnologyName.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="cbo_TechnologyName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>201, 83</value>
   </data>
   <data name="cbo_TechnologyName.Size" type="System.Drawing.Size, System.Drawing">
     <value>201, 27</value>
   </data>
-  <data name="lab_TechnologyName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 42</value>
+  <data name="cbo_TechnologyName.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>泡制流程设定</value>
+  <data name="&gt;&gt;cbo_TechnologyName.Name" xml:space="preserve">
+    <value>cbo_TechnologyName</value>
   </data>
-  <data name="lab_ProportionOrTime.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
+  <data name="&gt;&gt;cbo_TechnologyName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="lab_TechnologyName.Text" xml:space="preserve">
-    <value>操作流程:</value>
-  </data>
-  <data name="cbo_TechnologyName.Items" xml:space="preserve">
-    <value>手动加染助剂</value>
-  </data>
-  <data name="&gt;&gt;txt_StepNum.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="cbo_TechnologyName.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 14.25pt</value>
-  </data>
-  <data name="btn_Save.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 14.25pt</value>
-  </data>
-  <data name="lab_TechnologyName.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="lab_StepNum.Text" xml:space="preserve">
-    <value>步号:</value>
-  </data>
-  <data name="&gt;&gt;txt_ProportionOrTime.Parent" xml:space="preserve">
+  <data name="&gt;&gt;cbo_TechnologyName.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;btn_Save.Name" xml:space="preserve">
-    <value>btn_Save</value>
+  <data name="&gt;&gt;cbo_TechnologyName.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 12</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>414, 262</value>
@@ -258,100 +345,13 @@
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>
   </data>
-  <data name="&gt;&gt;lab_TechnologyName.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="txt_ProportionOrTime.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="lab_ProportionOrTime.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 42</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 12</value>
-  </data>
-  <data name="&gt;&gt;txt_ProportionOrTime.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="lab_TechnologyName.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 14.25pt</value>
-  </data>
-  <data name="btn_Save.Text" xml:space="preserve">
-    <value>保存</value>
-  </data>
-  <data name="lab_TechnologyName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 75</value>
-  </data>
-  <data name="lab_StepNum.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 14.25pt</value>
-  </data>
-  <data name="&gt;&gt;btn_Save.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="txt_StepNum.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="cbo_TechnologyName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>201, 83</value>
-  </data>
-  <data name="cbo_TechnologyName.Items1" xml:space="preserve">
-    <value>加大冷水</value>
-  </data>
-  <data name="lab_ProportionOrTime.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="txt_StepNum.Location" type="System.Drawing.Point, System.Drawing">
-    <value>200, 16</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>泡制流程设定</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>BrewingStep</value>
   </data>
-  <data name="cbo_TechnologyName.Items3" xml:space="preserve">
-    <value>加热水</value>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="txt_ProportionOrTime.Location" type="System.Drawing.Point, System.Drawing">
-    <value>200, 148</value>
-  </data>
-  <data name="btn_Save.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 42</value>
-  </data>
-  <data name="txt_ProportionOrTime.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 29</value>
-  </data>
-  <data name="&gt;&gt;cbo_TechnologyName.Name" xml:space="preserve">
-    <value>cbo_TechnologyName</value>
-  </data>
-  <data name="btn_Save.Location" type="System.Drawing.Point, System.Drawing">
-    <value>172, 207</value>
-  </data>
-  <data name="&gt;&gt;cbo_TechnologyName.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lab_StepNum.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 42</value>
-  </data>
-  <data name="&gt;&gt;lab_ProportionOrTime.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;lab_StepNum.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;txt_ProportionOrTime.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txt_StepNum.Name" xml:space="preserve">
-    <value>txt_StepNum</value>
-  </data>
-  <data name="&gt;&gt;btn_Save.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="lab_ProportionOrTime.Text" xml:space="preserve">
-    <value>百分比(%)/时间(s):</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>en</value>
-  </metadata>
 </root>

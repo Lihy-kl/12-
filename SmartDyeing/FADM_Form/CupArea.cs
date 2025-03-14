@@ -175,7 +175,7 @@ namespace SmartDyeing.FADM_Form
                 panel1.Location = new System.Drawing.Point(10, 10);
                 this.Controls.Add(panel1);
 
-                if (Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 0)
+                if (Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 0 || Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 5)
                 {
                     FADM_Control.TenBeater s = new TenBeater();
                     panel1.Controls.Add(s);
@@ -436,7 +436,7 @@ namespace SmartDyeing.FADM_Form
                 panel2.Location = new System.Drawing.Point(10 + 375 + 10, 10);
                 this.Controls.Add(panel2);
 
-                if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 0)
+                if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 0 || Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 5)
                 {
                     FADM_Control.TenBeater s = new TenBeater();
                     panel2.Controls.Add(s);
@@ -693,7 +693,7 @@ namespace SmartDyeing.FADM_Form
                 panel3.Location = new System.Drawing.Point(10 + 375 + 10 + 375 + 10, 10);
                 this.Controls.Add(panel3);
 
-                if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 0)
+                if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 0 || Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 5)
                 {
                     FADM_Control.TenBeater s = new TenBeater();
                     panel3.Controls.Add(s);
@@ -951,7 +951,7 @@ namespace SmartDyeing.FADM_Form
                 panel4.Location = new System.Drawing.Point(10, 10 + 300 + 10);
                 this.Controls.Add(panel4);
 
-                if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 0)
+                if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 0 || Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 5)
                 {
                     FADM_Control.TenBeater s = new TenBeater();
                     panel4.Controls.Add(s);
@@ -1207,7 +1207,7 @@ namespace SmartDyeing.FADM_Form
                 panel5.Location = new System.Drawing.Point(10 + 375 + 10, 10 + 300 + 10);
                 this.Controls.Add(panel5);
 
-                if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 0)
+                if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 0 || Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 5)
                 {
                     FADM_Control.TenBeater s = new TenBeater();
                     panel5.Controls.Add(s);
@@ -1462,7 +1462,7 @@ namespace SmartDyeing.FADM_Form
                 panel6.Location = new System.Drawing.Point(10 + 375 + 10 + 375 + 10, 10 + 300 + 10);
                 this.Controls.Add(panel6);
 
-                if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 0)
+                if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 0 || Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 5)
                 {
                     FADM_Control.TenBeater s = new TenBeater();
                     panel6.Controls.Add(s);

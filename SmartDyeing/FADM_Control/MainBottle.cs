@@ -200,7 +200,7 @@ namespace SmartDyeing.FADM_Control
                 }
                 else if (Lib_Card.Configure.Parameter.Machine_Area1_Type == 3)
                 {
-                    if (Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 0)
+                    if (Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 0 || Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 5)
                     {
                         FADM_Control.TenBeater s = new TenBeater();
                         this.panel1.Controls.Add(s);
@@ -444,7 +444,7 @@ namespace SmartDyeing.FADM_Control
                 }
                 else if (Lib_Card.Configure.Parameter.Machine_Area2_Type == 3)
                 {
-                    if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 0)
+                    if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 0 || Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 5)
                     {
                         FADM_Control.TenBeater s = new TenBeater();
                         this.panel2.Controls.Add(s);
@@ -686,7 +686,7 @@ namespace SmartDyeing.FADM_Control
                 }
                 else if (Lib_Card.Configure.Parameter.Machine_Area3_Type == 3)
                 {
-                    if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 0)
+                    if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 0 || Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 5)
                     {
                         FADM_Control.TenBeater s = new TenBeater();
                         this.panel3.Controls.Add(s);
@@ -929,7 +929,7 @@ namespace SmartDyeing.FADM_Control
                 }
                 else if (Lib_Card.Configure.Parameter.Machine_Area4_Type == 3)
                 {
-                    if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 0)
+                    if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 0 || Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 5)
                     {
                         FADM_Control.TenBeater s = new TenBeater();
                         this.panel4.Controls.Add(s);
@@ -1170,7 +1170,7 @@ namespace SmartDyeing.FADM_Control
                 }
                 else if (Lib_Card.Configure.Parameter.Machine_Area5_Type == 3)
                 {
-                    if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 0)
+                    if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 0 || Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 5)
                     {
                         FADM_Control.TenBeater s = new TenBeater();
                         this.panel5.Controls.Add(s);
@@ -1411,7 +1411,7 @@ namespace SmartDyeing.FADM_Control
                 }
                 else if (Lib_Card.Configure.Parameter.Machine_Area6_Type == 3)
                 {
-                    if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 0)
+                    if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 0|| Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 5)
                     {
                         FADM_Control.TenBeater s = new TenBeater();
                         this.panel6.Controls.Add(s);

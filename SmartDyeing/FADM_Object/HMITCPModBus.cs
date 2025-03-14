@@ -187,7 +187,7 @@ namespace SmartDyeing.FADM_Object
             {
                 try
                 {
-                    if (i_type == 1 || i_type == 2|| i_type == 3)
+                    if (i_type == 1 || i_type == 2|| i_type == 3 || i_type == 4 || i_type == 5)
                     {
                         int[] ia_values_ask = new int[6];
                         for(int i = 0;i< ia_values_ask.Length;i++)
@@ -197,7 +197,7 @@ namespace SmartDyeing.FADM_Object
                         //读取放布申请
                         if (FADM_Object.Communal._b_isNeedConfirm)
                         {
-                            if (i_type == 2)
+                            if (i_type == 2||i_type == 5)
                             {
                                 
                                 int i_ret = -1;

@@ -1966,7 +1966,7 @@ namespace SmartDyeing.FADM_Form
                                         values[2] = 0;
                                         values[3] = 0;
                                         values[4] = 1;
-                                        values[5] = 1;
+                                        values[5] = 0;
                                         if (!FADM_Object.Communal._tcpModBusAbs._b_Connect)
                                         {
                                             FADM_Object.Communal._tcpModBusAbs.ReConnect();

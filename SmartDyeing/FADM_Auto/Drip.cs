@@ -860,10 +860,10 @@ namespace SmartDyeing.FADM_Auto
 
                 MyModbusFun.Reset();
 
-                if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                {
-                    Lib_Card.ADT8940A1.Module.Home.Home.Home_XYZFinish = false;
-                }
+                //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                //{
+                //    Lib_Card.ADT8940A1.Module.Home.Home.Home_XYZFinish = false;
+                //}
 
                 if (FADM_Object.Communal._b_isDebug)
                 {
@@ -3617,6 +3617,11 @@ namespace SmartDyeing.FADM_Auto
                     myAlarm = new FADM_Object.MyAlarm(" The number of pre-drops in mother liquor bottle " + i_minBottleNo + "  is too small, please check whether the actual amount of liquid is too low" +
                         "( Continue to perform please click Yes)", "Drip", i_minBottleNo, 2, 10);
 
+                //回一次原点再继续，担心失步导致后续母液抽不了
+                int i_state = MyModbusFun.goHome();
+                if (0 != i_state && -2 != i_state)
+                    throw new Exception("驱动异常");
+
             }
 
             b_checkFail = false;
@@ -5645,13 +5650,13 @@ namespace SmartDyeing.FADM_Auto
                 FADM_Object.Communal._b_stop = true;
             }
 
-            if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-            {
-                //富士伺服在下面判断 天平状态 原有不动 绿维的放在上面 并且置位 是否回原点 绿维的放移动机械手前面
+            //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+            //{
+            //    //富士伺服在下面判断 天平状态 原有不动 绿维的放在上面 并且置位 是否回原点 绿维的放移动机械手前面
 
-                //判断是否异常
-                FADM_Object.Communal.BalanceState("滴液");
-            }
+            //    //判断是否异常
+            //    FADM_Object.Communal.BalanceState("滴液");
+            //}
 
 
             FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "寻找" + i_minBottleNo + "号母液瓶");
@@ -5914,7 +5919,7 @@ namespace SmartDyeing.FADM_Auto
 
 
 
-                if ((Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 0) || Lib_Card.Configure.Parameter.Machine_Type == 1)
+                //if ((Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 0) || Lib_Card.Configure.Parameter.Machine_Type == 1)
                 {
                     //富士伺服在下面判断 天平状态 原有不动 绿维的放在上面 并且置位 是否回原点
 
@@ -7359,13 +7364,13 @@ namespace SmartDyeing.FADM_Auto
                         //把实际加水杯号记录
                         lis_actualAddWaterCup.Add(i_cupNo);
 
-                        if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                        {
-                            //富士伺服在下面判断 天平状态 原有不动 绿维的放在上面 并且置位 是否回原点 绿维的放移动机械手前面
+                        //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                        //{
+                        //    //富士伺服在下面判断 天平状态 原有不动 绿维的放在上面 并且置位 是否回原点 绿维的放移动机械手前面
 
-                            //判断是否异常
-                            FADM_Object.Communal.BalanceState("滴液"); //这是加水 
-                        }
+                        //    //判断是否异常
+                        //    FADM_Object.Communal.BalanceState("滴液"); //这是加水 
+                        //}
 
 
                         FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "寻找" + i_cupNo + "号配液杯");
@@ -7511,7 +7516,7 @@ namespace SmartDyeing.FADM_Auto
                     FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "寻找天平位");
 
                     //判断是否异常
-                    if ((Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 0) || Lib_Card.Configure.Parameter.Machine_Type == 1)
+                    //if ((Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 0) || Lib_Card.Configure.Parameter.Machine_Type == 1)
                     {
                         //富士伺服在下面判断 天平状态 原有不动 绿维的放在上面 并且置位 是否回原点
 
@@ -7690,10 +7695,10 @@ namespace SmartDyeing.FADM_Auto
                         while (true)
                         {
                             if (0 != myAlarm._i_alarm_Choose) {
-                                if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                                {
-                                  //  Home.Home_XYZFinish = false;
-                                }
+                                //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                                //{
+                                //  //  Home.Home_XYZFinish = false;
+                                //}
                                 break;
                             }
                                
@@ -7983,10 +7988,10 @@ namespace SmartDyeing.FADM_Auto
                             while (true)
                             {
                                 if (0 != myAlarm._i_alarm_Choose) {
-                                    if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                                    {
-                                       // Home.Home_XYZFinish = false;
-                                    }
+                                    //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                                    //{
+                                    //   // Home.Home_XYZFinish = false;
+                                    //}
                                     break;
                                 }
                                     
@@ -8057,10 +8062,10 @@ namespace SmartDyeing.FADM_Auto
                             while (true)
                             {
                                 if (0 != myAlarm._i_alarm_Choose) {
-                                    if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                                    {
-                                       // Home.Home_XYZFinish = false;
-                                    }
+                                    //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                                    //{
+                                    //   // Home.Home_XYZFinish = false;
+                                    //}
                                     break;
                                 }
                                     
@@ -8204,10 +8209,10 @@ namespace SmartDyeing.FADM_Auto
 
                     {
                         if (0 != myAlarm._i_alarm_Choose) {
-                            if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                            {
-                              //  Home.Home_XYZFinish = false;
-                            }
+                            //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                            //{
+                            //  //  Home.Home_XYZFinish = false;
+                            //}
                             break;
                         }
                             
@@ -8308,10 +8313,10 @@ namespace SmartDyeing.FADM_Auto
                     while (true)
                     {
                         if (0 != myAlarm._i_alarm_Choose) {
-                            if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                            {
-                               // Home.Home_XYZFinish = false;
-                            }
+                            //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                            //{
+                            //   // Home.Home_XYZFinish = false;
+                            //}
                             break;
                         }
                             
@@ -8723,6 +8728,11 @@ namespace SmartDyeing.FADM_Auto
                 else
                     myAlarm = new FADM_Object.MyAlarm( " The number of pre-drops in mother liquor bottle "+i_minBottleNo +"  is too small, please check whether the actual amount of liquid is too low" +
                         "( Continue to perform please click Yes)", "Drip", i_minBottleNo, 2, 10);
+
+                //回一次原点再继续，担心失步导致后续母液抽不了
+                int i_state = MyModbusFun.goHome();
+                if (0 != i_state && -2 != i_state)
+                    throw new Exception("驱动异常");
 
             }
                 
@@ -9314,10 +9324,10 @@ namespace SmartDyeing.FADM_Auto
                     while (true)
                 {
                     if (0 != myAlarm._i_alarm_Choose) {
-                        if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                        {
-                           // Home.Home_XYZFinish = false;
-                        }
+                        //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                        //{
+                        //   // Home.Home_XYZFinish = false;
+                        //}
                         break;
                     }
                         
@@ -9385,10 +9395,10 @@ namespace SmartDyeing.FADM_Auto
                 while (true)
                 {
                     if (0 != myAlarm._i_alarm_Choose) {
-                        if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                        {
-                           // Home.Home_XYZFinish = false;
-                        }
+                        //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                        //{
+                        //   // Home.Home_XYZFinish = false;
+                        //}
                         break;
                     }
                         
@@ -9456,10 +9466,10 @@ namespace SmartDyeing.FADM_Auto
                 while (true)
                 {
                     if (0 != myAlarm._i_alarm_Choose) {
-                        if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                        {
-                          //  Home.Home_XYZFinish = false;
-                        }
+                        //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                        //{
+                        //  //  Home.Home_XYZFinish = false;
+                        //}
                         break;
                     }
                     Thread.Sleep(1);
@@ -9624,10 +9634,10 @@ namespace SmartDyeing.FADM_Auto
                         while (true)
                         {
                             if (0 != myAlarm._i_alarm_Choose) {
-                                if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                                {
-                                   // Home.Home_XYZFinish = false;
-                                }
+                                //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                                //{
+                                //   // Home.Home_XYZFinish = false;
+                                //}
                                 break;
                             }
                                 
@@ -10160,10 +10170,10 @@ namespace SmartDyeing.FADM_Auto
                         while (true)
                         {
                             if (0 != myAlarm._i_alarm_Choose) {
-                                if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                                {
-                                   // Home.Home_XYZFinish = false;
-                                }
+                                //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                                //{
+                                //   // Home.Home_XYZFinish = false;
+                                //}
                                 break;
                             }
                                
@@ -10757,10 +10767,10 @@ namespace SmartDyeing.FADM_Auto
                             while (true)
                             {
                                 if (0 != myAlarm._i_alarm_Choose) {
-                                    if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                                    {
-                                       // Home.Home_XYZFinish = false;
-                                    }
+                                    //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                                    //{
+                                    //   // Home.Home_XYZFinish = false;
+                                    //}
                                     break;
                                 }
                                     
@@ -10831,10 +10841,10 @@ namespace SmartDyeing.FADM_Auto
                             while (true)
                             {
                                 if (0 != myAlarm._i_alarm_Choose) {
-                                    if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                                    {
-                                       // Home.Home_XYZFinish = false;
-                                    }
+                                    //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                                    //{
+                                    //   // Home.Home_XYZFinish = false;
+                                    //}
                                     break;
                                 }
                                     
@@ -10978,9 +10988,9 @@ namespace SmartDyeing.FADM_Auto
 
                     {
                         if (0 != myAlarm._i_alarm_Choose) {
-                            if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1) {
-                               // Home.Home_XYZFinish = false;
-                            }
+                            //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1) {
+                            //   // Home.Home_XYZFinish = false;
+                            //}
                             break;
                         }
                         Thread.Sleep(1);
@@ -11080,10 +11090,10 @@ namespace SmartDyeing.FADM_Auto
                     while (true)
                     {
                         if (0 != myAlarm._i_alarm_Choose) {
-                            if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                            {
-                               // Home.Home_XYZFinish = false;
-                            }
+                            //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                            //{
+                            //   // Home.Home_XYZFinish = false;
+                            //}
                             break;
                         }
                         Thread.Sleep(1);
@@ -11495,6 +11505,11 @@ namespace SmartDyeing.FADM_Auto
                     myAlarm = new FADM_Object.MyAlarm(" The number of pre-drops in mother liquor bottle " + i_minBottleNo + "  is too small, please check whether the actual amount of liquid is too low" +
                         "( Continue to perform please click Yes)", "Drip", i_minBottleNo, 2, 10);
 
+                //回一次原点再继续，担心失步导致后续母液抽不了
+                int i_state = MyModbusFun.goHome();
+                if (0 != i_state && -2 != i_state)
+                    throw new Exception("驱动异常");
+
             }
 
 
@@ -11537,10 +11552,10 @@ namespace SmartDyeing.FADM_Auto
                 while (true)
                 {
                     if (0 != myAlarm._i_alarm_Choose) {
-                        if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                        {
-                          //  Home.Home_XYZFinish = false;
-                        }
+                        //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                        //{
+                        //  //  Home.Home_XYZFinish = false;
+                        //}
                         break;
                     }
                     Thread.Sleep(1);
@@ -11607,10 +11622,10 @@ namespace SmartDyeing.FADM_Auto
                 while (true)
                 {
                     if (0 != myAlarm._i_alarm_Choose) {
-                        if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                        {
-                          //  Home.Home_XYZFinish = false;
-                        }
+                        //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                        //{
+                        //  //  Home.Home_XYZFinish = false;
+                        //}
                         break;
                     }
                        
@@ -11678,10 +11693,10 @@ namespace SmartDyeing.FADM_Auto
                 while (true)
                 {
                     if (0 != myAlarm._i_alarm_Choose) {
-                        if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                        {
-                          //  Home.Home_XYZFinish = false;
-                        }
+                        //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                        //{
+                        //  //  Home.Home_XYZFinish = false;
+                        //}
                         break;
                     }
                        
@@ -11847,10 +11862,10 @@ namespace SmartDyeing.FADM_Auto
                         while (true)
                         {
                             if (0 != myAlarm._i_alarm_Choose) {
-                                if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                                {
-                                    Home.Home_XYZFinish = false;
-                                }
+                                //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                                //{
+                                //    Home.Home_XYZFinish = false;
+                                //}
                                 break;
                             }
                                 
@@ -12382,10 +12397,10 @@ namespace SmartDyeing.FADM_Auto
                         while (true)
                         {
                             if (0 != myAlarm._i_alarm_Choose) {
-                                if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                                {
-                                    Home.Home_XYZFinish = false;
-                                }
+                                //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                                //{
+                                //    Home.Home_XYZFinish = false;
+                                //}
                                 break;
                             }
                                

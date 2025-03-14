@@ -172,7 +172,7 @@ namespace SmartDyeing.FADM_Auto
                             if (_abs_Temps[j]._i_requesadd == 0)
                             {
                                 FADM_Object.Communal._fadmSqlserver.ReviseData(
-                                  "UPDATE abs_cup_details SET Cooperate = 1 WHERE CupNum = " + (j+1)  + " And Cooperate = 5 ;");
+                                  "UPDATE abs_cup_details SET Cooperate = 1 WHERE CupNum = " + (j+1)  + " And (Cooperate = 5 or Cooperate = 0) ;");
 
                                 //检查是否已把数据库更新
                                 DataTable dt_cup = _fadmSqlserver.GetData("Select * from abs_cup_details WHERE CupNum = " + (j+1) + " ;");
@@ -502,21 +502,31 @@ namespace SmartDyeing.FADM_Auto
                                                 List<string> lis_sta_wl2 = sa_wl2.ToList();
 
                                                 bool b_flag = false;
+                                                int i_sub = 0;
+                                                string s_wl = "";
                                                 for (int i = 0; i < lis_sta_wl.Count; i++)
                                                 {
-                                                    if(Math.Abs(Convert.ToInt32(lis_sta_e22[i]) - Convert.ToInt32(lis_sta_e2[i]))> FADM_Object.Communal._d_abs_sub)
+                                                    if (Math.Abs(Convert.ToInt32(lis_sta_e22[i]) - Convert.ToInt32(lis_sta_e2[i])) > Math.Abs(i_sub))
+                                                    {
+                                                        s_wl = lis_sta_wl[i];
+                                                        i_sub = Convert.ToInt32(lis_sta_e22[i]) - Convert.ToInt32(lis_sta_e2[i]);
+                                                    }
+                                                }
+                                                for (int i = 0; i < lis_sta_wl.Count; i++)
+                                                {
+                                                    if (Math.Abs(Convert.ToInt32(lis_sta_e22[i]) - Convert.ToInt32(lis_sta_e2[i])) > FADM_Object.Communal._d_abs_sub)
                                                     {
                                                         b_flag = true;
                                                         break;
                                                     }
                                                 }
-                                                if(b_flag)
+                                                if (b_flag)
                                                 {
                                                     FADM_Object.MyAlarm myAlarm;
                                                     if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                                                        myAlarm = new FADM_Object.MyAlarm( "测试基准点误差过大，是否继续使用此数据作为基准点数据(重新测量基本点请点是，使用此数据为基准点请点否)?", "吸光度", true, 1);
+                                                        myAlarm = new FADM_Object.MyAlarm( "测试基准点误差过大，是否继续使用此数据作为基准点数据,最大差值在波长"+ s_wl+"，差值为"+ i_sub.ToString() + "(重新测量基本点请点是，使用此数据为基准点请点否)?", "吸光度", true, 1);
                                                     else
-                                                        myAlarm = new FADM_Object.MyAlarm("测试基准点误差过大，是否继续使用此数据作为基准点数据(重新测量基本点请点是，使用此数据为基准点请点否)?", "吸光度", true, 1);
+                                                        myAlarm = new FADM_Object.MyAlarm("测试基准点误差过大，是否继续使用此数据作为基准点数据,最大差值在波长" + s_wl + "，差值为" + i_sub.ToString() + "(重新测量基本点请点是，使用此数据为基准点请点否)?", "吸光度", true, 1);
 
                                                     while (true)
                                                     {
@@ -1104,6 +1114,17 @@ namespace SmartDyeing.FADM_Auto
                                                 List<string> lis_sta_wl2 = sa_wl2.ToList();
 
                                                 bool b_flag = false;
+                                                int i_sub = 0;
+                                                string s_wl = "";
+                                                for (int i = 0; i < lis_sta_wl.Count; i++)
+                                                {
+                                                    if (Math.Abs(Convert.ToInt32(lis_sta_e22[i]) - Convert.ToInt32(lis_sta_e2[i])) > Math.Abs(i_sub))
+                                                    {
+                                                        s_wl = lis_sta_wl[i];
+                                                        i_sub = Convert.ToInt32(lis_sta_e22[i]) - Convert.ToInt32(lis_sta_e2[i]);
+                                                    }
+                                                }
+
                                                 for (int i = 0; i < lis_sta_wl.Count; i++)
                                                 {
                                                     if (Math.Abs(Convert.ToInt32(lis_sta_e22[i]) - Convert.ToInt32(lis_sta_e2[i])) > FADM_Object.Communal._d_abs_sub)
@@ -1116,9 +1137,9 @@ namespace SmartDyeing.FADM_Auto
                                                 {
                                                     FADM_Object.MyAlarm myAlarm;
                                                     if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                                                        myAlarm = new FADM_Object.MyAlarm("测试基准点误差过大，是否继续使用此数据作为基准点数据(重新测量基本点请点是，使用此数据为基准点请点否)?", "吸光度", true, 1);
+                                                        myAlarm = new FADM_Object.MyAlarm("测试基准点误差过大，是否继续使用此数据作为基准点数据,最大差值在波长" + s_wl + "，差值为" + i_sub.ToString() + "(重新测量基本点请点是，使用此数据为基准点请点否)?", "吸光度", true, 1);
                                                     else
-                                                        myAlarm = new FADM_Object.MyAlarm("测试基准点误差过大，是否继续使用此数据作为基准点数据(重新测量基本点请点是，使用此数据为基准点请点否)?", "吸光度", true, 1);
+                                                        myAlarm = new FADM_Object.MyAlarm("测试基准点误差过大，是否继续使用此数据作为基准点数据,最大差值在波长" + s_wl + "，差值为" + i_sub.ToString() + "(重新测量基本点请点是，使用此数据为基准点请点否)?", "吸光度", true, 1);
 
                                                     while (true)
                                                     {
@@ -1795,6 +1816,10 @@ namespace SmartDyeing.FADM_Auto
 
                                     string s_dic = "";
 
+                                    s_sql = "insert into  history_absstandard(E1,E2,WL,FinishTime,Type) Values ('" + s_e1 + "','" + s_e2 + "','" + s_wl + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',0);";
+
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
                                     //判断这次是否第一次测白点
                                     DataTable dt_temp_first = FADM_Object.Communal._fadmSqlserver.GetData("SELECT * from standard where Type = 0;");
                                     if (dt_temp_first.Rows.Count == 0)
@@ -1972,6 +1997,10 @@ namespace SmartDyeing.FADM_Auto
                                     {
                                         s_e2 = s_e2.Remove(s_e2.Length - 1);
                                     }
+
+                                    s_sql = "insert into  history_absstandard(E1,E2,WL,FinishTime,Type) Values ('" + s_e1 + "','" + s_e2 + "','" + s_wl + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "',0);";
+
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
 
                                     string s_info = "";
                                     string s_dic="";

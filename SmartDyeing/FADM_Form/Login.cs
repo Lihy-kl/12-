@@ -186,6 +186,11 @@ namespace SmartDyeing.FADM_Form
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2704, "放盖区取盖失败");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2705, "关盖失败");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2706, "放盖失败");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2707, "二次关盖复压失败");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2708, "二次关盖失败");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2709, "二次关盖未发现杯盖");
+
+
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(3301, "天平通讯异常,检查恢复后请点是");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(3302, "天平开机未拿走废液桶,请先拿走废液桶，等待天平清零后重新放置废液桶，然后点确定");
@@ -366,6 +371,11 @@ namespace SmartDyeing.FADM_Form
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2704, "Failed to remove the cover from the cover placement area");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2705, "Closing failure");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2706, "Failed to place lid into lid area");
+
+
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2707, "Failed to close the cover again");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2708, "Failed to close the cover twice");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2709, "No lid was found after closing the lid again");
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(3301, "Abnormal communication on the balance,Click Yes after checking the recovery");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(3302, "The balance was turned on but the waste liquid tank was not taken away,Please take away the waste liquid bucket first, wait for the balance to be cleared and re-place the waste liquid bucket, and then click OK");
@@ -615,6 +625,14 @@ namespace SmartDyeing.FADM_Form
                     FADM_Form.CustomMessageBox.Show(ex.Message, "测试板卡", MessageBoxButtons.OK, false);
                     System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
                 }
+
+                int x = 0;
+                int y = 0;
+                if (FADM_Object.Communal._b_isNewSet)
+                    MyModbusFun.CalTarget(0, Lib_Card.Configure.Parameter.Machine_Bottle_Total, ref x, ref y);
+                else
+                    MyModbusFun.CalTarget(0, 1, ref x, ref y);
+                FADM_Object.Communal._i_Max_Y = y + 10000;
 
                 if (Lib_Card.Configure.Parameter.Machine_BalanceType == 0)
                 {
@@ -934,8 +952,11 @@ namespace SmartDyeing.FADM_Form
 
                 int x = 0;
                 int y = 0;
-                MyModbusFun.CalTarget(0, Lib_Card.Configure.Parameter.Machine_Bottle_Total, ref x, ref y);
-                FADM_Object.Communal._i_Max_Y = y+10000;
+                if (FADM_Object.Communal._b_isNewSet)
+                    MyModbusFun.CalTarget(0, Lib_Card.Configure.Parameter.Machine_Bottle_Total, ref x, ref y);
+                else
+                    MyModbusFun.CalTarget(0, 1, ref x, ref y);
+                FADM_Object.Communal._i_Max_Y = y + 10000;
 
                 int i_coordinate_Balance_Y = Convert.ToInt32(FADM_Object.Communal._i_Max_Y);//天平Y坐标
                 int i_d84 = 0;
@@ -1026,7 +1047,13 @@ namespace SmartDyeing.FADM_Form
                 int i_d118_118 = 0;
                 if (i_machine_UseBack == 1)
                 {
-                    this.ComParment(Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Bottle_Y) + 5 * Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Bottle_Interval), ref i_d118, ref i_d118_118);
+                    if (FADM_Object.Communal._b_isNewSet)
+                        this.ComParment(Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Bottle_Y) + 5 * Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Bottle_Interval), ref i_d118, ref i_d118_118);
+                    else
+                    {
+                        MyModbusFun.CalTarget(0, Lib_Card.Configure.Parameter.Machine_Bottle_Total, ref x, ref y);
+                        this.ComParment(y + 5 * Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Bottle_Interval), ref i_d118, ref i_d118_118);
+                    }
                 }
 
                 int i_move_S_MinHSpeed = Convert.ToInt32(Lib_Card.Configure.Parameter.Move_S_MinHSpeed);//小针筒运行慢速驱动速度
@@ -2241,6 +2268,13 @@ namespace SmartDyeing.FADM_Form
                     Communal._fadmSqlserver.ReviseData("CREATE TABLE [dbo].[standard]([E1] [nvarchar](1000) NULL,[E2] [nvarchar](1000) NULL,[WL] [nvarchar](1000) NULL,[FinishTime] [datetime2](0) NULL) ON [PRIMARY]");
                 }
 
+                dt_head = Communal._fadmSqlserver.GetData("select COUNT(*) from sysobjects where id = object_id('drop_system.dbo.history_absstandard')");
+                if (dt_head.Rows[0][0].ToString() == "0")
+                {
+
+                    Communal._fadmSqlserver.ReviseData("CREATE TABLE [dbo].[history_absstandard]([E1] [nvarchar](1000) NULL,[E2] [nvarchar](1000) NULL,[WL] [nvarchar](1000) NULL,[FinishTime] [datetime2](0) NULL,[Type] [int] NULL) ON [PRIMARY]");
+                }
+
                 dt_head = Communal._fadmSqlserver.GetData("select COUNT(*) from sysobjects where id = object_id('drop_system.dbo.abs_cup_details')");
                 if (dt_head.Rows[0][0].ToString() == "0")
                 {
@@ -2405,7 +2439,8 @@ namespace SmartDyeing.FADM_Form
                         }
                         SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Add(i);
                         SmartDyeing.FADM_Object.Communal._dic_dyeType.Add(i, Lib_Card.Configure.Parameter.Machine_Area1_DyeType);
-                        if(Lib_Card.Configure.Parameter.Machine_Area1_DyeType==2)
+                        if(Lib_Card.Configure.Parameter.Machine_Area1_DyeType==2
+                            || Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 5)
                         {
                             try
                             {
@@ -2520,7 +2555,7 @@ namespace SmartDyeing.FADM_Form
                         }
                         SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Add(i);
                         SmartDyeing.FADM_Object.Communal._dic_dyeType.Add(i, Lib_Card.Configure.Parameter.Machine_Area2_DyeType);
-                        if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 2)
+                        if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 2|| Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 5)
                         {
                             try
                             {
@@ -2638,7 +2673,7 @@ namespace SmartDyeing.FADM_Form
                         }
                         SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Add(i);
                         SmartDyeing.FADM_Object.Communal._dic_dyeType.Add(i, Lib_Card.Configure.Parameter.Machine_Area3_DyeType);
-                        if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 2)
+                        if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 5)
                         {
                             try
                             {
@@ -2756,7 +2791,7 @@ namespace SmartDyeing.FADM_Form
                         }
                         SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Add(i);
                         SmartDyeing.FADM_Object.Communal._dic_dyeType.Add(i, Lib_Card.Configure.Parameter.Machine_Area4_DyeType);
-                        if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 2)
+                        if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 5)
                         {
                             try
                             {
@@ -2875,7 +2910,7 @@ namespace SmartDyeing.FADM_Form
                         }
                         SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Add(i);
                         SmartDyeing.FADM_Object.Communal._dic_dyeType.Add(i, Lib_Card.Configure.Parameter.Machine_Area5_DyeType);
-                        if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 2)
+                        if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 5)
                         {
                             try
                             {
@@ -2992,7 +3027,7 @@ namespace SmartDyeing.FADM_Form
                         }
                         SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Add(i);
                         SmartDyeing.FADM_Object.Communal._dic_dyeType.Add(i, Lib_Card.Configure.Parameter.Machine_Area6_DyeType);
-                        if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 2)
+                        if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 5)
                         {
                             try
                             {

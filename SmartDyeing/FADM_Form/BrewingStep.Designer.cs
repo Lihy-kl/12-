@@ -75,8 +75,8 @@ namespace SmartDyeing.FADM_Form
             // 
             // cbo_TechnologyName
             // 
-            resources.ApplyResources(this.cbo_TechnologyName, "cbo_TechnologyName");
             this.cbo_TechnologyName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.cbo_TechnologyName, "cbo_TechnologyName");
             this.cbo_TechnologyName.FormattingEnabled = true;
             this.cbo_TechnologyName.Items.AddRange(new object[] {
             resources.GetString("cbo_TechnologyName.Items"),
@@ -84,7 +84,8 @@ namespace SmartDyeing.FADM_Form
             resources.GetString("cbo_TechnologyName.Items2"),
             resources.GetString("cbo_TechnologyName.Items3"),
             resources.GetString("cbo_TechnologyName.Items4"),
-            resources.GetString("cbo_TechnologyName.Items5")});
+            resources.GetString("cbo_TechnologyName.Items5"),
+            resources.GetString("cbo_TechnologyName.Items6")});
             this.cbo_TechnologyName.Name = "cbo_TechnologyName";
             // 
             // BrewingStep

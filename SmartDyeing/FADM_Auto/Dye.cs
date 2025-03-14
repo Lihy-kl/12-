@@ -2579,8 +2579,8 @@ namespace SmartDyeing.FADM_Auto
 
                             }
                         }
-                        //12杯翻转
-                        else if (i_dyeType == 2)
+                        //12杯翻转或10杯翻转
+                        else if (i_dyeType == 2|| i_dyeType == 5)
                         {
 
                             if (lis_datas.Count != 6)
@@ -2755,7 +2755,7 @@ namespace SmartDyeing.FADM_Auto
                             }
 
 
-                            for (int j = 0; j < lis_datas.Count; j++)
+                            for (int j = 0; j < (i_dyeType == 5 ? 5 : lis_datas.Count); j++)
                             {
                                 int i_cupmin = 0;
                                 if (i == 0)
@@ -8400,11 +8400,11 @@ namespace SmartDyeing.FADM_Auto
                 MyModbusFun.Reset();
                 //FADM_Auto.Reset.IOReset();
 
-                //加药
-                if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
-                {
-                    Home.Home_XYZFinish = false;
-                }
+                ////加药
+                //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
+                //{
+                //    Home.Home_XYZFinish = false;
+                //}
 
             labTop:
                 //Lib_Log.Log.writeLogException("检查是否有其他动作启动");
@@ -10654,6 +10654,45 @@ namespace SmartDyeing.FADM_Auto
 
                             return;
                         }
+                        else if ("二次关盖未发现杯盖" == ex.Message)
+                        {
+
+                            FADM_Object.MyAlarm myAlarm;
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(
+                               "UPDATE cup_details SET  Cooperate = 6 WHERE  CupNum = " + i_cupNo + " ;");
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                myAlarm = new FADM_Object.MyAlarm(i_cupNo + "号二次关盖未发现杯盖，请人工确定关盖完成后点是继续运行", "SwitchCover", i_cupNo, 2, 12);
+                            else
+                                myAlarm = new FADM_Object.MyAlarm(i_cupNo + " No lid was found after closing the lid again, Please manually confirm that the point is to continue running after closing the cover", "SwitchCover", i_cupNo, 2, 12);
+
+                            return;
+                        }
+                        else if ("二次关盖复压失败" == ex.Message)
+                        {
+
+                            FADM_Object.MyAlarm myAlarm;
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(
+                               "UPDATE cup_details SET  Cooperate = 6 WHERE  CupNum = " + i_cupNo + " ;");
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                myAlarm = new FADM_Object.MyAlarm(i_cupNo + "号二次关盖复压失败，请人工确定关盖完成后点是继续运行", "SwitchCover", i_cupNo, 2, 12);
+                            else
+                                myAlarm = new FADM_Object.MyAlarm(i_cupNo + " Failed to close the cover again, Please manually confirm that the point is to continue running after closing the cover", "SwitchCover", i_cupNo, 2, 12);
+
+                            return;
+                        }
+                        else if ("二次关盖失败" == ex.Message)
+                        {
+
+                            FADM_Object.MyAlarm myAlarm;
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(
+                               "UPDATE cup_details SET  Cooperate = 6 WHERE  CupNum = " + i_cupNo + " ;");
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                myAlarm = new FADM_Object.MyAlarm(i_cupNo + "号二次关盖失败，请人工确定关盖完成后点是继续运行", "SwitchCover", i_cupNo, 2, 12);
+                            else
+                                myAlarm = new FADM_Object.MyAlarm(i_cupNo + " Failed to close the cover twice, Please manually confirm that the point is to continue running after closing the cover", "SwitchCover", i_cupNo, 2, 12);
+
+                            return;
+                        }
                         else if ("放盖区取盖失败" == ex.Message)
                         {
 
@@ -10820,7 +10859,7 @@ namespace SmartDyeing.FADM_Auto
                 }
                 
                 //先判断是否开盖
-                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNO] == 1||SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNO] == 2|| SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNO] == 3)
+                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNO] == 1||SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNO] == 2|| SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNO] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNO] == 5)
                 {
                     //如果关盖状态，就先执行开盖动作
                     if (_cup_Temps[i_cupNO - 1]._i_cupCover == 1)
@@ -12031,6 +12070,11 @@ namespace SmartDyeing.FADM_Auto
                         else
                             new FADM_Object.MyAlarm(" The number of pre-drops in mother liquor bottle " + i_bottleNo + "  is too small, please check whether the actual amount of liquid is too low" +
                             "( Continue to perform please click Yes)", i_cupNo, 9);
+
+                        //回一次原点再继续，担心失步导致后续母液抽不了
+                        int i_state = MyModbusFun.goHome();
+                        if (0 != i_state && -2 != i_state)
+                            throw new Exception("驱动异常");
                     }
                     else
                     {
@@ -12042,6 +12086,11 @@ namespace SmartDyeing.FADM_Auto
                         else
                             new FADM_Object.MyAlarm(" The number of pre-drops in mother liquor bottle " + i_bottleNo + "  is too small, please check whether the actual amount of liquid is too low" +
                             "( Continue to perform please click Yes)", i_cupNo, 10);
+
+                        //回一次原点再继续，担心失步导致后续母液抽不了
+                        int i_state = MyModbusFun.goHome();
+                        if (0 != i_state && -2 != i_state)
+                            throw new Exception("驱动异常");
                     }
                     return -2;
 
@@ -12697,6 +12746,11 @@ namespace SmartDyeing.FADM_Auto
                     "( Continue to perform please click Yes)", i_bottleNo, 6, MessageBoxButtons.YesNo);
                 if(!_lis_warmBottle.Contains(i_bottleNo))
                     _lis_warmBottle.Add(i_bottleNo);
+
+                //回一次原点再继续，担心失步导致后续母液抽不了
+                int i_state = MyModbusFun.goHome();
+                if (0 != i_state && -2 != i_state)
+                    throw new Exception("驱动异常");
                 return -1;
 
             }
@@ -13059,7 +13113,7 @@ namespace SmartDyeing.FADM_Auto
                         if (_cup_Temps[i_cupNo - 1]._i_requesCupCover == 1)
                         {
                             //执行开盖
-                            if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 3)
+                            if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 5)
                             {
                                 //如果关盖状态，就先执行开盖动作
                                 if (FADM_Auto.Dye._cup_Temps[i_cupNo - 1]._i_cupCover == 1)
@@ -13210,7 +13264,7 @@ namespace SmartDyeing.FADM_Auto
                             if (_cup_Temps[_dic_first_second[i_cupNo] - 1]._i_requesCupCover == 1)
                             {
                                 //执行开盖
-                                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 3)
+                                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 5)
                                 {
                                     //如果关盖状态，就先执行开盖动作
                                     if (FADM_Auto.Dye._cup_Temps[_dic_first_second[i_cupNo] - 1]._i_cupCover == 1)
@@ -13580,7 +13634,7 @@ namespace SmartDyeing.FADM_Auto
                     {
                         //判断是否翻转缸，如果是就执行关盖动作
                         //关盖
-                        if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 3)
+                        if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 5)
                         {
 
                         label3:
@@ -13759,7 +13813,7 @@ namespace SmartDyeing.FADM_Auto
                         //判断是否开盖状态
                         if (_cup_Temps[SmartDyeing.FADM_Object.Communal._dic_first_second[i_cupNo] - 1]._i_cupCover == 2)
                         {
-                            if (SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 3)
+                            if (SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 5)
                             {
 
                             label3:
@@ -13969,7 +14023,7 @@ namespace SmartDyeing.FADM_Auto
                                 if (_cup_Temps[i_cupNo_temp - 1]._i_requesCupCover == 1)
                                 {
                                     //执行开盖
-                                    if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo_temp] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo_temp] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo_temp] == 3)
+                                    if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo_temp] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo_temp] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo_temp] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo_temp] == 5)
                                     {
                                         //如果关盖状态，就先执行开盖动作
                                         if (FADM_Auto.Dye._cup_Temps[i_cupNo_temp - 1]._i_cupCover == 1)
@@ -14127,7 +14181,7 @@ namespace SmartDyeing.FADM_Auto
                                     if (_cup_Temps[_dic_first_second[i_cupNo_temp] - 1]._i_requesCupCover == 1)
                                     {
                                         //执行开盖
-                                        if (SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo_temp]] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo_temp]] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo_temp]] == 3)
+                                        if (SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo_temp]] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo_temp]] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo_temp]] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo_temp]] == 5)
                                         {
                                             //如果关盖状态，就先执行开盖动作
                                             if (FADM_Auto.Dye._cup_Temps[_dic_first_second[i_cupNo_temp] - 1]._i_cupCover == 1)
@@ -14296,7 +14350,7 @@ namespace SmartDyeing.FADM_Auto
                             int i_cup_temp = Convert.ToInt32(dr["CupNum"]);
                             int i_step_temp = Convert.ToInt32(dr["StepNum"]);
                             //判断下一步是否加水或加药
-                            DataTable dt_s = FADM_Object.Communal._fadmSqlserver.GetData("Select * from dye_details where  BatchName !='0' And CupNum = " + _dic_first_second[i_cup_temp] + " And StepNum = " + (i_step_temp)+ " and Finish =0 and Cooperate = 1");
+                            DataTable dt_s = FADM_Object.Communal._fadmSqlserver.GetData("Select * from dye_details where  BatchName !='0' And CupNum = " + _dic_first_second[i_cup_temp] + " And StepNum = " + (i_step_temp)+ " and Finish =0");
                             if(dt_s.Rows.Count >0)
                             {
                                 if (-1 == CycleAddMed(dt_s))
@@ -14319,7 +14373,7 @@ namespace SmartDyeing.FADM_Auto
                                 if (!dt.Rows[0]["TechnologyName"].ToString().Contains("加"))
                                 {
                                     lis_cupExclude.Add(i_cup_temp);
-                                    if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 3)
+                                    if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 5)
                                     {
                                         //如果关盖状态，就先执行开盖动作
                                         if (FADM_Auto.Dye._cup_Temps[i_cup_temp - 1]._i_cupCover == 2)
@@ -14498,7 +14552,7 @@ namespace SmartDyeing.FADM_Auto
                                     DataTable dt_s = FADM_Object.Communal._fadmSqlserver.GetData("Select * from dye_details where CupNum = " + _dic_first_second[i_cup_temp] + " And StepNum = " + (i_step_temp+1) );
                                     if (dt_s.Rows.Count > 0)
                                     {
-                                        if (SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cup_temp]] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cup_temp]] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cup_temp]] == 3)
+                                        if (SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cup_temp]] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cup_temp]] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cup_temp]] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cup_temp]] == 5)
                                         {
                                             if (FADM_Auto.Dye._cup_Temps[_dic_first_second[i_cup_temp] - 1]._i_cupCover == 2)
                                             {
@@ -14846,6 +14900,11 @@ namespace SmartDyeing.FADM_Auto
                                                 new FADM_Object.MyAlarm(" The number of pre-drops in mother liquor bottle " + i_bN + "  is too small, please check whether the actual amount of liquid is too low" +
                                                 "( Continue to perform please click Yes)", i_bN, 6, MessageBoxButtons.YesNo);
 
+                                            //回一次原点再继续，担心失步导致后续母液抽不了
+                                            int i_state = MyModbusFun.goHome();
+                                            if (0 != i_state && -2 != i_state)
+                                                throw new Exception("驱动异常");
+
                                             goto la_s;
                                         }
                                         //先判断当前是否加药完成
@@ -14870,7 +14929,7 @@ namespace SmartDyeing.FADM_Auto
                                     dt_s = FADM_Object.Communal._fadmSqlserver.GetData("Select * from dye_details where  BatchName !='0' And CupNum = " + _dic_first_second[i_cup_temp] + " And StepNum = " + (i_step_temp + 1));
                                     if (dt_s.Rows.Count > 0)
                                     {
-                                        if (dt_s.Rows[0]["Finish"].ToString() == "0"&& dt_s.Rows[0]["Cooperate"].ToString() == "1")
+                                        if (dt_s.Rows[0]["Finish"].ToString() == "0"/*&& dt_s.Rows[0]["Cooperate"].ToString() == "1"*/)
                                         {
                                             int i_bN = Convert.ToInt32(dt_s.Rows[0]["BottleNum"].ToString());
                                             int i_cN = Convert.ToInt32(dt_s.Rows[0]["CupNum"].ToString());
@@ -14884,6 +14943,11 @@ namespace SmartDyeing.FADM_Auto
                                                 else
                                                     new FADM_Object.MyAlarm(" The number of pre-drops in mother liquor bottle " + i_bN + "  is too small, please check whether the actual amount of liquid is too low" +
                                                     "( Continue to perform please click Yes)", i_bN, 6, MessageBoxButtons.YesNo);
+
+                                                //回一次原点再继续，担心失步导致后续母液抽不了
+                                                int i_state = MyModbusFun.goHome();
+                                                if (0 != i_state && -2 != i_state)
+                                                    throw new Exception("驱动异常");
 
                                                 continue;
                                             }
@@ -14903,7 +14967,7 @@ namespace SmartDyeing.FADM_Auto
 
                             //判断是否翻转缸，如果是就执行关盖动作
                             //关盖
-                            if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 3)
+                            if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 5)
                             {
                                 if (FADM_Auto.Dye._cup_Temps[i_cup_temp - 1]._i_cupCover == 2)
                                 {
@@ -15083,7 +15147,7 @@ namespace SmartDyeing.FADM_Auto
                                     //副杯
                                     //判断是否翻转缸，如果是就执行关盖动作
                                     //关盖
-                                    if (SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cup_temp]] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cup_temp]] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cup_temp]] == 3)
+                                    if (SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cup_temp]] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cup_temp]] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cup_temp]] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cup_temp]] == 5)
                                     {
                                         if (FADM_Auto.Dye._cup_Temps[_dic_first_second[i_cup_temp] - 1]._i_cupCover == 2)
                                         {
@@ -15325,7 +15389,7 @@ namespace SmartDyeing.FADM_Auto
 
                 int i_mRes;
                 int i_cupNo = i_cupNO;
-                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 3)
+                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 5)
                 {
                     //如果关盖状态，就先执行开盖动作
                     if (_cup_Temps[i_cupNO - 1]._i_cupCover == 1)
@@ -15650,7 +15714,7 @@ namespace SmartDyeing.FADM_Auto
 
                 if (_cup_Temps[i_cup_temp - 1]._i_cupCover == 2)
                 {
-                    if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 3)
+                    if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cup_temp] == 5)
                     {
                     //执行关盖
                     label3:
@@ -15947,7 +16011,7 @@ namespace SmartDyeing.FADM_Auto
                 int i_cupnum = Lib_Card.Configure.Parameter.Machine_Area1_CupMin;
                 if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 3)
                     FADM_Object.Communal._tcpDyeHMI1.Write(iNewStart + 64 * ((iCupNO - i_cupnum + 1 - 1) % 6), values);
-                else if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 2)
+                else if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 5)
                     FADM_Object.Communal._tcpDyeHMI1.Write(iNewStart + 64 * (((iCupNO - i_cupnum + 1 - 1) / 2) % 6), values);
                 else
                     FADM_Object.Communal._tcpDyeHMI1.Write(iOldStart + 16 * ((iCupNO - i_cupnum + 1 - 1) % 10), values);
@@ -15961,7 +16025,7 @@ namespace SmartDyeing.FADM_Auto
                 int i_cupnum = Lib_Card.Configure.Parameter.Machine_Area2_CupMin;
                 if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 1  || SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 3)
                     FADM_Object.Communal._tcpDyeHMI2.Write(iNewStart + 64 * ((iCupNO - i_cupnum + 1 - 1) % 6), values);
-                else if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 2)
+                else if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 5)
                     FADM_Object.Communal._tcpDyeHMI2.Write(iNewStart + 64 * (((iCupNO - i_cupnum + 1 - 1)/ 2) %6), values);
                 else
                     FADM_Object.Communal._tcpDyeHMI2.Write(iOldStart + 16 * ((iCupNO - i_cupnum + 1 - 1) % 10), values);
@@ -15975,7 +16039,7 @@ namespace SmartDyeing.FADM_Auto
                 int i_cupnum = Lib_Card.Configure.Parameter.Machine_Area3_CupMin;
                 if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 1  || SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 3)
                     FADM_Object.Communal._tcpDyeHMI3.Write(iNewStart + 64 * ((iCupNO - i_cupnum + 1 - 1) % 6), values);
-                else if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 2)
+                else if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 2|| SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 5)
                     FADM_Object.Communal._tcpDyeHMI3.Write(iNewStart + 64 * (((iCupNO - i_cupnum + 1 - 1)/ 2) %6), values);
                 else
                     FADM_Object.Communal._tcpDyeHMI3.Write(iOldStart + 16 * ((iCupNO - i_cupnum + 1 - 1) % 10), values);
@@ -15989,7 +16053,7 @@ namespace SmartDyeing.FADM_Auto
                 int i_cupnum = Lib_Card.Configure.Parameter.Machine_Area4_CupMin;
                 if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 3)
                     FADM_Object.Communal._tcpDyeHMI4.Write(iNewStart + 64 * ((iCupNO - i_cupnum + 1 - 1) % 6), values);
-                else if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 2)
+                else if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 5)
                     FADM_Object.Communal._tcpDyeHMI4.Write(iNewStart + 64 * (((iCupNO - i_cupnum + 1 - 1)/ 2) %6), values);
                 else
                     FADM_Object.Communal._tcpDyeHMI4.Write(iOldStart + 16 * ((iCupNO - i_cupnum + 1 - 1) % 10), values);
@@ -16003,7 +16067,7 @@ namespace SmartDyeing.FADM_Auto
                 int i_cupnum = Lib_Card.Configure.Parameter.Machine_Area5_CupMin;
                 if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 3)
                     FADM_Object.Communal._tcpDyeHMI5.Write(iNewStart + 64 * ((iCupNO - i_cupnum + 1 - 1) % 6), values);
-                else if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 2)
+                else if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 5)
                     FADM_Object.Communal._tcpDyeHMI5.Write(iNewStart + 64 * (((iCupNO - i_cupnum + 1 - 1)/ 2) %6), values);
                 else
                     FADM_Object.Communal._tcpDyeHMI5.Write(iOldStart + 16 * ((iCupNO - i_cupnum + 1 - 1) % 10), values);
@@ -16017,7 +16081,7 @@ namespace SmartDyeing.FADM_Auto
                 int i_cupnum = Lib_Card.Configure.Parameter.Machine_Area6_CupMin;
                 if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 3)
                     FADM_Object.Communal._tcpDyeHMI6.Write(iNewStart + 64 * ((iCupNO - i_cupnum + 1 - 1) % 6), values);
-                else if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 2)
+                else if (SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 2|| SmartDyeing.FADM_Object.Communal._dic_dyeType[iCupNO] == 5)
                     FADM_Object.Communal._tcpDyeHMI6.Write(iNewStart + 64 * (((iCupNO - i_cupnum + 1 - 1)/ 2) %6), values);
                 else
                     FADM_Object.Communal._tcpDyeHMI6.Write(iOldStart + 16 * ((iCupNO - i_cupnum + 1 - 1) % 10), values);

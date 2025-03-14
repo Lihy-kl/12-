@@ -1410,6 +1410,12 @@ namespace SmartDyeing.FADM_Auto
                                             ia_data_1[j] = i_data;
 
                                             break;
+                                        case "加温水":
+                                            //7
+                                            ia_no_1[j] = 7;
+                                            ia_data_1[j] = i_data;
+
+                                            break;
 
                                         default:
 
