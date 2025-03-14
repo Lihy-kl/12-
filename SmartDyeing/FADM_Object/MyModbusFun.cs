@@ -213,6 +213,32 @@ namespace SmartDyeing.FADM_Object
             return 0;
         }
 
+        public static void OpenOrCloseBear()
+        {
+            if (!Communal._b_isBSendOpen)
+            {
+                if (Communal._i_bType == 1)
+                {
+                    Lib_Card.ADT8940A1.OutPut.Buzzer.Buzzer buzzer = new Lib_Card.ADT8940A1.OutPut.Buzzer.Buzzer_Basic();
+                    buzzer.Buzzer_On();
+
+                    Communal._b_isBSendClose = false;
+                    Communal._b_isBSendOpen = true;
+                }
+            }
+
+            if (!Communal._b_isBSendClose)
+            {
+                if (Communal._i_bType == 2)
+                {
+                    Lib_Card.ADT8940A1.OutPut.Buzzer.Buzzer buzzer = new Lib_Card.ADT8940A1.OutPut.Buzzer.Buzzer_Basic();
+                    buzzer.Buzzer_Off();
+
+                    Communal._b_isBSendOpen = false;
+                    Communal._b_isBSendClose = true;
+                }
+            }
+        }
 
 
         /// <summary>
@@ -223,6 +249,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+                OpenOrCloseBear();
                 Lib_Card.ADT8940A1.Module.Home.Home home = new Lib_Card.ADT8940A1.Module.Home.Home_Condition();
                 if (-1 == home.Home_XYZ(Lib_Card.Configure.Parameter.Machine_CylinderVersion))
                     return -1;
@@ -1631,6 +1658,8 @@ namespace SmartDyeing.FADM_Object
 
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+                OpenOrCloseBear();
+
                 int i_xPules = 0;
                 int i_yPules = 0;
                 switch (i_move_Type)
@@ -4280,6 +4309,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+                OpenOrCloseBear();
                 int iMRes = 0;
                 Lib_Card.ADT8940A1.Module.Extraction.Extraction extraction = new Lib_Card.ADT8940A1.Module.Extraction.Extraction_Drip();
                 if (b_isTrue)
@@ -4411,6 +4441,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+                OpenOrCloseBear();
                 int iMRes = 0;
                 Lib_Card.ADT8940A1.Module.Extraction.Extraction extraction = new Lib_Card.ADT8940A1.Module.Extraction.Extraction_Drip();
                 if (b_isTrue)
@@ -4541,7 +4572,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
-
+                OpenOrCloseBear();
                 Lib_Card.ADT8940A1.Module.Infusion.Infusion infusion;
                 infusion = new Lib_Card.ADT8940A1.Module.Infusion.Infusion_Up();
                 int iMRes = infusion.LiquidInfusion(i_syringeType, i_extract_Pulse);
@@ -4649,7 +4680,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
-
+                OpenOrCloseBear();
                 Lib_Card.ADT8940A1.Module.Infusion.Infusion infusion;
                 infusion = new Lib_Card.ADT8940A1.Module.Infusion.Infusion_Up();
                 int iMRes = infusion.LiquidInfusion(i_syringeType, i_extract_Pulse);
@@ -4781,6 +4812,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+                OpenOrCloseBear();
             label4:
                 if (6666 == FADM_Object.Communal.dBalanceValue)
                 {
@@ -4948,7 +4980,8 @@ namespace SmartDyeing.FADM_Object
         public static int AddWater(double d_addWaterTime)
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
-            { 
+            {
+                OpenOrCloseBear();
                 new Water().Add(d_addWaterTime, "RobotHand");
                 return 0;
             }
@@ -5026,6 +5059,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+                OpenOrCloseBear();
                 try
                 {
 
@@ -5246,6 +5280,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+                OpenOrCloseBear();
                 Lib_Card.ADT8940A1.Module.Put.Put put = new Lib_Card.ADT8940A1.Module.Put.Put_Condition();
                 int iMRes = put.PutSyringe(Lib_Card.Configure.Parameter.Machine_CylinderVersion, i_syringeType);
                 if (-1 == iMRes)
@@ -5403,6 +5438,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+                OpenOrCloseBear();
                 int iRes = Lib_Card.CardObject.OA1Input.InPutStatus(Lib_Card.ADT8940A1.ADT8940A1_IO.InPut_Syringe);
                 if (1 == iRes)
                 {
@@ -5628,6 +5664,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+                OpenOrCloseBear();
                 return 0;
             }
             else
@@ -5919,6 +5956,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+                OpenOrCloseBear();
                 return 0;
             }
             else
@@ -6036,6 +6074,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+                OpenOrCloseBear();
                 return 0;
             }
             else
@@ -6144,6 +6183,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+                OpenOrCloseBear();
                 return 0;
             }
             else
@@ -6709,6 +6749,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+                OpenOrCloseBear();
                 new Reset().MachineReset();
                 return 0;
             }
@@ -6867,6 +6908,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+                OpenOrCloseBear();
                 new Reset().MachineReset1();
                 return 0;
             }
@@ -7029,7 +7071,8 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
-                if(i_axis== 1)
+                OpenOrCloseBear();
+                if (i_axis== 1)
                 {
                     Lib_Card.Base.Card.MoveArg s_MoveArg = new Lib_Card.Base.Card.MoveArg()
                     {
@@ -7196,6 +7239,7 @@ namespace SmartDyeing.FADM_Object
         {
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+                OpenOrCloseBear();
                 FADM_Auto.Reset.IOReset();
                 return 0; 
             }
