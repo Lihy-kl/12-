@@ -816,6 +816,19 @@ namespace SmartDyeing.FADM_Auto
 
                         }
                     }
+
+                    //加水完成如果没有后处理，回去待机位
+                    if (null == FADM_Object.Communal.ReadDyeThread())
+                    {
+                        int i_mRes = MyModbusFun.TargetMove(3, 0, 1);
+                        if (-2 == i_mRes)
+                            throw new Exception("收到退出消息");
+                    }
+                    else
+                    {
+                        //关闭失能
+                        MyModbusFun.Power(2);
+                    }
                 }
             }
         }

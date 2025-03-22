@@ -2,6 +2,7 @@
 using Lib_Card.Configure;
 using System;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace Lib_Card.ADT8940A1
 {
@@ -60,6 +61,13 @@ namespace Lib_Card.ADT8940A1
 
         }
 
+        public override int GetVersion()
+        {
+            int iRes = Adt8940a1m.adt8940a1_get_lib_version(0);
+            return iRes;
+
+        }
+
         public override int ReadInPut(int iInPutNo)
         {
 
@@ -89,9 +97,24 @@ namespace Lib_Card.ADT8940A1
 
         public override int WriteOutPut(int iOutPutNo, int iStatus)
         {
-
+            //if(iOutPutNo == ADT8940A1_IO.OutPut_Tray)
+            //{
+            //    if(iStatus == 0) 
+            //    {
+            //        MessageBox.Show("接液盘收回启动");
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("接液盘伸出启动");
+            //    }
+            //}
             if (0 == Adt8940a1m.adt8940a1_write_bit(0, iOutPutNo, iStatus))
-                return 0;
+            {
+                //while (iStatus == Adt8940a1m.adt8940a1_get_out(0, iOutPutNo))
+                {
+                    return 0;
+                }
+            }
             return -1;
 
         }

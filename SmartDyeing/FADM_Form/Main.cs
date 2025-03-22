@@ -3024,10 +3024,14 @@ namespace SmartDyeing.FADM_Form
                     {
                         Lib_Card.CardObject.bRight = true;
                         if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                            new FADM_Object.MyAlarm("右光幕遮挡", 1);
+                            new FADM_Object.MyAlarm("右光幕遮挡,请离开光幕", 1);
                         else
-                            new FADM_Object.MyAlarm("Right light curtain occlusion", 1);
+                            new FADM_Object.MyAlarm("Right light curtain obstruction,Please step away from the light curtain", 1);
                     }
+                }
+                else
+                {
+                    Lib_Card.CardObject.bRight = false;
                 }
 
                 if (1 == Lib_Card.CardObject.OA1Input.InPutStatus(Lib_Card.ADT8940A1.ADT8940A1_IO.InPut_Sunx_B))
@@ -3036,25 +3040,81 @@ namespace SmartDyeing.FADM_Form
                     {
                         Lib_Card.CardObject.bLeft = true;
                         if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                            new FADM_Object.MyAlarm("左光幕遮挡", 1);
+                            new FADM_Object.MyAlarm("左光幕遮挡,请离开光幕", 1);
                         else
-                            new FADM_Object.MyAlarm("Left light curtain occlusion", 1);
+                            new FADM_Object.MyAlarm("Left light curtain obstruction,Please step away from the light curtain", 1);
                     }
+                }
+                else
+                {
+                    Lib_Card.CardObject.bLeft = false;
                 }
 
                 if (1 == Lib_Card.CardObject.OA1Input.InPutStatus(Lib_Card.ADT8940A1.ADT8940A1_IO.InPut_Stop))
                 {
-                    if (!Lib_Card.CardObject.bFront)
+                    if (Lib_Card.Configure.Parameter.Machine_IsStopOrFront == 0)
                     {
-                        Lib_Card.CardObject.bFront = true;
-                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                            new FADM_Object.MyAlarm("前光幕遮挡", 1);
-                        else
-                            new FADM_Object.MyAlarm("Front light curtain occlusion", 1);
+                        if (!Lib_Card.CardObject.bStopScr)
+                        {
+                            Lib_Card.CardObject.bStopScr = true;
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                new FADM_Object.MyAlarm("急停已按下,请打开急停开关", 1);
+                            else
+                                new FADM_Object.MyAlarm("Emergency stop pressed,Please turn on the emergency stop switch", 1);
+                        }
+                    }
+                    else
+                    {
+                        if (!Lib_Card.CardObject.bFront)
+                        {
+                            Lib_Card.CardObject.bFront = true;
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                new FADM_Object.MyAlarm("前光幕遮挡,请离开光幕", 1);
+                            else
+                                new FADM_Object.MyAlarm("Front light curtain obstruction,Please step away from the light curtain", 1);
+                        }
+                    }
+                }
+                else
+                {
+                    if (Lib_Card.Configure.Parameter.Machine_IsStopOrFront == 0)
+                    {
+                        Lib_Card.CardObject.bStopScr = false;
+                    }
+                    else
+                    {
+                        Lib_Card.CardObject.bFront = false;
                     }
                 }
             }
 
+        }
+
+        public static void OpenOrCloseBear()
+        {
+            if (!Communal._b_isBSendOpen)
+            {
+                if (Communal._i_bType == 1)
+                {
+                    Lib_Card.ADT8940A1.OutPut.Buzzer.Buzzer buzzer = new Lib_Card.ADT8940A1.OutPut.Buzzer.Buzzer_Basic();
+                    buzzer.Buzzer_On();
+
+                    Communal._b_isBSendClose = false;
+                    Communal._b_isBSendOpen = true;
+                }
+            }
+
+            if (!Communal._b_isBSendClose)
+            {
+                if (Communal._i_bType == 2)
+                {
+                    Lib_Card.ADT8940A1.OutPut.Buzzer.Buzzer buzzer = new Lib_Card.ADT8940A1.OutPut.Buzzer.Buzzer_Basic();
+                    buzzer.Buzzer_Off();
+
+                    Communal._b_isBSendOpen = false;
+                    Communal._b_isBSendClose = true;
+                }
+            }
         }
 
         private void TmrMain_Tick(object sender, EventArgs e)
@@ -3063,6 +3123,8 @@ namespace SmartDyeing.FADM_Form
             {
                 Thread thread = new Thread(Pause);
                 thread.Start();
+
+                OpenOrCloseBear();
             }
             try
             {

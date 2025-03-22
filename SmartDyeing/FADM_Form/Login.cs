@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Lib_Card.ADT8940A1.OutPut.Blender;
+using Newtonsoft.Json.Linq;
 using SmartDyeing.FADM_Object;
 using System;
 using System.Collections.Generic;
@@ -561,6 +562,14 @@ namespace SmartDyeing.FADM_Form
                 string url = Lib_File.Ini.GetIni("info", "url", "0", s_path2);
                 FADM_Object.Communal.URL = url;
 
+                string s_newSet = Lib_File.Ini.GetIni("Setting", "IsNewSet", "1", s_path2);
+                if (s_newSet == "0")
+                {
+                    FADM_Object.Communal._b_isNewSet = false;
+                }
+
+
+
                 //开启线程 校验表和表字段
                 Thread P_thd = new Thread(new ParameterizedThreadStart(verifyTableSuccess));
                 P_thd.IsBackground = false;
@@ -579,6 +588,7 @@ namespace SmartDyeing.FADM_Form
             //板卡版
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
+
                 //获取ADT8940A1_IO
                 try
                 {
@@ -618,6 +628,13 @@ namespace SmartDyeing.FADM_Form
                 {
                     Lib_Card.CardObject.OA1 = new Lib_Card.ADT8940A1.ADT8940A1_Card();
                     Lib_Card.CardObject.OA1.CardInit();
+
+                    if (Lib_Card.Configure.Parameter.Machine_BlenderVersion == 0)
+                    {
+                        Lib_Card.ADT8940A1.OutPut.Blender.Blender blender = new Lib_Card.ADT8940A1.OutPut.Blender.Blender_Basic();
+                        if (-1 == blender.Blender_Off())
+                            throw new Exception("驱动异常");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -1839,6 +1856,8 @@ namespace SmartDyeing.FADM_Form
             //DataTable dt_head_11 = FADM_Object.Communal._fadmSqlserver.GetData("select * from cup_details where CupNum = 1");
             //DataTable dt_head_12 = FADM_Object.Communal._fadmSqlserver.GetData("select * from cup_details where CupNum = 2");
             //dt_head_12.Rows.Add(dt_head_11.Rows[0].ItemArray);
+
+            //MessageBox.Show(FADM_Object.Communal._i_Max_Y.ToString());
 
             string s_str = Convert.ToString(5, 2).PadLeft(15, '0');
             char[] ca_cc = s_str.ToArray();

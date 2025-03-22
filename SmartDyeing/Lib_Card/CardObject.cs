@@ -5,6 +5,7 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Lib_Card
@@ -223,23 +224,24 @@ namespace Lib_Card
                             {
                                 keyValuePairs.Remove(s);
                             }
-                            if (str == "右光幕遮挡" || str == "Right light curtain occlusion" || str == "右门已打开" || str == "The right door is open")
+                            if (str == "右光幕遮挡" || str == "Right light curtain occlusion" || str == "右门已打开" || str == "The right door is open"
+                            || str == "右光幕遮挡,请离开光幕" || str == "Right light curtain obstruction,Please step away from the light curtain")
                             {
                                 bRight = false;
                             }
-                            if (str == "左光幕遮挡" || str == "Left light curtain occlusion" || str == "左门已打开" || str == "The Left door is open")
+                            if (str == "左光幕遮挡" || str == "Left light curtain occlusion" || str == "左门已打开" || str == "The Left door is open"|| str == "左光幕遮挡,请离开光幕" || str == "Left light curtain obstruction,Please step away from the light curtain")
                             {
                                 bLeft = false;
                             }
-                            if (str == "前光幕遮挡" || str == "Front light curtain occlusion")
+                            if (str == "前光幕遮挡" || str == "Front light curtain occlusion"|| str == "前光幕遮挡,请离开光幕" || str == "Front light curtain obstruction,Please step away from the light curtain")
                             {
                                 bFront = false;
                             }
-                            if (str == "后光幕遮挡" || str == "Back light curtain occlusion")
+                            if (str == "后光幕遮挡" || str == "Back light curtain occlusion"|| str == "后光幕遮挡,请离开光幕" || str == "Back light curtain obstruction,Please step away from the light curtain")
                             {
                                 bBack = false;
                             }
-                            if (str == "急停已按下")
+                            if (str == "急停已按下"|| str == "急停已按下,请打开急停开关" || str == "Emergency stop pressed,Please turn on the emergency stop switch")
                             {
                                 bStopScr = false;
                             }

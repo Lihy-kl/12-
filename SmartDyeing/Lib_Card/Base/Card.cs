@@ -72,6 +72,13 @@
         public abstract void CardInit();
         #endregion
 
+        #region 读取版本号
+        /// <summary>
+        /// 读取版本号
+        /// </summary>
+        public abstract int GetVersion();
+        #endregion
+
         #region 读取输入状态
         /// <summary>
         /// 读取输入状态

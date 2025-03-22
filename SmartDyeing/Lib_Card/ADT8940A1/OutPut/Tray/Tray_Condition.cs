@@ -69,6 +69,9 @@ namespace Lib_Card.ADT8940A1.OutPut.Tray
                         bDelay = true;
                     });
                     thread.Start();
+                    //thread.Join();
+
+
 
                     string sPath = Environment.CurrentDirectory + "\\Config\\DataBase.ini";
                     Lib_DataBank.SQLServer.SQLServerCon con = new Lib_DataBank.SQLServer.SQLServerCon()
@@ -92,7 +95,7 @@ namespace Lib_Card.ADT8940A1.OutPut.Tray
                         if (bDelay)
                         {
                             //s = CardObject.InsertD("接液盘收回超时", "Tray_Off");
-                            s = CardObject.InsertD("接液盘收回超时，请检查，排除异常请点是，退出运行请点否", " Tray_On");
+                            s = CardObject.InsertD("接液盘收回超时，请检查，排除异常请点是，退出运行请点否", " Tray_Off");
                             while (true)
                             {
                                 Thread.Sleep(1);
