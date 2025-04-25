@@ -13,7 +13,7 @@ namespace SmartDyeing.FADM_Form
 {
     public partial class Abort : Form
     {
-        string s_ver = "20250102";
+        string s_ver = "20250421";
         //测试下
         //再来一次
         public Abort()

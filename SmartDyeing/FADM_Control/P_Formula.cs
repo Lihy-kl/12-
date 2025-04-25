@@ -805,7 +805,7 @@ namespace SmartDyeing.FADM_Control
                         string s_sql = "SELECT * FROM drop_head Where CupNum = '" + s_cupNum + "';";
                         DataTable P_dt_formulahead = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
 
-                        s_sql = "SELECT * FROM drop_details Where CupNum = '" + s_cupNum + "';";
+                        s_sql = "SELECT * FROM drop_details Where CupNum = '" + s_cupNum + "' order by IndexNum;";
                         DataTable dt_formuladetail = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
 
                         //显示表头
@@ -1694,7 +1694,7 @@ namespace SmartDyeing.FADM_Control
                             " AND VersionNum = '" + s_versionNum + "'" +
                             " AND BatchName = '" + (dt_formulahead.Rows[0]
                             [dt_formulahead.Columns["BatchName"]]).ToString() + "'" +
-                            " AND CupNum = " + s_cup + ";";
+                            " AND CupNum = " + s_cup + " order by IndexNum;";
                 DataTable dt_formuladetail = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
 
 

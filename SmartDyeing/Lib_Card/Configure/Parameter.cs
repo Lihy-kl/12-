@@ -2405,6 +2405,11 @@
         public static double Other_AddWater_Big { get; set; }
 
         /// <summary>
+        /// 高温洗杯加水量
+        /// </summary>
+        public static double Other_HighAddWater { get; set; }
+
+        /// <summary>
         /// 
         /// </summary>
         public static double Other_SplitValue { get; set; }
@@ -2555,6 +2560,26 @@
         /// 吸光度机洗杯加水量
         /// </summary>
         public static double Other_AbsAddWater { get; set; }
+
+        /// <summary>
+        /// 合夹夹布脉冲
+        /// </summary>
+        public static int Other_ClosePulse { get; set; }
+
+        /// <summary>
+        /// 开夹放布脉冲
+        /// </summary>
+        public static int Other_OpenPulse { get; set; }
+
+        /// <summary>
+        /// 备布区下探开夹脉冲
+        /// </summary>
+        public static int Other_ClothDownPulse { get; set; }
+
+        /// <summary>
+        /// 染杯口下探开夹脉冲
+        /// </summary>
+        public static int Other_CupDownPulse { get; set; }
 
     }
 }

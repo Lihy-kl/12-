@@ -126,7 +126,7 @@
     <value>NoControl</value>
   </data>
   <data name="btn_FormulaCodeAdd.Text" xml:space="preserve">
-    <value>Added/Edited(F5)</value>
+    <value>Add/Edit(F5)</value>
   </data>
   <data name="btn_Save.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 10.5pt</value>
@@ -135,7 +135,7 @@
     <value>NoControl</value>
   </data>
   <data name="btn_Save.Text" xml:space="preserve">
-    <value>Archive(F2)</value>
+    <value>Save(F2)</value>
   </data>
   <data name="btn_BatchAdd.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 10.5pt</value>
@@ -289,7 +289,7 @@
     <value>NoControl</value>
   </data>
   <data name="btn_Stop.Text" xml:space="preserve">
-    <value>StopTheDrip</value>
+    <value>Stop</value>
   </data>
   <data name="btn_Start.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 10.5pt</value>
@@ -298,7 +298,7 @@
     <value>NoControl</value>
   </data>
   <data name="btn_Start.Text" xml:space="preserve">
-    <value>StartDripping(F10)</value>
+    <value>Start(F10)</value>
   </data>
   <data name="group.Location" type="System.Drawing.Point, System.Drawing">
     <value>591, 29</value>
@@ -606,32 +606,53 @@
   <data name="dataGridViewTextBoxColumn10.HeaderText" xml:space="preserve">
     <value>ID</value>
   </data>
+  <data name="dataGridViewTextBoxColumn10.Width" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
   <data name="dataGridViewTextBoxColumn11.HeaderText" xml:space="preserve">
-    <value>DyeingAuxiliariesCode</value>
+    <value>Product Code</value>
   </data>
   <data name="dataGridViewTextBoxColumn12.HeaderText" xml:space="preserve">
-    <value>DyeingAuxiliariesName</value>
+    <value>Product Name</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn12.Width" type="System.Int32, mscorlib">
+    <value>160</value>
   </data>
   <data name="dataGridViewTextBoxColumn13.HeaderText" xml:space="preserve">
-    <value>DosageOfFormula</value>
+    <value>Recipe target conc.</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn13.Width" type="System.Int32, mscorlib">
+    <value>118</value>
   </data>
   <data name="dataGridViewTextBoxColumn14.HeaderText" xml:space="preserve">
     <value>Units</value>
   </data>
+  <data name="dataGridViewTextBoxColumn14.Width" type="System.Int32, mscorlib">
+    <value>48</value>
+  </data>
   <data name="dataGridViewComboBoxColumn2.HeaderText" xml:space="preserve">
-    <value>BottleNumber</value>
+    <value>Bottle No.</value>
+  </data>
+  <data name="dataGridViewComboBoxColumn2.Width" type="System.Int32, mscorlib">
+    <value>97</value>
   </data>
   <data name="dataGridViewTextBoxColumn15.HeaderText" xml:space="preserve">
-    <value>SetConcentration</value>
+    <value>Set conc.</value>
   </data>
   <data name="dataGridViewTextBoxColumn16.HeaderText" xml:space="preserve">
-    <value>ActualConcentration</value>
+    <value>Actual conc.</value>
   </data>
   <data name="dataGridViewTextBoxColumn17.HeaderText" xml:space="preserve">
-    <value>TargetVolume</value>
+    <value>Target Wt.</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn17.Width" type="System.Int32, mscorlib">
+    <value>97</value>
   </data>
   <data name="dataGridViewTextBoxColumn18.HeaderText" xml:space="preserve">
-    <value>ActualVolume</value>
+    <value>Actual Wt.</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn18.Width" type="System.Int32, mscorlib">
+    <value>97</value>
   </data>
   <data name="Column6.HeaderText" xml:space="preserve">
     <value>Error(%)</value>
@@ -639,8 +660,14 @@
   <data name="dataGridViewCheckBoxColumn2.HeaderText" xml:space="preserve">
     <value>Selecting</value>
   </data>
+  <data name="dataGridViewCheckBoxColumn2.Width" type="System.Int32, mscorlib">
+    <value>76</value>
+  </data>
   <data name="Column7.HeaderText" xml:space="preserve">
     <value>MixingDate</value>
+  </data>
+  <data name="Column7.Width" type="System.Int32, mscorlib">
+    <value>102</value>
   </data>
   <data name="lab_FormulaName.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>

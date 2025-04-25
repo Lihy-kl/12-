@@ -196,13 +196,13 @@ namespace SmartDyeing.FADM_Control
             // 
             // dgv_Details
             // 
+            resources.ApplyResources(this.dgv_Details, "dgv_Details");
             this.dgv_Details.AllowUserToAddRows = false;
             this.dgv_Details.AllowUserToDeleteRows = false;
             this.dgv_Details.AllowUserToResizeColumns = false;
             this.dgv_Details.AllowUserToResizeRows = false;
             this.dgv_Details.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgv_Details.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            resources.ApplyResources(this.dgv_Details, "dgv_Details");
             this.dgv_Details.MultiSelect = false;
             this.dgv_Details.Name = "dgv_Details";
             this.dgv_Details.ReadOnly = true;
@@ -212,6 +212,7 @@ namespace SmartDyeing.FADM_Control
             // 
             // dgv_Dyeing
             // 
+            resources.ApplyResources(this.dgv_Dyeing, "dgv_Dyeing");
             this.dgv_Dyeing.AllowUserToAddRows = false;
             this.dgv_Dyeing.AllowUserToDeleteRows = false;
             this.dgv_Dyeing.AllowUserToResizeColumns = false;
@@ -222,7 +223,6 @@ namespace SmartDyeing.FADM_Control
             this.Column2,
             this.Column3,
             this.Column4});
-            resources.ApplyResources(this.dgv_Dyeing, "dgv_Dyeing");
             this.dgv_Dyeing.MultiSelect = false;
             this.dgv_Dyeing.Name = "dgv_Dyeing";
             this.dgv_Dyeing.ReadOnly = true;
@@ -251,9 +251,9 @@ namespace SmartDyeing.FADM_Control
             // 
             // groupBox3
             // 
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.dgv_Details);
             this.groupBox3.Controls.Add(this.dgv_Dyeing);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -317,6 +317,7 @@ namespace SmartDyeing.FADM_Control
             // 
             // grp_BatchData
             // 
+            resources.ApplyResources(this.grp_BatchData, "grp_BatchData");
             this.grp_BatchData.Controls.Add(this.txt_Record_Operator);
             this.grp_BatchData.Controls.Add(this.dgv_BatchData);
             this.grp_BatchData.Controls.Add(this.dt_Record_End);
@@ -330,7 +331,6 @@ namespace SmartDyeing.FADM_Control
             this.grp_BatchData.Controls.Add(this.label4);
             this.grp_BatchData.Controls.Add(this.label3);
             this.grp_BatchData.Controls.Add(this.label2);
-            resources.ApplyResources(this.grp_BatchData, "grp_BatchData");
             this.grp_BatchData.Name = "grp_BatchData";
             this.grp_BatchData.TabStop = false;
             // 
@@ -342,6 +342,7 @@ namespace SmartDyeing.FADM_Control
             // 
             // dgv_BatchData
             // 
+            resources.ApplyResources(this.dgv_BatchData, "dgv_BatchData");
             this.dgv_BatchData.AllowUserToAddRows = false;
             this.dgv_BatchData.AllowUserToOrderColumns = true;
             this.dgv_BatchData.AllowUserToResizeColumns = false;
@@ -369,7 +370,6 @@ namespace SmartDyeing.FADM_Control
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_BatchData.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgv_BatchData.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            resources.ApplyResources(this.dgv_BatchData, "dgv_BatchData");
             this.dgv_BatchData.MultiSelect = false;
             this.dgv_BatchData.Name = "dgv_BatchData";
             this.dgv_BatchData.ReadOnly = true;
@@ -482,6 +482,7 @@ namespace SmartDyeing.FADM_Control
             // 
             // grp_FormulaData
             // 
+            resources.ApplyResources(this.grp_FormulaData, "grp_FormulaData");
             this.grp_FormulaData.Controls.Add(this.txt_DyeingCode);
             this.grp_FormulaData.Controls.Add(this.label6);
             this.grp_FormulaData.Controls.Add(this.txt_Operator);
@@ -512,7 +513,6 @@ namespace SmartDyeing.FADM_Control
             this.grp_FormulaData.Controls.Add(this.lab_ClothType);
             this.grp_FormulaData.Controls.Add(this.lab_FormulaName);
             this.grp_FormulaData.Controls.Add(this.lab_FormulaCode);
-            resources.ApplyResources(this.grp_FormulaData, "grp_FormulaData");
             this.grp_FormulaData.Name = "grp_FormulaData";
             this.grp_FormulaData.TabStop = false;
             // 
@@ -528,13 +528,14 @@ namespace SmartDyeing.FADM_Control
             // 
             // txt_Operator
             // 
-            this.txt_Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.txt_Operator, "txt_Operator");
+            this.txt_Operator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.txt_Operator.FormattingEnabled = true;
             this.txt_Operator.Name = "txt_Operator";
             // 
             // dgv_FormulaData
             // 
+            resources.ApplyResources(this.dgv_FormulaData, "dgv_FormulaData");
             this.dgv_FormulaData.AllowUserToDeleteRows = false;
             this.dgv_FormulaData.AllowUserToResizeColumns = false;
             this.dgv_FormulaData.AllowUserToResizeRows = false;
@@ -571,7 +572,6 @@ namespace SmartDyeing.FADM_Control
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dgv_FormulaData.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgv_FormulaData.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            resources.ApplyResources(this.dgv_FormulaData, "dgv_FormulaData");
             this.dgv_FormulaData.MultiSelect = false;
             this.dgv_FormulaData.Name = "dgv_FormulaData";
             this.dgv_FormulaData.RowHeadersVisible = false;

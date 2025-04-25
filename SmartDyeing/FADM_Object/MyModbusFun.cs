@@ -5521,12 +5521,12 @@ namespace SmartDyeing.FADM_Object
 
 
                 //Lib_Card.ADT8940A1.OutPut.X_Power.X_Power x_Power = new Lib_Card.ADT8940A1.OutPut.X_Power.X_Power_Condition();
-                if (-1 == x_Power.X_Power_Off())
-                    return -1;
+                //if (-1 == x_Power.X_Power_Off())
+                //    return -1;
 
                 //Lib_Card.ADT8940A1.OutPut.Y_Power.Y_Power y_Power = new Lib_Card.ADT8940A1.OutPut.Y_Power.Y_Power_Condition();
-                if (-1 == y_Power.Y_Power_Off())
-                    return -1;
+                //if (-1 == y_Power.Y_Power_Off())
+                //    return -1;
 
                 try
                 {
@@ -5554,10 +5554,12 @@ namespace SmartDyeing.FADM_Object
                 try
                 {
                 Label1:
-                    //if (!FADM_Object.Communal._b_auto)
-                    //{//在手动页面 等待手动页面退出
-                    //    goto Label1;
-                    //}
+                    if (!FADM_Object.Communal._b_auto)
+                    {
+                        if(i_type !=2)
+                        //在手动页面 等待手动页面退出
+                        goto Label1;
+                    }
                     Lib_Log.Log.writeLogException("执行放关盖方法");
 
                     bool b_istrue = false;

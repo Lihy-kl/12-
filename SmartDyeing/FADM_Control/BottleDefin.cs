@@ -466,6 +466,7 @@ namespace SmartDyeing.FADM_Control
 
                 BottleHeadShow(txt_BottleNum.Text);
             }
+            FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "保存" + txt_BottleNum.Text + "母液资料");
             if (Lib_Card.Configure.Parameter.Other_Language == 0)
                 FADM_Form.CustomMessageBox.Show("保存成功!", "温馨提示", MessageBoxButtons.OK,  false);
             else
@@ -479,6 +480,7 @@ namespace SmartDyeing.FADM_Control
             string s_sql = "DELETE FROM bottle_details" +
                                " WHERE BottleNum = '" + txt_BottleNum.Text + "' ;";
             FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+            FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "删除"+ txt_BottleNum.Text+"母液资料");
             try
             {
                 BottleHeadShow(dgv_Bottle.Rows[dgv_Bottle.CurrentCell.RowIndex - 1].Cells[0].Value.ToString());

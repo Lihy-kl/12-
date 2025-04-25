@@ -200,35 +200,38 @@ namespace SmartDyeing.FADM_Auto
 
                                 int i_oribottle = i_bottle;
                                 System.DateTime P_time = System.DateTime.Now;
-                                //bool P_bl = false;
-                                //again:
-                                //    string s_sql = "SELECT * FROM bottle_details WHERE BottleNum = " + i_oribottle + ";";
-                                //    DataTable P_dt_bottle = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
+                                if (FADM_Object.Communal._b_isUseMotherDate)
+                                {
+                                    bool P_bl = false;
+                                again:
+                                    string s_sql1 = "SELECT * FROM bottle_details WHERE BottleNum = " + i_oribottle + ";";
+                                    DataTable P_dt_bottle = FADM_Object.Communal._fadmSqlserver.GetData(s_sql1);
 
-                                //    if (P_dt_bottle.Rows.Count > 0)
-                                //    {
+                                    if (P_dt_bottle.Rows.Count > 0)
+                                    {
 
-                                //        i_oribottle = Convert.ToInt16(P_dt_bottle.Rows[0]["OriginalBottleNum"]);
-                                //        if (i_oribottle > 0)
-                                //        {
-                                //            P_bl = true;
-                                //            goto again;
-                                //        }
-                                //        else
-                                //        {
-                                //            if (P_bl)
-                                //            {
+                                        i_oribottle = Convert.ToInt16(P_dt_bottle.Rows[0]["OriginalBottleNum"]);
+                                        if (i_oribottle > 0)
+                                        {
+                                            P_bl = true;
+                                            goto again;
+                                        }
+                                        else
+                                        {
+                                            if (P_bl)
+                                            {
 
 
-                                //                int maxB = Lib_Card.Configure.Parameter.Machine_Bottle_Total;
-                                //                if (Convert.ToInt16(P_dt_bottle.Rows[0]["BottleNum"]) <= maxB)
-                                //                {
-                                //                    P_time = Convert.ToDateTime(P_dt_bottle.Rows[0]["BrewingData"]);
-                                //                }
-                                //            }
+                                                int maxB = Lib_Card.Configure.Parameter.Machine_Bottle_Total;
+                                                if (Convert.ToInt16(P_dt_bottle.Rows[0]["BottleNum"]) <= maxB)
+                                                {
+                                                    P_time = Convert.ToDateTime(P_dt_bottle.Rows[0]["BrewingData"]);
+                                                }
+                                            }
 
-                                //        }
-                                //    }
+                                        }
+                                    }
+                                }
 
                                 //if (i_bottle == Class_SemiAuto.MyMove_XY.Move_XY_BottleNum)
                                 //{
@@ -847,7 +850,7 @@ namespace SmartDyeing.FADM_Auto
                                 }
                             }
 
-                            if(FADM_Object.Communal._s_brewVersion == "")
+                            if (FADM_Object.Communal._s_brewVersion == "")
                             {
                                 //获取开料机版本
 
@@ -855,7 +858,7 @@ namespace SmartDyeing.FADM_Auto
                                 int i_state_v = FADM_Object.Communal._tcpModBusBrew.Read(2802, 2, ref ia_array_v);
                                 if (i_state_v != -1)
                                 {
-                                    FADM_Object.Communal._s_brewVersion = ia_array_v[0].ToString("d4")+ ia_array_v[1].ToString("d4");
+                                    FADM_Object.Communal._s_brewVersion = ia_array_v[0].ToString("d4") + ia_array_v[1].ToString("d4");
                                 }
                             }
 
@@ -1058,6 +1061,22 @@ namespace SmartDyeing.FADM_Auto
                                                         ", BrewingData = '" + P_time + "', AdjustSuccess = 0" +
                                                         " WHERE BottleNum = " + i_bottle + ";";
                                             FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
+                                            //查询是否有吸光度机
+                                            if (FADM_Object.Communal._b_isAutoAbs)
+                                            {
+                                                if (Lib_Card.Configure.Parameter.Other_UseAbs == 1)
+                                                {
+                                                    //判断等待列表是否存在这个杯
+                                                    s_sql = "SELECT top 1 * FROM abs_wait_list where BottleNum = " + i_bottle;
+                                                    DataTable dt_data = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
+                                                    if (dt_data.Rows.Count == 0)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(
+                        "INSERT INTO abs_wait_list(BottleNum, InsertDate,Type) VALUES('" + i_bottle + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + "',0);");
+                                                    }
+                                                }
+                                            }
                                         }
                                         else
                                         {
@@ -1069,6 +1088,22 @@ namespace SmartDyeing.FADM_Auto
                                                         ", BrewingData = '" + P_time + "' " +
                                                         " WHERE BottleNum = " + i_bottle + ";";
                                             FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
+                                            //查询是否有吸光度机
+                                            if (FADM_Object.Communal._b_isAutoAbs)
+                                            {
+                                                if (Lib_Card.Configure.Parameter.Other_UseAbs == 1)
+                                                {
+                                                    //判断等待列表是否存在这个杯
+                                                    s_sql = "SELECT top 1 * FROM abs_wait_list where BottleNum = " + i_bottle;
+                                                    DataTable dt_data = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
+                                                    if (dt_data.Rows.Count == 0)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(
+                        "INSERT INTO abs_wait_list(BottleNum, InsertDate,Type) VALUES('" + i_bottle + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + "',0);");
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -1232,9 +1267,10 @@ namespace SmartDyeing.FADM_Auto
 
                                 //根据原瓶号找到原浓度
                                 int i_oricon = 0;
+                                int i_oriWeight = 0;
                                 if (i_oribottle != 0)
                                 {
-                                    s_sql = "SELECT RealConcentration FROM bottle_details WHERE BottleNum = " + i_oribottle + ";";
+                                    s_sql = "SELECT RealConcentration,CurrentWeight FROM bottle_details WHERE BottleNum = " + i_oribottle + ";";
                                     dt_bottle_details = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
                                     if (dt_bottle_details.Rows.Count == 0)
                                     {
@@ -1252,6 +1288,7 @@ namespace SmartDyeing.FADM_Auto
                                         break;
                                     }
                                     i_oricon = Convert.ToInt32(Convert.ToDouble(dt_bottle_details.Rows[0][dt_bottle_details.Columns["RealConcentration"]]) * 1000000.00);
+                                    i_oriWeight = Convert.ToInt32(Convert.ToDouble(dt_bottle_details.Rows[0][dt_bottle_details.Columns["CurrentWeight"]]));
 
                                     s_inPut += "原瓶号浓度：" + Convert.ToString(dt_bottle_details.Rows[0][dt_bottle_details.Columns["RealConcentration"]]) + ",";
 
@@ -1363,57 +1400,84 @@ namespace SmartDyeing.FADM_Auto
 
                                 int[] ia_no_1 = { 0, 0, 0, 0, 0, 0 };
                                 int[] ia_data_1 = { 0, 0, 0, 0, 0, 0 };
+                                int[] ia_ratio = { 0, 0, 0, 0, 0, 0 };
                                 for (int j = 0; j < dt_bottle_details.Rows.Count; j++)
                                 {
                                     string s_technologyName = Convert.ToString(dt_bottle_details.Rows[j][dt_bottle_details.Columns["TechnologyName"]]);
                                     int i_data = Convert.ToInt32(dt_bottle_details.Rows[j][dt_bottle_details.Columns["ProportionOrTime"]]);
+                                    int i_ratio = 0;
+                                    if (s_technologyName == "加温水" || s_technologyName == "Add warm water")
+                                    {
+                                        if (dt_bottle_details.Rows[j][dt_bottle_details.Columns["Ratio"]] is DBNull)
+                                        {
+                                            i_ratio = 50;
+                                        }
+                                        else
+                                        {
+                                            i_ratio = Convert.ToInt32(dt_bottle_details.Rows[j][dt_bottle_details.Columns["Ratio"]]);
+                                        }
+                                    }
                                     switch (s_technologyName)
                                     {
 
                                         case "加大冷水":
+                                        case "Add cold water":
                                             //1
 
                                             ia_no_1[j] = 1;
                                             ia_data_1[j] = i_data;
+                                            ia_ratio[j] = i_ratio;
 
                                             break;
 
                                         case "加小冷水":
+                                        case "Add a little cold water":
                                             //2
                                             ia_no_1[j] = 2;
                                             ia_data_1[j] = i_data;
+                                            ia_ratio[j] = i_ratio;
 
                                             break;
 
                                         case "加热水":
+                                        case "Add hot water":
                                             //3
                                             ia_no_1[j] = 3;
                                             ia_data_1[j] = i_data;
+                                            ia_ratio[j] = i_ratio;
 
                                             break;
 
                                         case "手动加染助剂":
+                                        case "Add dyeing auxiliaries manually":
                                             //4
                                             ia_no_1[j] = 4;
                                             ia_data_1[j] = i_data;
+                                            ia_ratio[j] = i_ratio;
 
                                             break;
                                         case "搅拌":
+                                        case "Stir":
                                             //5
                                             ia_no_1[j] = 5;
                                             ia_data_1[j] = i_data;
+                                            ia_ratio[j] = i_ratio;
 
                                             break;
                                         case "加补充剂":
+                                        case "Add supplements":
                                             //6
                                             ia_no_1[j] = 6;
                                             ia_data_1[j] = i_data;
+                                            ia_ratio[j] = i_ratio;
 
                                             break;
                                         case "加温水":
+                                        case "Add warm water":
                                             //7
                                             ia_no_1[j] = 7;
                                             ia_data_1[j] = i_data;
+                                            ia_ratio[j] = i_ratio;
 
                                             break;
 
@@ -1533,14 +1597,17 @@ namespace SmartDyeing.FADM_Auto
 
 
                                 ia_array[20] = ia_data_1[5];
-                                ia_array[21] = 0;
-                                ia_array[22] = 0;
-                                ia_array[23] = 0;
-                                ia_array[24] = 0;
-                                ia_array[25] = 0;
-                                ia_array[26] = 0;
-                                ia_array[27] = 0;
-                                ia_array[28] = 0;
+                                d_2 = i_oriWeight;
+                                d_1 = d_2 / 65536;
+                                d_2 = d_2 % 65536;
+                                ia_array[21] = d_2;
+                                ia_array[22] = d_1;
+                                ia_array[23] = ia_ratio[0];
+                                ia_array[24] = ia_ratio[1];
+                                ia_array[25] = ia_ratio[2];
+                                ia_array[26] = ia_ratio[3];
+                                ia_array[27] = ia_ratio[4];
+                                ia_array[28] = ia_ratio[5];
                                 ia_array[29] = 0;
 
                                 ia_array[30] = 0;
@@ -1627,7 +1694,10 @@ namespace SmartDyeing.FADM_Auto
                             FADM_Object.Communal.MyBrew.WriteAndRead(b_send);
                             if (Lib_SerialPort.HMI.BrewHMI.nState != 0)
                             {
-                                throw new Exception("开料机通讯异常");
+                                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                    throw new Exception("开料机通讯异常");
+                                else
+                                    throw new Exception("Abnormal communication of the cutting machine");
                             }
 
                             if (FADM_Object.Communal.MyBrew.datapool.Count < 27)
@@ -1695,35 +1765,38 @@ namespace SmartDyeing.FADM_Auto
 
                                 int P_int_oribottle = P_int_bottle;
                                 System.DateTime P_time = System.DateTime.Now;
-                                bool P_bl = false;
-                                //again:
-                                //    string P_str_sql = "SELECT * FROM bottle_details WHERE BottleNum = " + P_int_oribottle + ";";
-                                //    DataTable P_dt_bottle = FADM_Object.Communal._fadmSqlserver.GetData(P_str_sql);
+                                if (FADM_Object.Communal._b_isUseMotherDate)
+                                {
+                                    bool P_bl = false;
+                                again:
+                                    string s_sql1 = "SELECT * FROM bottle_details WHERE BottleNum = " + P_int_oribottle + ";";
+                                    DataTable P_dt_bottle = FADM_Object.Communal._fadmSqlserver.GetData(s_sql1);
 
-                                //    if (P_dt_bottle.Rows.Count > 0)
-                                //    {
+                                    if (P_dt_bottle.Rows.Count > 0)
+                                    {
 
-                                //        P_int_oribottle = Convert.ToInt16(P_dt_bottle.Rows[0]["OriginalBottleNum"]);
-                                //        if (P_int_oribottle > 0)
-                                //        {
-                                //            P_bl = true;
-                                //            goto again;
-                                //        }
-                                //        else
-                                //        {
-                                //            if (P_bl)
-                                //            {
+                                        P_int_oribottle = Convert.ToInt16(P_dt_bottle.Rows[0]["OriginalBottleNum"]);
+                                        if (P_int_oribottle > 0)
+                                        {
+                                            P_bl = true;
+                                            goto again;
+                                        }
+                                        else
+                                        {
+                                            if (P_bl)
+                                            {
 
 
-                                //                int maxB = Lib_Card.Configure.Parameter.Machine_Bottle_Total;
-                                //                if (Convert.ToInt16(P_dt_bottle.Rows[0]["BottleNum"]) <= maxB)
-                                //                {
-                                //                    P_time = Convert.ToDateTime(P_dt_bottle.Rows[0]["BrewingData"]);
-                                //                }
-                                //            }
+                                                int maxB = Lib_Card.Configure.Parameter.Machine_Bottle_Total;
+                                                if (Convert.ToInt16(P_dt_bottle.Rows[0]["BottleNum"]) <= maxB)
+                                                {
+                                                    P_time = Convert.ToDateTime(P_dt_bottle.Rows[0]["BrewingData"]);
+                                                }
+                                            }
 
-                                //        }
-                                //    }
+                                        }
+                                    }
+                                }
 
                                 //if (P_int_bottle == Class_SemiAuto.MyMove_XY.Move_XY_BottleNum)
                                 //{
@@ -2342,7 +2415,10 @@ namespace SmartDyeing.FADM_Auto
                             FADM_Object.Communal.MyBrew.WriteAndRead(b_send);
                             if (Lib_SerialPort.HMI.BrewHMI.nState != 0)
                             {
-                                throw new Exception("开料机通讯异常");
+                                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                    throw new Exception("开料机通讯异常");
+                                else
+                                    throw new Exception("Abnormal communication of the cutting machine");
                             }
 
                             if (FADM_Object.Communal.MyBrew.datapool.Count < 27)
@@ -2409,35 +2485,38 @@ namespace SmartDyeing.FADM_Auto
 
                                 int P_int_oribottle = P_int_bottle;
                                 System.DateTime P_time = System.DateTime.Now;
-                                bool P_bl = false;
-                                //again:
-                                //    string P_str_sql = "SELECT * FROM bottle_details WHERE BottleNum = " + P_int_oribottle + ";";
-                                //    DataTable P_dt_bottle = FADM_Object.Communal._fadmSqlserver.GetData(P_str_sql);
+                                if (FADM_Object.Communal._b_isUseMotherDate)
+                                {
+                                    bool P_bl = false;
+                                again:
+                                    string s_sql1 = "SELECT * FROM bottle_details WHERE BottleNum = " + P_int_oribottle + ";";
+                                    DataTable P_dt_bottle = FADM_Object.Communal._fadmSqlserver.GetData(s_sql1);
 
-                                //    if (P_dt_bottle.Rows.Count > 0)
-                                //    {
+                                    if (P_dt_bottle.Rows.Count > 0)
+                                    {
 
-                                //        P_int_oribottle = Convert.ToInt16(P_dt_bottle.Rows[0]["OriginalBottleNum"]);
-                                //        if (P_int_oribottle > 0)
-                                //        {
-                                //            P_bl = true;
-                                //            goto again;
-                                //        }
-                                //        else
-                                //        {
-                                //            if (P_bl)
-                                //            {
+                                        P_int_oribottle = Convert.ToInt16(P_dt_bottle.Rows[0]["OriginalBottleNum"]);
+                                        if (P_int_oribottle > 0)
+                                        {
+                                            P_bl = true;
+                                            goto again;
+                                        }
+                                        else
+                                        {
+                                            if (P_bl)
+                                            {
 
 
-                                //                int maxB = Lib_Card.Configure.Parameter.Machine_Bottle_Total;
-                                //                if (Convert.ToInt16(P_dt_bottle.Rows[0]["BottleNum"]) <= maxB)
-                                //                {
-                                //                    P_time = Convert.ToDateTime(P_dt_bottle.Rows[0]["BrewingData"]);
-                                //                }
-                                //            }
+                                                int maxB = Lib_Card.Configure.Parameter.Machine_Bottle_Total;
+                                                if (Convert.ToInt16(P_dt_bottle.Rows[0]["BottleNum"]) <= maxB)
+                                                {
+                                                    P_time = Convert.ToDateTime(P_dt_bottle.Rows[0]["BrewingData"]);
+                                                }
+                                            }
 
-                                //        }
-                                //    }
+                                        }
+                                    }
+                                }
 
                                 //if (P_int_bottle == Class_SemiAuto.MyMove_XY.Move_XY_BottleNum)
                                 //{

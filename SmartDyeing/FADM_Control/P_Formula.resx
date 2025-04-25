@@ -131,8 +131,8 @@
   <data name="lab_ClothType.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
-  <data name="txt_FormulaName.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 14.25pt</value>
+  <data name="&gt;&gt;dataGridViewComboBoxColumn1.Name" xml:space="preserve">
+    <value>dataGridViewComboBoxColumn1</value>
   </data>
   <data name="lab_Non_AnhydrationWR.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 25</value>
@@ -140,14 +140,14 @@
   <data name="txt_CreateTime.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
   </data>
-  <data name="&gt;&gt;RealDropWeight.Name" xml:space="preserve">
-    <value>RealDropWeight</value>
+  <data name="AssistantCode.HeaderText" xml:space="preserve">
+    <value>染助剂代码</value>
   </data>
   <data name="&gt;&gt;Column5.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lab_ClothWeight.Parent" xml:space="preserve">
-    <value>grp_FormulaData</value>
+  <data name="&gt;&gt;dataGridViewTextBoxColumn13.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="btn_BatchAdd.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
@@ -158,8 +158,8 @@
   <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="dgv_DropRecord.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 19</value>
+  <data name="&gt;&gt;BottleSelection.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewCheckBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;dt_Browse_End.Type" xml:space="preserve">
     <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -183,8 +183,11 @@
   <data name="dgv_FormulaData.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>
   </data>
-  <data name="&gt;&gt;group.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="dataGridViewCheckBoxColumn1.Width" type="System.Int32, mscorlib">
+    <value>70</value>
+  </data>
+  <data name="&gt;&gt;btn_Record_Select.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="dataGridViewComboBoxColumn1.Width" type="System.Int32, mscorlib">
     <value>55</value>
@@ -195,8 +198,8 @@
   <data name="lab_TotalWeight.Location" type="System.Drawing.Point, System.Drawing">
     <value>839, 89</value>
   </data>
-  <data name="lab_CupCode.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
+  <data name="Column4.HeaderText" xml:space="preserve">
+    <value>误差(%)</value>
   </data>
   <data name="&gt;&gt;label14.Parent" xml:space="preserve">
     <value>grp_FormulaBrowse</value>
@@ -204,14 +207,11 @@
   <data name="dataGridViewTextBoxColumn7.HeaderText" xml:space="preserve">
     <value>实际浓度</value>
   </data>
-  <data name="&gt;&gt;txt_Browse_Code.Parent" xml:space="preserve">
-    <value>grp_FormulaBrowse</value>
+  <data name="&gt;&gt;dataGridViewTextBoxColumn5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>成功:</value>
-  </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1920, 994</value>
+  <data name="txt_BathRatio.Location" type="System.Drawing.Point, System.Drawing">
+    <value>724, 87</value>
   </data>
   <data name="grp_FormulaBrowse.Size" type="System.Drawing.Size, System.Drawing">
     <value>321, 966</value>
@@ -221,9 +221,6 @@
   </data>
   <data name="txt_FormulaCode.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
-  </data>
-  <data name="lab_BathRatio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>609, 89</value>
   </data>
   <data name="dataGridViewTextBoxColumn17.Width" type="System.Int32, mscorlib">
     <value>80</value>
@@ -264,8 +261,8 @@
   <data name="label14.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
-  <data name="txt_FormulaCode.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 14.25pt</value>
+  <data name="&gt;&gt;dataGridViewTextBoxColumn9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>85, 25</value>
@@ -297,8 +294,8 @@
   <data name="txt_BathRatio.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
   </data>
-  <data name="txt_Browse_Operator.Location" type="System.Drawing.Point, System.Drawing">
-    <value>91, 65</value>
+  <data name="label8.Text" xml:space="preserve">
+    <value>成功:</value>
   </data>
   <data name="&gt;&gt;rdo_Browse_All.Name" xml:space="preserve">
     <value>rdo_Browse_All</value>
@@ -324,8 +321,8 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="txt_FormulaCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>134, 28</value>
+  <data name="&gt;&gt;label14.Name" xml:space="preserve">
+    <value>label14</value>
   </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn14.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -342,14 +339,11 @@
   <data name="txt_CreateTime.Location" type="System.Drawing.Point, System.Drawing">
     <value>967, 146</value>
   </data>
-  <data name="lab_Customer.Text" xml:space="preserve">
-    <value>客户:</value>
+  <data name="&gt;&gt;dataGridViewTextBoxColumn9.Name" xml:space="preserve">
+    <value>dataGridViewTextBoxColumn9</value>
   </data>
   <data name="&gt;&gt;txt_Operator.Parent" xml:space="preserve">
     <value>grp_FormulaData</value>
-  </data>
-  <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="&gt;&gt;dgv_DropRecord.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -384,8 +378,8 @@
   <data name="&gt;&gt;dataGridViewTextBoxColumn3.Name" xml:space="preserve">
     <value>dataGridViewTextBoxColumn3</value>
   </data>
-  <data name="txt_FormulaCode.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
-    <value>Center</value>
+  <data name="&gt;&gt;txt_Browse_Code.Parent" xml:space="preserve">
+    <value>grp_FormulaBrowse</value>
   </data>
   <data name="&gt;&gt;Column1.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -435,9 +429,6 @@
   <data name="lab_FormulaName.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
   </data>
-  <data name="&gt;&gt;txt_Operator.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="&gt;&gt;Index.Name" xml:space="preserve">
     <value>Index</value>
   </data>
@@ -453,8 +444,8 @@
   <data name="lab_FormulaName.Text" xml:space="preserve">
     <value>配方名称:</value>
   </data>
-  <data name="&gt;&gt;txt_FormulaName.Parent" xml:space="preserve">
-    <value>grp_FormulaData</value>
+  <data name="&gt;&gt;txt_Browse_Code.Name" xml:space="preserve">
+    <value>txt_Browse_Code</value>
   </data>
   <data name="dataGridViewTextBoxColumn17.HeaderText" xml:space="preserve">
     <value>目标量</value>
@@ -465,8 +456,11 @@
   <data name="&gt;&gt;lab_Non_AnhydrationWR.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lab_FormulaName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="dt_Browse_Start.Size" type="System.Drawing.Size, System.Drawing">
+    <value>228, 29</value>
+  </data>
+  <data name="&gt;&gt;dt_Browse_Start.Parent" xml:space="preserve">
+    <value>grp_FormulaBrowse</value>
   </data>
   <data name="txt_FormulaName.Location" type="System.Drawing.Point, System.Drawing">
     <value>965, 30</value>
@@ -479,9 +473,6 @@
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
     <value>60, 25</value>
-  </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn1.Name" xml:space="preserve">
     <value>dataGridViewTextBoxColumn1</value>
@@ -501,8 +492,8 @@
   <data name="&gt;&gt;txt_FormulaName.ZOrder" xml:space="preserve">
     <value>17</value>
   </data>
-  <data name="lab_TotalWeight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 25</value>
+  <data name="rdo_Browse_NoDrop.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
   </data>
   <data name="&gt;&gt;btn_BatchAdd.ZOrder" xml:space="preserve">
     <value>8</value>
@@ -519,8 +510,8 @@
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
-  <data name="&gt;&gt;btn_FormulaCodeAdd.Parent" xml:space="preserve">
-    <value>grp_FormulaData</value>
+  <data name="&gt;&gt;txt_FormulaName.Name" xml:space="preserve">
+    <value>txt_FormulaName</value>
   </data>
   <data name="&gt;&gt;btn_FormulaCodeAdd.ZOrder" xml:space="preserve">
     <value>6</value>
@@ -546,8 +537,8 @@
   <data name="&gt;&gt;btn_Stop.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="txt_BathRatio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>724, 87</value>
+  <data name="txt_FormulaName.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
   </data>
   <data name="dataGridViewTextBoxColumn10.HeaderText" xml:space="preserve">
     <value>序号</value>
@@ -609,6 +600,9 @@
   <data name="&gt;&gt;lab_Operator.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Column6.Width" type="System.Int32, mscorlib">
+    <value>88</value>
+  </data>
   <data name="txt_Browse_Code.Location" type="System.Drawing.Point, System.Drawing">
     <value>91, 110</value>
   </data>
@@ -621,8 +615,8 @@
   <data name="&gt;&gt;txt_Customer.Name" xml:space="preserve">
     <value>txt_Customer</value>
   </data>
-  <data name="dataGridViewTextBoxColumn8.HeaderText" xml:space="preserve">
-    <value>目标量</value>
+  <data name="lab_CupCode.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>滴液总数:</value>
@@ -639,17 +633,14 @@
   <data name="&gt;&gt;dt_Browse_Start.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="lab_BathRatio.Text" xml:space="preserve">
-    <value>浴比:</value>
+  <data name="grp_FormulaBrowse.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1594, 2</value>
   </data>
-  <data name="&gt;&gt;label12.Name" xml:space="preserve">
-    <value>label12</value>
+  <data name="&gt;&gt;lab_ClothWeight.Parent" xml:space="preserve">
+    <value>grp_FormulaData</value>
   </data>
   <data name="&gt;&gt;txt_Browse_Operator.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="rdo_Browse_All.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 14.25pt</value>
   </data>
   <data name="txt_ClothWeight.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
@@ -660,14 +651,11 @@
   <data name="label14.Text" xml:space="preserve">
     <value>结束日期:</value>
   </data>
-  <data name="txt_Operator.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 14.25pt</value>
+  <data name="&gt;&gt;dataGridViewTextBoxColumn7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lab_Customer.ZOrder" xml:space="preserve">
     <value>27</value>
-  </data>
-  <data name="&gt;&gt;UnitOfAccount.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txt_VersionNum.Name" xml:space="preserve">
     <value>txt_VersionNum</value>
@@ -683,6 +671,9 @@
   </data>
   <data name="dgv_DropRecord.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
+  </data>
+  <data name="rdo_Browse_condition.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;txt_ClothType.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -708,11 +699,8 @@
   <data name="&gt;&gt;dgv_FormulaBrowse.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 158</value>
+  <data name="dt_Browse_Start.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
   </data>
   <data name="lab_Customer.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
@@ -729,14 +717,14 @@
   <data name="lab_ClothWeight.Text" xml:space="preserve">
     <value>布重:</value>
   </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="rdo_Browse_NoDrop.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;lab_ClothWeight.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="rdo_Browse_NoDrop.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;txt_State.Name" xml:space="preserve">
+    <value>txt_State</value>
   </data>
   <data name="lab_Operator.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
@@ -777,9 +765,6 @@
   <data name="&gt;&gt;dataGridViewTextBoxColumn18.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;dataGridViewCheckBoxColumn2.Name" xml:space="preserve">
-    <value>dataGridViewCheckBoxColumn2</value>
-  </data>
   <data name="rdo_Browse_All.Text" xml:space="preserve">
     <value>显示全部</value>
   </data>
@@ -788,9 +773,6 @@
   </data>
   <data name="btn_FormulaCodeAdd.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
-  </data>
-  <data name="Column5.HeaderText" xml:space="preserve">
-    <value>调液日期</value>
   </data>
   <data name="&gt;&gt;lab_Customer.Name" xml:space="preserve">
     <value>lab_Customer</value>
@@ -807,8 +789,8 @@
   <data name="&gt;&gt;Column4.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="chk_AddWaterChoose.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 14.25pt</value>
+  <data name="&gt;&gt;dataGridViewTextBoxColumn11.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;dt_Browse_Start.Type" xml:space="preserve">
     <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -816,8 +798,8 @@
   <data name="txt_Non_AnhydrationWR.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 29</value>
   </data>
-  <data name="&gt;&gt;rdo_Browse_All.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;rdo_Browse_condition.Parent" xml:space="preserve">
+    <value>grp_FormulaBrowse</value>
   </data>
   <data name="FormulaDosage.HeaderText" xml:space="preserve">
     <value>配方用量</value>
@@ -840,8 +822,8 @@
   <data name="grp_DropRecord.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 10.5pt</value>
   </data>
-  <data name="dt_Browse_Start.Size" type="System.Drawing.Size, System.Drawing">
-    <value>228, 29</value>
+  <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;AssistantCode.Name" xml:space="preserve">
     <value>AssistantCode</value>
@@ -858,9 +840,6 @@
   <data name="dataGridViewCheckBoxColumn1.HeaderText" xml:space="preserve">
     <value>手动选瓶</value>
   </data>
-  <data name="&gt;&gt;txt_BathRatio.Parent" xml:space="preserve">
-    <value>grp_FormulaData</value>
-  </data>
   <data name="dataGridViewTextBoxColumn14.Width" type="System.Int32, mscorlib">
     <value>50</value>
   </data>
@@ -872,9 +851,6 @@
   </data>
   <data name="txt_Browse_Operator.TabIndex" type="System.Int32, mscorlib">
     <value>35</value>
-  </data>
-  <data name="dgv_BatchData.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
   </data>
   <data name="lab_CupCode.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 25</value>
@@ -888,8 +864,8 @@
   <data name="lab_TotalWeight.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
   </data>
-  <data name="txt_CreateTime.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="lab_BathRatio.Text" xml:space="preserve">
+    <value>浴比:</value>
   </data>
   <data name="lab_ClothType.Text" xml:space="preserve">
     <value>布种/基材:</value>
@@ -900,23 +876,17 @@
   <data name="dataGridViewTextBoxColumn16.HeaderText" xml:space="preserve">
     <value>实际浓度</value>
   </data>
-  <data name="&gt;&gt;txt_Browse_Code.Name" xml:space="preserve">
-    <value>txt_Browse_Code</value>
-  </data>
   <data name="&gt;&gt;txt_CupCode.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
   <data name="lab_ClothWeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 25</value>
   </data>
-  <data name="&gt;&gt;label14.Name" xml:space="preserve">
-    <value>label14</value>
+  <data name="&gt;&gt;label13.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lab_CreateTime.Parent" xml:space="preserve">
     <value>grp_FormulaData</value>
-  </data>
-  <data name="rdo_Browse_NoDrop.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 14.25pt</value>
   </data>
   <data name="txt_State.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
@@ -935,6 +905,9 @@
   </data>
   <data name="&gt;&gt;btn_Browse_Select.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn8.HeaderText" xml:space="preserve">
+    <value>目标量</value>
   </data>
   <data name="&gt;&gt;Column6.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -996,9 +969,6 @@
   <data name="&gt;&gt;dataGridViewTextBoxColumn5.Name" xml:space="preserve">
     <value>dataGridViewTextBoxColumn5</value>
   </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn9.Name" xml:space="preserve">
-    <value>dataGridViewTextBoxColumn9</value>
-  </data>
   <data name="&gt;&gt;lab_CreateTime.ZOrder" xml:space="preserve">
     <value>21</value>
   </data>
@@ -1026,7 +996,10 @@
   <data name="dataGridViewTextBoxColumn10.Width" type="System.Int32, mscorlib">
     <value>50</value>
   </data>
-  <data name="&gt;&gt;label13.Type" xml:space="preserve">
+  <data name="&gt;&gt;label12.Name" xml:space="preserve">
+    <value>label12</value>
+  </data>
+  <data name="&gt;&gt;lab_FormulaName.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
@@ -1047,6 +1020,9 @@
   <data name="label6.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
+  <data name="txt_FormulaCode.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
   <data name="dataGridViewTextBoxColumn2.Width" type="System.Int32, mscorlib">
     <value>96</value>
   </data>
@@ -1064,9 +1040,6 @@
   </data>
   <data name="&gt;&gt;lab_CupCode.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SettingConcentration.Name" xml:space="preserve">
-    <value>SettingConcentration</value>
   </data>
   <data name="btn_Browse_Select.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 250</value>
@@ -1098,8 +1071,8 @@
   <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
     <value>438, 30</value>
   </data>
-  <data name="&gt;&gt;dgv_FormulaData.Type" xml:space="preserve">
-    <value>SmartDyeing.FADM_Object.MyDataGridView, SmartDyeing, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="label15.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
   </data>
   <data name="label12.Text" xml:space="preserve">
     <value>配方代码:</value>
@@ -1119,6 +1092,12 @@
   <data name="label15.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
+  <data name="dgv_FormulaData.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1243, 437</value>
+  </data>
+  <data name="txt_FormulaCode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>134, 28</value>
+  </data>
   <data name="&gt;&gt;txt_ClothWeight.Parent" xml:space="preserve">
     <value>grp_FormulaData</value>
   </data>
@@ -1134,8 +1113,8 @@
   <data name="&gt;&gt;dataGridViewTextBoxColumn10.Name" xml:space="preserve">
     <value>dataGridViewTextBoxColumn10</value>
   </data>
-  <data name="&gt;&gt;BottleSelection.Name" xml:space="preserve">
-    <value>BottleSelection</value>
+  <data name="&gt;&gt;group.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;group.Parent" xml:space="preserve">
     <value>grp_FormulaData</value>
@@ -1176,9 +1155,6 @@
   <data name="grp_BatchData.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 10.5pt</value>
   </data>
-  <data name="&gt;&gt;txt_Customer.ZOrder" xml:space="preserve">
-    <value>16</value>
-  </data>
   <data name="rdo_Browse_All.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1212,17 +1188,23 @@
   <data name="lab_Customer.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="btn_FormulaCodeAdd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 35</value>
+  <data name="&gt;&gt;txt_FormulaName.Parent" xml:space="preserve">
+    <value>grp_FormulaData</value>
   </data>
-  <data name="dgv_FormulaData.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1243, 437</value>
+  <data name="&gt;&gt;txt_ClothWeight.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Column2.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="btn_Browse_Select.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
+  </data>
+  <data name="&gt;&gt;rdo_Browse_All.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;rdo_Browse_NoDrop.Name" xml:space="preserve">
+    <value>rdo_Browse_NoDrop</value>
   </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn12.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1260,9 +1242,6 @@
   <data name="txt_CupCode.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
   </data>
-  <data name="&gt;&gt;dataGridViewComboBoxColumn1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="grp_DropRecord.Text" xml:space="preserve">
     <value>滴液记录</value>
   </data>
@@ -1281,8 +1260,8 @@
   <data name="lab_CreateTime.Text" xml:space="preserve">
     <value>存档时间:</value>
   </data>
-  <data name="Column4.HeaderText" xml:space="preserve">
-    <value>误差(%)</value>
+  <data name="&gt;&gt;dgv_FormulaBrowse.Name" xml:space="preserve">
+    <value>dgv_FormulaBrowse</value>
   </data>
   <data name="&gt;&gt;txt_ClothWeight.Name" xml:space="preserve">
     <value>txt_ClothWeight</value>
@@ -1299,8 +1278,8 @@
   <data name="txt_State.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 29</value>
   </data>
-  <data name="rdo_Browse_condition.Location" type="System.Drawing.Point, System.Drawing">
-    <value>223, 22</value>
+  <data name="Column5.HeaderText" xml:space="preserve">
+    <value>调液日期</value>
   </data>
   <data name="UnitOfAccount.HeaderText" xml:space="preserve">
     <value>单位</value>
@@ -1316,6 +1295,9 @@
   </data>
   <data name="&gt;&gt;btn_Browse_Delete.Parent" xml:space="preserve">
     <value>grp_FormulaBrowse</value>
+  </data>
+  <data name="txt_Browse_Operator.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="dataGridViewTextBoxColumn6.HeaderText" xml:space="preserve">
     <value>设定浓度</value>
@@ -1347,9 +1329,6 @@
   <data name="&gt;&gt;dataGridViewComboBoxColumn2.Name" xml:space="preserve">
     <value>dataGridViewComboBoxColumn2</value>
   </data>
-  <data name="&gt;&gt;BottleSelection.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewCheckBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;btn_Stop.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
@@ -1359,17 +1338,17 @@
   <data name="lab_ClothWeight.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="dt_Browse_Start.TabIndex" type="System.Int32, mscorlib">
-    <value>31</value>
+  <data name="&gt;&gt;UnitOfAccount.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dataGridViewTextBoxColumn16.Width" type="System.Int32, mscorlib">
+    <value>146</value>
   </data>
   <data name="&gt;&gt;Column4.Name" xml:space="preserve">
     <value>Column4</value>
   </data>
   <data name="label16.Text" xml:space="preserve">
     <value>组合名称:</value>
-  </data>
-  <data name="lab_FormulaCode.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;lab_CreateTime.Name" xml:space="preserve">
     <value>lab_CreateTime</value>
@@ -1395,9 +1374,6 @@
   <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
     <value>85, 25</value>
   </data>
-  <data name="&gt;&gt;txt_FormulaName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn14.Name" xml:space="preserve">
     <value>dataGridViewTextBoxColumn14</value>
   </data>
@@ -1419,14 +1395,11 @@
   <data name="ObjectDropWeight.HeaderText" xml:space="preserve">
     <value>目标量</value>
   </data>
-  <data name="&gt;&gt;group.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;grp_BatchData.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="txt_State.Location" type="System.Drawing.Point, System.Drawing">
     <value>323, 28</value>
-  </data>
-  <data name="&gt;&gt;dataGridViewComboBoxColumn1.Name" xml:space="preserve">
-    <value>dataGridViewComboBoxColumn1</value>
   </data>
   <data name="rdo_Browse_NoDrop.Size" type="System.Drawing.Size, System.Drawing">
     <value>103, 23</value>
@@ -1452,8 +1425,8 @@
   <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 25</value>
   </data>
-  <data name="group.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 14pt</value>
+  <data name="dgv_BatchData.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
   <data name="txt_FormulaName.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
@@ -1463,6 +1436,9 @@
   </data>
   <data name="txt_ClothType.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 29</value>
+  </data>
+  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 158</value>
   </data>
   <data name="&gt;&gt;lab_BathRatio.Name" xml:space="preserve">
     <value>lab_BathRatio</value>
@@ -1479,6 +1455,9 @@
   <data name="RealDropWeight.HeaderText" xml:space="preserve">
     <value>实际量</value>
   </data>
+  <data name="lab_TotalWeight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 25</value>
+  </data>
   <data name="lab_Operator.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
@@ -1488,8 +1467,8 @@
   <data name="&gt;&gt;dataGridViewTextBoxColumn16.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;dgv_FormulaBrowse.Name" xml:space="preserve">
-    <value>dgv_FormulaBrowse</value>
+  <data name="Column7.HeaderText" xml:space="preserve">
+    <value>调液日期</value>
   </data>
   <data name="label16.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
@@ -1512,8 +1491,8 @@
   <data name="label11.Text" xml:space="preserve">
     <value>操作员:</value>
   </data>
-  <data name="&gt;&gt;rdo_Browse_condition.Parent" xml:space="preserve">
-    <value>grp_FormulaBrowse</value>
+  <data name="&gt;&gt;txt_Operator.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="dataGridViewTextBoxColumn12.Width" type="System.Int32, mscorlib">
     <value>150</value>
@@ -1524,14 +1503,17 @@
   <data name="&gt;&gt;tmr.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;AssistantName.Name" xml:space="preserve">
-    <value>AssistantName</value>
+  <data name="&gt;&gt;txt_BathRatio.Parent" xml:space="preserve">
+    <value>grp_FormulaData</value>
   </data>
   <data name="&gt;&gt;rdo_Browse_All.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
   <data name="txt_CreateTime.Size" type="System.Drawing.Size, System.Drawing">
     <value>275, 29</value>
+  </data>
+  <data name="lab_TotalWeight.Text" xml:space="preserve">
+    <value>总浴量:</value>
   </data>
   <data name="btn_FormulaCodeAdd.Location" type="System.Drawing.Point, System.Drawing">
     <value>1017, 672</value>
@@ -1544,6 +1526,9 @@
   </data>
   <data name="&gt;&gt;lab_BathRatio.Parent" xml:space="preserve">
     <value>grp_FormulaData</value>
+  </data>
+  <data name="&gt;&gt;txt_CreateTime.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txt_Browse_Operator.Parent" xml:space="preserve">
     <value>grp_FormulaBrowse</value>
@@ -1560,11 +1545,14 @@
   <data name="rdo_Browse_NoDrop.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
-  <data name="&gt;&gt;btn_Record_Select.ZOrder" xml:space="preserve">
-    <value>6</value>
+  <data name="grp_FormulaBrowse.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 10.5pt</value>
   </data>
-  <data name="lab_TotalWeight.Text" xml:space="preserve">
-    <value>总浴量:</value>
+  <data name="&gt;&gt;txt_State.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="dgv_FormulaBrowse.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 287</value>
   </data>
   <data name="&gt;&gt;txt_FormulaCode.Parent" xml:space="preserve">
     <value>grp_FormulaData</value>
@@ -1590,6 +1578,9 @@
   <data name="btn_Browse_Delete.Text" xml:space="preserve">
     <value>删除</value>
   </data>
+  <data name="rdo_Browse_condition.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
   <data name="&gt;&gt;grp_FormulaBrowse.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
@@ -1613,12 +1604,6 @@
   </data>
   <data name="&gt;&gt;grp_DropRecord.Name" xml:space="preserve">
     <value>grp_DropRecord</value>
-  </data>
-  <data name="Column7.HeaderText" xml:space="preserve">
-    <value>调液日期</value>
-  </data>
-  <data name="&gt;&gt;txt_State.Name" xml:space="preserve">
-    <value>txt_State</value>
   </data>
   <data name="BottleSelection.HeaderText" xml:space="preserve">
     <value>手动选瓶</value>
@@ -1674,11 +1659,11 @@
   <data name="dataGridViewTextBoxColumn1.Width" type="System.Int32, mscorlib">
     <value>70</value>
   </data>
-  <data name="rdo_Browse_condition.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;txt_CreateTime.Type" xml:space="preserve">
+  <data name="&gt;&gt;txt_FormulaName.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="txt_Browse_Operator.Location" type="System.Drawing.Point, System.Drawing">
+    <value>91, 65</value>
   </data>
   <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 25</value>
@@ -1707,17 +1692,14 @@
   <data name="&gt;&gt;lab_CreateTime.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="dgv_FormulaBrowse.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 287</value>
+  <data name="lab_FormulaCode.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
   <data name="&gt;&gt;btn_Browse_Select.Parent" xml:space="preserve">
     <value>grp_FormulaBrowse</value>
   </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn17.Name" xml:space="preserve">
     <value>dataGridViewTextBoxColumn17</value>
-  </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn13.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="txt_TotalWeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>86, 29</value>
@@ -1728,14 +1710,20 @@
   <data name="Column7.Width" type="System.Int32, mscorlib">
     <value>215</value>
   </data>
+  <data name="&gt;&gt;lab_TotalWeight.Parent" xml:space="preserve">
+    <value>grp_FormulaData</value>
+  </data>
   <data name="&gt;&gt;label7.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="rdo_Browse_condition.TabIndex" type="System.Int32, mscorlib">
-    <value>34</value>
+  <data name="rdo_Browse_condition.Location" type="System.Drawing.Point, System.Drawing">
+    <value>223, 22</value>
   </data>
   <data name="&gt;&gt;lab_Operator.Name" xml:space="preserve">
     <value>lab_Operator</value>
+  </data>
+  <data name="&gt;&gt;dataGridViewTextBoxColumn15.Name" xml:space="preserve">
+    <value>dataGridViewTextBoxColumn15</value>
   </data>
   <data name="&gt;&gt;txt_Non_AnhydrationWR.Name" xml:space="preserve">
     <value>txt_Non_AnhydrationWR</value>
@@ -1743,11 +1731,11 @@
   <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="label15.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 14.25pt</value>
+  <data name="&gt;&gt;SettingConcentration.Name" xml:space="preserve">
+    <value>SettingConcentration</value>
   </data>
-  <data name="&gt;&gt;lab_TotalWeight.Parent" xml:space="preserve">
-    <value>grp_FormulaData</value>
+  <data name="group.Size" type="System.Drawing.Size, System.Drawing">
+    <value>267, 27</value>
   </data>
   <data name="lab_Customer.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
@@ -1769,9 +1757,6 @@
   </data>
   <data name="dt_Browse_End.TabIndex" type="System.Int32, mscorlib">
     <value>32</value>
-  </data>
-  <data name="group.Size" type="System.Drawing.Size, System.Drawing">
-    <value>267, 27</value>
   </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn6.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1800,6 +1785,9 @@
   <data name="&gt;&gt;btn_Save.Parent" xml:space="preserve">
     <value>grp_FormulaData</value>
   </data>
+  <data name="chk_AddWaterChoose.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
+  </data>
   <data name="dt_Browse_Start.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
   </data>
@@ -1812,17 +1800,14 @@
   <data name="txt_Non_AnhydrationWR.Location" type="System.Drawing.Point, System.Drawing">
     <value>1169, 86</value>
   </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="txt_ClothType.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="lab_ClothType.Location" type="System.Drawing.Point, System.Drawing">
     <value>1050, 30</value>
   </data>
-  <data name="&gt;&gt;txt_State.ZOrder" xml:space="preserve">
-    <value>18</value>
+  <data name="lab_Customer.Text" xml:space="preserve">
+    <value>客户:</value>
   </data>
   <data name="dt_Browse_End.CustomFormat" xml:space="preserve">
     <value>yyyy-MM-dd HH:mm:ss</value>
@@ -1833,8 +1818,8 @@
   <data name="btn_FormulaCodeAdd.TabIndex" type="System.Int32, mscorlib">
     <value>28</value>
   </data>
-  <data name="lab_FormulaName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 25</value>
+  <data name="label16.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
   </data>
   <data name="label8.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
@@ -1845,11 +1830,11 @@
   <data name="lab_CreateTime.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
   </data>
+  <data name="group.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14pt</value>
+  </data>
   <data name="txt_CreateTime.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
-  </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn11.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="txt_Customer.Size" type="System.Drawing.Size, System.Drawing">
     <value>231, 29</value>
@@ -1857,8 +1842,8 @@
   <data name="btn_Start.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
-  <data name="&gt;&gt;lab_Operator.ZOrder" xml:space="preserve">
-    <value>23</value>
+  <data name="&gt;&gt;BottleSelection.Name" xml:space="preserve">
+    <value>BottleSelection</value>
   </data>
   <data name="&gt;&gt;dgv_BatchData.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -1866,11 +1851,11 @@
   <data name="lab_Operator.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 25</value>
   </data>
+  <data name="&gt;&gt;btn_FormulaCodeAdd.Parent" xml:space="preserve">
+    <value>grp_FormulaData</value>
+  </data>
   <data name="rdo_Browse_NoDrop.Location" type="System.Drawing.Point, System.Drawing">
     <value>114, 22</value>
-  </data>
-  <data name="&gt;&gt;txt_FormulaName.Name" xml:space="preserve">
-    <value>txt_FormulaName</value>
   </data>
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>47</value>
@@ -1883,9 +1868,6 @@
   </data>
   <data name="txt_FormulaName.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
-  </data>
-  <data name="AssistantCode.HeaderText" xml:space="preserve">
-    <value>染助剂代码</value>
   </data>
   <data name="grp_FormulaBrowse.Text" xml:space="preserve">
     <value>配方浏览</value>
@@ -1914,14 +1896,14 @@
   <data name="grp_FormulaBrowse.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
-  <data name="&gt;&gt;txt_ClothWeight.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;txt_Customer.ZOrder" xml:space="preserve">
+    <value>16</value>
   </data>
-  <data name="&gt;&gt;rdo_Browse_NoDrop.Name" xml:space="preserve">
-    <value>rdo_Browse_NoDrop</value>
+  <data name="&gt;&gt;dgv_FormulaData.Type" xml:space="preserve">
+    <value>SmartDyeing.FADM_Object.MyDataGridView, SmartDyeing, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="txt_Browse_Operator.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;AssistantName.Name" xml:space="preserve">
+    <value>AssistantName</value>
   </data>
   <data name="&gt;&gt;btn_Start.ZOrder" xml:space="preserve">
     <value>2</value>
@@ -1941,8 +1923,8 @@
   <data name="&gt;&gt;txt_FormulaCode.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="dataGridViewCheckBoxColumn1.Width" type="System.Int32, mscorlib">
-    <value>70</value>
+  <data name="btn_Start.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 671</value>
   </data>
   <data name="&gt;&gt;btn_Browse_Select.Name" xml:space="preserve">
     <value>btn_Browse_Select</value>
@@ -1962,6 +1944,9 @@
   <data name="lab_Customer.Size" type="System.Drawing.Size, System.Drawing">
     <value>113, 25</value>
   </data>
+  <data name="dataGridViewTextBoxColumn15.Width" type="System.Int32, mscorlib">
+    <value>125</value>
+  </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn11.Name" xml:space="preserve">
     <value>dataGridViewTextBoxColumn11</value>
   </data>
@@ -1976,6 +1961,9 @@
   </data>
   <data name="&gt;&gt;txt_Browse_Code.ZOrder" xml:space="preserve">
     <value>5</value>
+  </data>
+  <data name="dgv_DropRecord.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 19</value>
   </data>
   <data name="label10.TabIndex" type="System.Int32, mscorlib">
     <value>52</value>
@@ -1995,8 +1983,8 @@
   <data name="&gt;&gt;dgv_FormulaBrowse.Parent" xml:space="preserve">
     <value>grp_FormulaBrowse</value>
   </data>
-  <data name="txt_ClothType.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 14.25pt</value>
+  <data name="&gt;&gt;dataGridViewTextBoxColumn1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lab_TotalWeight.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2010,14 +1998,17 @@
   <data name="&gt;&gt;label9.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="grp_FormulaBrowse.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1594, 2</value>
+  <data name="&gt;&gt;dataGridViewComboBoxColumn1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewComboBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="lab_BathRatio.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
   </data>
   <data name="dt_Browse_Start.CustomFormat" xml:space="preserve">
     <value>yyyy-MM-dd HH:mm:ss</value>
+  </data>
+  <data name="txt_Operator.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
   </data>
   <data name="lab_CupCode.Location" type="System.Drawing.Point, System.Drawing">
     <value>421, 148</value>
@@ -2064,11 +2055,17 @@
   <data name="&gt;&gt;label6.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="grp_FormulaBrowse.Font" type="System.Drawing.Font, System.Drawing">
-    <value>宋体, 10.5pt</value>
+  <data name="&gt;&gt;dataGridViewCheckBoxColumn2.Name" xml:space="preserve">
+    <value>dataGridViewCheckBoxColumn2</value>
   </data>
   <data name="&gt;&gt;txt_ClothType.Parent" xml:space="preserve">
     <value>grp_FormulaData</value>
+  </data>
+  <data name="btn_FormulaCodeAdd.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 35</value>
+  </data>
+  <data name="txt_ClothType.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
   </data>
   <data name="&gt;&gt;chk_AddWaterChoose.Parent" xml:space="preserve">
     <value>grp_FormulaData</value>
@@ -2088,8 +2085,8 @@
   <data name="lab_FormulaCode.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
-  <data name="&gt;&gt;dt_Browse_Start.Parent" xml:space="preserve">
-    <value>grp_FormulaBrowse</value>
+  <data name="&gt;&gt;group.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txt_Operator.Name" xml:space="preserve">
     <value>txt_Operator</value>
@@ -2109,8 +2106,8 @@
   <data name="btn_Start.Text" xml:space="preserve">
     <value>开始滴液(F10)</value>
   </data>
-  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>2, 66</value>
+  <data name="rdo_Browse_All.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
   </data>
   <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
     <value>10</value>
@@ -2121,14 +2118,14 @@
   <data name="&gt;&gt;dt_Browse_Start.Name" xml:space="preserve">
     <value>dt_Browse_Start</value>
   </data>
-  <data name="dataGridViewTextBoxColumn9.HeaderText" xml:space="preserve">
-    <value>实际量</value>
+  <data name="dataGridViewTextBoxColumn11.Width" type="System.Int32, mscorlib">
+    <value>160</value>
   </data>
-  <data name="btn_Record_Select.Text" xml:space="preserve">
-    <value>查询</value>
+  <data name="txt_CreateTime.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="btn_Start.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 671</value>
+  <data name="lab_FormulaName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 25</value>
   </data>
   <data name="&gt;&gt;lab_ClothType.Parent" xml:space="preserve">
     <value>grp_FormulaData</value>
@@ -2156,6 +2153,9 @@
   </data>
   <data name="&gt;&gt;label8.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 66</value>
   </data>
   <data name="&gt;&gt;Column6.Name" xml:space="preserve">
     <value>Column6</value>
@@ -2190,6 +2190,9 @@
   <data name="&gt;&gt;FormulaDosage.Name" xml:space="preserve">
     <value>FormulaDosage</value>
   </data>
+  <data name="dataGridViewTextBoxColumn9.HeaderText" xml:space="preserve">
+    <value>实际量</value>
+  </data>
   <data name="dt_Browse_End.CalendarFont" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
   </data>
@@ -2202,8 +2205,11 @@
   <data name="&gt;&gt;rdo_Browse_condition.Type" xml:space="preserve">
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="label16.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
+  <data name="txt_FormulaCode.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
+  </data>
+  <data name="lab_BathRatio.Location" type="System.Drawing.Point, System.Drawing">
+    <value>609, 89</value>
   </data>
   <data name="dataGridViewTextBoxColumn6.Width" type="System.Int32, mscorlib">
     <value>107</value>
@@ -2229,8 +2235,8 @@
   <data name="dt_Browse_Start.Location" type="System.Drawing.Point, System.Drawing">
     <value>91, 156</value>
   </data>
-  <data name="&gt;&gt;dataGridViewTextBoxColumn15.Name" xml:space="preserve">
-    <value>dataGridViewTextBoxColumn15</value>
+  <data name="btn_Record_Select.Text" xml:space="preserve">
+    <value>查询</value>
   </data>
   <data name="lab_CreateTime.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -2247,8 +2253,17 @@
   <data name="dataGridViewTextBoxColumn12.HeaderText" xml:space="preserve">
     <value>染助剂名称</value>
   </data>
+  <data name="&gt;&gt;RealDropWeight.Name" xml:space="preserve">
+    <value>RealDropWeight</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1920, 994</value>
+  </data>
   <data name="&gt;&gt;AssistantName.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lab_Operator.ZOrder" xml:space="preserve">
+    <value>23</value>
   </data>
   <data name="&gt;&gt;grp_FormulaBrowse.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2258,9 +2273,6 @@
   </data>
   <data name="&gt;&gt;txt_Non_AnhydrationWR.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;grp_BatchData.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label13.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
@@ -2310,9 +2322,6 @@
   <metadata name="Column1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="SettingConcentration.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -2335,6 +2344,9 @@
     <value>True</value>
   </metadata>
   <metadata name="FormulaDosage.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="SettingConcentration.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="tmr.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

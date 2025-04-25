@@ -127,6 +127,7 @@
     <Compile Include="FADM_Auto\Dye.cs" />
     <Compile Include="FADM_Auto\MyAbsorbance.cs" />
     <Compile Include="FADM_Auto\MyBrew.cs" />
+    <Compile Include="FADM_Auto\MyPowder.cs" />
     <Compile Include="FADM_Auto\Reset.cs" />
     <Compile Include="FADM_Auto\Water.cs" />
     <Compile Include="FADM_Control\AbsBeater.cs">
@@ -854,6 +855,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FADM_Control\P_Formula.resx">
       <DependentUpon>P_Formula.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FADM_Control\P_MainBottle.en.resx">
       <DependentUpon>P_MainBottle.cs</DependentUpon>
@@ -873,11 +875,17 @@
     <EmbeddedResource Include="FADM_Control\S_MainBottle_Only.resx">
       <DependentUpon>S_MainBottle_Only.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FADM_Control\TenBeater.en.resx">
+      <DependentUpon>TenBeater.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FADM_Control\TenBeater.resx">
       <DependentUpon>TenBeater.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FADM_Control\Test.resx">
       <DependentUpon>Test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FADM_Control\TwelveBeater.en.resx">
+      <DependentUpon>TwelveBeater.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FADM_Control\TwelveBeater.resx">
       <DependentUpon>TwelveBeater.cs</DependentUpon>

@@ -1,4 +1,5 @@
 ﻿using Demo;
+using Lib_Card.ADT8940A1;
 using System;
 
 namespace Lib_Card.ADT8940D1

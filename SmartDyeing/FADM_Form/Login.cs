@@ -1646,11 +1646,19 @@ namespace SmartDyeing.FADM_Form
                 string s_port6 = Lib_File.Ini.GetIni("HMI6", "Port", s_path);
                 string HMIBaClo_IP = Lib_File.Ini.GetIni("HMIBaClo", "IP", s_path);
                 string HMIBaClo_s_port6 = Lib_File.Ini.GetIni("HMIBaClo", "Port", s_path);
+                string Power_IP = Lib_File.Ini.GetIni("Power", "IP", s_path);
+                string Power_port = Lib_File.Ini.GetIni("Power", "Port", s_path);
 
                 string s_isUseCloth = Lib_File.Ini.GetIni("Setting", "IsUseCloth", "0", s_path);
                 if (s_isUseCloth == "1")
                 {
                     FADM_Object.Communal._b_isUseCloth = true;
+                }
+
+                string s_isUsePower = Lib_File.Ini.GetIni("Setting", "IsUsePower", "0", s_path);
+                if (s_isUsePower == "1")
+                {
+                    FADM_Object.Communal._b_isUsePower = true;
                 }
 
                 if (Lib_Card.Configure.Parameter.Machine_Area1_Type == 3)
@@ -1704,6 +1712,14 @@ namespace SmartDyeing.FADM_Form
                         FADM_Object.Communal.HMIBaClo.Connect();
                     }
                     
+                }
+
+                if (Communal._b_isUsePower)
+                {
+                    FADM_Object.Communal.Powder = new HMITCPModBus();
+                    FADM_Object.Communal.Powder._i_port = Convert.ToInt32(Power_port);
+                    FADM_Object.Communal.Powder._s_ip = Power_IP;
+                    FADM_Object.Communal.Powder.Connect();
                 }
 
 
@@ -2393,6 +2409,12 @@ namespace SmartDyeing.FADM_Form
                 if (dt_head.Rows.Count == 0)
                 {
                     Communal._fadmSqlserver.ReviseData("ALTER TABLE dyeing_details ADD No int null ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'brewing_process' AND COLUMN_NAME = 'Ratio'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE brewing_process ADD Ratio int null ");
                 }
 
             }
@@ -3294,7 +3316,7 @@ namespace SmartDyeing.FADM_Form
                 //ia_values2[0] 滴料区区域数量
                 int cc = 1;
                 int cc2 = 11;
-
+                Communal.my_lis_dripCupNum.Clear();
                 if (Lib_Card.Configure.Parameter.Machine_Area1_Type == 2)
                 {
 

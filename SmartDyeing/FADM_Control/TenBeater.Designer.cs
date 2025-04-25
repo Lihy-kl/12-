@@ -62,6 +62,7 @@ namespace SmartDyeing.FADM_Control
             this.tsm_Offline = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_Stop = new System.Windows.Forms.ToolStripMenuItem();
             this.tsm_IsFix = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsm_HighWash = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.contextMenuStrip2.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
@@ -381,7 +382,8 @@ namespace SmartDyeing.FADM_Control
             this.tsm_Online,
             this.tsm_Offline,
             this.tsm_Stop,
-            this.tsm_IsFix});
+            this.tsm_IsFix,
+            this.tsm_HighWash});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
@@ -408,6 +410,12 @@ namespace SmartDyeing.FADM_Control
             resources.ApplyResources(this.tsm_IsFix, "tsm_IsFix");
             this.tsm_IsFix.Name = "tsm_IsFix";
             this.tsm_IsFix.Click += new System.EventHandler(this.tsm_IsFix_Click);
+            // 
+            // tsm_HighWash
+            // 
+            resources.ApplyResources(this.tsm_HighWash, "tsm_HighWash");
+            this.tsm_HighWash.Name = "tsm_HighWash";
+            this.tsm_HighWash.Click += new System.EventHandler(this.tsm_HighWash_Click);
             // 
             // TenBeater
             // 
@@ -453,5 +461,6 @@ namespace SmartDyeing.FADM_Control
         private ToolStripMenuItem tsm_AllOffline;
         private ToolStripMenuItem tsm_Stop;
         private ToolStripMenuItem tsm_IsFix;
+        private ToolStripMenuItem tsm_HighWash;
     }
 }
