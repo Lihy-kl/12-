@@ -54,6 +54,9 @@ namespace SmartDyeing.FADM_Control
             this.TxtCheckBottleNo = new System.Windows.Forms.TextBox();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsm_SignUpdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsm_Stop = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsm_Normal = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsm_Need = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -73,15 +76,15 @@ namespace SmartDyeing.FADM_Control
             // 
             // lab_Low
             // 
-            resources.ApplyResources(this.lab_Low, "lab_Low");
             this.lab_Low.AutoEllipsis = true;
+            resources.ApplyResources(this.lab_Low, "lab_Low");
             this.lab_Low.ForeColor = System.Drawing.Color.Red;
             this.lab_Low.Name = "lab_Low";
             // 
             // lab_Expire
             // 
-            resources.ApplyResources(this.lab_Expire, "lab_Expire");
             this.lab_Expire.AutoEllipsis = true;
+            resources.ApplyResources(this.lab_Expire, "lab_Expire");
             this.lab_Expire.ForeColor = System.Drawing.Color.Red;
             this.lab_Expire.Name = "lab_Expire";
             // 
@@ -92,10 +95,10 @@ namespace SmartDyeing.FADM_Control
             // 
             // groupBox3
             // 
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.BtnRecheckStart);
             this.groupBox3.Controls.Add(this.BtnWaterCheckStart);
             this.groupBox3.Controls.Add(this.TxtWaterAddWeight);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -120,11 +123,11 @@ namespace SmartDyeing.FADM_Control
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.BtnBottleSelfStop);
             this.groupBox2.Controls.Add(this.BtnBottleSelfPause);
             this.groupBox2.Controls.Add(this.BtnBottleSelfStart);
             this.groupBox2.Controls.Add(this.TxtSelfBottleNo);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -156,11 +159,11 @@ namespace SmartDyeing.FADM_Control
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.BtnBottleCheckStop);
             this.groupBox1.Controls.Add(this.BtnBottleCheckPause);
             this.groupBox1.Controls.Add(this.BtnBottleCheckStart);
             this.groupBox1.Controls.Add(this.TxtCheckBottleNo);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -192,16 +195,38 @@ namespace SmartDyeing.FADM_Control
             // 
             // contextMenuStrip2
             // 
-            resources.ApplyResources(this.contextMenuStrip2, "contextMenuStrip2");
             this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsm_SignUpdate});
+            this.tsm_SignUpdate,
+            this.tsm_Stop,
+            this.tsm_Normal,
+            this.tsm_Need});
             this.contextMenuStrip2.Name = "contextMenuStrip2";
+            resources.ApplyResources(this.contextMenuStrip2, "contextMenuStrip2");
+            this.contextMenuStrip2.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip2_Opening);
             // 
             // tsm_SignUpdate
             // 
-            resources.ApplyResources(this.tsm_SignUpdate, "tsm_SignUpdate");
             this.tsm_SignUpdate.Name = "tsm_SignUpdate";
+            resources.ApplyResources(this.tsm_SignUpdate, "tsm_SignUpdate");
             this.tsm_SignUpdate.Click += new System.EventHandler(this.tsm_SignUpdate_Click);
+            // 
+            // tsm_Stop
+            // 
+            this.tsm_Stop.Name = "tsm_Stop";
+            resources.ApplyResources(this.tsm_Stop, "tsm_Stop");
+            this.tsm_Stop.Click += new System.EventHandler(this.tsm_Stop_Click);
+            // 
+            // tsm_Normal
+            // 
+            this.tsm_Normal.Name = "tsm_Normal";
+            resources.ApplyResources(this.tsm_Normal, "tsm_Normal");
+            this.tsm_Normal.Click += new System.EventHandler(this.tsm_Normal_Click);
+            // 
+            // tsm_Need
+            // 
+            this.tsm_Need.Name = "tsm_Need";
+            resources.ApplyResources(this.tsm_Need, "tsm_Need");
+            this.tsm_Need.Click += new System.EventHandler(this.tsm_Need_Click);
             // 
             // P_MainBottle
             // 
@@ -253,5 +278,8 @@ namespace SmartDyeing.FADM_Control
         private TextBox TxtCheckBottleNo;
         private ContextMenuStrip contextMenuStrip2;
         private ToolStripMenuItem tsm_SignUpdate;
+        private ToolStripMenuItem tsm_Stop;
+        private ToolStripMenuItem tsm_Normal;
+        private ToolStripMenuItem tsm_Need;
     }
 }

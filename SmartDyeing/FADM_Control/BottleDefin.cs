@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartDyeing.FADM_Object;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -40,6 +41,12 @@ namespace SmartDyeing.FADM_Control
             foreach (DataRow mDr in dt_brewCode.Rows)
             {
                 cbo_BrewingCode.Items.Add(mDr[dt_brewCode.Columns[0]].ToString());
+            }
+
+            if (!Communal._b_isAloneDripReserve)
+            {
+                lab_DripReserveFirst.Visible = false;
+                cbo_DripReserveFirst.Visible = false;
             }
 
             //显示母液瓶表
@@ -213,6 +220,36 @@ namespace SmartDyeing.FADM_Control
                         case "txt_BrewingData":
                             dtp_BrewingData.Text = dt_bottledetails.Rows[0][mDc].ToString();
                             break;
+                        case "txt_DripReserveFirst":
+                            if (dt_bottledetails.Rows[0][mDc] is DBNull)
+                            {
+                                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                {
+                                    cbo_DripReserveFirst.Text = "否";
+                                }
+                                else
+                                {
+                                    cbo_DripReserveFirst.Text = "No";
+                                }
+                            }
+                            else
+                            {
+                                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                {
+                                    if (dt_bottledetails.Rows[0][mDc].ToString() == "1")
+                                        cbo_DripReserveFirst.Text = "是";
+                                    else
+                                        cbo_DripReserveFirst.Text = "否";
+                                }
+                                else
+                                {
+                                    if (dt_bottledetails.Rows[0][mDc].ToString() == "1")
+                                        cbo_DripReserveFirst.Text = "Yes";
+                                    else
+                                        cbo_DripReserveFirst.Text = "No";
+                                }
+                            }
+                            break;
                         default:
                             break;
 
@@ -270,11 +307,25 @@ namespace SmartDyeing.FADM_Control
                 if ((c is TextBox || (c is ComboBox && c.Name != "cbo_OriginalBottleNum")) &&
                     (c.Text == "" || c.Text == null))
                 {
-                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                        FADM_Form.CustomMessageBox.Show("请完善所有资料后再点存档", "温馨提示", MessageBoxButtons.OK, false);
+                    if (c.Name == "cbo_DripReserveFirst")
+                    {
+                        if (Communal._b_isAloneDripReserve)
+                        {
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                FADM_Form.CustomMessageBox.Show("请完善所有资料后再点存档", "温馨提示", MessageBoxButtons.OK, false);
+                            else
+                                FADM_Form.CustomMessageBox.Show("Please complete all the information before clicking on the archive", "Tips", MessageBoxButtons.OK, false);
+                            return;
+                        }
+                    }
                     else
-                        FADM_Form.CustomMessageBox.Show("Please complete all the information before clicking on the archive", "Tips", MessageBoxButtons.OK, false);
-                    return;
+                    {
+                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                            FADM_Form.CustomMessageBox.Show("请完善所有资料后再点存档", "温馨提示", MessageBoxButtons.OK, false);
+                        else
+                            FADM_Form.CustomMessageBox.Show("Please complete all the information before clicking on the archive", "Tips", MessageBoxButtons.OK, false);
+                        return;
+                    }
                 }
             }
 
@@ -389,6 +440,14 @@ namespace SmartDyeing.FADM_Control
                     lis_data.Add(s_real);
                 }
             }
+            if (cbo_DripReserveFirst.Text == "是" || cbo_DripReserveFirst.Text == "Yes")
+            {
+                lis_data.Add("1");
+            }
+            else
+            {
+                lis_data.Add("0");
+            }
             if (_b_insert)
             {
                 //如果是新增
@@ -396,12 +455,12 @@ namespace SmartDyeing.FADM_Control
                             " BottleNum, AssistantCode, SettingConcentration," +
                             " CurrentWeight, SyringeType, DropMinWeight," +
                             " BrewingCode, OriginalBottleNum, AllowMaxWeight," +
-                            " BrewingData, RealConcentration) VALUES( '" + lis_data[0] + "'," +
+                            " BrewingData, RealConcentration,DripReserveFirst) VALUES( '" + lis_data[0] + "'," +
                             " '" + lis_data[1] + "','" + lis_data[2] + "'," +
                             " '" + lis_data[3] + "','" + lis_data[4] + "'," +
                             " '" + lis_data[5] + "','" + lis_data[6] + "'," +
                             " '" + lis_data[7] + "','" + lis_data[8] + "'," +
-                            "'" + lis_data[9] + "','" + lis_data[10] + "');";
+                            "'" + lis_data[9] + "','" + lis_data[10] + "','" + lis_data[11] + "');";
                 FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
 
 
@@ -443,6 +502,7 @@ namespace SmartDyeing.FADM_Control
                                 " OriginalBottleNum = '" + lis_data[7] + "'," +
                                 " AllowMaxWeight ='" + lis_data[8] + "'," +
                                 " BrewingData = '" + lis_data[9] + "'," +
+                                " DripReserveFirst = '" + lis_data[11] + "'," +
                                 " AdjustSuccess = 0" +
                                 " WHERE BottleNum ='" + lis_data[0] + "' ;";
                 }
@@ -459,6 +519,7 @@ namespace SmartDyeing.FADM_Control
                                 " AllowMaxWeight ='" + lis_data[8] + "'," +
                                 " BrewingData = '" + lis_data[9] + "'," +
                                 " RealConcentration = '" + lis_data[10] + "'," +
+                                " DripReserveFirst = '" + lis_data[11] + "'," +
                                 " AdjustSuccess = 0" +
                                 " WHERE BottleNum ='" + lis_data[0] + "' ;";
                 }
@@ -808,7 +869,14 @@ namespace SmartDyeing.FADM_Control
                                 txt_AllowMaxWeight = null;
                                 return;
                             }
-                            btn_Save.Focus();
+                            if (Communal._b_isAloneDripReserve)
+                            {
+                                cbo_DripReserveFirst.Focus();
+                            }
+                            else
+                            {
+                                btn_Save.Focus();
+                            }
                         }
                         else
                         {
@@ -843,6 +911,30 @@ namespace SmartDyeing.FADM_Control
             {
                 cbo_OriginalBottleNum.Items.Clear();
                 cbo_OriginalBottleNum.Text = null;
+            }
+        }
+
+        private void cbo_DripReserveFirst_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    try
+                    {
+                        if (cbo_DripReserveFirst.Text != null && cbo_DripReserveFirst.Text != "")
+                        {
+                            btn_Save.Focus();
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    catch
+                    { }
+
+                    break;
+                default: break;
             }
         }
     }

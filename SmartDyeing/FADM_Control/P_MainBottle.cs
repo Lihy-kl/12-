@@ -1305,6 +1305,14 @@ namespace SmartDyeing.FADM_Control
                                         {
                                             double d_bl_RealErr = Convert.ToDouble(Lib_Card.Configure.Parameter.Machine_IsThousandsBalance == 0 ? string.Format("{0:F}", Convert.ToDouble(dr2["ObjectDropWeight"]) - Convert.ToDouble(dr2["RealDropWeight"])) : string.Format("{0:F3}", Convert.ToDouble(dr2["ObjectDropWeight"]) - Convert.ToDouble(dr2["RealDropWeight"])));
                                             d_bl_RealErr = d_bl_RealErr > 0 ? d_bl_RealErr : -d_bl_RealErr;
+                                            if (dr2["StandError"] is DBNull)
+                                            {
+                                                d_bl_drop_allow_err = (dr2["UnitOfAccount"].ToString() == "%" ? Lib_Card.Configure.Parameter.Other_AErr_Drip : Lib_Card.Configure.Parameter.Other_AErr_Drip);
+                                            }
+                                            else
+                                            {
+                                                d_bl_drop_allow_err = Convert.ToDouble(dr2["StandError"]);
+                                            }
                                             if (d_bl_RealErr > d_bl_drop_allow_err)
                                             {
                                                 b_err = true;
@@ -1844,6 +1852,55 @@ namespace SmartDyeing.FADM_Control
             }
         }
 
+        private void tsm_Stop_Click(object sender, EventArgs e)
+        {
+            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+            {
+                DialogResult dialogResult = FADM_Form.CustomMessageBox.Show("确定置为暂停状态吗?", "提示", MessageBoxButtons.YesNo, true);
+
+                if (dialogResult == DialogResult.Yes)
+                {
+                    
+
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                DialogResult dialogResult = FADM_Form.CustomMessageBox.Show("Are you sure to put it in a paused state?", "Tips", MessageBoxButtons.YesNo, true);
+
+                if (dialogResult == DialogResult.Yes)
+                {
+                    
+
+                }
+                else
+                {
+                    return;
+                }
+            }
+            string s_sql = "UPDATE bottle_details SET Status = 0,CurrentWeight=0" +
+                               " WHERE BottleNum = " + _i_nBottleNum + ";";
+            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+        }
+
+        private void tsm_Normal_Click(object sender, EventArgs e)
+        {
+            string s_sql = "UPDATE bottle_details SET Status = 1" +
+                               " WHERE BottleNum = " + _i_nBottleNum + ";";
+            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+        }
+
+        private void tsm_Need_Click(object sender, EventArgs e)
+        {
+            string s_sql = "UPDATE bottle_details SET Status = 2" +
+                               " WHERE BottleNum = " + _i_nBottleNum + ";";
+            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+        }
+
         private void contextMenuStrip2_Opening(object sender, CancelEventArgs e)
         {
             //if(FADM_Object.Communal._b_pause)
@@ -1853,6 +1910,41 @@ namespace SmartDyeing.FADM_Control
             //    else
             //        tsm_SignPause.Text = "Restore";
             //}
+
+            if(!FADM_Object.Communal._b_isShowBottleStatus)
+            {
+                tsm_Need.Visible = false;
+                tsm_Normal.Visible = false;
+                tsm_Stop.Visible = false;
+            }
+            else
+            {
+                string s_sql = "SELECT *  FROM bottle_details" +
+                                  " WHERE BottleNum = " + _i_nBottleNum + " ; ";
+                DataTable dt_bottledetails = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
+
+                if(dt_bottledetails.Rows.Count>0)
+                {
+                    if (dt_bottledetails.Rows[0]["Status"].ToString()=="0")
+                    {
+                        tsm_Stop.Checked = true;
+                        tsm_Need.Checked = false;
+                        tsm_Normal.Checked = false;
+                    }
+                    else if (dt_bottledetails.Rows[0]["Status"].ToString() == "2")
+                    {
+                        tsm_Need.Checked = true;
+                        tsm_Stop.Checked = false;
+                        tsm_Normal.Checked = false;
+                    }
+                    else
+                    {
+                        tsm_Normal.Checked = true;
+                        tsm_Stop.Checked = false;
+                        tsm_Need.Checked = false;
+                    }
+                }
+            }
         }
 
         private void Reset()

@@ -119,6 +119,8 @@ namespace SmartDyeing.FADM_Object
             {
                 try
                 {
+                    if (!_modbusClient.Connected)
+                        return -1;
                     //_modbusClient.Connect(); // 连接到服务器
                     ia_values = _modbusClient.ReadHoldingRegisters(i_startingAddress, i_num);
                     //_modbusClient.Disconnect(); // 断开连接
@@ -141,6 +143,8 @@ namespace SmartDyeing.FADM_Object
             labRewrite:
                 try
                 {
+                    if (!_modbusClient.Connected)
+                        throw new Exception("重新连接");
                     //_modbusClient.Connect(); // 连接到服务器
                     _modbusClient.WriteMultipleRegisters(i_startingAddress, ia_values);
                     string s = null;

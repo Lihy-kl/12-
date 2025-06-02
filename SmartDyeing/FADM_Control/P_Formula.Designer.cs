@@ -30,10 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(P_Formula));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btn_FormulaCodeAdd = new System.Windows.Forms.Button();
             this.btn_Save = new System.Windows.Forms.Button();
             this.btn_BatchAdd = new System.Windows.Forms.Button();
@@ -134,6 +134,8 @@
             this.btn_Browse_Delete = new System.Windows.Forms.Button();
             this.btn_Browse_Select = new System.Windows.Forms.Button();
             this.rdo_Browse_NoDrop = new System.Windows.Forms.RadioButton();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsm_Delete = new System.Windows.Forms.ToolStripMenuItem();
             this.grp_DropRecord.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DropRecord)).BeginInit();
             this.grp_FormulaData.SuspendLayout();
@@ -142,6 +144,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_BatchData)).BeginInit();
             this.grp_FormulaBrowse.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_FormulaBrowse)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_FormulaCodeAdd
@@ -213,7 +216,6 @@
             // 
             // grp_DropRecord
             // 
-            resources.ApplyResources(this.grp_DropRecord, "grp_DropRecord");
             this.grp_DropRecord.Controls.Add(this.label15);
             this.grp_DropRecord.Controls.Add(this.label10);
             this.grp_DropRecord.Controls.Add(this.label9);
@@ -222,6 +224,7 @@
             this.grp_DropRecord.Controls.Add(this.label6);
             this.grp_DropRecord.Controls.Add(this.btn_Record_Select);
             this.grp_DropRecord.Controls.Add(this.dgv_DropRecord);
+            resources.ApplyResources(this.grp_DropRecord, "grp_DropRecord");
             this.grp_DropRecord.Name = "grp_DropRecord";
             this.grp_DropRecord.TabStop = false;
             // 
@@ -234,13 +237,13 @@
             // 
             // dgv_DropRecord
             // 
-            resources.ApplyResources(this.dgv_DropRecord, "dgv_DropRecord");
             this.dgv_DropRecord.AllowUserToAddRows = false;
             this.dgv_DropRecord.AllowUserToDeleteRows = false;
             this.dgv_DropRecord.AllowUserToResizeColumns = false;
             this.dgv_DropRecord.AllowUserToResizeRows = false;
             this.dgv_DropRecord.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgv_DropRecord.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            resources.ApplyResources(this.dgv_DropRecord, "dgv_DropRecord");
             this.dgv_DropRecord.MultiSelect = false;
             this.dgv_DropRecord.Name = "dgv_DropRecord";
             this.dgv_DropRecord.ReadOnly = true;
@@ -267,8 +270,8 @@
             // 
             // group
             // 
-            resources.ApplyResources(this.group, "group");
             this.group.DropDownWidth = 150;
+            resources.ApplyResources(this.group, "group");
             this.group.FormattingEnabled = true;
             this.group.Name = "group";
             this.group.TextChanged += new System.EventHandler(this.group_TextChanged);
@@ -511,7 +514,6 @@
             // 
             // grp_FormulaData
             // 
-            resources.ApplyResources(this.grp_FormulaData, "grp_FormulaData");
             this.grp_FormulaData.Controls.Add(this.dgv_FormulaData);
             this.grp_FormulaData.Controls.Add(this.group);
             this.grp_FormulaData.Controls.Add(this.label16);
@@ -543,25 +545,25 @@
             this.grp_FormulaData.Controls.Add(this.lab_ClothType);
             this.grp_FormulaData.Controls.Add(this.lab_FormulaName);
             this.grp_FormulaData.Controls.Add(this.lab_FormulaCode);
+            resources.ApplyResources(this.grp_FormulaData, "grp_FormulaData");
             this.grp_FormulaData.Name = "grp_FormulaData";
             this.grp_FormulaData.TabStop = false;
             // 
             // dgv_FormulaData
             // 
-            resources.ApplyResources(this.dgv_FormulaData, "dgv_FormulaData");
             this.dgv_FormulaData.AllowUserToDeleteRows = false;
             this.dgv_FormulaData.AllowUserToResizeColumns = false;
             this.dgv_FormulaData.AllowUserToResizeRows = false;
             this.dgv_FormulaData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             this.dgv_FormulaData.BackgroundColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 10.5F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_FormulaData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 10.5F);
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_FormulaData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dgv_FormulaData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_FormulaData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn10,
@@ -577,21 +579,22 @@
             this.Column6,
             this.dataGridViewCheckBoxColumn2,
             this.Column7});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 10.5F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_FormulaData.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 10.5F);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_FormulaData.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgv_FormulaData.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            resources.ApplyResources(this.dgv_FormulaData, "dgv_FormulaData");
             this.dgv_FormulaData.MultiSelect = false;
             this.dgv_FormulaData.Name = "dgv_FormulaData";
             this.dgv_FormulaData.RowHeadersVisible = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 14.25F);
-            this.dgv_FormulaData.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("宋体", 14.25F);
+            this.dgv_FormulaData.RowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dgv_FormulaData.RowTemplate.Height = 30;
             this.dgv_FormulaData.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dgv_FormulaData.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgv_FormulaData_EditingControlShowing);
@@ -618,7 +621,7 @@
             // 
             // dataGridViewTextBoxColumn12
             // 
-            this.dataGridViewTextBoxColumn12.FillWeight = 64.66267F;
+            this.dataGridViewTextBoxColumn12.FillWeight = 64.663F;
             resources.ApplyResources(this.dataGridViewTextBoxColumn12, "dataGridViewTextBoxColumn12");
             this.dataGridViewTextBoxColumn12.Name = "dataGridViewTextBoxColumn12";
             this.dataGridViewTextBoxColumn12.ReadOnly = true;
@@ -789,8 +792,8 @@
             // 
             // Column4
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle8;
             resources.ApplyResources(this.Column4, "Column4");
             this.Column4.Name = "Column4";
             // 
@@ -808,26 +811,27 @@
             // 
             // grp_BatchData
             // 
-            resources.ApplyResources(this.grp_BatchData, "grp_BatchData");
             this.grp_BatchData.Controls.Add(this.dgv_BatchData);
+            resources.ApplyResources(this.grp_BatchData, "grp_BatchData");
             this.grp_BatchData.Name = "grp_BatchData";
             this.grp_BatchData.TabStop = false;
             // 
             // dgv_BatchData
             // 
-            resources.ApplyResources(this.dgv_BatchData, "dgv_BatchData");
             this.dgv_BatchData.AllowUserToAddRows = false;
             this.dgv_BatchData.AllowUserToOrderColumns = true;
             this.dgv_BatchData.AllowUserToResizeColumns = false;
             this.dgv_BatchData.AllowUserToResizeRows = false;
             this.dgv_BatchData.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgv_BatchData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            resources.ApplyResources(this.dgv_BatchData, "dgv_BatchData");
             this.dgv_BatchData.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgv_BatchData.Name = "dgv_BatchData";
             this.dgv_BatchData.ReadOnly = true;
             this.dgv_BatchData.RowHeadersVisible = false;
             this.dgv_BatchData.RowTemplate.Height = 23;
             this.dgv_BatchData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgv_BatchData.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgv_BatchData_CellMouseDown);
             this.dgv_BatchData.CurrentCellChanged += new System.EventHandler(this.dgv_BatchData_CurrentCellChanged);
             this.dgv_BatchData.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgv_BatchData_DataBindingComplete);
             this.dgv_BatchData.Enter += new System.EventHandler(this.dgv_BatchData_Enter);
@@ -846,7 +850,6 @@
             // 
             // grp_FormulaBrowse
             // 
-            resources.ApplyResources(this.grp_FormulaBrowse, "grp_FormulaBrowse");
             this.grp_FormulaBrowse.Controls.Add(this.txt_Browse_Operator);
             this.grp_FormulaBrowse.Controls.Add(this.rdo_Browse_condition);
             this.grp_FormulaBrowse.Controls.Add(this.dgv_FormulaBrowse);
@@ -861,6 +864,7 @@
             this.grp_FormulaBrowse.Controls.Add(this.label13);
             this.grp_FormulaBrowse.Controls.Add(this.label12);
             this.grp_FormulaBrowse.Controls.Add(this.label11);
+            resources.ApplyResources(this.grp_FormulaBrowse, "grp_FormulaBrowse");
             this.grp_FormulaBrowse.Name = "grp_FormulaBrowse";
             this.grp_FormulaBrowse.TabStop = false;
             // 
@@ -879,13 +883,13 @@
             // 
             // dgv_FormulaBrowse
             // 
-            resources.ApplyResources(this.dgv_FormulaBrowse, "dgv_FormulaBrowse");
             this.dgv_FormulaBrowse.AllowUserToAddRows = false;
             this.dgv_FormulaBrowse.AllowUserToDeleteRows = false;
             this.dgv_FormulaBrowse.AllowUserToResizeColumns = false;
             this.dgv_FormulaBrowse.AllowUserToResizeRows = false;
             this.dgv_FormulaBrowse.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgv_FormulaBrowse.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            resources.ApplyResources(this.dgv_FormulaBrowse, "dgv_FormulaBrowse");
             this.dgv_FormulaBrowse.Name = "dgv_FormulaBrowse";
             this.dgv_FormulaBrowse.ReadOnly = true;
             this.dgv_FormulaBrowse.RowHeadersVisible = false;
@@ -937,6 +941,19 @@
             this.rdo_Browse_NoDrop.UseVisualStyleBackColor = true;
             this.rdo_Browse_NoDrop.CheckedChanged += new System.EventHandler(this.rdo_Browse_NoDrop_CheckedChanged);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsm_Delete});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
+            // 
+            // tsm_Delete
+            // 
+            this.tsm_Delete.Name = "tsm_Delete";
+            resources.ApplyResources(this.tsm_Delete, "tsm_Delete");
+            this.tsm_Delete.Click += new System.EventHandler(this.tsm_Delete_Click);
+            // 
             // P_Formula
             // 
             resources.ApplyResources(this, "$this");
@@ -950,7 +967,6 @@
             this.Name = "P_Formula";
             this.Load += new System.EventHandler(this.P_Formula_Load);
             this.grp_DropRecord.ResumeLayout(false);
-            this.grp_DropRecord.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_DropRecord)).EndInit();
             this.grp_FormulaData.ResumeLayout(false);
             this.grp_FormulaData.PerformLayout();
@@ -960,6 +976,7 @@
             this.grp_FormulaBrowse.ResumeLayout(false);
             this.grp_FormulaBrowse.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_FormulaBrowse)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1067,5 +1084,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem tsm_Delete;
     }
 }

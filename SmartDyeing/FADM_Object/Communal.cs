@@ -458,6 +458,15 @@ namespace SmartDyeing.FADM_Object
         /// </summary>
         public static bool _b_isOutDrip = false;
 
+        /// 液量低是否允许滴液
+        /// </summary>
+        public static bool _b_isLowDripAllow = false;
+
+        /// <summary>
+        /// 超出生命周期是否允许滴液
+        /// </summary>
+        public static bool _b_isOutDripAllow = false;
+
         /// <summary>
         /// 满量程滴液
         /// </summary>
@@ -719,6 +728,28 @@ namespace SmartDyeing.FADM_Object
         /// 称粉机是否使用AB粉
         /// </summary>
         public static bool _b_PowerAB = false;
+
+        /// <summary>
+        /// 母液瓶右击时，是否母液瓶显示状态
+        /// </summary>
+        public static bool _b_isShowBottleStatus = false;
+
+        /// <summary>
+        /// 母液瓶独立使用预滴液功能
+        /// </summary>
+        public static bool _b_isAloneDripReserve = false;
+
+        /// <summary>
+        /// 是否自动弹出待办事项
+        /// </summary>
+        public static bool _b_NeedTodo = false;
+
+        /// <summary>
+        /// 是否修正数据
+        /// </summary>
+        public static bool _b_isCorrect = false;
+
+
 
         /// <summary>
         /// 是否在放布确认前可添加副杯滴液
@@ -1736,6 +1767,7 @@ namespace SmartDyeing.FADM_Object
             sArg._i_minBottleNo = i_minBottleNo;
             sArg._d_blBalanceValue3 = d_blBalanceValue3;
             sArg._s_syringeType = s_syringeType;
+            sArg._s_unitOfAccount = s_unitOfAccount;
             thread = new Thread(WaitBalance);
             thread.Start(sArg);
 
@@ -1809,6 +1841,7 @@ namespace SmartDyeing.FADM_Object
             public string _s_syringeType;//针筒类型
             public int _i_minBottleNo;//母液瓶号
             public double _d_blBalanceValue3;//天平初始读数
+            public string _s_unitOfAccount;//单位
         }
 
         private static void WaitBalance(object o)
@@ -1817,6 +1850,7 @@ namespace SmartDyeing.FADM_Object
             double d_temp = sArg._d_blBalanceValue3;
             int i_minBottleNo = sArg._i_minBottleNo;
             string s_syringeType=sArg._s_syringeType;
+            string s_unitOfAccount = sArg._s_unitOfAccount;
             FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "天平稳定读数启动");
             double d_w = SteBalance();
             if (Math.Abs(d_w - d_temp) > 20)
@@ -1835,7 +1869,8 @@ namespace SmartDyeing.FADM_Object
             else
                 dblRErr = Lib_Card.Configure.Parameter.Machine_IsThousandsBalance == 0 ? Convert.ToDouble(string.Format("{0:F2}", d_blWeight - Lib_Card.Configure.Parameter.Correcting_B_Weight)) : Convert.ToDouble(string.Format("{0:F3}", d_blWeight - Lib_Card.Configure.Parameter.Correcting_B_Weight));
             ;
-            if (System.Math.Abs(dblRErr) > Lib_Card.Configure.Parameter.Other_AErr_Drip)
+            if (System.Math.Abs(dblRErr) > (s_unitOfAccount == "%" ? Lib_Card.Configure.Parameter.Other_AErr_Drip : Lib_Card.Configure.Parameter.Other_AssAErr_Drip))
+
             {
                 //母液瓶扣减
                 FADM_Object.Communal._fadmSqlserver.ReviseData(

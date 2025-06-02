@@ -1141,21 +1141,23 @@ namespace SmartDyeing.FADM_Form
                 i_d84,i_d84_84,i_d86,i_d86_86,i_d88,i_d88_88,i_d90,i_d90_90,i_d92,i_d92_92,i_d94,i_d94_94,i_d96,i_d96_96,
                 i_d98,i_d98_98,i_d100,i_d100_100,i_d102,i_d102_102,i_d104,i_d104_104,i_d106,i_d106_106,i_d108,i_d108_108,
                 i_d110,i_d110_110,i_d112,i_d112_112,i_d114,i_d114_114,i_d116,i_d116_116,i_d118,i_d118_118};
-
-                int i_c = FADM_Object.Communal._tcpModBus.Write(1000, ia_array);
-                if (i_c == -1)
+                if (!FADM_Object.Communal._b_isUseBrewOnly)
                 {
-                    FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                }
+                    int i_c = FADM_Object.Communal._tcpModBus.Write(1000, ia_array);
+                    if (i_c == -1)
+                    {
+                        FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
 
-                int[] ia_array1 = { i_d120, i_d120_120, i_d122, i_d122_122 };
+                    int[] ia_array1 = { i_d120, i_d120_120, i_d122, i_d122_122 };
 
-                int i_c1 = FADM_Object.Communal._tcpModBus.Write(1120, ia_array1);
-                if (i_c1 == -1)
-                {
-                    FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    int i_c1 = FADM_Object.Communal._tcpModBus.Write(1120, ia_array1);
+                    if (i_c1 == -1)
+                    {
+                        FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
                 }
 
                 //获取IO_Mapping
@@ -1396,16 +1398,18 @@ namespace SmartDyeing.FADM_Form
                 i_i28,i_i28_28,i_i30,i_i30_30,i_i32,i_i32_32,i_i34,i_i34_34,i_i36,i_i36_36,i_i38,i_i38_38,i_i40,i_i40_40,
                 i_i42,i_i42_42,i_i44,i_i44_44,i_i46,i_i46_46,i_i48,i_i48_48,i_i50,i_i50_50,i_i52,i_i52_52,i_i54,i_i54_54,
                 i_i56,i_i56_56,i_i58,i_i58_58,i_i60,i_i60_60,i_i62,i_i62_62,i_i64,i_i64_64,i_i66,i_i66_66,i_i68,i_i68_68,i_i70,i_i70_70,i_i72,i_i72_72,i_i74,i_i74_74,i_i76,i_i76_76};
-
-                int i_ic = FADM_Object.Communal._tcpModBus.Write(3500, ia_iarray);
-                if (i_ic == -1)
+                if (!FADM_Object.Communal._b_isUseBrewOnly)
                 {
-                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                        FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
-                    else
-                        FADM_Form.CustomMessageBox.Show("Failed to write parameters!", "Equipment", MessageBoxButtons.OK, false);
+                    int i_ic = FADM_Object.Communal._tcpModBus.Write(3500, ia_iarray);
+                    if (i_ic == -1)
+                    {
+                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                            FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
+                        else
+                            FADM_Form.CustomMessageBox.Show("Failed to write parameters!", "Equipment", MessageBoxButtons.OK, false);
 
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
                 }
 
                 //输出点
@@ -1543,20 +1547,22 @@ namespace SmartDyeing.FADM_Form
                 int i_o52 = 0;
                 int i_o52_52 = 0;
                 this.ComParment(i_outPut_Slow_Cylinder, ref i_o52, ref i_o52_52);
-
-                int[] ia_oarray = {i_o0,i_o0_0,i_o2,i_o2_2,i_o4,i_o4_4,i_o6,i_o6_6,i_o8,i_o8_8,i_o10,i_o10_10,i_o12,i_o12_12,
+                if (!FADM_Object.Communal._b_isUseBrewOnly)
+                {
+                    int[] ia_oarray = {i_o0,i_o0_0,i_o2,i_o2_2,i_o4,i_o4_4,i_o6,i_o6_6,i_o8,i_o8_8,i_o10,i_o10_10,i_o12,i_o12_12,
                 i_o14,i_o14_14,i_o16,i_o16_16,i_o18,i_o18_18,i_o20,i_o20_20,i_o22,i_o22_22,i_o24,i_o24_24,i_o26,i_o26_26,
                 i_o28,i_o28_28,i_o30,i_o30_30,i_o32,i_o32_32,i_o34,i_o34_34,i_o36,i_o36_36,i_o38,i_o38_38,i_o40,i_o40_40,
                 i_o42,i_o42_42,i_o44,i_o44_44,i_o46,i_o46_46,i_o48,i_o48_48,i_o50,i_o50_50,i_o52,i_o52_52};
 
-                int i_oc = FADM_Object.Communal._tcpModBus.Write(3900, ia_oarray);
-                if (i_oc == -1)
-                {
-                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                        FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
-                    else
-                        FADM_Form.CustomMessageBox.Show("Failed to write parameters!", "Equipment", MessageBoxButtons.OK, false);
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    int i_oc = FADM_Object.Communal._tcpModBus.Write(3900, ia_oarray);
+                    if (i_oc == -1)
+                    {
+                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                            FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
+                        else
+                            FADM_Form.CustomMessageBox.Show("Failed to write parameters!", "Equipment", MessageBoxButtons.OK, false);
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
                 }
             }
 
@@ -2415,6 +2421,62 @@ namespace SmartDyeing.FADM_Form
                 if (dt_head.Rows.Count == 0)
                 {
                     Communal._fadmSqlserver.ReviseData("ALTER TABLE brewing_process ADD Ratio int null ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'drop_details' AND COLUMN_NAME = 'StandError'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE drop_details ADD StandError nvarchar(12) null ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'history_details' AND COLUMN_NAME = 'StandError'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE history_details ADD StandError nvarchar(12) null ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'dye_details' AND COLUMN_NAME = 'StandError'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE dye_details ADD StandError nvarchar(12) null ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'history_dye' AND COLUMN_NAME = 'StandError'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE history_dye ADD StandError nvarchar(12) null ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'bottle_details' AND COLUMN_NAME = 'Status'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE bottle_details ADD Status int null ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'drop_head' AND COLUMN_NAME = 'WaterStandError'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE drop_head ADD WaterStandError nvarchar(12) null ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'history_head' AND COLUMN_NAME = 'WaterStandError'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE history_head ADD WaterStandError nvarchar(12) null ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'bottle_details' AND COLUMN_NAME = 'DripReserveFirst'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE bottle_details ADD DripReserveFirst int null ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'dyeing_code' AND COLUMN_NAME = 'IsUse'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE dyeing_code ADD IsUse int null ");
+                    Communal._fadmSqlserver.ReviseData("Update dyeing_code Set IsUse=1");
+
                 }
 
             }
@@ -3308,7 +3370,7 @@ namespace SmartDyeing.FADM_Form
                                           "UPDATE dye_details SET Cooperate = 0 WHERE Cooperate in(5,6,7,8,9) ;");
             FADM_Object.Communal._fadmSqlserver.ReviseData(
                                           "UPDATE cup_details SET Cooperate = 0  ;");
-            if (Communal._b_isUseCloth) {
+            if (Communal._b_isUseCloth && FADM_Object.Communal.HMIBaClo._b_Connect) {
                 //跟称布那里对接下
                 //滴料区区域数量
                 int dyCount = 0;

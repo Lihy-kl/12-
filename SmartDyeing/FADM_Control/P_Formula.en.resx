@@ -264,6 +264,9 @@
   <data name="label6.Text" xml:space="preserve">
     <value>TotalNumberOfDroplets:</value>
   </data>
+  <data name="grp_DropRecord.Text" xml:space="preserve">
+    <value>DropletRecord</value>
+  </data>
   <data name="btn_Record_Select.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 10.5pt</value>
   </data>
@@ -278,9 +281,6 @@
   </data>
   <data name="btn_Record_Select.Text" xml:space="preserve">
     <value>Query</value>
-  </data>
-  <data name="grp_DropRecord.Text" xml:space="preserve">
-    <value>DropletRecord</value>
   </data>
   <data name="btn_Stop.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 10.5pt</value>
@@ -603,6 +603,9 @@
   <data name="lab_ClothType.Text" xml:space="preserve">
     <value>Fabric/Substrate:</value>
   </data>
+  <data name="grp_FormulaData.Text" xml:space="preserve">
+    <value>FormulaInformation</value>
+  </data>
   <data name="dataGridViewTextBoxColumn10.HeaderText" xml:space="preserve">
     <value>ID</value>
   </data>
@@ -705,9 +708,6 @@
   <data name="lab_FormulaCode.Text" xml:space="preserve">
     <value>RecipeCode:</value>
   </data>
-  <data name="grp_FormulaData.Text" xml:space="preserve">
-    <value>FormulaInformation</value>
-  </data>
   <data name="grp_BatchData.Text" xml:space="preserve">
     <value>BatchData</value>
   </data>
@@ -722,6 +722,12 @@
   </data>
   <data name="rdo_Browse_All.Text" xml:space="preserve">
     <value>ShowToday</value>
+  </data>
+  <data name="grp_FormulaBrowse.Size" type="System.Drawing.Size, System.Drawing">
+    <value>321, 982</value>
+  </data>
+  <data name="grp_FormulaBrowse.Text" xml:space="preserve">
+    <value>RecipeBrowsing</value>
   </data>
   <data name="txt_Browse_Operator.Location" type="System.Drawing.Point, System.Drawing">
     <value>91, 81</value>
@@ -789,10 +795,10 @@
   <data name="rdo_Browse_NoDrop.Text" xml:space="preserve">
     <value>UndroppedLiquid</value>
   </data>
-  <data name="grp_FormulaBrowse.Size" type="System.Drawing.Size, System.Drawing">
-    <value>321, 982</value>
+  <data name="tsm_Delete.Text" xml:space="preserve">
+    <value>Delete</value>
   </data>
-  <data name="grp_FormulaBrowse.Text" xml:space="preserve">
-    <value>RecipeBrowsing</value>
+  <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 26</value>
   </data>
 </root>

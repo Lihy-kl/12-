@@ -129,7 +129,7 @@ namespace SmartDyeing.FADM_Control
             }
             //加个空字符串代表滴液
             txt_DyeingCode.Items.Add("");
-            string s_sql1 = "SELECT DyeingCode FROM dyeing_code group by DyeingCode;";
+            string s_sql1 = "SELECT DyeingCode FROM dyeing_code where IsUse = 1 group by DyeingCode;";
             DataTable dt_dyeing_code = FADM_Object.Communal._fadmSqlserver.GetData(s_sql1);
 
             foreach (DataRow dr in dt_dyeing_code.Rows)
@@ -15647,7 +15647,7 @@ namespace SmartDyeing.FADM_Control
     public IList<string> GetStations(string filter)
         {
             IList<string> results = new List<string>();
-            string s_sql1 = "SELECT DyeingCode FROM dyeing_code group by DyeingCode;";
+            string s_sql1 = "SELECT DyeingCode FROM dyeing_code where IsUse = 1 group by DyeingCode;";
             DataTable dt_dyeingcode = FADM_Object.Communal._fadmSqlserver.GetData(s_sql1);
             results.Add("");
             foreach (DataRow dr in dt_dyeingcode.Rows)

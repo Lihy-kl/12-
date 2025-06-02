@@ -2339,6 +2339,11 @@
         public static double Other_AErr_Drip { get; set; }
 
         /// <summary>
+        /// 助剂滴液允许误差
+        /// </summary>
+        public static double Other_AssAErr_Drip { get; set; }
+
+        /// <summary>
         /// 加水允许误差
         /// </summary>
         public static double Other_AErr_Water { get; set; }

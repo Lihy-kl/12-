@@ -5485,14 +5485,16 @@ namespace SmartDyeing.FADM_Object
                     throw new Exception("驱动异常");
                 else if (-2 == iMove)
                     throw new Exception("收到退出消息");
+                if (Lib_Card.Configure.Parameter.Machine_CloseCoverType == 0)
+                {
+                    Lib_Card.ADT8940A1.OutPut.X_Power.X_Power x_Power = new Lib_Card.ADT8940A1.OutPut.X_Power.X_Power_Condition();
+                    if (-1 == x_Power.X_Power_Off())
+                        return -1;
 
-                Lib_Card.ADT8940A1.OutPut.X_Power.X_Power x_Power = new Lib_Card.ADT8940A1.OutPut.X_Power.X_Power_Condition();
-                if (-1 == x_Power.X_Power_Off())
-                    return -1;
-
-                Lib_Card.ADT8940A1.OutPut.Y_Power.Y_Power y_Power = new Lib_Card.ADT8940A1.OutPut.Y_Power.Y_Power_Condition();
-                if (-1 == y_Power.Y_Power_Off())
-                    return -1;
+                    Lib_Card.ADT8940A1.OutPut.Y_Power.Y_Power y_Power = new Lib_Card.ADT8940A1.OutPut.Y_Power.Y_Power_Condition();
+                    if (-1 == y_Power.Y_Power_Off())
+                        return -1;
+                }
                 try
                 {
                     Lib_Card.ADT8940A1.Module.GetOrPutCover getOrPutCover = new Lib_Card.ADT8940A1.Module.GetOrPutCover();
@@ -6553,6 +6555,7 @@ namespace SmartDyeing.FADM_Object
                 }
                 else
                 {
+                    FADM_Object.Communal._tcpModBus.ReConnect();
                     goto label2;
                 }
             }
