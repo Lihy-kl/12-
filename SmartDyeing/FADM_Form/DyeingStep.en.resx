@@ -162,6 +162,33 @@
   <data name="cbo_TechnologyName.Items14" xml:space="preserve">
     <value>Test PH</value>
   </data>
+  <data name="cbo_TechnologyName.Items15" xml:space="preserve">
+    <value>Add F</value>
+  </data>
+  <data name="cbo_TechnologyName.Items16" xml:space="preserve">
+    <value>Add G</value>
+  </data>
+  <data name="cbo_TechnologyName.Items17" xml:space="preserve">
+    <value>Add H</value>
+  </data>
+  <data name="cbo_TechnologyName.Items18" xml:space="preserve">
+    <value>Add I</value>
+  </data>
+  <data name="cbo_TechnologyName.Items19" xml:space="preserve">
+    <value>Add J</value>
+  </data>
+  <data name="cbo_TechnologyName.Items20" xml:space="preserve">
+    <value>Add K</value>
+  </data>
+  <data name="cbo_TechnologyName.Items21" xml:space="preserve">
+    <value>Add L</value>
+  </data>
+  <data name="cbo_TechnologyName.Items22" xml:space="preserve">
+    <value>Add M</value>
+  </data>
+  <data name="cbo_TechnologyName.Items23" xml:space="preserve">
+    <value>Add N</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btn_Save.Size" type="System.Drawing.Size, System.Drawing">
     <value>92, 42</value>

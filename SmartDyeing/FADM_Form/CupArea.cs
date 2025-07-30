@@ -256,8 +256,8 @@ namespace SmartDyeing.FADM_Form
                             }
                         }
                     }
-                    //12杯翻转缸
-                    else if (Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 2)
+                    //12杯翻转缸/12杯精密机
+                    else if (Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 6)
                     {
                         FADM_Control.TwelveBeater s = new TwelveBeater();
                         panel1.Controls.Add(s);
@@ -517,8 +517,8 @@ namespace SmartDyeing.FADM_Form
                             }
                         }
                     }
-                    //12杯翻转缸
-                    else if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 2)
+                    //12杯翻转缸/12杯精密机
+                    else if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 6)
                     {
                         FADM_Control.TwelveBeater s = new TwelveBeater();
                         panel2.Controls.Add(s);
@@ -776,8 +776,8 @@ namespace SmartDyeing.FADM_Form
                             }
                         }
                     }
-                    //12杯翻转缸
-                    else if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 2)
+                    //12杯翻转缸/12杯精密机
+                    else if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 6)
                     {
                         FADM_Control.TwelveBeater s = new TwelveBeater();
                         panel3.Controls.Add(s);
@@ -1032,8 +1032,8 @@ namespace SmartDyeing.FADM_Form
                             }
                         }
                     }
-                    //12杯翻转缸
-                    else if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 2)
+                    //12杯翻转缸/12杯精密机
+                    else if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 6)
                     {
                         FADM_Control.TwelveBeater s = new TwelveBeater();
                         panel4.Controls.Add(s);
@@ -1288,8 +1288,8 @@ namespace SmartDyeing.FADM_Form
                             }
                         }
                     }
-                    //12杯翻转缸
-                    else if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 2)
+                    //12杯翻转缸/12杯精密机
+                    else if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 6)
                     {
                         FADM_Control.TwelveBeater s = new TwelveBeater();
                         panel5.Controls.Add(s);
@@ -1543,8 +1543,8 @@ namespace SmartDyeing.FADM_Form
                             }
                         }
                     }
-                    //12杯翻转缸
-                    else if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 2)
+                    //12杯翻转缸/12杯精密机
+                    else if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 6)
                     {
                         FADM_Control.TwelveBeater s = new TwelveBeater();
                         panel6.Controls.Add(s);

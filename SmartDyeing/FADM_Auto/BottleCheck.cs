@@ -788,11 +788,46 @@ namespace SmartDyeing.FADM_Auto
                         i_mRes = MyModbusFun.Extract(i_totalPulse, true, 0); //抽液 排空
                         if (-2 == i_mRes)
                             throw new Exception("收到退出消息");
+
+                        //判断洗针筒字典是否存在需要洗针的
+                        if (FADM_Object.Communal._b_isHasWashSyringe)
+                        {
+                            List<int> value = new List<int>();
+                            //可以放针
+                            value.Add(1);
+                            //可以洗
+                            value.Add(1);
+                            if (Communal.GetValueWash(i_bottleNo.ToString(), out value))
+                            {
+                                //如果之前标记过夹不到针筒，现在抽液完成，可改为夹到针筒
+                                if (value[1] == 0)
+                                {
+                                    value[1] = 1;
+                                    Communal.AddOrUpdateWash(i_bottleNo.ToString(), value);
+                                }
+
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
                         if ("未发现针筒" == ex.Message)
                         {
+                            //判断洗针筒字典是否存在需要洗针的
+                            if (FADM_Object.Communal._b_isHasWashSyringe)
+                            {
+                                List<int> value = new List<int>();
+                                //可以放针
+                                value.Add(1);
+                                //可以洗
+                                value.Add(1);
+                                if (Communal.GetValueWash(i_bottleNo.ToString(), out value))
+                                {
+                                    //标记夹不到针筒
+                                    value[1] = 0;
+                                    Communal.AddOrUpdateWash(i_bottleNo.ToString(), value);
+                                }
+                            }
                             //滴液时针检处理
                             if (i_lowSrart == 2)
                             {
@@ -842,12 +877,48 @@ namespace SmartDyeing.FADM_Auto
                         i_mRes = MyModbusFun.Extract(i_totalPulse, true, 1);
                         if (-2 == i_mRes)
                             throw new Exception("收到退出消息");
+
+                        //判断洗针筒字典是否存在需要洗针的
+                        if (FADM_Object.Communal._b_isHasWashSyringe)
+                        {
+                            List<int> value = new List<int>();
+                            //可以放针
+                            value.Add(1);
+                            //可以洗
+                            value.Add(1);
+                            if (Communal.GetValueWash(i_bottleNo.ToString(), out value))
+                            {
+                                //如果之前标记过夹不到针筒，现在抽液完成，可改为夹到针筒
+                                if (value[1] == 0)
+                                {
+                                    value[1] = 1;
+                                    Communal.AddOrUpdateWash(i_bottleNo.ToString(), value);
+                                }
+
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
 
                         if ("未发现针筒" == ex.Message)
                         {
+                            //判断洗针筒字典是否存在需要洗针的
+                            if (FADM_Object.Communal._b_isHasWashSyringe)
+                            {
+                                List<int> value = new List<int>();
+                                //可以放针
+                                value.Add(1);
+                                //可以洗
+                                value.Add(1);
+                                if (Communal.GetValueWash(i_bottleNo.ToString(), out value))
+                                {
+                                    //标记夹不到针筒
+                                    value[1] = 0;
+                                    Communal.AddOrUpdateWash(i_bottleNo.ToString(), value);
+                                }
+                            }
+
                             if (false == b_drip || i_lowSrart == 2)
                             {
                                 FADM_Object.MyAlarm myAlarm;
@@ -1181,6 +1252,26 @@ namespace SmartDyeing.FADM_Auto
                         if (-2 == i_mRes)
                             throw new Exception("收到退出消息");
 
+                        //判断洗针筒字典是否存在需要洗针的
+                        if (FADM_Object.Communal._b_isHasWashSyringe)
+                        {
+                            List<int> value = new List<int>();
+                            //可以放针
+                            value.Add(1);
+                            //可以洗
+                            value.Add(1);
+                            if (Communal.GetValueWash(i_bottleNo.ToString(), out value))
+                            {
+                                //如果之前标记过夹不到针筒，现在抽液完成，可改为夹到针筒
+                                if (value[1] == 0)
+                                {
+                                    value[1] = 1;
+                                    Communal.AddOrUpdateWash(i_bottleNo.ToString(), value);
+                                }
+
+                            }
+                        }
+
                         //FADM_Object.Communal.WriteMachineStatus(0);
                         //return 0;
                     }
@@ -1188,6 +1279,21 @@ namespace SmartDyeing.FADM_Auto
                     {
                         if ("未发现针筒" == ex.Message)
                         {
+                            //判断洗针筒字典是否存在需要洗针的
+                            if (FADM_Object.Communal._b_isHasWashSyringe)
+                            {
+                                List<int> value = new List<int>();
+                                //可以放针
+                                value.Add(1);
+                                //可以洗
+                                value.Add(1);
+                                if (Communal.GetValueWash(i_bottleNo.ToString(), out value))
+                                {
+                                    //标记夹不到针筒
+                                    value[1] = 0;
+                                    Communal.AddOrUpdateWash(i_bottleNo.ToString(), value);
+                                }
+                            }
                             if (false == b_drip || i_lowSrart == 2)
                             {
                                 FADM_Object.MyAlarm myAlarm;
@@ -1231,12 +1337,48 @@ namespace SmartDyeing.FADM_Auto
                         i_mRes = MyModbusFun.Extract(i_totalPulse, true, 1);
                         if (-2 == i_mRes)
                             throw new Exception("收到退出消息");
+
+                        //判断洗针筒字典是否存在需要洗针的
+                        if (FADM_Object.Communal._b_isHasWashSyringe)
+                        {
+                            List<int> value = new List<int>();
+                            //可以放针
+                            value.Add(1);
+                            //可以洗
+                            value.Add(1);
+                            if (Communal.GetValueWash(i_bottleNo.ToString(), out value))
+                            {
+                                //如果之前标记过夹不到针筒，现在抽液完成，可改为夹到针筒
+                                if (value[1] == 0)
+                                {
+                                    value[1] = 1;
+                                    Communal.AddOrUpdateWash(i_bottleNo.ToString(), value);
+                                }
+
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
 
                         if ("未发现针筒" == ex.Message)
                         {
+                            //判断洗针筒字典是否存在需要洗针的
+                            if (FADM_Object.Communal._b_isHasWashSyringe)
+                            {
+                                List<int> value = new List<int>();
+                                //可以放针
+                                value.Add(1);
+                                //可以洗
+                                value.Add(1);
+                                if (Communal.GetValueWash(i_bottleNo.ToString(), out value))
+                                {
+                                    //标记夹不到针筒
+                                    value[1] = 0;
+                                    Communal.AddOrUpdateWash(i_bottleNo.ToString(), value);
+                                }
+                            }
+
                             if (false == b_drip)
                             {
                                 FADM_Object.MyAlarm myAlarm;

@@ -124,6 +124,9 @@
   <data name="txt_Temp.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
   </data>
+  <data name="txt_Rate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>202, 29</value>
+  </data>
   <data name="&gt;&gt;txt_Temp.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
@@ -146,8 +149,8 @@
   <data name="cbo_TechnologyName.Items12" xml:space="preserve">
     <value>洗杯</value>
   </data>
-  <data name="lab_TechnologyName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
+  <data name="cbo_TechnologyName.Items22" xml:space="preserve">
+    <value>加M</value>
   </data>
   <data name="cbo_TechnologyName.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -157,6 +160,9 @@
   </data>
   <data name="lab_StepNum.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="cbo_TechnologyName.Items18" xml:space="preserve">
+    <value>加I</value>
   </data>
   <data name="txt_Rate.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
@@ -173,8 +179,8 @@
   <data name="&gt;&gt;txt_Rev.Name" xml:space="preserve">
     <value>txt_Rev</value>
   </data>
-  <data name="txt_Temp.Location" type="System.Drawing.Point, System.Drawing">
-    <value>198, 100</value>
+  <data name="&gt;&gt;lab_ProportionOrTime.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="lab_Temp.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 19</value>
@@ -208,6 +214,9 @@
   </data>
   <data name="lab_Temp.Text" xml:space="preserve">
     <value>设定温度:</value>
+  </data>
+  <data name="cbo_TechnologyName.Items17" xml:space="preserve">
+    <value>加H</value>
   </data>
   <data name="lab_StepNum.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 23</value>
@@ -251,6 +260,9 @@
   <data name="cbo_TechnologyName.Items11" xml:space="preserve">
     <value>出布</value>
   </data>
+  <data name="cbo_TechnologyName.Items21" xml:space="preserve">
+    <value>加L</value>
+  </data>
   <data name="&gt;&gt;txt_Rate.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
@@ -272,6 +284,9 @@
   </data>
   <data name="lab_Rev.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 231</value>
+  </data>
+  <data name="cbo_TechnologyName.Items7" xml:space="preserve">
+    <value>加E</value>
   </data>
   <data name="txt_Rate.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -318,8 +333,8 @@
   <data name="cbo_TechnologyName.Items13" xml:space="preserve">
     <value>取小样</value>
   </data>
-  <data name="lab_Rate.Text" xml:space="preserve">
-    <value>温度速率:</value>
+  <data name="cbo_TechnologyName.Items23" xml:space="preserve">
+    <value>加N</value>
   </data>
   <data name="txt_ProportionOrTime.Location" type="System.Drawing.Point, System.Drawing">
     <value>198, 184</value>
@@ -330,8 +345,8 @@
   <data name="cbo_TechnologyName.Items6" xml:space="preserve">
     <value>加D</value>
   </data>
-  <data name="cbo_TechnologyName.Items7" xml:space="preserve">
-    <value>加E</value>
+  <data name="txt_Temp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>198, 100</value>
   </data>
   <data name="cbo_TechnologyName.Items8" xml:space="preserve">
     <value>加水</value>
@@ -348,8 +363,11 @@
   <data name="cbo_TechnologyName.Items10" xml:space="preserve">
     <value>排液</value>
   </data>
-  <data name="txt_Rate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 29</value>
+  <data name="cbo_TechnologyName.Items20" xml:space="preserve">
+    <value>加K</value>
+  </data>
+  <data name="lab_Rate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 19</value>
   </data>
   <data name="&gt;&gt;lab_StepNum.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -384,6 +402,9 @@
   <data name="cbo_TechnologyName.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
   </data>
+  <data name="lab_TechnologyName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
   <data name="&gt;&gt;lab_Rev.Name" xml:space="preserve">
     <value>lab_Rev</value>
   </data>
@@ -404,6 +425,9 @@
   </data>
   <data name="&gt;&gt;txt_Rate.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="lab_Rate.Text" xml:space="preserve">
+    <value>温度速率:</value>
   </data>
   <data name="lab_Temp.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 105</value>
@@ -450,6 +474,9 @@
   <data name="lab_StepNum.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
+  <data name="cbo_TechnologyName.Items16" xml:space="preserve">
+    <value>加G</value>
+  </data>
   <data name="lab_Temp.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -464,9 +491,6 @@
   </data>
   <data name="&gt;&gt;lab_Rate.Parent" xml:space="preserve">
     <value>$this</value>
-  </data>
-  <data name="&gt;&gt;lab_ProportionOrTime.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lab_Rate.ZOrder" xml:space="preserve">
     <value>3</value>
@@ -488,6 +512,9 @@
   </data>
   <data name="lab_ProportionOrTime.Text" xml:space="preserve">
     <value>百分比(%)/时间(m):</value>
+  </data>
+  <data name="cbo_TechnologyName.Items19" xml:space="preserve">
+    <value>加J</value>
   </data>
   <data name="lab_TechnologyName.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 64</value>
@@ -552,8 +579,8 @@
   <data name="lab_Rev.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="lab_Rate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 19</value>
+  <data name="cbo_TechnologyName.Items15" xml:space="preserve">
+    <value>加F</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

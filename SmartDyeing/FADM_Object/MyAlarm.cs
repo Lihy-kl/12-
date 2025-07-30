@@ -491,12 +491,12 @@ namespace SmartDyeing.FADM_Object
                                     FADM_Auto.Dye._cup_Temps[i_cupNo - 1]._i_cupCover = 1;
                                 }
                                 //开盖完成
-                                else if (i_type == 2 || i_type == 5 || i_type == 4 || i_type == 6 || i_type == 8 || i_type == 9 || i_type == 10)
+                                else if (i_type == 2 || i_type == 5 || i_type == 4 || i_type == 6 || i_type == 8 || i_type == 9 || i_type == 10  || i_type == 44)
                                 {
                                     //
                                     int iCupNo = i_cupNum;
 
-                                    if (i_type == 2)
+                                    if (i_type == 2 || i_type == 44)
                                     {
                                         FADM_Auto.Dye.DyeOpenOrCloseCover(iCupNo, 2);
 
@@ -510,8 +510,14 @@ namespace SmartDyeing.FADM_Object
                                     //加药
                                     else if (i_type == 4)
                                     {
-                                   //     FADM_Object.Communal._fadmSqlserver.ReviseData(
-                                   //"UPDATE dye_details SET  Cooperate = 1 WHERE  Cooperate = " + 9 + " AND CupNum = " + i_cupNum + " ;");
+                                        //     FADM_Object.Communal._fadmSqlserver.ReviseData(
+                                        //"UPDATE dye_details SET  Cooperate = 1 WHERE  Cooperate = " + 9 + " AND CupNum = " + i_cupNum + " ;");
+
+                                        //重新置0，等待获取开盖申请
+                                        FADM_Auto.Dye._cup_Temps[i_cupNum - 1]._i_cover = 0;
+
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(
+                                           "UPDATE cup_details SET  Cooperate = 0 WHERE  CupNum = " + i_cupNum + " ;");
                                     }
                                     //流程加水
                                     else if (i_type == 5)

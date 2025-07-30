@@ -121,17 +121,23 @@
     <value>Browse</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="grp_BottleDetails.Size" type="System.Drawing.Size, System.Drawing">
-    <value>599, 968</value>
+  <data name="txt_WashSyringeSpan.Location" type="System.Drawing.Point, System.Drawing">
+    <value>290, 700</value>
   </data>
-  <data name="grp_BottleDetails.Text" xml:space="preserve">
-    <value>MotherLiquorInformation</value>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 703</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>240, 23</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>WashSyringeSpan(Hours):</value>
   </data>
   <data name="cbo_DripReserveFirst.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 859</value>
+    <value>290, 852</value>
   </data>
   <data name="lab_DripReserveFirst.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 861</value>
+    <value>4, 853</value>
   </data>
   <data name="lab_DripReserveFirst.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -140,19 +146,19 @@
     <value>PreDrip:</value>
   </data>
   <data name="cbo_OriginalBottleNum.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 634</value>
+    <value>290, 550</value>
   </data>
   <data name="cbo_OriginalBottleNum.Size" type="System.Drawing.Size, System.Drawing">
     <value>303, 27</value>
   </data>
   <data name="dtp_BrewingData.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 798</value>
+    <value>290, 776</value>
   </data>
   <data name="dtp_BrewingData.Size" type="System.Drawing.Size, System.Drawing">
     <value>303, 29</value>
   </data>
   <data name="cbo_BrewingCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 548</value>
+    <value>290, 476</value>
   </data>
   <data name="cbo_BrewingCode.Size" type="System.Drawing.Size, System.Drawing">
     <value>303, 27</value>
@@ -162,7 +168,7 @@
     <value>True</value>
   </data>
   <data name="lab_SyringeType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 378</value>
+    <value>4, 328</value>
   </data>
   <data name="lab_SyringeType.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 19</value>
@@ -183,37 +189,37 @@
     <value>Metering Pump</value>
   </data>
   <data name="cbo_SyringeType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 374</value>
+    <value>290, 326</value>
   </data>
   <data name="cbo_SyringeType.Size" type="System.Drawing.Size, System.Drawing">
     <value>303, 27</value>
   </data>
   <data name="txt_SettingConcentration.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 198</value>
+    <value>290, 174</value>
   </data>
   <data name="txt_SettingConcentration.Size" type="System.Drawing.Size, System.Drawing">
     <value>303, 29</value>
   </data>
   <data name="cbo_AssistantCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 111</value>
+    <value>290, 100</value>
   </data>
   <data name="cbo_AssistantCode.Size" type="System.Drawing.Size, System.Drawing">
     <value>303, 27</value>
   </data>
   <data name="txt_CurrentWeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 286</value>
+    <value>290, 250</value>
   </data>
   <data name="txt_CurrentWeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>303, 29</value>
   </data>
   <data name="txt_DropMinWeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 460</value>
+    <value>290, 400</value>
   </data>
   <data name="txt_DropMinWeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>303, 29</value>
   </data>
   <data name="txt_AllowMaxWeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 720</value>
+    <value>290, 624</value>
   </data>
   <data name="txt_AllowMaxWeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>303, 29</value>
@@ -228,7 +234,7 @@
     <value>True</value>
   </data>
   <data name="lab_OriginalBottleNum.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 638</value>
+    <value>4, 563</value>
   </data>
   <data name="lab_OriginalBottleNum.Size" type="System.Drawing.Size, System.Drawing">
     <value>289, 19</value>
@@ -255,19 +261,19 @@
     <value>True</value>
   </data>
   <data name="lab_AllowMaxWeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 725</value>
+    <value>4, 632</value>
   </data>
   <data name="lab_AllowMaxWeight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>229, 19</value>
+    <value>239, 19</value>
   </data>
   <data name="lab_AllowMaxWeight.Text" xml:space="preserve">
-    <value>MaximumAllowableWeight</value>
+    <value>MaximumAllowableWeight:</value>
   </data>
   <data name="lab_BrewingData.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="lab_BrewingData.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 803</value>
+    <value>4, 777</value>
   </data>
   <data name="lab_BrewingData.Size" type="System.Drawing.Size, System.Drawing">
     <value>119, 19</value>
@@ -279,7 +285,7 @@
     <value>True</value>
   </data>
   <data name="lab_BrewingCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 552</value>
+    <value>4, 479</value>
   </data>
   <data name="lab_BrewingCode.Size" type="System.Drawing.Size, System.Drawing">
     <value>159, 19</value>
@@ -291,7 +297,7 @@
     <value>True</value>
   </data>
   <data name="lab_CurrentWeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 291</value>
+    <value>4, 253</value>
   </data>
   <data name="lab_CurrentWeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>139, 19</value>
@@ -303,7 +309,7 @@
     <value>True</value>
   </data>
   <data name="lab_SettingConcentration.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 203</value>
+    <value>4, 175</value>
   </data>
   <data name="lab_SettingConcentration.Size" type="System.Drawing.Size, System.Drawing">
     <value>179, 19</value>
@@ -315,7 +321,7 @@
     <value>True</value>
   </data>
   <data name="lab_DropMinWeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 465</value>
+    <value>4, 404</value>
   </data>
   <data name="lab_DropMinWeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>179, 19</value>
@@ -327,7 +333,7 @@
     <value>True</value>
   </data>
   <data name="lab_AssistantCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 115</value>
+    <value>4, 105</value>
   </data>
   <data name="lab_AssistantCode.Size" type="System.Drawing.Size, System.Drawing">
     <value>229, 19</value>
@@ -347,14 +353,11 @@
   <data name="lab_BottleNum.Text" xml:space="preserve">
     <value>BottleNumber:</value>
   </data>
-  <data name="grp_AssistantDetails.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1286, 8</value>
+  <data name="grp_BottleDetails.Size" type="System.Drawing.Size, System.Drawing">
+    <value>599, 968</value>
   </data>
-  <data name="grp_AssistantDetails.Size" type="System.Drawing.Size, System.Drawing">
-    <value>602, 964</value>
-  </data>
-  <data name="grp_AssistantDetails.Text" xml:space="preserve">
-    <value>DyeingAuxiliaries</value>
+  <data name="grp_BottleDetails.Text" xml:space="preserve">
+    <value>MotherLiquorInformation</value>
   </data>
   <data name="rdo_3.Location" type="System.Drawing.Point, System.Drawing">
     <value>427, 283</value>
@@ -529,5 +532,14 @@
   </data>
   <data name="lab_AssistantName.Text" xml:space="preserve">
     <value>DyeingAuxiliariesName:</value>
+  </data>
+  <data name="grp_AssistantDetails.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1286, 8</value>
+  </data>
+  <data name="grp_AssistantDetails.Size" type="System.Drawing.Size, System.Drawing">
+    <value>602, 964</value>
+  </data>
+  <data name="grp_AssistantDetails.Text" xml:space="preserve">
+    <value>DyeingAuxiliaries</value>
   </data>
 </root>

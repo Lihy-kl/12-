@@ -445,12 +445,16 @@ namespace SmartDyeing.FADM_Control
                                 }
                             }
                             //其他输入点信息
-                            s_str2 = Convert.ToString(a23, 2).PadLeft(4, '0');
+                            s_str2 = Convert.ToString(a23, 2).PadLeft(6, '0');
                             ca_cc = s_str2.ToArray();//
                             ChkInPut_Block_Out.Checked = ca_cc[ca_cc.Length - 1].Equals('1') ? true : false; //阻挡出限位
                             ChkInPut_Block_In.Checked = ca_cc[ca_cc.Length - 2].Equals('1') ? true : false; //阻挡回限位
                             ChkInPut_Slow_Mid.Checked = ca_cc[ca_cc.Length - 3].Equals('1') ? true : false; //气缸慢速中限位
                             ChkInPut_Block.Checked = ca_cc[ca_cc.Length - 4].Equals('1') ? true : false; //气缸阻挡限位
+                            ChkInPut_SupportCover.Checked = ca_cc[ca_cc.Length - 5].Equals('1') ? true : false; //撑盖开到位
+                            //ChkInPut_Block.Checked = ca_cc[ca_cc.Length - 5].Equals('1') ? true : false; //抓手A泄压信号
+                            //ChkInPut_Block.Checked = ca_cc[ca_cc.Length - 6].Equals('1') ? true : false; //抓手B泄压信号
+
 
 
                             s_str = Convert.ToString(a6, 2).PadLeft(12, '0');
@@ -489,6 +493,16 @@ namespace SmartDyeing.FADM_Control
                                 this.BtnOutPut_Decompression.ForeColor = ca_cc[ca_cc.Length - 14].Equals('1') ? Color.Red : Color.Black; //泄压下
                                 this.BtnOutPut_Block.ForeColor = ca_cc[ca_cc.Length - 15].Equals('1') ? Color.Red : Color.Black; //阻挡出
 
+                            }
+
+                            s_str = Convert.ToString(a25, 2).PadLeft(5, '0');
+                            if (!s_str.Equals("0"))
+                            {
+                                ca_cc = s_str.ToArray();
+                                this.BtnOutPut_Wash_In.ForeColor = ca_cc[ca_cc.Length - 2].Equals('1') ? Color.Red : Color.Black; //洗针进水
+                                this.BtnOutPut_Wash_Out.ForeColor = ca_cc[ca_cc.Length - 3].Equals('1') ? Color.Red : Color.Black; //洗针出水
+                                this.BtnOutPut_Wash_Blow.ForeColor = ca_cc[ca_cc.Length - 4].Equals('1') ? Color.Red : Color.Black; //洗针吹气
+                               
                             }
 
                             //s_str = Convert.ToString(a8, 2);//输出
@@ -1408,6 +1422,22 @@ namespace SmartDyeing.FADM_Control
                     Thread thread = new Thread(WetClampMove);
                     thread.Start();
                 }
+                else if (RdoWash.Checked)
+                {
+                    if (string.IsNullOrEmpty(TxtNum.Text))
+                    {
+                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                            FADM_Form.CustomMessageBox.Show("请输入瓶号！", "温馨提示", MessageBoxButtons.OK, false);
+                        else
+                            FADM_Form.CustomMessageBox.Show("Please enter the bottle number！", "Tips", MessageBoxButtons.OK, false);
+                        FADM_Object.Communal.WriteDripWait(false);
+                        return;
+                    }
+                    FADM_Object.Communal.WriteMachineStatus(14);
+                    Thread thread = new Thread(Wash);
+                    thread.Start();
+
+                }
                 else
                 {
                     if (Lib_Card.Configure.Parameter.Other_Language == 0)
@@ -1536,6 +1566,182 @@ namespace SmartDyeing.FADM_Control
                         FADM_Form.CustomMessageBox.Show(ex.Message, "定点移动", MessageBoxButtons.OK, true);
                     else
                         FADM_Form.CustomMessageBox.Show(ex.Message, "Fixed-point movement", MessageBoxButtons.OK, true);
+                }
+            }
+        }
+
+        private void Wash()
+        {
+            try
+            {
+
+                if (0 >= Convert.ToInt32(TxtNum.Text) || Convert.ToInt32(TxtNum.Text) > Lib_Card.Configure.Parameter.Machine_Bottle_Total)
+                {
+                    if (FADM_Object.Communal._b_isUseABAssistant)
+                    {
+                        if (Convert.ToInt32(TxtNum.Text) > Lib_Card.Configure.Parameter.Machine_Bottle_Total - FADM_Object.Communal._i_ABAssistantCount)
+                        {
+                            MessageBox.Show("瓶号输入错误");
+                            FADM_Object.Communal.WriteDripWait(false);
+                            FADM_Object.Communal.WriteMachineStatus(0);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("瓶号输入错误");
+                        FADM_Object.Communal.WriteDripWait(false);
+                        FADM_Object.Communal.WriteMachineStatus(0);
+                        return;
+                    }
+                }
+                int i_xStart = 0, i_yStart = 0;
+                int i_mRes = -1;
+                if (Communal._b_isGetWetClamp)
+                {
+                    //3.放夹子
+                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放夹子启动");
+                    //int i_xStart = 0, i_yStart = 0;
+                    //计算湿布布夹子位置
+                    MyModbusFun.CalTarget(9, 0, ref i_xStart, ref i_yStart);
+                    int i_mRes2 = MyModbusFun.PutClamp(i_xStart, i_yStart);
+                    if (-2 == i_mRes2)
+                        throw new Exception("收到退出消息");
+                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放夹子完成");
+                }
+
+                if (Communal._b_isGetDryClamp)
+                {
+                    //3.放夹子
+                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放夹子启动");
+                    //int i_xStart = 0, i_yStart = 0;
+                    //计算干布夹子位置
+                    MyModbusFun.CalTarget(8, 0, ref i_xStart, ref i_yStart);
+                    int iMRes1 = MyModbusFun.PutClamp(i_xStart, i_yStart);
+                    if (-2 == iMRes1)
+                        throw new Exception("收到退出消息");
+                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放夹子完成");
+                }
+
+                if (Communal._b_isGetSyringes)
+                {
+                    //3.
+                    FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "寻找放针母液瓶");
+                    i_mRes = MyModbusFun.TargetMove(11, 0, 0);
+                    if (-2 == i_mRes)
+                        throw new Exception("收到退出消息");
+
+                    FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "抵达放针母液瓶");
+
+                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放抽液针筒启动");
+                    //int i_xStart = 0, i_yStart = 0;
+
+                    int iMRes1 = MyModbusFun.Put(0);
+                    if (-2 == iMRes1)
+                        throw new Exception("收到退出消息");
+                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放抽液针筒完成");
+                }
+
+                FADM_Object.Communal._i_optBottleNum = Convert.ToInt32(TxtNum.Text);
+                FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "拿针筒启动");
+                //计算针筒位置
+                MyModbusFun.CalTarget(0, FADM_Object.Communal._i_optBottleNum, ref i_xStart, ref i_yStart);
+                int i_mRes3 = MyModbusFun.GetSyringesWash(i_xStart, i_yStart);
+                if (-2 == i_mRes3)
+                    throw new Exception("收到退出消息");
+                FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "拿针筒完成");
+
+                //移动到洗针位置
+                
+                i_mRes = MyModbusFun.TargetMove(12, 0, 0);
+                //执行洗针动作
+                MyModbusFun.WashSyringes();
+                //放回到母液瓶
+                FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "寻找"+ TxtNum.Text+"号母液瓶");
+                i_mRes = MyModbusFun.TargetMove(0, FADM_Object.Communal._i_optBottleNum, 0);
+                if (-2 == i_mRes)
+                    throw new Exception("收到退出消息");
+
+                FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "抵达"+ TxtNum.Text+"号母液瓶");
+
+                FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放针启动");
+                //int i_xStart = 0, i_yStart = 0;
+
+                int iMRes_1 = MyModbusFun.Put(0);
+                if (-2 == iMRes_1)
+                    throw new Exception("收到退出消息");
+                FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放针完成");
+
+                FADM_Object.Communal.WriteMachineStatus(0);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Equals("-2"))
+                {
+                    FADM_Object.Communal.WriteMachineStatus(8);
+                    int[] ia_errArray = new int[100];
+                    MyModbusFun.GetErrMsgNew(ref ia_errArray);
+                    List<string> lis_err = new List<string>();
+                    for (int i = 0; i < ia_errArray.Length; i++)
+                    {
+                        if (ia_errArray[i] != 0)
+                        {
+                            if (SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.ContainsKey(ia_errArray[i]))
+                            {
+                                string s_err = SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew[ia_errArray[i]];
+                                string s_sql = "INSERT INTO alarm_table" +
+                                 "(MyDate,MyTime,AlarmHead,AlarmDetails)" +
+                                 " VALUES( '" +
+                                 String.Format("{0:d}", DateTime.Now) + "','" +
+                                 String.Format("{0:T}", DateTime.Now) + "','" +
+                                 "Debug" + "','" +
+                                 s_err + "(Test)');";
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
+                                string s_insert = CardObject.InsertD(s_err, " myMachineReset");
+                                if (!lis_err.Contains(s_insert))
+                                    lis_err.Add(s_insert);
+                                //while (true)
+                                //{
+                                //    Thread.Sleep(1);
+                                //    if (Lib_Card.CardObject.keyValuePairs[s_insert].Choose != 0)
+                                //        break;
+
+                                //}
+
+                                //int _i_alarm_Choose = Lib_Card.CardObject.keyValuePairs[s_insert].Choose;
+                                //CardObject.DeleteD(s_insert);
+
+                            }
+
+                        }
+                    }
+
+                    while (true)
+                    {
+                        for (int p = lis_err.Count - 1; p >= 0; p--)
+                        {
+                            if (Lib_Card.CardObject.keyValuePairs[lis_err[p]].Choose != 0)
+                            {
+                                CardObject.DeleteD(lis_err[p]);
+                                lis_err.Remove(lis_err[p]);
+                            }
+                        }
+                        if (lis_err.Count == 0)
+                        {
+                            break;
+                        }
+                        Thread.Sleep(1);
+                    }
+
+                }
+                else
+                {
+                    FADM_Object.Communal.WriteMachineStatus(8);
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "清洗针筒", MessageBoxButtons.OK, true);
+                    else
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "Wash", MessageBoxButtons.OK, true);
                 }
             }
         }
@@ -2801,6 +3007,11 @@ namespace SmartDyeing.FADM_Control
             {
                 ChkInPut_Back.Visible = false;
             }
+
+            if (!FADM_Object.Communal._b_isHasWashSyringe)
+            {
+                RdoWash.Visible = false;
+            }
         }
 
         private void Debug_Leave(object sender, EventArgs e)
@@ -2925,12 +3136,8 @@ namespace SmartDyeing.FADM_Control
             //Console.WriteLine($"L: {L}, A: {A}, B: {B}");
             //return;
             //FADM_Object.Communal._b_stop = true;
-            //if (Lib_Card.Configure.Parameter.Machine_Type == 0)
-            //{
-            //    int iXPower = Lib_Card.CardObject.OA1.GetVersion();
-            //    MessageBox.Show(iXPower.ToString());
 
-            //}
+            //SmartDyeing.FADM_Auto.MyAbsorbance.Abs();
         }
 
         // CIE 1931 2° Standard Observer
@@ -3815,6 +4022,10 @@ namespace SmartDyeing.FADM_Control
                                     return;
                                 }
 
+                                //读取保存上次坐标到历史
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Bottle_X", Lib_Card.Configure.Parameter.Coordinate_Bottle_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Bottle_Y", Lib_Card.Configure.Parameter.Coordinate_Bottle_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                                 //读取当前坐标写入
                                 Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Bottle_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                                 Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Bottle_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -3836,6 +4047,10 @@ namespace SmartDyeing.FADM_Control
                                 {
                                     return;
                                 }
+
+                                //读取保存上次坐标到历史
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Bottle_X", Lib_Card.Configure.Parameter.Coordinate_Bottle_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Bottle_Y", Lib_Card.Configure.Parameter.Coordinate_Bottle_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                                 //读取当前坐标写入
                                 Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Bottle_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -3902,6 +4117,10 @@ namespace SmartDyeing.FADM_Control
                             }
 
                             //读取当前坐标写入
+                            Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_X", Lib_Card.Configure.Parameter.Coordinate_Area1_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_Y", Lib_Card.Configure.Parameter.Coordinate_Area1_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                            //读取当前坐标写入
                             Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                             Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                             Lib_Card.Configure.Parameter.Coordinate_Area1_X = Convert.ToInt32(TxtRPosX.Text);
@@ -3916,6 +4135,9 @@ namespace SmartDyeing.FADM_Control
                                 {
                                     return;
                                 }
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_X", Lib_Card.Configure.Parameter.Coordinate_Area1_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_Y", Lib_Card.Configure.Parameter.Coordinate_Area1_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                                 //读取当前坐标写入
                                 Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                                 Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -3940,6 +4162,8 @@ namespace SmartDyeing.FADM_Control
                             {
                                 return;
                             }
+                            Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area2_X", Lib_Card.Configure.Parameter.Coordinate_Area2_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area2_Y", Lib_Card.Configure.Parameter.Coordinate_Area2_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                             //读取当前坐标写入
                             Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area2_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -3956,6 +4180,9 @@ namespace SmartDyeing.FADM_Control
                                 {
                                     return;
                                 }
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area2_X", Lib_Card.Configure.Parameter.Coordinate_Area2_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area2_Y", Lib_Card.Configure.Parameter.Coordinate_Area2_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                                 //读取当前坐标写入
                                 Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area2_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                                 Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area2_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -3980,6 +4207,8 @@ namespace SmartDyeing.FADM_Control
                             {
                                 return;
                             }
+                            Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area3_X", Lib_Card.Configure.Parameter.Coordinate_Area3_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area3_Y", Lib_Card.Configure.Parameter.Coordinate_Area3_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                             //读取当前坐标写入
                             Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area3_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -3996,6 +4225,9 @@ namespace SmartDyeing.FADM_Control
                                 {
                                     return;
                                 }
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area3_X", Lib_Card.Configure.Parameter.Coordinate_Area3_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area3_Y", Lib_Card.Configure.Parameter.Coordinate_Area3_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                                 //读取当前坐标写入
                                 Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area3_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                                 Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area3_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4020,7 +4252,8 @@ namespace SmartDyeing.FADM_Control
                             {
                                 return;
                             }
-
+                            Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_X", Lib_Card.Configure.Parameter.Coordinate_Area4_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_Y", Lib_Card.Configure.Parameter.Coordinate_Area4_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
                             //读取当前坐标写入
                             Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                             Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4036,6 +4269,9 @@ namespace SmartDyeing.FADM_Control
                                 {
                                     return;
                                 }
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_X", Lib_Card.Configure.Parameter.Coordinate_Area4_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_Y", Lib_Card.Configure.Parameter.Coordinate_Area4_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                                 //读取当前坐标写入
                                 Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                                 Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4060,6 +4296,8 @@ namespace SmartDyeing.FADM_Control
                             {
                                 return;
                             }
+                            Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area5_X", Lib_Card.Configure.Parameter.Coordinate_Area5_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area5_Y", Lib_Card.Configure.Parameter.Coordinate_Area5_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                             //读取当前坐标写入
                             Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area5_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4076,6 +4314,9 @@ namespace SmartDyeing.FADM_Control
                                 {
                                     return;
                                 }
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area5_X", Lib_Card.Configure.Parameter.Coordinate_Area5_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area5_Y", Lib_Card.Configure.Parameter.Coordinate_Area5_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                                 //读取当前坐标写入
                                 Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area5_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                                 Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area5_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4100,6 +4341,8 @@ namespace SmartDyeing.FADM_Control
                             {
                                 return;
                             }
+                            Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area6_X", Lib_Card.Configure.Parameter.Coordinate_Area6_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area6_Y", Lib_Card.Configure.Parameter.Coordinate_Area6_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                             //读取当前坐标写入
                             Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area6_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4116,6 +4359,9 @@ namespace SmartDyeing.FADM_Control
                                 {
                                     return;
                                 }
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area6_X", Lib_Card.Configure.Parameter.Coordinate_Area6_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area6_Y", Lib_Card.Configure.Parameter.Coordinate_Area6_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                                 //读取当前坐标写入
                                 Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area6_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                                 Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area6_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4159,6 +4405,9 @@ namespace SmartDyeing.FADM_Control
                             return;
                         }
 
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Balance_X", Lib_Card.Configure.Parameter.Coordinate_Balance_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Balance_Y", Lib_Card.Configure.Parameter.Coordinate_Balance_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                         //读取当前坐标写入
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Balance_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Balance_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4180,6 +4429,9 @@ namespace SmartDyeing.FADM_Control
                         {
                             return;
                         }
+
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Balance_X", Lib_Card.Configure.Parameter.Coordinate_Balance_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Balance_Y", Lib_Card.Configure.Parameter.Coordinate_Balance_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                         //读取当前坐标写入
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Balance_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4285,10 +4537,12 @@ namespace SmartDyeing.FADM_Control
                     }
                     if (Convert.ToInt32(TxtNum.Text) >= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_AreaDryCloth1_CupMin.ToString()) && Convert.ToInt32(TxtNum.Text) <= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_AreaDryCloth1_CupMax.ToString()))
                     {
-                        
 
-                            //读取当前坐标写入
-                            Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaDryCloth1_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaDryCloth1_X", Lib_Card.Configure.Parameter.Coordinate_AreaDryCloth1_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaDryCloth1_Y", Lib_Card.Configure.Parameter.Coordinate_AreaDryCloth1_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                        //读取当前坐标写入
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaDryCloth1_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                             Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaDryCloth1_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                             Lib_Card.Configure.Parameter.Coordinate_AreaDryCloth1_X = Convert.ToInt32(TxtRPosX.Text);
                             Lib_Card.Configure.Parameter.Coordinate_AreaDryCloth1_Y = Convert.ToInt32(TxtRPosY.Text);
@@ -4296,6 +4550,9 @@ namespace SmartDyeing.FADM_Control
 
                     else if (Convert.ToInt32(TxtNum.Text) >= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_AreaDryCloth2_CupMin.ToString()) && Convert.ToInt32(TxtNum.Text) <= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_AreaDryCloth2_CupMax.ToString()))
                     {
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaDryCloth2_X", Lib_Card.Configure.Parameter.Coordinate_AreaDryCloth2_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaDryCloth2_Y", Lib_Card.Configure.Parameter.Coordinate_AreaDryCloth2_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                         //读取当前坐标写入
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaDryCloth2_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaDryCloth2_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4304,6 +4561,9 @@ namespace SmartDyeing.FADM_Control
                     }
                     else if (Convert.ToInt32(TxtNum.Text) >= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_AreaDryCloth3_CupMin.ToString()) && Convert.ToInt32(TxtNum.Text) <= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_AreaDryCloth3_CupMax.ToString()))
                     {
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaDryCloth3_X", Lib_Card.Configure.Parameter.Coordinate_AreaDryCloth3_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaDryCloth3_Y", Lib_Card.Configure.Parameter.Coordinate_AreaDryCloth3_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                         //读取当前坐标写入
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaDryCloth3_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaDryCloth3_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4351,7 +4611,8 @@ namespace SmartDyeing.FADM_Control
                     }
                     if (Convert.ToInt32(TxtNum.Text) >= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_AreaWetCloth1_CupMin.ToString()) && Convert.ToInt32(TxtNum.Text) <= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_AreaWetCloth1_CupMax.ToString()))
                     {
-
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaWetCloth1_X", Lib_Card.Configure.Parameter.Coordinate_AreaWetCloth1_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaWetCloth1_Y", Lib_Card.Configure.Parameter.Coordinate_AreaWetCloth1_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                         //读取当前坐标写入
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaWetCloth1_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4362,6 +4623,9 @@ namespace SmartDyeing.FADM_Control
 
                     else if (Convert.ToInt32(TxtNum.Text) >= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_AreaWetCloth2_CupMin.ToString()) && Convert.ToInt32(TxtNum.Text) <= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_AreaWetCloth2_CupMax.ToString()))
                     {
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaWetCloth2_X", Lib_Card.Configure.Parameter.Coordinate_AreaWetCloth2_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaWetCloth2_Y", Lib_Card.Configure.Parameter.Coordinate_AreaWetCloth2_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                         //读取当前坐标写入
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaWetCloth2_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaWetCloth2_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4370,6 +4634,9 @@ namespace SmartDyeing.FADM_Control
                     }
                     else if (Convert.ToInt32(TxtNum.Text) >= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_AreaWetCloth3_CupMin.ToString()) && Convert.ToInt32(TxtNum.Text) <= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_AreaWetCloth3_CupMax.ToString()))
                     {
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaWetCloth3_X", Lib_Card.Configure.Parameter.Coordinate_AreaWetCloth3_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaWetCloth3_Y", Lib_Card.Configure.Parameter.Coordinate_AreaWetCloth3_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                         //读取当前坐标写入
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaWetCloth3_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_AreaWetCloth3_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4399,6 +4666,9 @@ namespace SmartDyeing.FADM_Control
                             return;
                         }
 
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_DryClamp_X", Lib_Card.Configure.Parameter.Coordinate_DryClamp_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_DryClamp_Y", Lib_Card.Configure.Parameter.Coordinate_DryClamp_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                         //读取当前坐标写入
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_DryClamp_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_DryClamp_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4420,6 +4690,9 @@ namespace SmartDyeing.FADM_Control
                         {
                             return;
                         }
+
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_DryClamp_X", Lib_Card.Configure.Parameter.Coordinate_DryClamp_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_DryClamp_Y", Lib_Card.Configure.Parameter.Coordinate_DryClamp_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                         //读取当前坐标写入
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_DryClamp_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4447,6 +4720,9 @@ namespace SmartDyeing.FADM_Control
                             return;
                         }
 
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_WetClamp_X", Lib_Card.Configure.Parameter.Coordinate_WetClamp_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_WetClamp_Y", Lib_Card.Configure.Parameter.Coordinate_WetClamp_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                         //读取当前坐标写入
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_WetClamp_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_WetClamp_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4468,12 +4744,59 @@ namespace SmartDyeing.FADM_Control
                         {
                             return;
                         }
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_WetClamp_X", Lib_Card.Configure.Parameter.Coordinate_WetClamp_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_WetClamp_Y", Lib_Card.Configure.Parameter.Coordinate_WetClamp_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                         //读取当前坐标写入
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_WetClamp_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_WetClamp_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                         Lib_Card.Configure.Parameter.Coordinate_WetClamp_X = Convert.ToInt32(TxtRPosX.Text);
                         Lib_Card.Configure.Parameter.Coordinate_WetClamp_Y = Convert.ToInt32(TxtRPosY.Text);
+                    }
+                }
+            }
+            else if (RdoWash.Checked)
+            {
+                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                {
+                    DialogResult dialogResult = FADM_Form.CustomMessageBox.Show("确定写入?", "温馨提示", MessageBoxButtons.YesNo, true);
+
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                    else
+                    {
+
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Wash_X", Lib_Card.Configure.Parameter.Coordinate_Wash_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Wash_Y", Lib_Card.Configure.Parameter.Coordinate_Wash_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                        //读取当前坐标写入
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Wash_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Wash_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        Lib_Card.Configure.Parameter.Coordinate_Wash_X = Convert.ToInt32(TxtRPosX.Text);
+                        Lib_Card.Configure.Parameter.Coordinate_Wash_Y = Convert.ToInt32(TxtRPosY.Text);
+                    }
+                }
+                else
+                {
+                    DialogResult dialogResult = FADM_Form.CustomMessageBox.Show("Definite write?", "Tips", MessageBoxButtons.YesNo, true);
+
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                    else
+                    {
+
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Wash_X", Lib_Card.Configure.Parameter.Coordinate_Wash_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Wash_Y", Lib_Card.Configure.Parameter.Coordinate_Wash_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                        //读取当前坐标写入
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Wash_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Wash_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        Lib_Card.Configure.Parameter.Coordinate_Wash_X = Convert.ToInt32(TxtRPosX.Text);
+                        Lib_Card.Configure.Parameter.Coordinate_Wash_Y = Convert.ToInt32(TxtRPosY.Text);
                     }
                 }
             }
@@ -4495,7 +4818,10 @@ namespace SmartDyeing.FADM_Control
             {
 
                 case 1:
-                    
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup1_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup1_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup1_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup1_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup1_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup1_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup1_IntervalX = Convert.ToInt32(s_X);
@@ -4503,6 +4829,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 2:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup2_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup2_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup2_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup2_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup2_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup2_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup2_IntervalX = Convert.ToInt32(s_X);
@@ -4510,6 +4839,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 3:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup3_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup3_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup3_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup3_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup3_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup3_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup3_IntervalX = Convert.ToInt32(s_X);
@@ -4517,6 +4849,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 4:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup4_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup4_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup4_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup4_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup4_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup4_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup4_IntervalX = Convert.ToInt32(s_X);
@@ -4524,6 +4859,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 5:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup5_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup5_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup5_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup5_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup5_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup5_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup5_IntervalX = Convert.ToInt32(s_X);
@@ -4531,6 +4869,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 6:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup6_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup6_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup6_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup6_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup6_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup6_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup6_IntervalX = Convert.ToInt32(s_X);
@@ -4538,6 +4879,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 7:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup7_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup7_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup7_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup7_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup7_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup7_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup7_IntervalX = Convert.ToInt32(s_X);
@@ -4545,12 +4889,18 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 8:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup8_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup8_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup8_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup8_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup8_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup8_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup8_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_Cup8_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 9:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup9_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup9_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup9_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup9_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup9_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup9_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup9_IntervalX = Convert.ToInt32(s_X);
@@ -4558,12 +4908,17 @@ namespace SmartDyeing.FADM_Control
                     break;
                 case 10:
 
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup10_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup10_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup10_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup10_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup10_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup10_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup10_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_Cup10_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 11:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup11_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup11_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup11_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup11_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup11_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup11_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4572,6 +4927,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 12:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup12_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup12_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup12_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup12_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup12_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup12_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup12_IntervalX = Convert.ToInt32(s_X);
@@ -4579,6 +4937,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 13:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup13_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup13_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup13_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup13_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup13_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup13_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup13_IntervalX = Convert.ToInt32(s_X);
@@ -4586,6 +4947,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 14:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup14_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup14_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup14_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup14_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup14_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup14_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup14_IntervalX = Convert.ToInt32(s_X);
@@ -4593,6 +4957,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 15:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup15_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup15_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup15_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup15_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup15_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup15_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup15_IntervalX = Convert.ToInt32(s_X);
@@ -4600,6 +4967,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 16:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup16_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup16_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup16_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup16_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup16_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup16_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup16_IntervalX = Convert.ToInt32(s_X);
@@ -4607,6 +4977,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 17:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup17_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup17_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup17_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup17_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup17_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup17_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup17_IntervalX = Convert.ToInt32(s_X);
@@ -4614,24 +4987,37 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 18:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup18_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup18_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup18_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup18_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup18_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup18_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup18_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_Cup18_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 19:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup19_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup19_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup19_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup19_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup19_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup19_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup19_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_Cup19_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 20:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup20_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup20_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup20_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup20_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup20_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup20_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup20_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_Cup20_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 21:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup21_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup21_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup21_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup21_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
 
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup21_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup21_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4640,6 +5026,10 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 22:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup22_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup22_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup22_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup22_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup22_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup22_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup22_IntervalX = Convert.ToInt32(s_X);
@@ -4647,6 +5037,11 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 23:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup23_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup23_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup23_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup23_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup23_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup23_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup23_IntervalX = Convert.ToInt32(s_X);
@@ -4654,6 +5049,10 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 24:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup24_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup24_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup24_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup24_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup24_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup24_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup24_IntervalX = Convert.ToInt32(s_X);
@@ -4661,6 +5060,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 25:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup25_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup25_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup25_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup25_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup25_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup25_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup25_IntervalX = Convert.ToInt32(s_X);
@@ -4668,6 +5070,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 26:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup26_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup26_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup26_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup26_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup26_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup26_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup26_IntervalX = Convert.ToInt32(s_X);
@@ -4675,6 +5080,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 27:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup27_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup27_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup27_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup27_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup27_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup27_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup27_IntervalX = Convert.ToInt32(s_X);
@@ -4682,12 +5090,19 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 28:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup28_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup28_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup28_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup28_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup28_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup28_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup28_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_Cup28_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 29:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup29_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup29_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup29_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup29_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup29_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup29_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup29_IntervalX = Convert.ToInt32(s_X);
@@ -4695,12 +5110,17 @@ namespace SmartDyeing.FADM_Control
                     break;
                 case 30:
 
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup30_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup30_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup30_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup30_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup30_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup30_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup30_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_Cup30_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 31:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup31_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup31_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup31_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup31_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup31_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup31_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4709,6 +5129,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 32:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup32_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup32_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup32_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup32_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup32_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup32_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup32_IntervalX = Convert.ToInt32(s_X);
@@ -4716,6 +5139,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 33:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup33_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup33_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup33_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup33_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup33_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup33_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup33_IntervalX = Convert.ToInt32(s_X);
@@ -4723,6 +5149,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 34:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup34_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup34_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup34_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup34_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup34_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup34_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup34_IntervalX = Convert.ToInt32(s_X);
@@ -4730,6 +5159,10 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 35:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup35_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup35_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup35_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup35_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup35_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup35_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup35_IntervalX = Convert.ToInt32(s_X);
@@ -4737,6 +5170,10 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 36:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup36_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup36_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup36_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup36_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup36_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup36_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup36_IntervalX = Convert.ToInt32(s_X);
@@ -4744,6 +5181,10 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 37:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup37_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup37_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup37_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup37_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup37_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup37_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup37_IntervalX = Convert.ToInt32(s_X);
@@ -4751,18 +5192,28 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 38:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup38_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup38_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup38_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup38_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup38_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup38_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup38_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_Cup38_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 39:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup39_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup39_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup39_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup39_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup39_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup39_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup39_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_Cup39_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 40:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup40_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup40_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup40_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup40_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup40_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup40_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4770,6 +5221,8 @@ namespace SmartDyeing.FADM_Control
                     Lib_Card.Configure.Parameter.Coordinate_Cup40_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 41:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup41_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup41_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup41_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup41_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup41_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup41_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4778,6 +5231,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 42:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup42_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup42_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup42_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup42_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup42_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup42_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup42_IntervalX = Convert.ToInt32(s_X);
@@ -4785,6 +5241,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 43:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup43_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup43_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup43_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup43_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup43_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup43_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup43_IntervalX = Convert.ToInt32(s_X);
@@ -4792,6 +5251,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 44:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup44_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup44_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup44_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup44_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup44_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup44_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup44_IntervalX = Convert.ToInt32(s_X);
@@ -4799,6 +5261,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 45:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup45_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup45_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup45_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup45_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup45_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup45_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup45_IntervalX = Convert.ToInt32(s_X);
@@ -4806,6 +5271,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 46:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup46_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup46_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup46_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup46_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup46_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup46_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup46_IntervalX = Convert.ToInt32(s_X);
@@ -4813,6 +5281,10 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 47:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup47_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup47_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup47_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup47_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup47_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup47_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup47_IntervalX = Convert.ToInt32(s_X);
@@ -4820,6 +5292,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 48:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup48_IntervalX", Lib_Card.Configure.Parameter.Coordinate_Cup48_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup48_IntervalY", Lib_Card.Configure.Parameter.Coordinate_Cup48_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup48_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Cup48_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_Cup48_IntervalX = Convert.ToInt32(s_X);
@@ -4837,6 +5312,9 @@ namespace SmartDyeing.FADM_Control
 
                 case 1:
 
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover1_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover1_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover1_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover1_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover1_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover1_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover1_IntervalX = Convert.ToInt32(s_X);
@@ -4844,6 +5322,10 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 2:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover2_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover2_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover2_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover2_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover2_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover2_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover2_IntervalX = Convert.ToInt32(s_X);
@@ -4851,6 +5333,10 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 3:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover3_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover3_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover3_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover3_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover3_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover3_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover3_IntervalX = Convert.ToInt32(s_X);
@@ -4858,6 +5344,10 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 4:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover4_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover4_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover4_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover4_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover4_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover4_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover4_IntervalX = Convert.ToInt32(s_X);
@@ -4865,6 +5355,10 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 5:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover5_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover5_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover5_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover5_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover5_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover5_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover5_IntervalX = Convert.ToInt32(s_X);
@@ -4872,6 +5366,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 6:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover6_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover6_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover6_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover6_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover6_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover6_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover6_IntervalX = Convert.ToInt32(s_X);
@@ -4879,6 +5376,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 7:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover7_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover7_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover7_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover7_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover7_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover7_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover7_IntervalX = Convert.ToInt32(s_X);
@@ -4886,18 +5386,26 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 8:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover8_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover8_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover8_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover8_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover8_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover8_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover8_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_CupCover8_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 9:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover9_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover9_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover9_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover9_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover9_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover9_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover9_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_CupCover9_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 10:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover10_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover10_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover10_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover10_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover10_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover10_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4905,6 +5413,8 @@ namespace SmartDyeing.FADM_Control
                     Lib_Card.Configure.Parameter.Coordinate_CupCover10_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 11:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover11_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover11_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover11_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover11_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover11_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover11_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4913,6 +5423,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 12:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover12_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover12_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover12_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover12_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover12_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover12_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover12_IntervalX = Convert.ToInt32(s_X);
@@ -4920,6 +5433,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 13:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover13_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover13_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover13_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover13_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover13_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover13_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover13_IntervalX = Convert.ToInt32(s_X);
@@ -4927,6 +5443,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 14:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover14_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover14_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover14_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover14_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover14_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover14_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover14_IntervalX = Convert.ToInt32(s_X);
@@ -4934,6 +5453,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 15:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover15_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover15_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover15_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover15_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover15_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover15_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover15_IntervalX = Convert.ToInt32(s_X);
@@ -4941,6 +5463,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 16:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover16_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover16_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover16_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover16_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover16_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover16_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover16_IntervalX = Convert.ToInt32(s_X);
@@ -4948,6 +5473,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 17:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover17_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover17_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover17_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover17_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover17_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover17_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover17_IntervalX = Convert.ToInt32(s_X);
@@ -4955,24 +5483,35 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 18:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover18_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover18_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover18_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover18_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover18_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover18_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover18_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_CupCover18_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 19:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover19_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover19_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover19_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover19_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover19_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover19_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover19_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_CupCover19_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 20:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover20_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover20_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover20_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover20_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover20_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover20_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover20_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_CupCover20_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 21:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover21_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover21_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover21_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover21_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover21_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover21_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -4981,6 +5520,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 22:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover22_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover22_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover22_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover22_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover22_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover22_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover22_IntervalX = Convert.ToInt32(s_X);
@@ -4988,6 +5530,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 23:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover23_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover23_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover23_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover23_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover23_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover23_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover23_IntervalX = Convert.ToInt32(s_X);
@@ -4995,6 +5540,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 24:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover24_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover24_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover24_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover24_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover24_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover24_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover24_IntervalX = Convert.ToInt32(s_X);
@@ -5002,6 +5550,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 25:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover25_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover25_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover25_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover25_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover25_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover25_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover25_IntervalX = Convert.ToInt32(s_X);
@@ -5009,6 +5560,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 26:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover26_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover26_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover26_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover26_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover26_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover26_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover26_IntervalX = Convert.ToInt32(s_X);
@@ -5016,6 +5570,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 27:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover27_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover27_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover27_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover27_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover27_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover27_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover27_IntervalX = Convert.ToInt32(s_X);
@@ -5023,18 +5580,28 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 28:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover28_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover28_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover28_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover28_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover28_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover28_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover28_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_CupCover28_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 29:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover29_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover29_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover29_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover29_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover29_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover29_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover29_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_CupCover29_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 30:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover30_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover30_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover30_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover30_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
 
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover30_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover30_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -5043,6 +5610,9 @@ namespace SmartDyeing.FADM_Control
                     break;
                 case 31:
 
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover31_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover31_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover31_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover31_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover31_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover31_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover31_IntervalX = Convert.ToInt32(s_X);
@@ -5050,6 +5620,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 32:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover32_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover32_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover32_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover32_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover32_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover32_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover32_IntervalX = Convert.ToInt32(s_X);
@@ -5057,6 +5630,10 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 33:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover33_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover33_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover33_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover33_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover33_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover33_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover33_IntervalX = Convert.ToInt32(s_X);
@@ -5064,6 +5641,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 34:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover34_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover34_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover34_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover34_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover34_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover34_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover34_IntervalX = Convert.ToInt32(s_X);
@@ -5071,6 +5651,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 35:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover35_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover35_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover35_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover35_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover35_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover35_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover35_IntervalX = Convert.ToInt32(s_X);
@@ -5078,6 +5661,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 36:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover36_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover36_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover36_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover36_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover36_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover36_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover36_IntervalX = Convert.ToInt32(s_X);
@@ -5085,6 +5671,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 37:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover37_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover37_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover37_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover37_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover37_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover37_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover37_IntervalX = Convert.ToInt32(s_X);
@@ -5092,18 +5681,25 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 38:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover38_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover38_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover38_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover38_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover38_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover38_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover38_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_CupCover38_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 39:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover39_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover39_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover39_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover39_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover39_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover39_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover39_IntervalX = Convert.ToInt32(s_X);
                     Lib_Card.Configure.Parameter.Coordinate_CupCover39_IntervalY = Convert.ToInt32(s_Y);
                     break;
                 case 40:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover40_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover40_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover40_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover40_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
 
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover40_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover40_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
@@ -5112,6 +5708,9 @@ namespace SmartDyeing.FADM_Control
                     break;
                 case 41:
 
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover41_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover41_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover41_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover41_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover41_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover41_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover41_IntervalX = Convert.ToInt32(s_X);
@@ -5119,6 +5718,10 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 42:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover42_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover42_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover42_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover42_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover42_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover42_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover42_IntervalX = Convert.ToInt32(s_X);
@@ -5126,6 +5729,10 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 43:
+
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover43_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover43_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover43_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover43_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover43_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover43_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover43_IntervalX = Convert.ToInt32(s_X);
@@ -5133,6 +5740,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 44:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover44_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover44_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover44_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover44_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover44_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover44_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover44_IntervalX = Convert.ToInt32(s_X);
@@ -5140,6 +5750,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 45:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover45_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover45_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover45_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover45_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover45_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover45_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover45_IntervalX = Convert.ToInt32(s_X);
@@ -5147,6 +5760,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 46:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover46_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover46_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover46_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover46_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover46_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover46_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover46_IntervalX = Convert.ToInt32(s_X);
@@ -5154,6 +5770,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 47:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover47_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover47_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover47_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover47_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover47_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover47_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover47_IntervalX = Convert.ToInt32(s_X);
@@ -5161,6 +5780,9 @@ namespace SmartDyeing.FADM_Control
                     break;
 
                 case 48:
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover48_IntervalX", Lib_Card.Configure.Parameter.Coordinate_CupCover48_IntervalX.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover48_IntervalY", Lib_Card.Configure.Parameter.Coordinate_CupCover48_IntervalY.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover48_IntervalX", s_X, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_File.Ini.WriteIni("Coordinate", "Coordinate_CupCover48_IntervalY", s_Y, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                     Lib_Card.Configure.Parameter.Coordinate_CupCover48_IntervalX = Convert.ToInt32(s_X);
@@ -5170,5 +5792,91 @@ namespace SmartDyeing.FADM_Control
                     break;
             }
         }
+
+        private void BtnOutPut_Wash_In_Click(object sender, EventArgs e)
+        {
+            if (Lib_Card.Configure.Parameter.Machine_Type == 0)
+            { }
+            else
+            {
+                try
+                {
+                    _b_istrue = true;
+                    if (this.BtnOutPut_Wash_In.ForeColor == Color.Red)
+                    {
+                        _ia_array[0] = 45;
+                    }
+                    else
+                    {
+                        _ia_array[0] = 44;
+                    }
+                    int i_state = FADM_Object.Communal._tcpModBus.Write(811, _ia_array);
+
+                }
+                catch { }
+                finally
+                {
+                    _b_istrue = false;
+                }
+            }
+        }
+
+        private void BtnOutPut_Wash_Out_Click(object sender, EventArgs e)
+        {
+            if (Lib_Card.Configure.Parameter.Machine_Type == 0)
+            { }
+            else
+            {
+                try
+                {
+                    _b_istrue = true;
+                    if (this.BtnOutPut_Wash_Out.ForeColor == Color.Red)
+                    {
+                        _ia_array[0] = 47;
+                    }
+                    else
+                    {
+                        _ia_array[0] = 46;
+                    }
+                    int i_state = FADM_Object.Communal._tcpModBus.Write(811, _ia_array);
+
+                }
+                catch { }
+                finally
+                {
+                    _b_istrue = false;
+                }
+            }
+        }
+
+        private void BtnOutPut_Wash_Blow_Click(object sender, EventArgs e)
+        {
+            if (Lib_Card.Configure.Parameter.Machine_Type == 0)
+            { }
+            else
+            {
+                try
+                {
+                    _b_istrue = true;
+                    if (this.BtnOutPut_Wash_Blow.ForeColor == Color.Red)
+                    {
+                        _ia_array[0] = 49;
+                    }
+                    else
+                    {
+                        _ia_array[0] = 48;
+                    }
+                    int i_state = FADM_Object.Communal._tcpModBus.Write(811, _ia_array);
+
+                }
+                catch { }
+                finally
+                {
+                    _b_istrue = false;
+                }
+            }
+        }
+
+      
     }
 }

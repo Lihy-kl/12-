@@ -179,25 +179,68 @@ namespace SmartDyeing.FADM_Control
 
         private void btn_BrewingCodeDelete_Click(object sender, EventArgs e)
         {
-            string s_sql = "DELETE FROM brewing_code" +
+            //判断是否存在母液瓶使用该开料流程
+            string s_sql1 = "Select *  FROM bottle_details" +
                                " WHERE BrewingCode = '" + txt_BrewCode.Text + "';";
-            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+            DataTable dt_bottle_details = FADM_Object.Communal._fadmSqlserver.GetData(s_sql1);
+            //当有母液瓶在使用
+            if (dt_bottle_details.Rows.Count > 0)
+            {
+                string s_bottleNo = "";
+                foreach(DataRow dr in dt_bottle_details.Rows)
+                {
+                    s_bottleNo += dr["BottleNum"];
+                    s_bottleNo += ",";
+                }
+                s_bottleNo = s_bottleNo.Substring(0, s_bottleNo.Length - 2);
 
-            s_sql = "DELETE FROM brewing_process" +
-                        " WHERE BrewingCode = '" + txt_BrewCode.Text + "';";
-            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
-            try
-            {
-                BrewingCodeShow(dgv_BrewCode.Rows[dgv_BrewCode.CurrentCell.RowIndex - 1].Cells[0].Value.ToString());
+                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                    FADM_Form.CustomMessageBox.Show(s_bottleNo+"号母液瓶使用此调液流程，不能删除", "温馨提示", MessageBoxButtons.OK, false);
+                else
+                    FADM_Form.CustomMessageBox.Show(s_bottleNo+ " The mother liquor bottle uses this liquid preparation process and cannot be deleted", "Tips", MessageBoxButtons.OK, false);
+                return;
+
             }
-            catch
-            {
-                BrewingCodeShow("");
+            else
+            { 
+                string s_sql = "DELETE FROM brewing_code" +
+                                   " WHERE BrewingCode = '" + txt_BrewCode.Text + "';";
+                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
+                s_sql = "DELETE FROM brewing_process" +
+                            " WHERE BrewingCode = '" + txt_BrewCode.Text + "';";
+                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                try
+                {
+                    BrewingCodeShow(dgv_BrewCode.Rows[dgv_BrewCode.CurrentCell.RowIndex - 1].Cells[0].Value.ToString());
+                }
+                catch
+                {
+                    BrewingCodeShow("");
+                }
             }
         }
 
         private void btn_BrewingProcessAdd_Click(object sender, EventArgs e)
         {
+            //调液流程不能超过5步
+            if ((0 == Lib_Card.Configure.Parameter.Machine_Opening_Type || 2 == Lib_Card.Configure.Parameter.Machine_Opening_Type || 3 == Lib_Card.Configure.Parameter.Machine_Opening_Type) && dgv_BrewProcess.Rows.Count == 5)
+            {
+                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                    FADM_Form.CustomMessageBox.Show("调液流程不能多于5步", "温馨提示", MessageBoxButtons.OK, false);
+                else
+                    FADM_Form.CustomMessageBox.Show("The liquid preparation process should not exceed five steps", "Tips", MessageBoxButtons.OK, false);
+                return;
+            }
+            //调液流程不能超过6步
+            else if (1 == Lib_Card.Configure.Parameter.Machine_Opening_Type && dgv_BrewProcess.Rows.Count == 6)
+            {
+                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                    FADM_Form.CustomMessageBox.Show("调液流程不能多于6步", "温馨提示", MessageBoxButtons.OK, false);
+                else
+                    FADM_Form.CustomMessageBox.Show("The liquid preparation process should not exceed six steps", "Tips", MessageBoxButtons.OK, false);
+                return;
+            }
             string s_stepNum = (dgv_BrewProcess.Rows.Count + 1).ToString();
             BrewingStep form_BrewingStep = new BrewingStep(s_stepNum, "", "", "", txt_BrewCode.Text, true, this);
             form_BrewingStep.Show();

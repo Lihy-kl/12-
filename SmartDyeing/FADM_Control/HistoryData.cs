@@ -1394,6 +1394,15 @@ namespace SmartDyeing.FADM_Control
                     case "加C":
                     case "加D":
                     case "加E":
+                    case "加F":
+                    case "加G":
+                    case "加H":
+                    case "加I":
+                    case "加J":
+                    case "加K":
+                    case "加L":
+                    case "加M":
+                    case "加N":
                         // 固定时间设定为0.5分钟
                         fixedDuration = step.Duration ?? 0.5;
                         for (int i = 0; i < fixedDuration * 2; i++) // 每分钟记录两个温度值

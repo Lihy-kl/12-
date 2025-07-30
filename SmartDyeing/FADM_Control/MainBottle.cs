@@ -281,8 +281,8 @@ namespace SmartDyeing.FADM_Control
                                 }
                             }
                         }
-                        //12杯翻转缸
-                        else if (Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 2)
+                        //12杯翻转缸/12杯精密机
+                        else if (Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 6)
                         {
                             FADM_Control.TwelveBeater s = new TwelveBeater();
                             this.panel1.Controls.Add(s);
@@ -525,8 +525,8 @@ namespace SmartDyeing.FADM_Control
                                 }
                             }
                         }
-                        //12杯翻转缸
-                        else if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 2)
+                        //12杯翻转缸/12杯精密机
+                        else if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 6)
                         {
                             FADM_Control.TwelveBeater s = new TwelveBeater();
                             this.panel2.Controls.Add(s);
@@ -769,8 +769,8 @@ namespace SmartDyeing.FADM_Control
                                 }
                             }
                         }
-                        //12杯翻转缸
-                        else if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 2)
+                        //12杯翻转缸/12杯精密机
+                        else if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 6)
                         {
                             FADM_Control.TwelveBeater s = new TwelveBeater();
                             this.panel3.Controls.Add(s);
@@ -1010,8 +1010,8 @@ namespace SmartDyeing.FADM_Control
                                 }
                             }
                         }
-                        //12杯翻转缸
-                        else if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 2)
+                        //12杯翻转缸/12杯精密机
+                        else if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 6)
                         {
                             FADM_Control.TwelveBeater s = new TwelveBeater();
                             this.panel4.Controls.Add(s);
@@ -1251,8 +1251,8 @@ namespace SmartDyeing.FADM_Control
                                 }
                             }
                         }
-                        //12杯翻转缸
-                        else if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 2)
+                        //12杯翻转缸/12杯精密机
+                        else if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 6)
                         {
                             FADM_Control.TwelveBeater s = new TwelveBeater();
                             this.panel5.Controls.Add(s);
@@ -1492,8 +1492,8 @@ namespace SmartDyeing.FADM_Control
                                 }
                             }
                         }
-                        //12杯翻转缸
-                        else if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 2)
+                        //12杯翻转缸/12杯精密机
+                        else if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 6)
                         {
                             FADM_Control.TwelveBeater s = new TwelveBeater();
                             this.panel6.Controls.Add(s);
@@ -1616,6 +1616,11 @@ namespace SmartDyeing.FADM_Control
 
                 _balance.Location = new Point(i_balanceX, 50);
                 this.PnlBottle.Controls.Add(_balance);
+
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    this.ContextMenuStrip = null;
+                }
             }
             catch (Exception ex)
             {
@@ -1656,7 +1661,8 @@ namespace SmartDyeing.FADM_Control
             }
             else
             {
-                contextMenuStrip2.Show(MousePosition.X, MousePosition.Y);
+                if (!FADM_Object.Communal._b_isJustShowInfo)
+                    contextMenuStrip2.Show(MousePosition.X, MousePosition.Y);
             }
         }
 
@@ -1685,7 +1691,8 @@ namespace SmartDyeing.FADM_Control
             }
             else
             {
-                contextMenuStrip2.Show(MousePosition.X, MousePosition.Y);
+                if (!FADM_Object.Communal._b_isJustShowInfo)
+                    contextMenuStrip2.Show(MousePosition.X, MousePosition.Y);
             }
         }
 
@@ -2110,6 +2117,36 @@ namespace SmartDyeing.FADM_Control
                         else
                         {
                             _lis_bottle[Convert.ToInt16(dr["BottleNum"]) - 1].bottleColor = Color.Black;
+                        }
+                    }
+
+                    //把需要洗针筒的母液瓶插入字典
+                    if(FADM_Object.Communal._b_isHasWashSyringe)
+                    {
+                        //判断上次洗针筒时间
+                        if(!(dr["LastWashTime"] is DBNull) )
+                        {
+                            DateTime lastWashTime = Convert.ToDateTime(dr["LastWashTime"]);
+                            //计算时间差
+                            UInt32 timeDifferenceWash = Convert.ToUInt32(timeNow.Subtract(lastWashTime).Duration().TotalHours);
+                            //判断大于洗针间隔
+                            if(timeDifferenceWash > Convert.ToUInt32(dr["WashSyringeSpan"]))
+                            {
+                                List<int> value = new List<int>();
+                                //可以放针
+                                value.Add(1);
+                                //可以洗
+                                value.Add(1);
+                                if (!Communal.GetValueWash(dr["BottleNum"].ToString(), out value))
+                                {
+                                    List<int> value1 = new List<int>();
+                                    //可以放针
+                                    value1.Add(1);
+                                    //可以洗
+                                    value1.Add(1);
+                                    Communal.AddOrUpdateWash(dr["BottleNum"].ToString(), value1);
+                                }
+                            }
                         }
                     }
                 }
@@ -3960,6 +3997,7 @@ namespace SmartDyeing.FADM_Control
                 tsm_Abs.Visible = false;
                 tsm_InsertAbs.Visible = false;
             }
+
         }
 
         private void tsm_TestStanAbs_Click(object sender, EventArgs e)
@@ -5334,6 +5372,7 @@ namespace SmartDyeing.FADM_Control
                 tsm_TestBaseAbs.Visible = false;
                 tsm_TestAbsCompensate.Visible = false;
             }
+
 
         }
 

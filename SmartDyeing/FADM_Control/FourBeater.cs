@@ -24,9 +24,13 @@ namespace SmartDyeing.FADM_Control
                 if (c is Cup)
                 {
                     c.MouseDown += Cup_MouseDown;
-                    c.ContextMenuStrip = this.contextMenuStrip1;
+                    if (!FADM_Object.Communal._b_isJustShowInfo)
+                        c.ContextMenuStrip = this.contextMenuStrip1;
                 }
             }
+
+            if (FADM_Object.Communal._b_isJustShowInfo)
+                this.groupBox1.ContextMenuStrip = null;
         }
 
         //输入检查

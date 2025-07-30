@@ -175,6 +175,7 @@ namespace SmartDyeing.FADM_Auto
                 {
                     FADM_Object.Communal.WriteDripWait(true);
                     Communal._b_isWaitDrip = true;
+                    Communal._b_isAllowDrip = true;
                     while (true)
                     {
                         if (false == FADM_Object.Communal.ReadDripWait())
@@ -668,6 +669,7 @@ namespace SmartDyeing.FADM_Auto
             {
                 FADM_Object.Communal.WriteDripWait(true);
                 Communal._b_isWaitDrip = true;
+                Communal._b_isAllowDrip = true;
                 while (true)
                 {
                     if (false == FADM_Object.Communal.ReadDripWait())
@@ -718,6 +720,7 @@ namespace SmartDyeing.FADM_Auto
                     {
                         FADM_Object.Communal.WriteDripWait(true);
                         Communal._b_isWaitDrip = true;
+                        Communal._b_isAllowDrip = true;
                         while (true)
                         {
                             if (false == FADM_Object.Communal.ReadDripWait())
@@ -765,34 +768,7 @@ namespace SmartDyeing.FADM_Auto
                         }
                         FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand",  i_cupNo + "号吸光度配液杯加水启动");
                         double d_addWaterTime = MyModbusFun.GetWaterTime(d_blObjectW);//加水时间
-                        if (d_addWaterTime <= 32)
-                        {
-                            i_mRes = MyModbusFun.AddWater(d_addWaterTime);
-                            if (-2 == i_mRes)
-                                throw new Exception("收到退出消息");
-                        }
-                        else
-                        {
-                            double d = 32;
-                            while (true)
-                            {
-                                if (d_addWaterTime > 32)
-                                {
-                                    //每次减32s
-                                    i_mRes = MyModbusFun.AddWater(d);
-                                    if (-2 == i_mRes)
-                                        throw new Exception("收到退出消息");
-                                }
-                                else
-                                {
-                                    i_mRes = MyModbusFun.AddWater(d_addWaterTime);
-                                    if (-2 == i_mRes)
-                                        throw new Exception("收到退出消息");
-                                    break;
-                                }
-                                d_addWaterTime -= d;
-                            }
-                        }
+                        FADM_Object.Communal.AddWater(d_addWaterTime);
                         FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", i_cupNo + "号吸光度配液杯加水完成");
                     }
                     //如果勾选加水，但实际计算出来加水量为0，直接完成
@@ -937,34 +913,7 @@ namespace SmartDyeing.FADM_Auto
                     FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "天平读数：" + d_blBalanceValue0);
 
                     double d_addWaterTime2 = MyModbusFun.GetWaterTime(Lib_Card.Configure.Parameter.Correcting_Water_RWeight);//加水时间 校正加水时间
-                    if (d_addWaterTime2 <= 32)
-                    {
-                        i_mRes = MyModbusFun.AddWater(d_addWaterTime2);
-                        if (-2 == i_mRes)
-                            throw new Exception("收到退出消息");
-                    }
-                    else
-                    {
-                        double d = 32;
-                        while (true)
-                        {
-                            if (d_addWaterTime2 > 32)
-                            {
-                                //每次减32s
-                                i_mRes = MyModbusFun.AddWater(d);
-                                if (-2 == i_mRes)
-                                    throw new Exception("收到退出消息");
-                            }
-                            else
-                            {
-                                i_mRes = MyModbusFun.AddWater(d_addWaterTime2);
-                                if (-2 == i_mRes)
-                                    throw new Exception("收到退出消息");
-                                break;
-                            }
-                            d_addWaterTime2 -= d;
-                        }
-                    }
+                    FADM_Object.Communal.AddWater(d_addWaterTime2);
 
                     //读取天平数据
                     FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "天平稳定读数启动");
@@ -1066,6 +1015,7 @@ namespace SmartDyeing.FADM_Auto
                     {
                         s_failC = s_failC.Remove(s_failC.Length - 1);
                         FADM_Object.Communal.WriteDripWait(true);
+                        Communal._b_isAllowDrip = false;
                         FADM_Object.MyAlarm myAlarm;
 
                         if (Lib_Card.Configure.Parameter.Other_Language == 0)
@@ -1078,7 +1028,7 @@ namespace SmartDyeing.FADM_Auto
                                 break;
                             Thread.Sleep(1);
                         }
-
+                        Communal._b_isAllowDrip = true;
                         if (2 == myAlarm._i_alarm_Choose)
                             throw new Exception("收到退出消息");
 
@@ -1087,6 +1037,7 @@ namespace SmartDyeing.FADM_Auto
                         {
                             FADM_Object.Communal.WriteDripWait(true);
                             Communal._b_isWaitDrip = true;
+                            Communal._b_isAllowDrip = true;
                             while (true)
                             {
                                 if (false == FADM_Object.Communal.ReadDripWait())
@@ -1351,6 +1302,7 @@ namespace SmartDyeing.FADM_Auto
                         if (dt_pre_brew.Rows.Count > 0)
                         {
                             FADM_Object.Communal.WriteDripWait(true);
+                            Communal._b_isAllowDrip = false;
                             FADM_Object.MyAlarm myAlarm;
                             if (Lib_Card.Configure.Parameter.Other_Language == 0)
                                 myAlarm = new FADM_Object.MyAlarm(
@@ -1364,11 +1316,13 @@ namespace SmartDyeing.FADM_Auto
                                     break;
                                 Thread.Sleep(1);
                             }
+                            Communal._b_isAllowDrip = true;
                             //判断染色线程是否需要用机械手
                             if (null != FADM_Object.Communal.ReadDyeThread())
                             {
                                 FADM_Object.Communal.WriteDripWait(true);
                                 Communal._b_isWaitDrip = true;
+                                Communal._b_isAllowDrip = true;
                                 while (true)
                                 {
                                     if (false == FADM_Object.Communal.ReadDripWait())
@@ -1419,6 +1373,7 @@ namespace SmartDyeing.FADM_Auto
                         if (dt_pre_brew.Rows.Count > 0)
                         {
                             FADM_Object.Communal.WriteDripWait(true);
+                            Communal._b_isAllowDrip = false;
                             FADM_Object.MyAlarm myAlarm;
                             if (Lib_Card.Configure.Parameter.Other_Language == 0)
                                 myAlarm = new FADM_Object.MyAlarm(
@@ -1437,6 +1392,7 @@ namespace SmartDyeing.FADM_Auto
                             {
                                 FADM_Object.Communal.WriteDripWait(true);
                                 Communal._b_isWaitDrip = true;
+                                Communal._b_isAllowDrip = true;
                                 while (true)
                                 {
                                     if (false == FADM_Object.Communal.ReadDripWait())
@@ -1521,6 +1477,7 @@ namespace SmartDyeing.FADM_Auto
             {
                 FADM_Object.Communal.WriteDripWait(true);
                 Communal._b_isWaitDrip = true;
+                Communal._b_isAllowDrip = true;
                 while (true)
                 {
                     if (false == FADM_Object.Communal.ReadDripWait())
@@ -1541,6 +1498,7 @@ namespace SmartDyeing.FADM_Auto
                 {
                     FADM_Object.Communal.WriteDripWait(true);
                     Communal._b_isWaitDrip = true;
+                    Communal._b_isAllowDrip = true;
                     while (true)
                     {
                         if (false == FADM_Object.Communal.ReadDripWait())
@@ -1560,6 +1518,7 @@ namespace SmartDyeing.FADM_Auto
                 if (-1 == i_res)
                 {
                     FADM_Object.Communal.WriteDripWait(true);
+                    Communal._b_isAllowDrip = false;
                     FADM_Object.MyAlarm myAlarm;
                     if (Lib_Card.Configure.Parameter.Other_Language == 0)
                         myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶针检失败，是否继续?(继续针检请点是，退出针检请点否)", "滴液针检", true, 1);
@@ -1573,11 +1532,13 @@ namespace SmartDyeing.FADM_Auto
                             break;
                         Thread.Sleep(1);
                     }
+                    Communal._b_isAllowDrip = true;
                     //判断染色线程是否需要用机械手
                     if (null != FADM_Object.Communal.ReadDyeThread())
                     {
                         FADM_Object.Communal.WriteDripWait(true);
                         Communal._b_isWaitDrip = true;
+                        Communal._b_isAllowDrip = true;
                         while (true)
                         {
                             if (false == FADM_Object.Communal.ReadDripWait())
@@ -1632,6 +1593,7 @@ namespace SmartDyeing.FADM_Auto
             {
                 FADM_Object.Communal.WriteDripWait(true);
                 Communal._b_isWaitDrip = true;
+                Communal._b_isAllowDrip = true;
                 while (true)
                 {
                     if (false == FADM_Object.Communal.ReadDripWait())
@@ -1652,13 +1614,14 @@ namespace SmartDyeing.FADM_Auto
             o._dic_pulse= dic_pulse;
             o._dic_water =dic_water;
             Dictionary<int, double> dic_return = new Dictionary<int, double>();
-            int i_ret=FADM_Object.Communal.AddMac(o,ref dic_return,2);
+            int i_ret=FADM_Object.Communal.AddMac(o,ref dic_return,2, 0);
             //夹不到针筒
             if (i_ret == -1)
             {
                 if (i_lowSrart == 2)
                 {
                     FADM_Object.Communal.WriteDripWait(true);
+                    Communal._b_isAllowDrip = false;
                     FADM_Object.MyAlarm myAlarm;
                     if (Lib_Card.Configure.Parameter.Other_Language == 0)
                         myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出滴液请点否)", "滴液", true, 1);
@@ -1671,11 +1634,13 @@ namespace SmartDyeing.FADM_Auto
                             break;
                         Thread.Sleep(1);
                     }
+                    Communal._b_isAllowDrip = true;
                     //判断染色线程是否需要用机械手
                     if (null != FADM_Object.Communal.ReadDyeThread())
                     {
                         FADM_Object.Communal.WriteDripWait(true);
                         Communal._b_isWaitDrip = true;
+                        Communal._b_isAllowDrip = true;
                         while (true)
                         {
                             if (false == FADM_Object.Communal.ReadDripWait())
@@ -2115,6 +2080,7 @@ namespace SmartDyeing.FADM_Auto
 
                 s_alarmBottleNo = s_alarmBottleNo.Remove(s_alarmBottleNo.Length - 1);
                 FADM_Object.Communal.WriteDripWait(true);
+                Communal._b_isAllowDrip = false;
                 FADM_Object.MyAlarm myAlarm;
                 if (Lib_Card.Configure.Parameter.Other_Language == 0)
                     myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + "号母液瓶液量过低，是否继续滴液?", "滴液", true, 1);
@@ -2126,11 +2092,13 @@ namespace SmartDyeing.FADM_Auto
                         break;
                     Thread.Sleep(1);
                 }
+                Communal._b_isAllowDrip = true;
                 //判断染色线程是否需要用机械手
                 if (null != FADM_Object.Communal.ReadDyeThread())
                 {
                     FADM_Object.Communal.WriteDripWait(true);
                     Communal._b_isWaitDrip = true;
+                    Communal._b_isAllowDrip = true;
                     while (true)
                     {
                         if (false == FADM_Object.Communal.ReadDripWait())
@@ -2180,6 +2148,7 @@ namespace SmartDyeing.FADM_Auto
 
                 s_alarmBottleNo = s_alarmBottleNo.Remove(s_alarmBottleNo.Length - 1);
                 FADM_Object.Communal.WriteDripWait(true);
+                Communal._b_isAllowDrip = false;
                 FADM_Object.MyAlarm myAlarm;
                 if (Lib_Card.Configure.Parameter.Other_Language == 0)
                     myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + "号母液瓶过期，是否继续滴液?", "滴液", true, 1);
@@ -2191,11 +2160,13 @@ namespace SmartDyeing.FADM_Auto
                         break;
                     Thread.Sleep(1);
                 }
+                Communal._b_isAllowDrip = true;
                 //判断染色线程是否需要用机械手
                 if (null != FADM_Object.Communal.ReadDyeThread())
                 {
                     FADM_Object.Communal.WriteDripWait(true);
                     Communal._b_isWaitDrip = true;
+                    Communal._b_isAllowDrip = true;
                     while (true)
                     {
                         if (false == FADM_Object.Communal.ReadDripWait())
@@ -2245,6 +2216,7 @@ namespace SmartDyeing.FADM_Auto
 
                 s_alarmBottleNo = s_alarmBottleNo.Remove(s_alarmBottleNo.Length - 1);
                 FADM_Object.Communal.WriteDripWait(true);
+                Communal._b_isAllowDrip = false;
                 FADM_Object.MyAlarm myAlarm;
                 if (Lib_Card.Configure.Parameter.Other_Language == 0)
                     myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + "号母液瓶未检测到针筒，是否继续滴液 ? ", "滴液", true, 1);
@@ -2256,10 +2228,12 @@ namespace SmartDyeing.FADM_Auto
                         break;
                     Thread.Sleep(1);
                 }
+                Communal._b_isAllowDrip = true;
                 //判断染色线程是否需要用机械手
                 if (null != FADM_Object.Communal.ReadDyeThread())
                 {
                     FADM_Object.Communal.WriteDripWait(true);
+                    Communal._b_isAllowDrip = true;
                     Communal._b_isWaitDrip = true;
                     while (true)
                     {
@@ -2297,6 +2271,7 @@ namespace SmartDyeing.FADM_Auto
         //滴液完成    
         label6:
             FADM_Object.Communal.WriteDripWait(true);
+            Communal._b_isAllowDrip = false;
             if (!b_chooseNo)
             {
                 lab_Re:
@@ -2316,6 +2291,7 @@ namespace SmartDyeing.FADM_Auto
                             {
                                 FADM_Object.Communal.WriteDripWait(true);
                                 Communal._b_isWaitDrip = true;
+                                Communal._b_isAllowDrip = true;
                                 while (true)
                                 {
                                     if (false == FADM_Object.Communal.ReadDripWait())
@@ -2387,6 +2363,7 @@ namespace SmartDyeing.FADM_Auto
                         s_cupNo = s_cupNo.Remove(s_cupNo.Length - 1);
 
                         FADM_Object.Communal.WriteDripWait(true);
+                        Communal._b_isAllowDrip = false;
                         FADM_Object.MyAlarm myAlarm;
                         if (Lib_Card.Configure.Parameter.Other_Language == 0)
                             myAlarm = new FADM_Object.MyAlarm(s_cupNo + "号配液杯滴液失败，是否继续(重新滴液请点是，退出滴液请点否)?", "滴液", true, 1);
@@ -2400,11 +2377,13 @@ namespace SmartDyeing.FADM_Auto
                                 break;
                             Thread.Sleep(1);
                         }
+                        Communal._b_isAllowDrip = true;
                         //判断染色线程是否需要用机械手
                         if (null != FADM_Object.Communal.ReadDyeThread())
                         {
                             FADM_Object.Communal.WriteDripWait(true);
                             Communal._b_isWaitDrip = true;
+                            Communal._b_isAllowDrip = true;
                             while (true)
                             {
                                 if (false == FADM_Object.Communal.ReadDripWait())
@@ -2678,6 +2657,7 @@ namespace SmartDyeing.FADM_Auto
                         s_cupNo = s_cupNo.Remove(s_cupNo.Length - 1);
 
                         FADM_Object.Communal.WriteDripWait(true);
+                        Communal._b_isAllowDrip = false;
                         FADM_Object.MyAlarm myAlarm;
                         if (Lib_Card.Configure.Parameter.Other_Language == 0)
                             myAlarm = new FADM_Object.MyAlarm(s_cupNo + "号配液杯滴液失败，是否继续(重新滴液请点是，退出滴液请点否)?", "滴液", true, 1);
@@ -2690,11 +2670,13 @@ namespace SmartDyeing.FADM_Auto
                                 break;
                             Thread.Sleep(1);
                         }
+                        Communal._b_isAllowDrip = true;
                         //判断染色线程是否需要用机械手
                         if (null != FADM_Object.Communal.ReadDyeThread())
                         {
                             FADM_Object.Communal.WriteDripWait(true);
                             Communal._b_isWaitDrip = true;
+                            Communal._b_isAllowDrip = true;
                             while (true)
                             {
                                 if (false == FADM_Object.Communal.ReadDripWait())

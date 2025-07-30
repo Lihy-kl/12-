@@ -62,6 +62,8 @@ namespace SmartDyeing.FADM_Form
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.BtnMain = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.CupStatus = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.DetailInfo = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSplitButton5 = new System.Windows.Forms.ToolStripSplitButton();
@@ -108,6 +110,8 @@ namespace SmartDyeing.FADM_Form
             this.toolStripSeparator3,
             this.BtnMain,
             this.toolStripSeparator4,
+            this.CupStatus,
+            this.toolStripSeparator11,
             this.DetailInfo,
             this.toolStripSeparator9,
             this.toolStripSplitButton5,
@@ -315,6 +319,18 @@ namespace SmartDyeing.FADM_Form
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
+            // 
+            // CupStatus
+            // 
+            this.CupStatus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            resources.ApplyResources(this.CupStatus, "CupStatus");
+            this.CupStatus.Name = "CupStatus";
+            this.CupStatus.Click += new System.EventHandler(this.CupStatus_Click);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            resources.ApplyResources(this.toolStripSeparator11, "toolStripSeparator11");
             // 
             // DetailInfo
             // 
@@ -584,5 +600,7 @@ namespace SmartDyeing.FADM_Form
         private ToolStripMenuItem MiLowAllowDrip;
         private Timer timerNeedToDo;
         private Timer timer_Update;
+        private ToolStripSeparator toolStripSeparator11;
+        private ToolStripButton CupStatus;
     }
 }

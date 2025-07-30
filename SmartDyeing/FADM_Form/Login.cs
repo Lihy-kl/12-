@@ -1,4 +1,5 @@
 ﻿using Lib_Card.ADT8940A1.OutPut.Blender;
+using Lib_File;
 using Newtonsoft.Json.Linq;
 using SmartDyeing.FADM_Object;
 using System;
@@ -162,6 +163,12 @@ namespace SmartDyeing.FADM_Form
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(411, "抓手A关闭超时");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(412, "抓手B关闭超时");
 
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(421, "抓手A开到位信号已通");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(422, "抓手B开到位信号已通");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(423, "抓手A泄压超时");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(424, "抓手B泄压超时");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(425, "抓手泄压超时");
+
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(501, "接液盘伸出超时");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(502, "接液盘回限位已通");
 
@@ -236,6 +243,12 @@ namespace SmartDyeing.FADM_Form
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10401, "抓手A打开超时,请检查，排除异常请点是，退出运行请点否");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10402, "抓手B打开超时,请检查，排除异常请点是，退出运行请点否");
+
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10421, "抓手A开到位信号已通,请检查，排除异常请点是，退出运行请点否");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10422, "抓手B开到位信号已通,请检查，排除异常请点是，退出运行请点否");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10423, "抓手A泄压超时,请检查，排除异常请点是，退出运行请点否");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10424, "抓手B泄压超时,请检查，排除异常请点是，退出运行请点否");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10425, "抓手泄压超时,请检查，排除异常请点是，退出运行请点否");
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10411, "抓手A关闭超时,请检查，排除异常请点是，退出运行请点否");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10412, "抓手B关闭超时,请检查，排除异常请点是，退出运行请点否");
@@ -347,6 +360,12 @@ namespace SmartDyeing.FADM_Form
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(411, "Closing gripper A timed out");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(412, "Closing gripper B timed out");
 
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(421, "The signal for gripper A to be in position has been activated");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(422, "The signal for gripper B to be in position has been activated");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(423, "Gripper A has exceeded the pressure relief time limit");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(424, "Gripper B has exceeded the pressure relief time limit");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(425, "The gripper has exceeded the pressure relief time limit");
+
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(501, "The extension of the liquid tray timeout");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(502, "The limit position of the liquid receiving tray has been opened");
 
@@ -421,6 +440,12 @@ namespace SmartDyeing.FADM_Form
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10401, "Opening gripper A timed out,Please check and rule out any abnormalities. Click Yes. Click No to exit the operation");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10402, "Opening gripper B timed out,Please check and rule out any abnormalities. Click Yes. Click No to exit the operation");
+
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10421, "The signal for gripper A to be in position has been activated,Please check and rule out any abnormalities. Click Yes. Click No to exit the operation");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10422, "The signal for gripper B to be in position has been activated,Please check and rule out any abnormalities. Click Yes. Click No to exit the operation");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10423, "Gripper A has exceeded the pressure relief time limit,Please check and rule out any abnormalities. Click Yes. Click No to exit the operation");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10424, "Gripper B has exceeded the pressure relief time limit,Please check and rule out any abnormalities. Click Yes. Click No to exit the operation");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10425, "The gripper has exceeded the pressure relief time limit,Please check and rule out any abnormalities. Click Yes. Click No to exit the operation");
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10411, "Closing gripper A timed out,Please check and rule out any abnormalities. Click Yes. Click No to exit the operation");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10412, "Closing gripper B timed out,Please check and rule out any abnormalities. Click Yes. Click No to exit the operation");
@@ -568,13 +593,19 @@ namespace SmartDyeing.FADM_Form
                     FADM_Object.Communal._b_isNewSet = false;
                 }
 
+                string s_JustShowInfo = Lib_File.Ini.GetIni("Setting", "IsJustShowInfo", "0", s_path2);
+                if (s_JustShowInfo == "1")
+                {
+                    FADM_Object.Communal._b_isJustShowInfo = true;
+                }
+                FADM_Object.Communal._fadmSqlserver.SetShowInfo(FADM_Object.Communal._b_isJustShowInfo);
 
 
-                //开启线程 校验表和表字段
-                Thread P_thd = new Thread(new ParameterizedThreadStart(verifyTableSuccess));
-                P_thd.IsBackground = false;
-                P_thd.Start(con);
-                
+                ////开启线程 校验表和表字段
+                //Thread P_thd = new Thread(new ParameterizedThreadStart(verifyTableSuccess));
+                //P_thd.IsBackground = false;
+                //P_thd.Start(con);
+
             }
             catch (Exception ex)
             {
@@ -584,555 +615,606 @@ namespace SmartDyeing.FADM_Form
                     FADM_Form.CustomMessageBox.Show(ex.Message, "Test database", MessageBoxButtons.OK, false);
                 System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
             }
-
-            //板卡版
-            if (Lib_Card.Configure.Parameter.Machine_Type == 0)
+            if (!FADM_Object.Communal._b_isJustShowInfo)
             {
-
-                //获取ADT8940A1_IO
-                try
+                //板卡版
+                if (Lib_Card.Configure.Parameter.Machine_Type == 0)
                 {
-                    Lib_Card.ADT8940A1.ADT8940A1_IO adt8940a1 = new Lib_Card.ADT8940A1.ADT8940A1_IO();
-                    string sPath = Environment.CurrentDirectory + "\\Config\\ADT8940A1_IO.ini";
 
-                    foreach (PropertyInfo info in adt8940a1.GetType().GetProperties())
+                    //获取ADT8940A1_IO
+                    try
                     {
-                        char[] separator = { '_' };
-                        string head = info.Name.Split(separator)[0];
+                        Lib_Card.ADT8940A1.ADT8940A1_IO adt8940a1 = new Lib_Card.ADT8940A1.ADT8940A1_IO();
+                        string sPath = Environment.CurrentDirectory + "\\Config\\ADT8940A1_IO.ini";
+
+                        foreach (PropertyInfo info in adt8940a1.GetType().GetProperties())
+                        {
+                            char[] separator = { '_' };
+                            string head = info.Name.Split(separator)[0];
+                            try
+                            {
+                                int value = Convert.ToInt32(Lib_File.Ini.GetIni(head, info.Name, sPath));
+                                if (0 > value)
+                                {
+                                    FADM_Form.CustomMessageBox.Show(info.Name + " = " + value, "ADT8940A1_IO文件异常",
+                                       MessageBoxButtons.OK, false);
+                                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                                }
+                                adt8940a1.GetType().GetProperty(info.Name).SetValue(adt8940a1, value);
+                            }
+                            catch (Exception ex)
+                            {
+                                if (ex.Message != "Input string was not in a correct format." && ex.Message != "输入字符串的格式不正确。")
+                                    throw;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "ADT8940A1_IO", MessageBoxButtons.OK, false);
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
+
+                    //板卡配置
+                    try
+                    {
+                        Lib_Card.CardObject.OA1 = new Lib_Card.ADT8940A1.ADT8940A1_Card();
+                        Lib_Card.CardObject.OA1.CardInit();
+
+                        if (Lib_Card.Configure.Parameter.Machine_BlenderVersion == 0)
+                        {
+                            Lib_Card.ADT8940A1.OutPut.Blender.Blender blender = new Lib_Card.ADT8940A1.OutPut.Blender.Blender_Basic();
+                            if (-1 == blender.Blender_Off())
+                                throw new Exception("驱动异常");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "测试板卡", MessageBoxButtons.OK, false);
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
+
+                    int x = 0;
+                    int y = 0;
+                    if (FADM_Object.Communal._b_isNewSet)
+                        MyModbusFun.CalTarget(0, Lib_Card.Configure.Parameter.Machine_Bottle_Total, ref x, ref y);
+                    else
+                        MyModbusFun.CalTarget(0, 1, ref x, ref y);
+                    FADM_Object.Communal._i_Max_Y = y + 10000;
+
+                    if (Lib_Card.Configure.Parameter.Machine_BalanceType == 0)
+                    {
+                        //天平配置
                         try
                         {
-                            int value = Convert.ToInt32(Lib_File.Ini.GetIni(head, info.Name, sPath));
-                            if (0 > value)
+                            FADM_Object.Communal.Mettler = new Lib_SerialPort.Balance.METTLER
                             {
-                                FADM_Form.CustomMessageBox.Show(info.Name + " = " + value, "ADT8940A1_IO文件异常",
-                                   MessageBoxButtons.OK, false);
-                                System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                            }
-                            adt8940a1.GetType().GetProperty(info.Name).SetValue(adt8940a1, value);
+                                PortName = "COM4",
+                                BaudRate = Lib_SerialPort.BaudRates.BR_9600,
+                                DataBits = Lib_SerialPort.DataBits.Eight,
+                                StopBits = System.IO.Ports.StopBits.One,
+                                Parity = System.IO.Ports.Parity.None
+                            };
+
+                            FADM_Object.Communal.Mettler.Open();
                         }
                         catch (Exception ex)
                         {
-                            if (ex.Message != "Input string was not in a correct format." && ex.Message != "输入字符串的格式不正确。")
-                                throw;
+                            FADM_Form.CustomMessageBox.Show(ex.Message, "测试天平", MessageBoxButtons.OK, false);
+
+                            System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    FADM_Form.CustomMessageBox.Show(ex.Message, "ADT8940A1_IO", MessageBoxButtons.OK, false);
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                }
-
-                //板卡配置
-                try
-                {
-                    Lib_Card.CardObject.OA1 = new Lib_Card.ADT8940A1.ADT8940A1_Card();
-                    Lib_Card.CardObject.OA1.CardInit();
-
-                    if (Lib_Card.Configure.Parameter.Machine_BlenderVersion == 0)
+                    else
                     {
-                        Lib_Card.ADT8940A1.OutPut.Blender.Blender blender = new Lib_Card.ADT8940A1.OutPut.Blender.Blender_Basic();
-                        if (-1 == blender.Blender_Off())
-                            throw new Exception("驱动异常");
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                    FADM_Form.CustomMessageBox.Show(ex.Message, "测试板卡", MessageBoxButtons.OK, false);
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                }
-
-                int x = 0;
-                int y = 0;
-                if (FADM_Object.Communal._b_isNewSet)
-                    MyModbusFun.CalTarget(0, Lib_Card.Configure.Parameter.Machine_Bottle_Total, ref x, ref y);
-                else
-                    MyModbusFun.CalTarget(0, 1, ref x, ref y);
-                FADM_Object.Communal._i_Max_Y = y + 10000;
-
-                if (Lib_Card.Configure.Parameter.Machine_BalanceType == 0)
-                {
-                    //天平配置
-                    try
-                    {
-                        FADM_Object.Communal.Mettler = new Lib_SerialPort.Balance.METTLER
+                        //天平配置
+                        try
                         {
-                            PortName = "COM4",
-                            BaudRate = Lib_SerialPort.BaudRates.BR_9600,
-                            DataBits = Lib_SerialPort.DataBits.Eight,
-                            StopBits = System.IO.Ports.StopBits.One,
-                            Parity = System.IO.Ports.Parity.None
-                        };
+                            FADM_Object.Communal.Shinko = new Lib_SerialPort.Balance.SHINKO
+                            {
+                                PortName = "COM4",
+                                BaudRate = Lib_SerialPort.BaudRates.BR_1200,
+                                DataBits = Lib_SerialPort.DataBits.Eight,
+                                StopBits = System.IO.Ports.StopBits.One,
+                                Parity = System.IO.Ports.Parity.None
+                            };
 
-                        FADM_Object.Communal.Mettler.Open();
-                    }
-                    catch (Exception ex)
-                    {
-                        FADM_Form.CustomMessageBox.Show(ex.Message, "测试天平", MessageBoxButtons.OK, false);
-
-                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                    }
-                }
-                else
-                {
-                    //天平配置
-                    try
-                    {
-                        FADM_Object.Communal.Shinko = new Lib_SerialPort.Balance.SHINKO
+                            FADM_Object.Communal.Shinko.Open();
+                        }
+                        catch (Exception ex)
                         {
-                            PortName = "COM4",
-                            BaudRate = Lib_SerialPort.BaudRates.BR_1200,
-                            DataBits = Lib_SerialPort.DataBits.Eight,
-                            StopBits = System.IO.Ports.StopBits.One,
-                            Parity = System.IO.Ports.Parity.None
-                        };
+                            FADM_Form.CustomMessageBox.Show(ex.Message, "测试天平", MessageBoxButtons.OK, false);
 
-                        FADM_Object.Communal.Shinko.Open();
-                    }
-                    catch (Exception ex)
-                    {
-                        FADM_Form.CustomMessageBox.Show(ex.Message, "测试天平", MessageBoxButtons.OK, false);
-
-                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                    }
-                }
-            }
-
-
-            //PLC版
-            else
-            {
-
-                try
-                {
-
-                    string s_path = Environment.CurrentDirectory + "\\Config\\Config.ini";
-                    string s_server = Lib_File.Ini.GetIni("PLC", "IP", s_path);
-                    string s_port = Lib_File.Ini.GetIni("PLC", "Port", s_path);
-
-                    string s_isUseBrewOnly = Lib_File.Ini.GetIni("Setting", "IsUseBrewOnly", "0", s_path);
-                    if (s_isUseBrewOnly == "1")
-                    {
-                        FADM_Object.Communal._b_isUseBrewOnly = true;
-                    }
-
-                    //连接plc
-                    FADM_Object.Communal._tcpModBus = new TCPModBus();
-                    FADM_Object.Communal._tcpModBus._i_port = Convert.ToInt32(s_port);
-                    FADM_Object.Communal._tcpModBus._s_IP = s_server;
-                    if (FADM_Object.Communal._tcpModBus.Connect() == -1)
-                    {
-                        if (!FADM_Object.Communal._b_isUseBrewOnly)
-                        {
-                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                                FADM_Form.CustomMessageBox.Show("连接PLC失败,请检查!", "设备", MessageBoxButtons.OK, false);
-                            else
-                                FADM_Form.CustomMessageBox.Show("Connection to PLC failed, please check!", "Equipment", MessageBoxButtons.OK, false);
                             System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
                         }
                     }
                 }
-                catch
-                {
-                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                        FADM_Form.CustomMessageBox.Show("连接PLC失败,请检查!", "设备", MessageBoxButtons.OK, false);
-                    else
-                        FADM_Form.CustomMessageBox.Show("Connection to PLC failed, please check!", "Equipment", MessageBoxButtons.OK, false);
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                }
-                if (!FADM_Object.Communal._b_isUseBrewOnly)
-                {
-                    //清除动作错误编号
-                    MyModbusFun.ClearError();
-                }
 
 
-                //获取参数 写给plc寄存器 d 1000开始
-                int i_home_X_LSpeed = Lib_Card.Configure.Parameter.Home_X_LSpeed;//回零起始速度X轴
-                int i_d0 = 0;
-                int i_d0_0 = 0;
-                this.ComParment(i_home_X_LSpeed, ref i_d0, ref i_d0_0);
-
-                int i_home_Y_LSpeed = Lib_Card.Configure.Parameter.Home_Y_LSpeed;//回零起始速度Y轴
-                int i_d2 = 0;
-                int i_d2_2 = 0;
-                this.ComParment(i_home_Y_LSpeed, ref i_d2, ref i_d2_2);
-
-                int i_home_Z_LSpeed = Lib_Card.Configure.Parameter.Home_Z_LSpeed;//回零起始速度Z轴
-                int i_d4 = 0;
-                int i_d4_4 = 0;
-                this.ComParment(i_home_Z_LSpeed, ref i_d4, ref i_d4_4);
-
-                int i_home_X_HSpeed = Lib_Card.Configure.Parameter.Home_X_HSpeed;//回零驱动速度X轴
-                int i_d6 = 0;
-                int i_d6_6 = 0;
-                this.ComParment(i_home_X_HSpeed, ref i_d6, ref i_d6_6);
-
-                int i_home_Y_HSpeed = Lib_Card.Configure.Parameter.Home_Y_HSpeed;//回零驱动速度Y轴
-                int i_d8 = 0;
-                int i_d8_8 = 0;
-                this.ComParment(i_home_Y_HSpeed, ref i_d8, ref i_d8_8);
-
-                int i_home_Z_HSpeed = Lib_Card.Configure.Parameter.Home_Z_HSpeed;//回零驱动速度Z轴
-                int i_d10 = 0;
-                int i_d10_10 = 0;
-                this.ComParment(i_home_Z_HSpeed, ref i_d10, ref i_d10_10);
-
-                int i_home_X_USpeed = Lib_Card.Configure.Parameter.Home_X_USpeed;//回零加速度X轴
-                int i_d12 = 0;
-                int i_d12_12 = 0;
-                this.ComParment(i_home_X_USpeed, ref i_d12, ref i_d12_12);
-
-                int i_home_Y_USpeed = Lib_Card.Configure.Parameter.Home_Y_USpeed;//回零加速度Y轴
-                int i_d14 = 0;
-                int i_d14_14 = 0;
-                this.ComParment(i_home_Y_USpeed, ref i_d14, ref i_d14_14);
-
-                int i_home_Z_USpeed = Lib_Card.Configure.Parameter.Home_Z_USpeed;//回零加速度Z轴
-                int i_d16 = 0;
-                int i_d16_16 = 0;
-                this.ComParment(i_home_Z_USpeed, ref i_d16, ref i_d16_16);
-
-
-                int i_home_X_CSpeed = Lib_Card.Configure.Parameter.Home_X_CSpeed;//爬行速度X轴
-                int i_d18 = 0;
-                int i_d18_18 = 0;
-                this.ComParment(i_home_X_CSpeed, ref i_d18, ref i_d18_18);
-
-                int i_home_Y_CSpeed = Lib_Card.Configure.Parameter.Home_Y_CSpeed;//爬行速度Y轴
-                int i_d20 = 0;
-                int i_d20_20 = 0;
-                this.ComParment(i_home_Y_CSpeed, ref i_d20, ref i_d20_20);
-
-                int i_home_Z_CSpeed = Lib_Card.Configure.Parameter.Home_Z_CSpeed;//爬行速度Z轴
-                int i_d22 = 0;
-                int i_d22_22 = 0;
-                this.ComParment(i_home_Z_CSpeed, ref i_d22, ref i_d22_22);
-
-
-                int i_home_X_Offset = Lib_Card.Configure.Parameter.Home_X_Offset;//偏移量X轴
-                int i_d24 = 0;
-                int i_d24_24 = 0;
-                this.ComParment(i_home_X_Offset, ref i_d24, ref i_d24_24);
-
-                int i_home_Y_Offset = Lib_Card.Configure.Parameter.Home_Y_Offset;//偏移量Y轴
-                int i_d26 = 0;
-                int i_d26_26 = 0;
-                this.ComParment(i_home_Y_Offset, ref i_d26, ref i_d26_26);
-
-                int i_home_Z_Offset = Lib_Card.Configure.Parameter.Home_Z_Offset;//偏移量Z轴
-                int i_d28 = 0;
-                int i_d28_28 = 0;
-                this.ComParment(i_home_Z_Offset, ref i_d28, ref i_d28_28);
-
-
-                //运动参数设置
-                int i_move_X_LSpeed = Lib_Card.Configure.Parameter.Move_X_LSpeed;//X轴起始速度
-                int i_d30 = 0;
-                int i_d30_30 = 0;
-                this.ComParment(i_move_X_LSpeed, ref i_d30, ref i_d30_30);
-
-                int i_move_X_HSpeed = Lib_Card.Configure.Parameter.Move_X_HSpeed;//X轴驱动速度
-                int i_d32 = 0;
-                int i_d32_32 = 0;
-                this.ComParment(i_move_X_HSpeed, ref i_d32, ref i_d32_32);
-
-                double i_move_X_UTime = Lib_Card.Configure.Parameter.Move_X_UTime;//X轴加减速时间
-                int i_d34 = 0;
-                int i_d34_34 = 0;
-                this.ComParment(Convert.ToInt32(i_move_X_UTime), ref i_d34, ref i_d34_34);
-
-
-                int i_move_Y_LSpeed = Lib_Card.Configure.Parameter.Move_Y_LSpeed;//Y轴起始速度
-                int i_d36 = 0;
-                int i_d36_36 = 0;
-                this.ComParment(i_move_Y_LSpeed, ref i_d36, ref i_d36_36);
-
-                int i_move_Y_HSpeed = Lib_Card.Configure.Parameter.Move_Y_HSpeed;//Y轴驱动速度
-                int i_d38 = 0;
-                int i_d38_38 = 0;
-                this.ComParment(i_move_Y_HSpeed, ref i_d38, ref i_d38_38);
-
-                double i_move_Y_UTime = Lib_Card.Configure.Parameter.Move_Y_UTime;//Y轴加减速时间
-                int i_d40 = 0;
-                int i_d40_40 = 0;
-                this.ComParment(Convert.ToInt32(i_move_Y_UTime), ref i_d40, ref i_d40_40);
-
-
-                int i_move_S_LSpeed = Lib_Card.Configure.Parameter.Move_S_LSpeed;//小针筒起始速度
-                int i_d42 = 0;
-                int i_d42_42 = 0;
-                this.ComParment(i_move_S_LSpeed, ref i_d42, ref i_d42_42);
-
-                int i_move_S_HSpeed = Lib_Card.Configure.Parameter.Move_S_HSpeed;//小针筒驱动速度
-                int i_d44 = 0;
-                int i_d44_44 = 0;
-                this.ComParment(i_move_S_HSpeed, ref i_d44, ref i_d44_44);
-
-                double i_move_S_UTime = Lib_Card.Configure.Parameter.Move_S_UTime;//小针筒加减速时间
-                int i_d46 = 0;
-                int i_d46_46 = 0;
-                this.ComParment(Convert.ToInt32(i_move_S_UTime), ref i_d46, ref i_d46_46);
-
-
-                int i_move_B_LSpeed = Lib_Card.Configure.Parameter.Move_B_LSpeed;//大针筒起始速度
-                int i_d48 = 0;
-                int i_d48_48 = 0;
-                this.ComParment(i_move_B_LSpeed, ref i_d48, ref i_d48_48);
-
-                int i_move_B_HSpeed = Lib_Card.Configure.Parameter.Move_B_HSpeed;//大针筒驱动速度
-                int i_d50 = 0;
-                int i_d50_50 = 0;
-                this.ComParment(i_move_B_HSpeed, ref i_d50, ref i_d50_50);
-
-                double i_move_B_UTime = Lib_Card.Configure.Parameter.Move_B_UTime;//大针筒加减速时间
-                int i_d52 = 0;
-                int i_d52_52 = 0;
-                this.ComParment(Convert.ToInt32(i_move_B_UTime), ref i_d52, ref i_d52_52);
-
-
-                double i_delay_Cylinder = Lib_Card.Configure.Parameter.Delay_Cylinder;//气缸检测延时(秒)
-                int i_d54 = 0;
-                int i_d54_54 = 0;
-                this.ComParment(Convert.ToInt32(i_delay_Cylinder * 1000), ref i_d54, ref i_d54_54);
-                ;
-                double i_delay_Tongs = Lib_Card.Configure.Parameter.Delay_Tongs;//抓手检测延时(秒)
-                int i_d56 = 0;
-                int i_d56_56 = 0;
-                this.ComParment(Convert.ToInt32(i_delay_Tongs * 1000), ref i_d56, ref i_d56_56);
-
-                double i_delay_Syringe = Lib_Card.Configure.Parameter.Delay_Syringe;//针检检测延时(秒)
-                int i_d58 = 0;
-                int i_d58_58 = 0;
-                this.ComParment(Convert.ToInt32(i_delay_Syringe * 1000), ref i_d58, ref i_d58_58);
-
-                double i_delay_Tray = Lib_Card.Configure.Parameter.Delay_Tray;//接液盘检测延时(秒)
-                int i_d60 = 0;
-                int i_d60_60 = 0;
-                this.ComParment(Convert.ToInt32(i_delay_Tray * 1000), ref i_d60, ref i_d60_60);
-
-                double i_delay_Balance_Reset = Lib_Card.Configure.Parameter.Delay_Balance_Reset;//天平清零延时(秒)
-                int i_d62 = 0;
-                int i_d62_62 = 0;
-                this.ComParment(Convert.ToInt32(i_delay_Balance_Reset * 1000), ref i_d62, ref i_d62_62);
-
-                double i_delay_Balance_Read = Lib_Card.Configure.Parameter.Delay_Balance_Read;//天平读数延时(秒)
-                int i_d64 = 0;
-                int i_d64_64 = 0;
-                this.ComParment(Convert.ToInt32(i_delay_Balance_Read * 1000), ref i_d64, ref i_d64_64);
-
-                double i_delay_Buzzer_Finish = Lib_Card.Configure.Parameter.Delay_Buzzer_Finish;//完成报警延时(秒)
-                int i_d66 = 0;
-                int i_d66_66 = 0;
-                this.ComParment(Convert.ToInt32(i_delay_Buzzer_Finish * 1000), ref i_d66, ref i_d66_66);
-
-                int i_other_Z_UpPulse = Lib_Card.Configure.Parameter.Other_Z_UpPulse;//Z轴排空时上移脉冲
-                int i_d68 = 0;
-                int i_d68_68 = 0;
-                this.ComParment(i_other_Z_UpPulse, ref i_d68, ref i_d68_68);
-
-                int i_other_Z_DownPulse = Lib_Card.Configure.Parameter.Other_Z_DownPulse;//Z轴排空时下压脉冲
-                int i_d70 = 0;
-                int i_d70_70 = 0;
-                this.ComParment(i_other_Z_DownPulse, ref i_d70, ref i_d70_70);
-
-                int i_other_Z_BackPulse = Lib_Card.Configure.Parameter.Other_Z_BackPulse;//Z轴抽液完反推脉冲
-                int i_d72 = 0;
-                int i_d72_72 = 0;
-                this.ComParment(i_other_Z_BackPulse, ref i_d72, ref i_d72_72);
-
-                int i_cylinderVersion = Lib_Card.Configure.Parameter.Machine_CylinderVersion;//气缸单双中继
-                int i_d74 = 0;
-                int i_d74_74 = 0;
-                this.ComParment(i_cylinderVersion, ref i_d74, ref i_d74_74);
-
-                int i_isSyringe = Lib_Card.Configure.Parameter.Machine_isSyringe;//屏蔽针筒感应器
-                int i_d76 = 0;
-                int i_d76_76 = 0;
-                this.ComParment(i_isSyringe, ref i_d76, ref i_d76_76);
-
-                int i_other_Push = Lib_Card.Configure.Parameter.Other_Push;//抽液时是否先升气缸 0：边升边反推  1：反推完再升气缸
-                int i_d78 = 0;
-                int i_d78_78 = 0;
-                this.ComParment(i_other_Push, ref i_d78, ref i_d78_78);
-
-                int i_machine_BalanceType = Lib_Card.Configure.Parameter.Machine_BalanceType;//天平类型
-                int i_d80 = 0;
-                int i_d80_80 = 0;
-                this.ComParment(i_machine_BalanceType, ref i_d80, ref i_d80_80);
-
-                int i_coordinate_Balance_X = Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Balance_X);//天平X坐标
-                int i_d82 = 0;
-                int i_d82_82 = 0;
-                this.ComParment(i_coordinate_Balance_X, ref i_d82, ref i_d82_82);
-
-                int x = 0;
-                int y = 0;
-                if (FADM_Object.Communal._b_isNewSet)
-                    MyModbusFun.CalTarget(0, Lib_Card.Configure.Parameter.Machine_Bottle_Total, ref x, ref y);
+                //PLC版
                 else
-                    MyModbusFun.CalTarget(0, 1, ref x, ref y);
-                FADM_Object.Communal._i_Max_Y = y + 10000;
-
-                int i_coordinate_Balance_Y = Convert.ToInt32(FADM_Object.Communal._i_Max_Y);//天平Y坐标
-                int i_d84 = 0;
-                int i_d84_84 = 0;
-                this.ComParment(i_coordinate_Balance_Y, ref i_d84, ref i_d84_84);
-
-
-
-                int i_machine_Decompression = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Decompression);//泄压数量
-                int i_d86 = 0;
-                int i_d86_86 = 0;
-                this.ComParment(i_machine_Decompression, ref i_d86, ref i_d86_86);
-
-                int i_delay_Decompression = Convert.ToInt32(Lib_Card.Configure.Parameter.Delay_Decompression);//泄压延时
-                int i_d88 = 0;
-                int i_d88_88 = 0;
-                this.ComParment(i_delay_Decompression * 1000, ref i_d88, ref i_d88_88);
-
-                int i_machine_TongsVersion = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_TongsVersion);//抓手单双中继
-                int i_d90 = 0;
-                int i_d90_90 = 0;
-                this.ComParment(i_machine_TongsVersion, ref i_d90, ref i_d90_90);
-
-                int i_machine_BlenderVersion = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_BlenderVersion);//搅拌配置常开点
-                int i_d92 = 0;
-                int i_d92_92 = 0;
-                this.ComParment(i_machine_BlenderVersion, ref i_d92, ref i_d92_92);
-
-                int i_coordinate_Standby_X = Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Standby_X);//待机位X坐标
-                int i_d94 = 0;
-                int i_d94_94 = 0;
-                this.ComParment(i_coordinate_Standby_X, ref i_d94, ref i_d94_94);
-
-                int i_coordinate_Standby_Y = Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Standby_Y);//待机位Y坐标
-                int i_d96 = 0;
-                int i_d96_96 = 0;
-                this.ComParment(i_coordinate_Standby_Y, ref i_d96, ref i_d96_96);
-
-                int i_machine_MidCylinder = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_MidCylinder);//是否气缸中
-                int i_d98 = 0;
-                int i_d98_98 = 0;
-                this.ComParment(i_machine_MidCylinder, ref i_d98, ref i_d98_98);
-
-                int i_machine_BlockCylinder = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_BlockCylinder);//阻挡气缸配置
-                int i_d100 = 0;
-                int i_d100_100 = 0;
-                this.ComParment(i_machine_BlockCylinder, ref i_d100, ref i_d100_100);
-
-                double i_delay_Block = Lib_Card.Configure.Parameter.Delay_Block;//阻挡气缸检测延时(秒)
-                int i_d102 = 0;
-                int i_d102_102 = 0;
-                this.ComParment(Convert.ToInt32(i_delay_Block * 1000), ref i_d102, ref i_d102_102);
-
-                int i_machine_ZType = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_ZType);//Z轴电机配置
-                int i_d104 = 0;
-                int i_d104_104 = 0;
-                this.ComParment(i_machine_ZType, ref i_d104, ref i_d104_104);
-
-                int i_other_S_MaxPulse = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_S_MaxPulse);//小针筒Z轴最大脉冲
-                int i_d106 = 0;
-                int i_d106_106 = 0;
-                this.ComParment(i_other_S_MaxPulse + 5000, ref i_d106, ref i_d106_106);
-
-                int i_other_B_MaxPulse = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_B_MaxPulse);//大针筒Z轴最大脉冲
-                int i_d108 = 0;
-                int i_d108_108 = 0;
-                this.ComParment(i_other_B_MaxPulse + 5000, ref i_d108, ref i_d108_108);
-
-                int i_machine_CloseCoverType = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_CloseCoverType);//放盖失能打开
-                int i_d110 = 0;
-                int i_d110_110 = 0;
-                this.ComParment(i_machine_CloseCoverType, ref i_d110, ref i_d110_110);
-
-                int i_other_BalanceMaxWeight = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_BalanceMaxWeight);//废液桶最大液量
-                int i_d112 = 0;
-                int i_d112_112 = 0;
-                this.ComParment(i_other_BalanceMaxWeight, ref i_d112, ref i_d112_112);
-
-                int i_machine_UseBack = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_UseBack);//是否使用后光幕
-                int i_d114 = 0;
-                int i_d114_114 = 0;
-                this.ComParment(i_machine_UseBack, ref i_d114, ref i_d114_114);
-
-                int i_d116 = 0;
-                int i_d116_116 = 0;
-
-                int i_d118 = 0;
-                int i_d118_118 = 0;
-                if (i_machine_UseBack == 1)
                 {
-                    if (FADM_Object.Communal._b_isNewSet)
-                        this.ComParment(Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Bottle_Y) + 5 * Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Bottle_Interval), ref i_d118, ref i_d118_118);
-                    else
+
+                    try
                     {
-                        MyModbusFun.CalTarget(0, Lib_Card.Configure.Parameter.Machine_Bottle_Total, ref x, ref y);
-                        this.ComParment(y + 5 * Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Bottle_Interval), ref i_d118, ref i_d118_118);
+
+                        string s_path = Environment.CurrentDirectory + "\\Config\\Config.ini";
+                        string s_server = Lib_File.Ini.GetIni("PLC", "IP", s_path);
+                        string s_port = Lib_File.Ini.GetIni("PLC", "Port", s_path);
+
+                        string s_isUseBrewOnly = Lib_File.Ini.GetIni("Setting", "IsUseBrewOnly", "0", s_path);
+                        if (s_isUseBrewOnly == "1")
+                        {
+                            FADM_Object.Communal._b_isUseBrewOnly = true;
+                        }
+
+                        //连接plc
+                        FADM_Object.Communal._tcpModBus = new TCPModBus();
+                        FADM_Object.Communal._tcpModBus._i_port = Convert.ToInt32(s_port);
+                        FADM_Object.Communal._tcpModBus._s_IP = s_server;
+                        if (FADM_Object.Communal._tcpModBus.Connect() == -1)
+                        {
+                            if (!FADM_Object.Communal._b_isUseBrewOnly)
+                            {
+                                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                    FADM_Form.CustomMessageBox.Show("连接PLC失败,请检查!", "设备", MessageBoxButtons.OK, false);
+                                else
+                                    FADM_Form.CustomMessageBox.Show("Connection to PLC failed, please check!", "Equipment", MessageBoxButtons.OK, false);
+                                System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                            }
+                        }
                     }
-                }
-
-                int i_move_S_MinHSpeed = Convert.ToInt32(Lib_Card.Configure.Parameter.Move_S_MinHSpeed);//小针筒运行慢速驱动速度
-                int i_d120 = 0;
-                int i_d120_120 = 0;
-                this.ComParment(i_move_S_MinHSpeed, ref i_d120, ref i_d120_120);
-
-                int i_move_B_MinHSpeed = Convert.ToInt32(Lib_Card.Configure.Parameter.Move_B_MinHSpeed);//大针筒运行慢速驱动速度
-                int i_d122 = 0;
-                int i_d122_122 = 0;
-                this.ComParment(i_move_B_MinHSpeed, ref i_d122, ref i_d122_122);
-
-                if (Convert.ToInt32(Lib_Card.Configure.Parameter.Correcting_B_Pulse) < 0)
-                {
-                    FADM_Form.CustomMessageBox.Show("大针筒校正脉冲错误!", "设备", MessageBoxButtons.OK, false);
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                }
-
-                if (Convert.ToInt32(Lib_Card.Configure.Parameter.Correcting_S_Pulse) < 0)
-                {
-                    FADM_Form.CustomMessageBox.Show("小针筒校正脉冲错误!", "设备", MessageBoxButtons.OK, false);
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                }
-
-                if (Convert.ToInt32(Lib_Card.Configure.Parameter.Other_B_MaxPulse) < 0)
-                {
-                    FADM_Form.CustomMessageBox.Show("大针筒Z轴最大脉冲错误!", "设备", MessageBoxButtons.OK, false);
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                }
-
-                if (Convert.ToInt32(Lib_Card.Configure.Parameter.Other_S_MaxPulse) < 0)
-                {
-                    FADM_Form.CustomMessageBox.Show("小针筒Z轴最大脉冲错误!", "设备", MessageBoxButtons.OK, false);
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                }
-
-                if (Convert.ToInt32(Lib_Card.Configure.Parameter.Other_Z_UpPulse) < 0)
-                {
-                    FADM_Form.CustomMessageBox.Show("排空Z轴上移脉冲错误!", "设备", MessageBoxButtons.OK, false);
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                }
-
-                if (Convert.ToInt32(Lib_Card.Configure.Parameter.Other_Z_DownPulse) > 0)
-                {
-                    FADM_Form.CustomMessageBox.Show("排空Z轴下压脉冲错误!", "设备", MessageBoxButtons.OK, false);
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                }
-
-                if (Convert.ToInt32(Lib_Card.Configure.Parameter.Other_Z_BackPulse) > 0)
-                {
-                    FADM_Form.CustomMessageBox.Show("抽液完成反推脉冲错误!", "设备", MessageBoxButtons.OK, false);
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                }
-
-                if (Convert.ToInt32(Lib_Card.Configure.Parameter.Home_Z_Offset) < 0)
-                {
-                    FADM_Form.CustomMessageBox.Show("Z轴回零偏移量错误!", "设备", MessageBoxButtons.OK, false);
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                }
+                    catch
+                    {
+                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                            FADM_Form.CustomMessageBox.Show("连接PLC失败,请检查!", "设备", MessageBoxButtons.OK, false);
+                        else
+                            FADM_Form.CustomMessageBox.Show("Connection to PLC failed, please check!", "Equipment", MessageBoxButtons.OK, false);
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
+                    if (!FADM_Object.Communal._b_isUseBrewOnly)
+                    {
+                        //清除动作错误编号
+                        MyModbusFun.ClearError();
+                    }
 
 
-                int[] ia_array = {i_d0,i_d0_0,i_d2,i_d2_2,i_d4,i_d4_4,i_d6,i_d6_6,i_d8,i_d8_8,i_d10,i_d10_10,i_d12,i_d12_12,
+                    //获取参数 写给plc寄存器 d 1000开始
+                    int i_home_X_LSpeed = Lib_Card.Configure.Parameter.Home_X_LSpeed;//回零起始速度X轴
+                    int i_d0 = 0;
+                    int i_d0_0 = 0;
+                    this.ComParment(i_home_X_LSpeed, ref i_d0, ref i_d0_0);
+
+                    int i_home_Y_LSpeed = Lib_Card.Configure.Parameter.Home_Y_LSpeed;//回零起始速度Y轴
+                    int i_d2 = 0;
+                    int i_d2_2 = 0;
+                    this.ComParment(i_home_Y_LSpeed, ref i_d2, ref i_d2_2);
+
+                    int i_home_Z_LSpeed = Lib_Card.Configure.Parameter.Home_Z_LSpeed;//回零起始速度Z轴
+                    int i_d4 = 0;
+                    int i_d4_4 = 0;
+                    this.ComParment(i_home_Z_LSpeed, ref i_d4, ref i_d4_4);
+
+                    int i_home_X_HSpeed = Lib_Card.Configure.Parameter.Home_X_HSpeed;//回零驱动速度X轴
+                    int i_d6 = 0;
+                    int i_d6_6 = 0;
+                    this.ComParment(i_home_X_HSpeed, ref i_d6, ref i_d6_6);
+
+                    int i_home_Y_HSpeed = Lib_Card.Configure.Parameter.Home_Y_HSpeed;//回零驱动速度Y轴
+                    int i_d8 = 0;
+                    int i_d8_8 = 0;
+                    this.ComParment(i_home_Y_HSpeed, ref i_d8, ref i_d8_8);
+
+                    int i_home_Z_HSpeed = Lib_Card.Configure.Parameter.Home_Z_HSpeed;//回零驱动速度Z轴
+                    int i_d10 = 0;
+                    int i_d10_10 = 0;
+                    this.ComParment(i_home_Z_HSpeed, ref i_d10, ref i_d10_10);
+
+                    int i_home_X_USpeed = Lib_Card.Configure.Parameter.Home_X_USpeed;//回零加速度X轴
+                    int i_d12 = 0;
+                    int i_d12_12 = 0;
+                    this.ComParment(i_home_X_USpeed, ref i_d12, ref i_d12_12);
+
+                    int i_home_Y_USpeed = Lib_Card.Configure.Parameter.Home_Y_USpeed;//回零加速度Y轴
+                    int i_d14 = 0;
+                    int i_d14_14 = 0;
+                    this.ComParment(i_home_Y_USpeed, ref i_d14, ref i_d14_14);
+
+                    int i_home_Z_USpeed = Lib_Card.Configure.Parameter.Home_Z_USpeed;//回零加速度Z轴
+                    int i_d16 = 0;
+                    int i_d16_16 = 0;
+                    this.ComParment(i_home_Z_USpeed, ref i_d16, ref i_d16_16);
+
+
+                    int i_home_X_CSpeed = Lib_Card.Configure.Parameter.Home_X_CSpeed;//爬行速度X轴
+                    int i_d18 = 0;
+                    int i_d18_18 = 0;
+                    this.ComParment(i_home_X_CSpeed, ref i_d18, ref i_d18_18);
+
+                    int i_home_Y_CSpeed = Lib_Card.Configure.Parameter.Home_Y_CSpeed;//爬行速度Y轴
+                    int i_d20 = 0;
+                    int i_d20_20 = 0;
+                    this.ComParment(i_home_Y_CSpeed, ref i_d20, ref i_d20_20);
+
+                    int i_home_Z_CSpeed = Lib_Card.Configure.Parameter.Home_Z_CSpeed;//爬行速度Z轴
+                    int i_d22 = 0;
+                    int i_d22_22 = 0;
+                    this.ComParment(i_home_Z_CSpeed, ref i_d22, ref i_d22_22);
+
+
+                    int i_home_X_Offset = Lib_Card.Configure.Parameter.Home_X_Offset;//偏移量X轴
+                    int i_d24 = 0;
+                    int i_d24_24 = 0;
+                    this.ComParment(i_home_X_Offset, ref i_d24, ref i_d24_24);
+
+                    int i_home_Y_Offset = Lib_Card.Configure.Parameter.Home_Y_Offset;//偏移量Y轴
+                    int i_d26 = 0;
+                    int i_d26_26 = 0;
+                    this.ComParment(i_home_Y_Offset, ref i_d26, ref i_d26_26);
+
+                    int i_home_Z_Offset = Lib_Card.Configure.Parameter.Home_Z_Offset;//偏移量Z轴
+                    int i_d28 = 0;
+                    int i_d28_28 = 0;
+                    this.ComParment(i_home_Z_Offset, ref i_d28, ref i_d28_28);
+
+
+                    //运动参数设置
+                    int i_move_X_LSpeed = Lib_Card.Configure.Parameter.Move_X_LSpeed;//X轴起始速度
+                    int i_d30 = 0;
+                    int i_d30_30 = 0;
+                    this.ComParment(i_move_X_LSpeed, ref i_d30, ref i_d30_30);
+
+                    int i_move_X_HSpeed = Lib_Card.Configure.Parameter.Move_X_HSpeed;//X轴驱动速度
+                    int i_d32 = 0;
+                    int i_d32_32 = 0;
+                    this.ComParment(i_move_X_HSpeed, ref i_d32, ref i_d32_32);
+
+                    double i_move_X_UTime = Lib_Card.Configure.Parameter.Move_X_UTime;//X轴加减速时间
+                    int i_d34 = 0;
+                    int i_d34_34 = 0;
+                    this.ComParment(Convert.ToInt32(i_move_X_UTime), ref i_d34, ref i_d34_34);
+
+
+                    int i_move_Y_LSpeed = Lib_Card.Configure.Parameter.Move_Y_LSpeed;//Y轴起始速度
+                    int i_d36 = 0;
+                    int i_d36_36 = 0;
+                    this.ComParment(i_move_Y_LSpeed, ref i_d36, ref i_d36_36);
+
+                    int i_move_Y_HSpeed = Lib_Card.Configure.Parameter.Move_Y_HSpeed;//Y轴驱动速度
+                    int i_d38 = 0;
+                    int i_d38_38 = 0;
+                    this.ComParment(i_move_Y_HSpeed, ref i_d38, ref i_d38_38);
+
+                    double i_move_Y_UTime = Lib_Card.Configure.Parameter.Move_Y_UTime;//Y轴加减速时间
+                    int i_d40 = 0;
+                    int i_d40_40 = 0;
+                    this.ComParment(Convert.ToInt32(i_move_Y_UTime), ref i_d40, ref i_d40_40);
+
+
+                    int i_move_S_LSpeed = Lib_Card.Configure.Parameter.Move_S_LSpeed;//小针筒起始速度
+                    int i_d42 = 0;
+                    int i_d42_42 = 0;
+                    this.ComParment(i_move_S_LSpeed, ref i_d42, ref i_d42_42);
+
+                    int i_move_S_HSpeed = Lib_Card.Configure.Parameter.Move_S_HSpeed;//小针筒驱动速度
+                    int i_d44 = 0;
+                    int i_d44_44 = 0;
+                    this.ComParment(i_move_S_HSpeed, ref i_d44, ref i_d44_44);
+
+                    double i_move_S_UTime = Lib_Card.Configure.Parameter.Move_S_UTime;//小针筒加减速时间
+                    int i_d46 = 0;
+                    int i_d46_46 = 0;
+                    this.ComParment(Convert.ToInt32(i_move_S_UTime), ref i_d46, ref i_d46_46);
+
+
+                    int i_move_B_LSpeed = Lib_Card.Configure.Parameter.Move_B_LSpeed;//大针筒起始速度
+                    int i_d48 = 0;
+                    int i_d48_48 = 0;
+                    this.ComParment(i_move_B_LSpeed, ref i_d48, ref i_d48_48);
+
+                    int i_move_B_HSpeed = Lib_Card.Configure.Parameter.Move_B_HSpeed;//大针筒驱动速度
+                    int i_d50 = 0;
+                    int i_d50_50 = 0;
+                    this.ComParment(i_move_B_HSpeed, ref i_d50, ref i_d50_50);
+
+                    double i_move_B_UTime = Lib_Card.Configure.Parameter.Move_B_UTime;//大针筒加减速时间
+                    int i_d52 = 0;
+                    int i_d52_52 = 0;
+                    this.ComParment(Convert.ToInt32(i_move_B_UTime), ref i_d52, ref i_d52_52);
+
+
+                    double i_delay_Cylinder = Lib_Card.Configure.Parameter.Delay_Cylinder;//气缸检测延时(秒)
+                    int i_d54 = 0;
+                    int i_d54_54 = 0;
+                    this.ComParment(Convert.ToInt32(i_delay_Cylinder * 1000), ref i_d54, ref i_d54_54);
+                    ;
+                    double i_delay_Tongs = Lib_Card.Configure.Parameter.Delay_Tongs;//抓手检测延时(秒)
+                    int i_d56 = 0;
+                    int i_d56_56 = 0;
+                    this.ComParment(Convert.ToInt32(i_delay_Tongs * 1000), ref i_d56, ref i_d56_56);
+
+                    double i_delay_Syringe = Lib_Card.Configure.Parameter.Delay_Syringe;//针检检测延时(秒)
+                    int i_d58 = 0;
+                    int i_d58_58 = 0;
+                    this.ComParment(Convert.ToInt32(i_delay_Syringe * 1000), ref i_d58, ref i_d58_58);
+
+                    double i_delay_Tray = Lib_Card.Configure.Parameter.Delay_Tray;//接液盘检测延时(秒)
+                    int i_d60 = 0;
+                    int i_d60_60 = 0;
+                    this.ComParment(Convert.ToInt32(i_delay_Tray * 1000), ref i_d60, ref i_d60_60);
+
+                    double i_delay_Balance_Reset = Lib_Card.Configure.Parameter.Delay_Balance_Reset;//天平清零延时(秒)
+                    int i_d62 = 0;
+                    int i_d62_62 = 0;
+                    this.ComParment(Convert.ToInt32(i_delay_Balance_Reset * 1000), ref i_d62, ref i_d62_62);
+
+                    double i_delay_Balance_Read = Lib_Card.Configure.Parameter.Delay_Balance_Read;//天平读数延时(秒)
+                    int i_d64 = 0;
+                    int i_d64_64 = 0;
+                    this.ComParment(Convert.ToInt32(i_delay_Balance_Read * 1000), ref i_d64, ref i_d64_64);
+
+                    double i_delay_Buzzer_Finish = Lib_Card.Configure.Parameter.Delay_Buzzer_Finish;//完成报警延时(秒)
+                    int i_d66 = 0;
+                    int i_d66_66 = 0;
+                    this.ComParment(Convert.ToInt32(i_delay_Buzzer_Finish * 1000), ref i_d66, ref i_d66_66);
+
+                    int i_other_Z_UpPulse = Lib_Card.Configure.Parameter.Other_Z_UpPulse;//Z轴排空时上移脉冲
+                    int i_d68 = 0;
+                    int i_d68_68 = 0;
+                    this.ComParment(i_other_Z_UpPulse, ref i_d68, ref i_d68_68);
+
+                    int i_other_Z_DownPulse = Lib_Card.Configure.Parameter.Other_Z_DownPulse;//Z轴排空时下压脉冲
+                    int i_d70 = 0;
+                    int i_d70_70 = 0;
+                    this.ComParment(i_other_Z_DownPulse, ref i_d70, ref i_d70_70);
+
+                    int i_other_Z_BackPulse = Lib_Card.Configure.Parameter.Other_Z_BackPulse;//Z轴抽液完反推脉冲
+                    int i_d72 = 0;
+                    int i_d72_72 = 0;
+                    this.ComParment(i_other_Z_BackPulse, ref i_d72, ref i_d72_72);
+
+                    int i_cylinderVersion = Lib_Card.Configure.Parameter.Machine_CylinderVersion;//气缸单双中继
+                    int i_d74 = 0;
+                    int i_d74_74 = 0;
+                    this.ComParment(i_cylinderVersion, ref i_d74, ref i_d74_74);
+
+                    int i_isSyringe = Lib_Card.Configure.Parameter.Machine_isSyringe;//屏蔽针筒感应器
+                    int i_d76 = 0;
+                    int i_d76_76 = 0;
+                    this.ComParment(i_isSyringe, ref i_d76, ref i_d76_76);
+
+                    int i_other_Push = Lib_Card.Configure.Parameter.Other_Push;//抽液时是否先升气缸 0：边升边反推  1：反推完再升气缸
+                    int i_d78 = 0;
+                    int i_d78_78 = 0;
+                    this.ComParment(i_other_Push, ref i_d78, ref i_d78_78);
+
+                    int i_machine_BalanceType = Lib_Card.Configure.Parameter.Machine_BalanceType;//天平类型
+                    int i_d80 = 0;
+                    int i_d80_80 = 0;
+                    this.ComParment(i_machine_BalanceType, ref i_d80, ref i_d80_80);
+
+                    int i_coordinate_Balance_X = Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Balance_X);//天平X坐标
+                    int i_d82 = 0;
+                    int i_d82_82 = 0;
+                    this.ComParment(i_coordinate_Balance_X, ref i_d82, ref i_d82_82);
+
+                    int x = 0;
+                    int y = 0;
+                    if (FADM_Object.Communal._b_isNewSet)
+                        MyModbusFun.CalTarget(0, Lib_Card.Configure.Parameter.Machine_Bottle_Total, ref x, ref y);
+                    else
+                        MyModbusFun.CalTarget(0, 1, ref x, ref y);
+                    FADM_Object.Communal._i_Max_Y = y + 10000;
+
+                    int i_coordinate_Balance_Y = Convert.ToInt32(FADM_Object.Communal._i_Max_Y);//天平Y坐标
+                    int i_d84 = 0;
+                    int i_d84_84 = 0;
+                    this.ComParment(i_coordinate_Balance_Y, ref i_d84, ref i_d84_84);
+
+
+
+                    int i_machine_Decompression = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Decompression);//泄压数量
+                    int i_d86 = 0;
+                    int i_d86_86 = 0;
+                    this.ComParment(i_machine_Decompression, ref i_d86, ref i_d86_86);
+
+                    int i_delay_Decompression = Convert.ToInt32(Lib_Card.Configure.Parameter.Delay_Decompression);//泄压延时
+                    int i_d88 = 0;
+                    int i_d88_88 = 0;
+                    this.ComParment(i_delay_Decompression * 1000, ref i_d88, ref i_d88_88);
+
+                    int i_machine_TongsVersion = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_TongsVersion);//抓手单双中继
+                    int i_d90 = 0;
+                    int i_d90_90 = 0;
+                    this.ComParment(i_machine_TongsVersion, ref i_d90, ref i_d90_90);
+
+                    int i_machine_BlenderVersion = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_BlenderVersion);//搅拌配置常开点
+                    int i_d92 = 0;
+                    int i_d92_92 = 0;
+                    this.ComParment(i_machine_BlenderVersion, ref i_d92, ref i_d92_92);
+
+                    int i_coordinate_Standby_X = Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Standby_X);//待机位X坐标
+                    int i_d94 = 0;
+                    int i_d94_94 = 0;
+                    this.ComParment(i_coordinate_Standby_X, ref i_d94, ref i_d94_94);
+
+                    int i_coordinate_Standby_Y = Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Standby_Y);//待机位Y坐标
+                    int i_d96 = 0;
+                    int i_d96_96 = 0;
+                    this.ComParment(i_coordinate_Standby_Y, ref i_d96, ref i_d96_96);
+
+                    int i_machine_MidCylinder = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_MidCylinder);//是否气缸中
+                    int i_d98 = 0;
+                    int i_d98_98 = 0;
+                    this.ComParment(i_machine_MidCylinder, ref i_d98, ref i_d98_98);
+
+                    int i_machine_BlockCylinder = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_BlockCylinder);//阻挡气缸配置
+                    int i_d100 = 0;
+                    int i_d100_100 = 0;
+                    this.ComParment(i_machine_BlockCylinder, ref i_d100, ref i_d100_100);
+
+                    double i_delay_Block = Lib_Card.Configure.Parameter.Delay_Block;//阻挡气缸检测延时(秒)
+                    int i_d102 = 0;
+                    int i_d102_102 = 0;
+                    this.ComParment(Convert.ToInt32(i_delay_Block * 1000), ref i_d102, ref i_d102_102);
+
+                    int i_machine_ZType = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_ZType);//Z轴电机配置
+                    int i_d104 = 0;
+                    int i_d104_104 = 0;
+                    this.ComParment(i_machine_ZType, ref i_d104, ref i_d104_104);
+
+                    int i_other_S_MaxPulse = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_S_MaxPulse);//小针筒Z轴最大脉冲
+                    int i_d106 = 0;
+                    int i_d106_106 = 0;
+                    this.ComParment(i_other_S_MaxPulse + 5000, ref i_d106, ref i_d106_106);
+
+                    int i_other_B_MaxPulse = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_B_MaxPulse);//大针筒Z轴最大脉冲
+                    int i_d108 = 0;
+                    int i_d108_108 = 0;
+                    this.ComParment(i_other_B_MaxPulse + 5000, ref i_d108, ref i_d108_108);
+
+                    int i_machine_CloseCoverType = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_CloseCoverType);//放盖失能打开
+                    int i_d110 = 0;
+                    int i_d110_110 = 0;
+                    this.ComParment(i_machine_CloseCoverType, ref i_d110, ref i_d110_110);
+
+                    int i_other_BalanceMaxWeight = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_BalanceMaxWeight);//废液桶最大液量
+                    int i_d112 = 0;
+                    int i_d112_112 = 0;
+                    this.ComParment(i_other_BalanceMaxWeight, ref i_d112, ref i_d112_112);
+
+                    int i_machine_UseBack = Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_UseBack);//是否使用后光幕
+                    int i_d114 = 0;
+                    int i_d114_114 = 0;
+                    this.ComParment(i_machine_UseBack, ref i_d114, ref i_d114_114);
+
+                    int i_d116 = 0;
+                    int i_d116_116 = 0;
+
+                    int i_d118 = 0;
+                    int i_d118_118 = 0;
+                    if (i_machine_UseBack == 1)
+                    {
+                        if (FADM_Object.Communal._b_isNewSet)
+                            this.ComParment(Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Bottle_Y) + 5 * Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Bottle_Interval), ref i_d118, ref i_d118_118);
+                        else
+                        {
+                            MyModbusFun.CalTarget(0, Lib_Card.Configure.Parameter.Machine_Bottle_Total, ref x, ref y);
+                            this.ComParment(y + 5 * Convert.ToInt32(Lib_Card.Configure.Parameter.Coordinate_Bottle_Interval), ref i_d118, ref i_d118_118);
+                        }
+                    }
+
+                    int i_move_S_MinHSpeed = Convert.ToInt32(Lib_Card.Configure.Parameter.Move_S_MinHSpeed);//小针筒运行慢速驱动速度
+                    int i_d120 = 0;
+                    int i_d120_120 = 0;
+                    this.ComParment(i_move_S_MinHSpeed, ref i_d120, ref i_d120_120);
+
+                    int i_move_B_MinHSpeed = Convert.ToInt32(Lib_Card.Configure.Parameter.Move_B_MinHSpeed);//大针筒运行慢速驱动速度
+                    int i_d122 = 0;
+                    int i_d122_122 = 0;
+                    this.ComParment(i_move_B_MinHSpeed, ref i_d122, ref i_d122_122);
+
+                    int i_other_ClosePulse = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_ClosePulse);//合夹夹布脉冲
+                    int i_d148 = 0;
+                    int i_d148_148 = 0;
+                    this.ComParment(i_other_ClosePulse, ref i_d148, ref i_d148_148);
+
+                    int i_other_OpenPulse = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_OpenPulse);//开夹放布脉冲
+                    int i_d150 = 0;
+                    int i_d150_150 = 0;
+                    this.ComParment(i_other_OpenPulse, ref i_d150, ref i_d150_150);
+
+                    int i_other_ClothDownPulse = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_ClothDownPulse);//备布区下探开夹脉冲
+                    int i_d152 = 0;
+                    int i_d152_152 = 0;
+                    this.ComParment(i_other_ClothDownPulse, ref i_d152, ref i_d152_152);
+
+                    int i_other_CupDownPulse = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_CupDownPulse);//染杯口下探开夹脉冲
+                    int i_d154 = 0;
+                    int i_d154_154 = 0;
+                    this.ComParment(i_other_CupDownPulse, ref i_d154, ref i_d154_154);
+
+                    int i_other_WaterMagnification = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_WaterMagnification);//加水放大倍数 0放大1000倍 1是放大10倍
+                    int i_d156 = 0;
+                    int i_d156_156 = 0;
+                    this.ComParment(i_other_WaterMagnification, ref i_d156, ref i_d156_156);
+
+                    int i_other_OutClothPosition = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_OutClothPosition);//出布时气缸位置 0阻挡位 1慢速中
+                    int i_d158 = 0;
+                    int i_d158_158 = 0;
+                    this.ComParment(i_other_OutClothPosition, ref i_d158, ref i_d158_158);
+
+                    int i_other_WashTime = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_WashTime);//洗针次数
+                    int i_d160 = 0;
+                    int i_d160_160 = 0;
+                    this.ComParment(i_other_WashTime, ref i_d160, ref i_d160_160);
+
+                    int i_other_Tongs_Decompression = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_Tongs_Decompression);//是否配置抓手撑盖
+                    int i_d162 = 0;
+                    int i_d162_162 = 0;
+                    this.ComParment(i_other_Tongs_Decompression, ref i_d162, ref i_d162_162);
+
+                    int i_other_SupportCoverY = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_SupportCoverY);//撑盖Y轴位置偏移
+                    int i_d164 = 0;
+                    int i_d164_164 = 0;
+                    this.ComParment(i_other_SupportCoverY, ref i_d164, ref i_d164_164);
+
+                    int i_other_ValveTerminal = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_ValveTerminal);//是否启用阀岛
+                    int i_d166 = 0;
+                    int i_d166_166 = 0;
+                    this.ComParment(i_other_ValveTerminal, ref i_d166, ref i_d166_166);
+
+                    if (Convert.ToInt32(Lib_Card.Configure.Parameter.Correcting_B_Pulse) < 0)
+                    {
+                        FADM_Form.CustomMessageBox.Show("大针筒校正脉冲错误!", "设备", MessageBoxButtons.OK, false);
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
+
+                    if (Convert.ToInt32(Lib_Card.Configure.Parameter.Correcting_S_Pulse) < 0)
+                    {
+                        FADM_Form.CustomMessageBox.Show("小针筒校正脉冲错误!", "设备", MessageBoxButtons.OK, false);
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
+
+                    if (Convert.ToInt32(Lib_Card.Configure.Parameter.Other_B_MaxPulse) < 0)
+                    {
+                        FADM_Form.CustomMessageBox.Show("大针筒Z轴最大脉冲错误!", "设备", MessageBoxButtons.OK, false);
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
+
+                    if (Convert.ToInt32(Lib_Card.Configure.Parameter.Other_S_MaxPulse) < 0)
+                    {
+                        FADM_Form.CustomMessageBox.Show("小针筒Z轴最大脉冲错误!", "设备", MessageBoxButtons.OK, false);
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
+
+                    if (Convert.ToInt32(Lib_Card.Configure.Parameter.Other_Z_UpPulse) < 0)
+                    {
+                        FADM_Form.CustomMessageBox.Show("排空Z轴上移脉冲错误!", "设备", MessageBoxButtons.OK, false);
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
+
+                    if (Convert.ToInt32(Lib_Card.Configure.Parameter.Other_Z_DownPulse) > 0)
+                    {
+                        FADM_Form.CustomMessageBox.Show("排空Z轴下压脉冲错误!", "设备", MessageBoxButtons.OK, false);
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
+
+                    if (Convert.ToInt32(Lib_Card.Configure.Parameter.Other_Z_BackPulse) > 0)
+                    {
+                        FADM_Form.CustomMessageBox.Show("抽液完成反推脉冲错误!", "设备", MessageBoxButtons.OK, false);
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
+
+                    if (Convert.ToInt32(Lib_Card.Configure.Parameter.Home_Z_Offset) < 0)
+                    {
+                        FADM_Form.CustomMessageBox.Show("Z轴回零偏移量错误!", "设备", MessageBoxButtons.OK, false);
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
+
+
+                    int[] ia_array = {i_d0,i_d0_0,i_d2,i_d2_2,i_d4,i_d4_4,i_d6,i_d6_6,i_d8,i_d8_8,i_d10,i_d10_10,i_d12,i_d12_12,
                 i_d14,i_d14_14,i_d16,i_d16_16,i_d18,i_d18_18,i_d20,i_d20_20,i_d22,i_d22_22,i_d24,i_d24_24,i_d26,i_d26_26,
                 i_d28,i_d28_28,i_d30,i_d30_30,i_d32,i_d32_32,i_d34,i_d34_34,i_d36,i_d36_36,i_d38,i_d38_38,i_d40,i_d40_40,
                 i_d42,i_d42_42,i_d44,i_d44_44,i_d46,i_d46_46,i_d48,i_d48_48,i_d50,i_d50_50,i_d52,i_d52_52,i_d54,i_d54_54,
@@ -1141,695 +1223,744 @@ namespace SmartDyeing.FADM_Form
                 i_d84,i_d84_84,i_d86,i_d86_86,i_d88,i_d88_88,i_d90,i_d90_90,i_d92,i_d92_92,i_d94,i_d94_94,i_d96,i_d96_96,
                 i_d98,i_d98_98,i_d100,i_d100_100,i_d102,i_d102_102,i_d104,i_d104_104,i_d106,i_d106_106,i_d108,i_d108_108,
                 i_d110,i_d110_110,i_d112,i_d112_112,i_d114,i_d114_114,i_d116,i_d116_116,i_d118,i_d118_118};
-                if (!FADM_Object.Communal._b_isUseBrewOnly)
-                {
-                    int i_c = FADM_Object.Communal._tcpModBus.Write(1000, ia_array);
-                    if (i_c == -1)
+                    if (!FADM_Object.Communal._b_isUseBrewOnly)
                     {
-                        FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
+                        int i_c = FADM_Object.Communal._tcpModBus.Write(1000, ia_array);
+                        if (i_c == -1)
+                        {
+                            FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
+                            System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                        }
+
+                        int[] ia_array1 = { i_d120, i_d120_120, i_d122, i_d122_122 };
+
+                        int i_c1 = FADM_Object.Communal._tcpModBus.Write(1120, ia_array1);
+                        if (i_c1 == -1)
+                        {
+                            FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
+                            System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                        }
+
+                        int[] ia_array2 = { i_d148, i_d148_148, i_d150, i_d150_150, i_d152, i_d152_152, i_d154, i_d154_154, i_d156, i_d156_156, i_d158
+                                , i_d158_158, i_d160, i_d160_160, i_d162, i_d162_162,i_d164,i_d164_164,i_d166,i_d166_166 };
+
+                        int i_c2 = FADM_Object.Communal._tcpModBus.Write(1148, ia_array2);
+                        if (i_c2 == -1)
+                        {
+                            FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
+                            System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                        }
+                    }
+
+                    //获取IO_Mapping
+                    try
+                    {
+                        IOMapping IO = new IOMapping();
+                        string s_path = Environment.CurrentDirectory + "\\Config\\IO_Mapping.ini";
+
+                        foreach (PropertyInfo info in IO.GetType().GetProperties())
+                        {
+                            char[] ca_separator = { '_' };
+                            string s_head = info.Name.Split(ca_separator)[0];
+                            try
+                            {
+                                int i_value = Convert.ToInt32(Lib_File.Ini.GetIni(s_head, info.Name, s_path));
+                                //if (0 > value)
+                                //{
+                                //    FADM_Form.CustomMessageBox.Show(info.Name + " = " + value, "IO_Mapping文件异常",
+                                //       MessageBoxButtons.OK, false);
+                                //    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                                //}
+                                IO.GetType().GetProperty(info.Name).SetValue(IO, i_value);
+                            }
+                            catch (Exception ex)
+                            {
+                                if (ex.Message != "Input string was not in a correct format." && ex.Message != "输入字符串的格式不正确。")
+                                    throw;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                            FADM_Form.CustomMessageBox.Show(ex.Message, "IO_Mapping", MessageBoxButtons.OK, false);
+                        else
+                            FADM_Form.CustomMessageBox.Show(ex.Message, "IO_Mapping", MessageBoxButtons.OK, false);
                         System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
                     }
 
-                    int[] ia_array1 = { i_d120, i_d120_120, i_d122, i_d122_122 };
+                    //输入点
+                    int i_inPut_X_APulse = Convert.ToInt32(IOMapping.InPut_X_APulse);//X轴A相反馈脉冲
+                    int i_i0 = 0;
+                    int i_i0_0 = 0;
+                    this.ComParment(i_inPut_X_APulse, ref i_i0, ref i_i0_0);
 
-                    int i_c1 = FADM_Object.Communal._tcpModBus.Write(1120, ia_array1);
-                    if (i_c1 == -1)
-                    {
-                        FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
-                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                    }
-                }
+                    int i_inPut_X_BPulse = Convert.ToInt32(IOMapping.InPut_X_BPulse);//X轴B相反馈脉冲
+                    int i_i2 = 0;
+                    int i_i2_2 = 0;
+                    this.ComParment(i_inPut_X_BPulse, ref i_i2, ref i_i2_2);
 
-                //获取IO_Mapping
-                try
-                {
-                    IOMapping IO = new IOMapping();
-                    string s_path = Environment.CurrentDirectory + "\\Config\\IO_Mapping.ini";
+                    int i_inPut_Y_APulse = Convert.ToInt32(IOMapping.InPut_Y_APulse);//Y轴A相反馈脉冲
+                    int i_i4 = 0;
+                    int i_i4_4 = 0;
+                    this.ComParment(i_inPut_Y_APulse, ref i_i4, ref i_i4_4);
 
-                    foreach (PropertyInfo info in IO.GetType().GetProperties())
-                    {
-                        char[] ca_separator = { '_' };
-                        string s_head = info.Name.Split(ca_separator)[0];
-                        try
-                        {
-                            int i_value = Convert.ToInt32(Lib_File.Ini.GetIni(s_head, info.Name, s_path));
-                            //if (0 > value)
-                            //{
-                            //    FADM_Form.CustomMessageBox.Show(info.Name + " = " + value, "IO_Mapping文件异常",
-                            //       MessageBoxButtons.OK, false);
-                            //    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                            //}
-                            IO.GetType().GetProperty(info.Name).SetValue(IO, i_value);
-                        }
-                        catch (Exception ex)
-                        {
-                            if (ex.Message != "Input string was not in a correct format." && ex.Message != "输入字符串的格式不正确。")
-                                throw;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                        FADM_Form.CustomMessageBox.Show(ex.Message, "IO_Mapping", MessageBoxButtons.OK, false);
-                    else
-                        FADM_Form.CustomMessageBox.Show(ex.Message, "IO_Mapping", MessageBoxButtons.OK, false);
-                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                }
+                    int i_inPut_Y_BPulse = Convert.ToInt32(IOMapping.InPut_Y_BPulse);//Y轴B相反馈脉冲
+                    int i_i6 = 0;
+                    int i_i6_6 = 0;
+                    this.ComParment(i_inPut_Y_BPulse, ref i_i6, ref i_i6_6);
 
-                //输入点
-                int i_inPut_X_APulse = Convert.ToInt32(IOMapping.InPut_X_APulse);//X轴A相反馈脉冲
-                int i_i0 = 0;
-                int i_i0_0 = 0;
-                this.ComParment(i_inPut_X_APulse, ref i_i0, ref i_i0_0);
+                    int i_inPut_Z_APulse = Convert.ToInt32(IOMapping.InPut_Z_APulse);//Z轴A相反馈脉冲
+                    int i_i8 = 0;
+                    int i_i8_8 = 0;
+                    this.ComParment(i_inPut_Z_APulse, ref i_i8, ref i_i8_8);
 
-                int i_inPut_X_BPulse = Convert.ToInt32(IOMapping.InPut_X_BPulse);//X轴B相反馈脉冲
-                int i_i2 = 0;
-                int i_i2_2 = 0;
-                this.ComParment(i_inPut_X_BPulse, ref i_i2, ref i_i2_2);
+                    int i_inPut_Z_BPulse = Convert.ToInt32(IOMapping.InPut_Y_BPulse);//Z轴B相反馈脉冲
+                    int i_i10 = 0;
+                    int i_i10_10 = 0;
+                    this.ComParment(i_inPut_Z_BPulse, ref i_i10, ref i_i10_10);
 
-                int i_inPut_Y_APulse = Convert.ToInt32(IOMapping.InPut_Y_APulse);//Y轴A相反馈脉冲
-                int i_i4 = 0;
-                int i_i4_4 = 0;
-                this.ComParment(i_inPut_Y_APulse, ref i_i4, ref i_i4_4);
+                    int i_inPut_X_Alarm = Convert.ToInt32(IOMapping.InPut_X_Alarm);//X轴异常
+                    int i_i12 = 0;
+                    int i_i12_12 = 0;
+                    this.ComParment(i_inPut_X_Alarm, ref i_i12, ref i_i12_12);
 
-                int i_inPut_Y_BPulse = Convert.ToInt32(IOMapping.InPut_Y_BPulse);//Y轴B相反馈脉冲
-                int i_i6 = 0;
-                int i_i6_6 = 0;
-                this.ComParment(i_inPut_Y_BPulse, ref i_i6, ref i_i6_6);
+                    int i_inPut_Y_Alarm = Convert.ToInt32(IOMapping.InPut_Y_Alarm);//Y轴异常
+                    int i_i14 = 0;
+                    int i_i14_14 = 0;
+                    this.ComParment(i_inPut_Y_Alarm, ref i_i14, ref i_i14_14);
 
-                int i_inPut_Z_APulse = Convert.ToInt32(IOMapping.InPut_Z_APulse);//Z轴A相反馈脉冲
-                int i_i8 = 0;
-                int i_i8_8 = 0;
-                this.ComParment(i_inPut_Z_APulse, ref i_i8, ref i_i8_8);
+                    int i_inPut_Z_Alarm = Convert.ToInt32(IOMapping.InPut_Z_Alarm);//Z轴异常
+                    int i_i16 = 0;
+                    int i_i16_16 = 0;
+                    this.ComParment(i_inPut_Z_Alarm, ref i_i16, ref i_i16_16);
 
-                int i_inPut_Z_BPulse = Convert.ToInt32(IOMapping.InPut_Y_BPulse);//Z轴B相反馈脉冲
-                int i_i10 = 0;
-                int i_i10_10 = 0;
-                this.ComParment(i_inPut_Z_BPulse, ref i_i10, ref i_i10_10);
+                    int i_inPut_X_Ready = Convert.ToInt32(IOMapping.InPut_X_Ready);//X轴准备好
+                    int i_i18 = 0;
+                    int i_i18_18 = 0;
+                    this.ComParment(i_inPut_X_Ready, ref i_i18, ref i_i18_18);
 
-                int i_inPut_X_Alarm = Convert.ToInt32(IOMapping.InPut_X_Alarm);//X轴异常
-                int i_i12 = 0;
-                int i_i12_12 = 0;
-                this.ComParment(i_inPut_X_Alarm, ref i_i12, ref i_i12_12);
+                    int i_inPut_Y_Ready = Convert.ToInt32(IOMapping.InPut_Y_Ready);//Y轴准备好
+                    int i_i20 = 0;
+                    int i_i20_20 = 0;
+                    this.ComParment(i_inPut_Y_Ready, ref i_i20, ref i_i20_20);
 
-                int i_inPut_Y_Alarm = Convert.ToInt32(IOMapping.InPut_Y_Alarm);//Y轴异常
-                int i_i14 = 0;
-                int i_i14_14 = 0;
-                this.ComParment(i_inPut_Y_Alarm, ref i_i14, ref i_i14_14);
+                    int i_inPut_Z_Ready = Convert.ToInt32(IOMapping.InPut_Z_Ready);//Z轴准备好
+                    int i22 = 0;
+                    int i22_22 = 0;
+                    this.ComParment(i_inPut_Z_Ready, ref i22, ref i22_22);
 
-                int i_inPut_Z_Alarm = Convert.ToInt32(IOMapping.InPut_Z_Alarm);//Z轴异常
-                int i_i16 = 0;
-                int i_i16_16 = 0;
-                this.ComParment(i_inPut_Z_Alarm, ref i_i16, ref i_i16_16);
+                    int i_inPut_X_Corotation = Convert.ToInt32(IOMapping.InPut_X_Corotation);//X轴正限位
+                    int i_i24 = 0;
+                    int i_i24_24 = 0;
+                    this.ComParment(i_inPut_X_Corotation, ref i_i24, ref i_i24_24);
 
-                int i_inPut_X_Ready = Convert.ToInt32(IOMapping.InPut_X_Ready);//X轴准备好
-                int i_i18 = 0;
-                int i_i18_18 = 0;
-                this.ComParment(i_inPut_X_Ready, ref i_i18, ref i_i18_18);
+                    int i_inPut_X_Reverse = Convert.ToInt32(IOMapping.InPut_X_Reverse);//X轴正限位
+                    int i_i26 = 0;
+                    int i_i26_26 = 0;
+                    this.ComParment(i_inPut_X_Reverse, ref i_i26, ref i_i26_26);
 
-                int i_inPut_Y_Ready = Convert.ToInt32(IOMapping.InPut_Y_Ready);//Y轴准备好
-                int i_i20 = 0;
-                int i_i20_20 = 0;
-                this.ComParment(i_inPut_Y_Ready, ref i_i20, ref i_i20_20);
+                    int i_inPut_X_Origin = Convert.ToInt32(IOMapping.InPut_X_Origin);//X轴原点
+                    int i_i28 = 0;
+                    int i_i28_28 = 0;
+                    this.ComParment(i_inPut_X_Origin, ref i_i28, ref i_i28_28);
 
-                int i_inPut_Z_Ready = Convert.ToInt32(IOMapping.InPut_Z_Ready);//Z轴准备好
-                int i22 = 0;
-                int i22_22 = 0;
-                this.ComParment(i_inPut_Z_Ready, ref i22, ref i22_22);
+                    int i_inPut_Y_Corotation = Convert.ToInt32(IOMapping.InPut_Y_Corotation);//Y轴正限位
+                    int i_i30 = 0;
+                    int i_i30_30 = 0;
+                    this.ComParment(i_inPut_Y_Corotation, ref i_i30, ref i_i30_30);
 
-                int i_inPut_X_Corotation = Convert.ToInt32(IOMapping.InPut_X_Corotation);//X轴正限位
-                int i_i24 = 0;
-                int i_i24_24 = 0;
-                this.ComParment(i_inPut_X_Corotation, ref i_i24, ref i_i24_24);
+                    int i_inPut_Y_Reverse = Convert.ToInt32(IOMapping.InPut_Y_Reverse);//Y轴正限位
+                    int i_i32 = 0;
+                    int i_i32_32 = 0;
+                    this.ComParment(i_inPut_Y_Reverse, ref i_i32, ref i_i32_32);
 
-                int i_inPut_X_Reverse = Convert.ToInt32(IOMapping.InPut_X_Reverse);//X轴正限位
-                int i_i26 = 0;
-                int i_i26_26 = 0;
-                this.ComParment(i_inPut_X_Reverse, ref i_i26, ref i_i26_26);
+                    int i_inPut_Y_Origin = Convert.ToInt32(IOMapping.InPut_X_Origin);//Y轴原点
+                    int i_i34 = 0;
+                    int i_i34_34 = 0;
+                    this.ComParment(i_inPut_Y_Origin, ref i_i34, ref i_i34_34);
 
-                int i_inPut_X_Origin = Convert.ToInt32(IOMapping.InPut_X_Origin);//X轴原点
-                int i_i28 = 0;
-                int i_i28_28 = 0;
-                this.ComParment(i_inPut_X_Origin, ref i_i28, ref i_i28_28);
+                    int i_inPut_Z_Corotation = Convert.ToInt32(IOMapping.InPut_Z_Corotation);//Z轴正限位
+                    int i_i36 = 0;
+                    int i_i36_36 = 0;
+                    this.ComParment(i_inPut_Z_Corotation, ref i_i36, ref i_i36_36);
 
-                int i_inPut_Y_Corotation = Convert.ToInt32(IOMapping.InPut_Y_Corotation);//Y轴正限位
-                int i_i30 = 0;
-                int i_i30_30 = 0;
-                this.ComParment(i_inPut_Y_Corotation, ref i_i30, ref i_i30_30);
+                    int i_inPut_Z_Reverse = Convert.ToInt32(IOMapping.InPut_Z_Reverse);//Z轴反限位
+                    int i_i38 = 0;
+                    int i_i38_38 = 0;
+                    this.ComParment(i_inPut_Z_Reverse, ref i_i38, ref i_i38_38);
 
-                int i_inPut_Y_Reverse = Convert.ToInt32(IOMapping.InPut_Y_Reverse);//Y轴正限位
-                int i_i32 = 0;
-                int i_i32_32 = 0;
-                this.ComParment(i_inPut_Y_Reverse, ref i_i32, ref i_i32_32);
+                    int i_inPut_Z_Origin = Convert.ToInt32(IOMapping.InPut_Z_Origin);//Z轴原点
+                    int i_i40 = 0;
+                    int i_i40_40 = 0;
+                    this.ComParment(i_inPut_Z_Origin, ref i_i40, ref i_i40_40);
 
-                int i_inPut_Y_Origin = Convert.ToInt32(IOMapping.InPut_X_Origin);//Y轴原点
-                int i_i34 = 0;
-                int i_i34_34 = 0;
-                this.ComParment(i_inPut_Y_Origin, ref i_i34, ref i_i34_34);
+                    int i_inPut_Stop = Convert.ToInt32(IOMapping.InPut_Stop);//前光幕
+                    int i_i42 = 0;
+                    int i_i42_42 = 0;
+                    this.ComParment(i_inPut_Stop, ref i_i42, ref i_i42_42);
 
-                int i_inPut_Z_Corotation = Convert.ToInt32(IOMapping.InPut_Z_Corotation);//Z轴正限位
-                int i_i36 = 0;
-                int i_i36_36 = 0;
-                this.ComParment(i_inPut_Z_Corotation, ref i_i36, ref i_i36_36);
+                    int i_inPut_Sunx_A = Convert.ToInt32(IOMapping.InPut_Sunx_A);//左光幕
+                    int i_i44 = 0;
+                    int i_i44_44 = 0;
+                    this.ComParment(i_inPut_Sunx_A, ref i_i44, ref i_i44_44);
 
-                int i_inPut_Z_Reverse = Convert.ToInt32(IOMapping.InPut_Z_Reverse);//Z轴反限位
-                int i_i38 = 0;
-                int i_i38_38 = 0;
-                this.ComParment(i_inPut_Z_Reverse, ref i_i38, ref i_i38_38);
+                    int i_inPut_Sunx_B = Convert.ToInt32(IOMapping.InPut_Sunx_B);//右光幕
+                    int i_i46 = 0;
+                    int i_i46_46 = 0;
+                    this.ComParment(i_inPut_Sunx_B, ref i_i46, ref i_i46_46);
 
-                int i_inPut_Z_Origin = Convert.ToInt32(IOMapping.InPut_Z_Origin);//Z轴原点
-                int i_i40 = 0;
-                int i_i40_40 = 0;
-                this.ComParment(i_inPut_Z_Origin, ref i_i40, ref i_i40_40);
+                    int i_inPut_Syringe = Convert.ToInt32(IOMapping.InPut_Syringe);//针筒
+                    int i_i48 = 0;
+                    int i_i48_48 = 0;
+                    this.ComParment(i_inPut_Syringe, ref i_i48, ref i_i48_48);
 
-                int i_inPut_Stop = Convert.ToInt32(IOMapping.InPut_Stop);//前光幕
-                int i_i42 = 0;
-                int i_i42_42 = 0;
-                this.ComParment(i_inPut_Stop, ref i_i42, ref i_i42_42);
+                    int i_inPut_Tongs_A = Convert.ToInt32(IOMapping.InPut_Tongs_A);//抓手A
+                    int i_i50 = 0;
+                    int i_i50_50 = 0;
+                    this.ComParment(i_inPut_Tongs_A, ref i_i50, ref i_i50_50);
 
-                int i_inPut_Sunx_A = Convert.ToInt32(IOMapping.InPut_Sunx_A);//左光幕
-                int i_i44 = 0;
-                int i_i44_44 = 0;
-                this.ComParment(i_inPut_Sunx_A, ref i_i44, ref i_i44_44);
+                    int i_inPut_Tongs_B = Convert.ToInt32(IOMapping.InPut_Tongs_B);//抓手B
+                    int i_i52 = 0;
+                    int i_i52_52 = 0;
+                    this.ComParment(i_inPut_Tongs_B, ref i_i52, ref i_i52_52);
 
-                int i_inPut_Sunx_B = Convert.ToInt32(IOMapping.InPut_Sunx_B);//右光幕
-                int i_i46 = 0;
-                int i_i46_46 = 0;
-                this.ComParment(i_inPut_Sunx_B, ref i_i46, ref i_i46_46);
+                    int i_inPut_Cylinder_Up = Convert.ToInt32(IOMapping.InPut_Cylinder_Up);//上限位
+                    int i_i54 = 0;
+                    int i_i54_54 = 0;
+                    this.ComParment(i_inPut_Cylinder_Up, ref i_i54, ref i_i54_54);
 
-                int i_inPut_Syringe = Convert.ToInt32(IOMapping.InPut_Syringe);//针筒
-                int i_i48 = 0;
-                int i_i48_48 = 0;
-                this.ComParment(i_inPut_Syringe, ref i_i48, ref i_i48_48);
+                    int i_inPut_Cylinder_Mid = Convert.ToInt32(IOMapping.InPut_Cylinder_Mid);//中限位
+                    int i_i56 = 0;
+                    int i_i56_56 = 0;
+                    this.ComParment(i_inPut_Cylinder_Mid, ref i_i56, ref i_i56_56);
 
-                int i_inPut_Tongs_A = Convert.ToInt32(IOMapping.InPut_Tongs_A);//抓手A
-                int i_i50 = 0;
-                int i_i50_50 = 0;
-                this.ComParment(i_inPut_Tongs_A, ref i_i50, ref i_i50_50);
+                    int i_inPut_Cylinder_Down = Convert.ToInt32(IOMapping.InPut_Cylinder_Down);//下限位
+                    int i_i58 = 0;
+                    int i_i58_58 = 0;
+                    this.ComParment(i_inPut_Cylinder_Down, ref i_i58, ref i_i58_58);
 
-                int i_inPut_Tongs_B = Convert.ToInt32(IOMapping.InPut_Tongs_B);//抓手B
-                int i_i52 = 0;
-                int i_i52_52 = 0;
-                this.ComParment(i_inPut_Tongs_B, ref i_i52, ref i_i52_52);
+                    int i_inPut_Tray_Out = Convert.ToInt32(IOMapping.InPut_Tray_Out);//接液盘出
+                    int i_i60 = 0;
+                    int i_i60_60 = 0;
+                    this.ComParment(i_inPut_Tray_Out, ref i_i60, ref i_i60_60);
 
-                int i_inPut_Cylinder_Up = Convert.ToInt32(IOMapping.InPut_Cylinder_Up);//上限位
-                int i_i54 = 0;
-                int i_i54_54 = 0;
-                this.ComParment(i_inPut_Cylinder_Up, ref i_i54, ref i_i54_54);
+                    int i_inPut_Tray_In = Convert.ToInt32(IOMapping.InPut_Tray_In);//接液盘回
+                    int i_i62 = 0;
+                    int i_i62_62 = 0;
+                    this.ComParment(i_inPut_Tray_In, ref i_i62, ref i_i62_62);
 
-                int i_inPut_Cylinder_Mid = Convert.ToInt32(IOMapping.InPut_Cylinder_Mid);//中限位
-                int i_i56 = 0;
-                int i_i56_56 = 0;
-                this.ComParment(i_inPut_Cylinder_Mid, ref i_i56, ref i_i56_56);
+                    int i_inPut_Decompression_Up = Convert.ToInt32(IOMapping.InPut_Decompression_Up);//泄压上限位
+                    int i_i64 = 0;
+                    int i_i64_64 = 0;
+                    this.ComParment(i_inPut_Decompression_Up, ref i_i64, ref i_i64_64);
 
-                int i_inPut_Cylinder_Down = Convert.ToInt32(IOMapping.InPut_Cylinder_Down);//下限位
-                int i_i58 = 0;
-                int i_i58_58 = 0;
-                this.ComParment(i_inPut_Cylinder_Down, ref i_i58, ref i_i58_58);
+                    int i_inPut_Decompression_Down = Convert.ToInt32(IOMapping.InPut_Decompression_Down);//泄压下限位
+                    int i_i66 = 0;
+                    int i_i66_66 = 0;
+                    this.ComParment(i_inPut_Decompression_Down, ref i_i66, ref i_i66_66);
 
-                int i_inPut_Tray_Out = Convert.ToInt32(IOMapping.InPut_Tray_Out);//接液盘出
-                int i_i60 = 0;
-                int i_i60_60 = 0;
-                this.ComParment(i_inPut_Tray_Out, ref i_i60, ref i_i60_60);
+                    int i_inPut_Block_Out = Convert.ToInt32(IOMapping.InPut_Block_Out);//阻挡出限位
+                    int i_i68 = 0;
+                    int i_i68_68 = 0;
+                    this.ComParment(i_inPut_Block_Out, ref i_i68, ref i_i68_68);
 
-                int i_inPut_Tray_In = Convert.ToInt32(IOMapping.InPut_Tray_In);//接液盘回
-                int i_i62 = 0;
-                int i_i62_62 = 0;
-                this.ComParment(i_inPut_Tray_In, ref i_i62, ref i_i62_62);
+                    int i_inPut_Block_In = Convert.ToInt32(IOMapping.InPut_Block_In);//阻挡回限位
+                    int i_i70 = 0;
+                    int i_i70_70 = 0;
+                    this.ComParment(i_inPut_Block_In, ref i_i70, ref i_i70_70);
 
-                int i_inPut_Decompression_Up = Convert.ToInt32(IOMapping.InPut_Decompression_Up);//泄压上限位
-                int i_i64 = 0;
-                int i_i64_64 = 0;
-                this.ComParment(i_inPut_Decompression_Up, ref i_i64, ref i_i64_64);
+                    int i_inPut_Slow_Cylinder_Mid = Convert.ToInt32(IOMapping.InPut_Slow_Cylinder_Mid);//气缸慢速中限位
+                    int i_i72 = 0;
+                    int i_i72_72 = 0;
+                    this.ComParment(i_inPut_Slow_Cylinder_Mid, ref i_i72, ref i_i72_72);
 
-                int i_inPut_Decompression_Down = Convert.ToInt32(IOMapping.InPut_Decompression_Down);//泄压下限位
-                int i_i66 = 0;
-                int i_i66_66 = 0;
-                this.ComParment(i_inPut_Decompression_Down, ref i_i66, ref i_i66_66);
+                    int i_inPut_Cylinder_Block = Convert.ToInt32(IOMapping.InPut_Cylinder_Block);//气缸阻挡限位
+                    int i_i74 = 0;
+                    int i_i74_74 = 0;
+                    this.ComParment(i_inPut_Cylinder_Block, ref i_i74, ref i_i74_74);
 
-                int i_inPut_Block_Out = Convert.ToInt32(IOMapping.InPut_Block_Out);//阻挡出限位
-                int i_i68 = 0;
-                int i_i68_68 = 0;
-                this.ComParment(i_inPut_Block_Out, ref i_i68, ref i_i68_68);
+                   
 
-                int i_inPut_Block_In = Convert.ToInt32(IOMapping.InPut_Block_In);//阻挡回限位
-                int i_i70 = 0;
-                int i_i70_70 = 0;
-                this.ComParment(i_inPut_Block_In, ref i_i70, ref i_i70_70);
+                    int i_inPut_Back = Convert.ToInt32(IOMapping.InPut_Back);//后光幕
+                    int i_i76 = 0;
+                    int i_i76_76 = 0;
+                    this.ComParment(i_inPut_Back, ref i_i76, ref i_i76_76);
 
-                int i_inPut_Slow_Cylinder_Mid = Convert.ToInt32(IOMapping.InPut_Slow_Cylinder_Mid);//气缸慢速中限位
-                int i_i72 = 0;
-                int i_i72_72 = 0;
-                this.ComParment(i_inPut_Slow_Cylinder_Mid, ref i_i72, ref i_i72_72);
+                    int i_InPut_SupportCover = Convert.ToInt32(IOMapping.InPut_SupportCover);//撑盖开到位
+                    int i_i78 = 0;
+                    int i_i78_78 = 0;
+                    this.ComParment(i_InPut_SupportCover, ref i_i78, ref i_i78_78);
 
-                int i_inPut_Cylinder_Block = Convert.ToInt32(IOMapping.InPut_Cylinder_Block);//气缸阻挡限位
-                int i_i74 = 0;
-                int i_i74_74 = 0;
-                this.ComParment(i_inPut_Cylinder_Block, ref i_i74, ref i_i74_74);
 
-                int i_inPut_Back = Convert.ToInt32(IOMapping.InPut_Back);//后光幕
-                int i_i76 = 0;
-                int i_i76_76 = 0;
-                this.ComParment(i_inPut_Back, ref i_i76, ref i_i76_76);
+                  
 
-                int[] ia_iarray = {i_i0,i_i0_0,i_i2,i_i2_2,i_i4,i_i4_4,i_i6,i_i6_6,i_i8,i_i8_8,i_i10,i_i10_10,i_i12,i_i12_12,
+                    //int i_inPut_Tongs_B_Decompression = Convert.ToInt32(IOMapping.InPut_Tongs_B_Decompression);//抓手B泄压
+                    //int i_i80 = 0;
+                    //int i_i80_80 = 0;
+                    //this.ComParment(i_inPut_Tongs_B_Decompression, ref i_i80, ref i_i80_80);
+
+                    int[] ia_iarray = {i_i0,i_i0_0,i_i2,i_i2_2,i_i4,i_i4_4,i_i6,i_i6_6,i_i8,i_i8_8,i_i10,i_i10_10,i_i12,i_i12_12,
                 i_i14,i_i14_14,i_i16,i_i16_16,i_i18,i_i18_18,i_i20,i_i20_20,i22,i22_22,i_i24,i_i24_24,i_i26,i_i26_26,
                 i_i28,i_i28_28,i_i30,i_i30_30,i_i32,i_i32_32,i_i34,i_i34_34,i_i36,i_i36_36,i_i38,i_i38_38,i_i40,i_i40_40,
                 i_i42,i_i42_42,i_i44,i_i44_44,i_i46,i_i46_46,i_i48,i_i48_48,i_i50,i_i50_50,i_i52,i_i52_52,i_i54,i_i54_54,
-                i_i56,i_i56_56,i_i58,i_i58_58,i_i60,i_i60_60,i_i62,i_i62_62,i_i64,i_i64_64,i_i66,i_i66_66,i_i68,i_i68_68,i_i70,i_i70_70,i_i72,i_i72_72,i_i74,i_i74_74,i_i76,i_i76_76};
-                if (!FADM_Object.Communal._b_isUseBrewOnly)
-                {
-                    int i_ic = FADM_Object.Communal._tcpModBus.Write(3500, ia_iarray);
-                    if (i_ic == -1)
+                i_i56,i_i56_56,i_i58,i_i58_58,i_i60,i_i60_60,i_i62,i_i62_62,i_i64,i_i64_64,i_i66,i_i66_66,i_i68,i_i68_68,
+                        i_i70,i_i70_70,i_i72,i_i72_72,i_i74,i_i74_74,i_i76,i_i76_76,i_i78,i_i78_78};
+                    if (!FADM_Object.Communal._b_isUseBrewOnly)
                     {
-                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                            FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
-                        else
-                            FADM_Form.CustomMessageBox.Show("Failed to write parameters!", "Equipment", MessageBoxButtons.OK, false);
+                        int i_ic = FADM_Object.Communal._tcpModBus.Write(3500, ia_iarray);
+                        if (i_ic == -1)
+                        {
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
+                            else
+                                FADM_Form.CustomMessageBox.Show("Failed to write parameters!", "Equipment", MessageBoxButtons.OK, false);
 
-                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                            System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                        }
                     }
-                }
 
-                //输出点
-                int i_outPut_X_Pulse = Convert.ToInt32(IOMapping.OutPut_X_Pulse);//X轴脉冲
-                int i_o0 = 0;
-                int i_o0_0 = 0;
-                this.ComParment(i_outPut_X_Pulse, ref i_o0, ref i_o0_0);
+                    //输出点
+                    int i_outPut_X_Pulse = Convert.ToInt32(IOMapping.OutPut_X_Pulse);//X轴脉冲
+                    int i_o0 = 0;
+                    int i_o0_0 = 0;
+                    this.ComParment(i_outPut_X_Pulse, ref i_o0, ref i_o0_0);
 
-                int i_outPut_X_Direction = Convert.ToInt32(IOMapping.OutPut_X_Direction);//X轴方向
-                int i_o2 = 0;
-                int i_o2_2 = 0;
-                this.ComParment(i_outPut_X_Direction, ref i_o2, ref i_o2_2);
+                    int i_outPut_X_Direction = Convert.ToInt32(IOMapping.OutPut_X_Direction);//X轴方向
+                    int i_o2 = 0;
+                    int i_o2_2 = 0;
+                    this.ComParment(i_outPut_X_Direction, ref i_o2, ref i_o2_2);
 
-                int i_outPut_Y_Pulse = Convert.ToInt32(IOMapping.OutPut_Y_Pulse);//Y轴脉冲
-                int i_o4 = 0;
-                int i_o4_4 = 0;
-                this.ComParment(i_outPut_Y_Pulse, ref i_o4, ref i_o4_4);
+                    int i_outPut_Y_Pulse = Convert.ToInt32(IOMapping.OutPut_Y_Pulse);//Y轴脉冲
+                    int i_o4 = 0;
+                    int i_o4_4 = 0;
+                    this.ComParment(i_outPut_Y_Pulse, ref i_o4, ref i_o4_4);
 
-                int i_outPut_Y_Direction = Convert.ToInt32(IOMapping.OutPut_Y_Direction);//Y轴方向
-                int i_o6 = 0;
-                int i_o6_6 = 0;
-                this.ComParment(i_outPut_Y_Direction, ref i_o6, ref i_o6_6);
+                    int i_outPut_Y_Direction = Convert.ToInt32(IOMapping.OutPut_Y_Direction);//Y轴方向
+                    int i_o6 = 0;
+                    int i_o6_6 = 0;
+                    this.ComParment(i_outPut_Y_Direction, ref i_o6, ref i_o6_6);
 
-                int i_outPut_Z_Pulse = Convert.ToInt32(IOMapping.OutPut_Z_Pulse);//Z轴脉冲
-                int i_o8 = 0;
-                int i_o8_8 = 0;
-                this.ComParment(i_outPut_Z_Pulse, ref i_o8, ref i_o8_8);
+                    int i_outPut_Z_Pulse = Convert.ToInt32(IOMapping.OutPut_Z_Pulse);//Z轴脉冲
+                    int i_o8 = 0;
+                    int i_o8_8 = 0;
+                    this.ComParment(i_outPut_Z_Pulse, ref i_o8, ref i_o8_8);
 
-                int i_outPut_Z_Direction = Convert.ToInt32(IOMapping.OutPut_Z_Direction);//Z轴方向
-                int i_o10 = 0;
-                int i_o10_10 = 0;
-                this.ComParment(i_outPut_Z_Direction, ref i_o10, ref i_o10_10);
+                    int i_outPut_Z_Direction = Convert.ToInt32(IOMapping.OutPut_Z_Direction);//Z轴方向
+                    int i_o10 = 0;
+                    int i_o10_10 = 0;
+                    this.ComParment(i_outPut_Z_Direction, ref i_o10, ref i_o10_10);
 
-                int i_outPut_X_Power = Convert.ToInt32(IOMapping.OutPut_X_Power);//X轴使能
-                int i_o12 = 0;
-                int i_o12_12 = 0;
-                this.ComParment(i_outPut_X_Power, ref i_o12, ref i_o12_12);
+                    int i_outPut_X_Power = Convert.ToInt32(IOMapping.OutPut_X_Power);//X轴使能
+                    int i_o12 = 0;
+                    int i_o12_12 = 0;
+                    this.ComParment(i_outPut_X_Power, ref i_o12, ref i_o12_12);
 
-                int i_outPut_Y_Power = Convert.ToInt32(IOMapping.OutPut_X_Power);//Y轴使能
-                int i_o14 = 0;
-                int i_o14_14 = 0;
-                this.ComParment(i_outPut_Y_Power, ref i_o14, ref i_o14_14);
+                    int i_outPut_Y_Power = Convert.ToInt32(IOMapping.OutPut_X_Power);//Y轴使能
+                    int i_o14 = 0;
+                    int i_o14_14 = 0;
+                    this.ComParment(i_outPut_Y_Power, ref i_o14, ref i_o14_14);
 
-                int i_outPut_Z_Power = Convert.ToInt32(IOMapping.OutPut_Z_Power);//Z轴使能
-                int i_o16 = 0;
-                int i_o16_16 = 0;
-                this.ComParment(i_outPut_Z_Power, ref i_o16, ref i_o16_16);
+                    int i_outPut_Z_Power = Convert.ToInt32(IOMapping.OutPut_Z_Power);//Z轴使能
+                    int i_o16 = 0;
+                    int i_o16_16 = 0;
+                    this.ComParment(i_outPut_Z_Power, ref i_o16, ref i_o16_16);
 
-                int i_outPut_X_Reset = Convert.ToInt32(IOMapping.OutPut_X_Reset);//X轴复位
-                int i_o18 = 0;
-                int i_o18_18 = 0;
-                this.ComParment(i_outPut_X_Reset, ref i_o18, ref i_o18_18);
+                    int i_outPut_X_Reset = Convert.ToInt32(IOMapping.OutPut_X_Reset);//X轴复位
+                    int i_o18 = 0;
+                    int i_o18_18 = 0;
+                    this.ComParment(i_outPut_X_Reset, ref i_o18, ref i_o18_18);
 
-                int i_outPut_Y_Reset = Convert.ToInt32(IOMapping.OutPut_Y_Reset);//Y轴复位
-                int i_o20 = 0;
-                int i_o20_20 = 0;
-                this.ComParment(i_outPut_Y_Reset, ref i_o20, ref i_o20_20);
+                    int i_outPut_Y_Reset = Convert.ToInt32(IOMapping.OutPut_Y_Reset);//Y轴复位
+                    int i_o20 = 0;
+                    int i_o20_20 = 0;
+                    this.ComParment(i_outPut_Y_Reset, ref i_o20, ref i_o20_20);
 
-                int i_outPut_Z_Reset = Convert.ToInt32(IOMapping.OutPut_Z_Reset);//Z轴复位
-                int i_o22 = 0;
-                int i_o22_22 = 0;
-                this.ComParment(i_outPut_Z_Reset, ref i_o22, ref i_o22_22);
+                    int i_outPut_Z_Reset = Convert.ToInt32(IOMapping.OutPut_Z_Reset);//Z轴复位
+                    int i_o22 = 0;
+                    int i_o22_22 = 0;
+                    this.ComParment(i_outPut_Z_Reset, ref i_o22, ref i_o22_22);
 
-                int i_outPut_Blender = Convert.ToInt32(IOMapping.OutPut_Blender);//搅拌停
-                int i_o24 = 0;
-                int i_o24_24 = 0;
-                this.ComParment(i_outPut_Blender, ref i_o24, ref i_o24_24);
+                    int i_outPut_Blender = Convert.ToInt32(IOMapping.OutPut_Blender);//搅拌停
+                    int i_o24 = 0;
+                    int i_o24_24 = 0;
+                    this.ComParment(i_outPut_Blender, ref i_o24, ref i_o24_24);
 
-                int i_outPut_Buzzer = Convert.ToInt32(IOMapping.OutPut_Buzzer);//蜂鸣器(报警)
-                int i_o26 = 0;
-                int i_o26_26 = 0;
-                this.ComParment(i_outPut_Buzzer, ref i_o26, ref i_o26_26);
+                    int i_outPut_Buzzer = Convert.ToInt32(IOMapping.OutPut_Buzzer);//蜂鸣器(报警)
+                    int i_o26 = 0;
+                    int i_o26_26 = 0;
+                    this.ComParment(i_outPut_Buzzer, ref i_o26, ref i_o26_26);
 
-                int i_outPut_TongsOff = Convert.ToInt32(IOMapping.OutPut_TongsOff);//抓手合
-                int i_o28 = 0;
-                int i_o28_28 = 0;
-                this.ComParment(i_outPut_TongsOff, ref i_o28, ref i_o28_28);
+                    int i_outPut_TongsOff = Convert.ToInt32(IOMapping.OutPut_TongsOff);//抓手合
+                    int i_o28 = 0;
+                    int i_o28_28 = 0;
+                    this.ComParment(i_outPut_TongsOff, ref i_o28, ref i_o28_28);
 
-                int i_outPut_TongsOn = Convert.ToInt32(IOMapping.OutPut_TongsOn);//抓手开
-                int i_o30 = 0;
-                int i_o30_30 = 0;
-                this.ComParment(i_outPut_TongsOn, ref i_o30, ref i_o30_30);
+                    int i_outPut_TongsOn = Convert.ToInt32(IOMapping.OutPut_TongsOn);//抓手开
+                    int i_o30 = 0;
+                    int i_o30_30 = 0;
+                    this.ComParment(i_outPut_TongsOn, ref i_o30, ref i_o30_30);
 
-                int i_outPut_Cylinder_Up = Convert.ToInt32(IOMapping.OutPut_Cylinder_Up);//气缸上
-                int i_o32 = 0;
-                int i_o32_32 = 0;
-                this.ComParment(i_outPut_Cylinder_Up, ref i_o32, ref i_o32_32);
+                    int i_outPut_Cylinder_Up = Convert.ToInt32(IOMapping.OutPut_Cylinder_Up);//气缸上
+                    int i_o32 = 0;
+                    int i_o32_32 = 0;
+                    this.ComParment(i_outPut_Cylinder_Up, ref i_o32, ref i_o32_32);
 
-                int i_outPut_Cylinder_Down = Convert.ToInt32(IOMapping.OutPut_Cylinder_Down);//气缸下
-                int i_o34 = 0;
-                int i_o34_34 = 0;
-                this.ComParment(i_outPut_Cylinder_Down, ref i_o34, ref i_o34_34);
+                    int i_outPut_Cylinder_Down = Convert.ToInt32(IOMapping.OutPut_Cylinder_Down);//气缸下
+                    int i_o34 = 0;
+                    int i_o34_34 = 0;
+                    this.ComParment(i_outPut_Cylinder_Down, ref i_o34, ref i_o34_34);
 
-                int i_outPut_Tray = Convert.ToInt32(IOMapping.OutPut_Tray);//接液盘
-                int i_o36 = 0;
-                int i_o36_36 = 0;
-                this.ComParment(i_outPut_Tray, ref i_o36, ref i_o36_36);
+                    int i_outPut_Tray = Convert.ToInt32(IOMapping.OutPut_Tray);//接液盘
+                    int i_o36 = 0;
+                    int i_o36_36 = 0;
+                    this.ComParment(i_outPut_Tray, ref i_o36, ref i_o36_36);
 
-                int i_outPut_Waste = Convert.ToInt32(IOMapping.OutPut_Waste);//抽废液
-                int i_o38 = 0;
-                int i_o38_38 = 0;
-                this.ComParment(i_outPut_Waste, ref i_o38, ref i_o38_38);
+                    int i_outPut_Waste = Convert.ToInt32(IOMapping.OutPut_Waste);//抽废液
+                    int i_o38 = 0;
+                    int i_o38_38 = 0;
+                    this.ComParment(i_outPut_Waste, ref i_o38, ref i_o38_38);
 
-                int i_outPut_Water = Convert.ToInt32(IOMapping.OutPut_Water);//加水
-                int i_o40 = 0;
-                int i_o40_40 = 0;
-                this.ComParment(i_outPut_Water, ref i_o40, ref i_o40_40);
+                    int i_outPut_Water = Convert.ToInt32(IOMapping.OutPut_Water);//加水
+                    int i_o40 = 0;
+                    int i_o40_40 = 0;
+                    this.ComParment(i_outPut_Water, ref i_o40, ref i_o40_40);
 
-                int i_outPut_Decompression = Convert.ToInt32(IOMapping.OutPut_Decompression);//泄压
-                int i_o42 = 0;
-                int i_o42_42 = 0;
-                this.ComParment(i_outPut_Decompression, ref i_o42, ref i_o42_42);
+                    int i_outPut_Decompression = Convert.ToInt32(IOMapping.OutPut_Decompression);//泄压
+                    int i_o42 = 0;
+                    int i_o42_42 = 0;
+                    this.ComParment(i_outPut_Decompression, ref i_o42, ref i_o42_42);
 
-                int i_outPut_Red = Convert.ToInt32(IOMapping.OutPut_Red);//红灯
-                int i_o44 = 0;
-                int i_o44_44 = 0;
-                this.ComParment(i_outPut_Red, ref i_o44, ref i_o44_44);
+                    int i_outPut_Red = Convert.ToInt32(IOMapping.OutPut_Red);//红灯
+                    int i_o44 = 0;
+                    int i_o44_44 = 0;
+                    this.ComParment(i_outPut_Red, ref i_o44, ref i_o44_44);
 
-                int i_outPut_Green = Convert.ToInt32(IOMapping.OutPut_Green);//绿灯
-                int i_o46 = 0;
-                int i_o46_46 = 0;
-                this.ComParment(i_outPut_Green, ref i_o46, ref i_o46_46);
+                    int i_outPut_Green = Convert.ToInt32(IOMapping.OutPut_Green);//绿灯
+                    int i_o46 = 0;
+                    int i_o46_46 = 0;
+                    this.ComParment(i_outPut_Green, ref i_o46, ref i_o46_46);
 
-                int i_outPut_Block_Out = Convert.ToInt32(IOMapping.OutPut_Block_Out);//阻挡出
-                int i_o48 = 0;
-                int i_o48_48 = 0;
-                this.ComParment(i_outPut_Block_Out, ref i_o48, ref i_o48_48);
+                    int i_outPut_Block_Out = Convert.ToInt32(IOMapping.OutPut_Block_Out);//阻挡出
+                    int i_o48 = 0;
+                    int i_o48_48 = 0;
+                    this.ComParment(i_outPut_Block_Out, ref i_o48, ref i_o48_48);
 
-                int i_outPut_Block_In = Convert.ToInt32(IOMapping.OutPut_Block_In);//阻挡回
-                int i_o50 = 0;
-                int i_o50_50 = 0;
-                this.ComParment(i_outPut_Block_In, ref i_o50, ref i_o50_50);
+                    int i_outPut_Block_In = Convert.ToInt32(IOMapping.OutPut_Block_In);//阻挡回
+                    int i_o50 = 0;
+                    int i_o50_50 = 0;
+                    this.ComParment(i_outPut_Block_In, ref i_o50, ref i_o50_50);
 
-                int i_outPut_Slow_Cylinder = Convert.ToInt32(IOMapping.OutPut_Slow_Cylinder);//气缸慢下阀
-                int i_o52 = 0;
-                int i_o52_52 = 0;
-                this.ComParment(i_outPut_Slow_Cylinder, ref i_o52, ref i_o52_52);
-                if (!FADM_Object.Communal._b_isUseBrewOnly)
-                {
-                    int[] ia_oarray = {i_o0,i_o0_0,i_o2,i_o2_2,i_o4,i_o4_4,i_o6,i_o6_6,i_o8,i_o8_8,i_o10,i_o10_10,i_o12,i_o12_12,
+                    int i_outPut_Slow_Cylinder = Convert.ToInt32(IOMapping.OutPut_Slow_Cylinder);//气缸慢下阀
+                    int i_o52 = 0;
+                    int i_o52_52 = 0;
+                    this.ComParment(i_outPut_Slow_Cylinder, ref i_o52, ref i_o52_52);
+
+                    int i_outPut_Wash_In = Convert.ToInt32(IOMapping.OutPut_Wash_In);//洗针进水阀
+                    int i_o54 = 0;
+                    int i_o54_54 = 0;
+                    this.ComParment(i_outPut_Wash_In, ref i_o54, ref i_o54_54);
+
+                    int i_outPut_Wash_Out = Convert.ToInt32(IOMapping.OutPut_Wash_Out);//洗针排水阀
+                    int i_o56 = 0;
+                    int i_o56_56 = 0;
+                    this.ComParment(i_outPut_Wash_Out, ref i_o56, ref i_o56_56);
+
+                    int i_outPut_Wash_Blow = Convert.ToInt32(IOMapping.OutPut_Wash_Blow);//洗针吹气阀
+                    int i_o58 = 0;
+                    int i_o58_58 = 0;
+                    this.ComParment(i_outPut_Wash_Blow, ref i_o58, ref i_o58_58);
+
+                    int i_outPut_Tongs_Decompression = Convert.ToInt32(IOMapping.OutPut_Tongs_Decompression);//抓手泄压阀
+                    int i_o60 = 0;
+                    int i_o60_60 = 0;
+                    this.ComParment(i_outPut_Tongs_Decompression, ref i_o60, ref i_o60_60);
+
+                    if (!FADM_Object.Communal._b_isUseBrewOnly)
+                    {
+                        int[] ia_oarray = {i_o0,i_o0_0,i_o2,i_o2_2,i_o4,i_o4_4,i_o6,i_o6_6,i_o8,i_o8_8,i_o10,i_o10_10,i_o12,i_o12_12,
                 i_o14,i_o14_14,i_o16,i_o16_16,i_o18,i_o18_18,i_o20,i_o20_20,i_o22,i_o22_22,i_o24,i_o24_24,i_o26,i_o26_26,
                 i_o28,i_o28_28,i_o30,i_o30_30,i_o32,i_o32_32,i_o34,i_o34_34,i_o36,i_o36_36,i_o38,i_o38_38,i_o40,i_o40_40,
-                i_o42,i_o42_42,i_o44,i_o44_44,i_o46,i_o46_46,i_o48,i_o48_48,i_o50,i_o50_50,i_o52,i_o52_52};
+                i_o42,i_o42_42,i_o44,i_o44_44,i_o46,i_o46_46,i_o48,i_o48_48,i_o50,i_o50_50,i_o52,i_o52_52,i_o54,i_o54_54,i_o56,i_o56_56,i_o58,i_o58_58,i_o60,i_o60_60};
 
-                    int i_oc = FADM_Object.Communal._tcpModBus.Write(3900, ia_oarray);
-                    if (i_oc == -1)
-                    {
-                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                            FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
-                        else
-                            FADM_Form.CustomMessageBox.Show("Failed to write parameters!", "Equipment", MessageBoxButtons.OK, false);
-                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                        int i_oc = FADM_Object.Communal._tcpModBus.Write(3900, ia_oarray);
+                        if (i_oc == -1)
+                        {
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                FADM_Form.CustomMessageBox.Show("写入参数失败!", "设备", MessageBoxButtons.OK, false);
+                            else
+                                FADM_Form.CustomMessageBox.Show("Failed to write parameters!", "Equipment", MessageBoxButtons.OK, false);
+                            System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                        }
                     }
                 }
-            }
 
 
-            ////重置选择信息为否，可处理上次没正常退出plc块
-            //lab814:
-            //    int[] array4 = { 2 };
-            //    int state = FADM_Object.Communal._tcpModBus.Write(814, array4);
-            //    if (state == -1)
-            //        goto lab814;
+                ////重置选择信息为否，可处理上次没正常退出plc块
+                //lab814:
+                //    int[] array4 = { 2 };
+                //    int state = FADM_Object.Communal._tcpModBus.Write(814, array4);
+                //    if (state == -1)
+                //        goto lab814;
 
 
-            for (int i = 0; i < 6; i++)
-            {
-                string s_min = "", s_max = "";
-                if (i == 0)
+                for (int i = 0; i < 6; i++)
                 {
-                    s_min = Lib_Card.Configure.Parameter.Machine_Area1_CupMin.ToString();
-                    s_max = Lib_Card.Configure.Parameter.Machine_Area1_CupMax.ToString();
-                }
-                else if (i == 1)
-                {
-                    s_min = Lib_Card.Configure.Parameter.Machine_Area2_CupMin.ToString();
-                    s_max = Lib_Card.Configure.Parameter.Machine_Area2_CupMax.ToString();
-                }
-                else if (i == 2)
-                {
-                    s_min = Lib_Card.Configure.Parameter.Machine_Area3_CupMin.ToString();
-                    s_max = Lib_Card.Configure.Parameter.Machine_Area3_CupMax.ToString();
-                }
-                else if (i == 3)
-                {
-                    s_min = Lib_Card.Configure.Parameter.Machine_Area4_CupMin.ToString();
-                    s_max = Lib_Card.Configure.Parameter.Machine_Area4_CupMax.ToString();
-                }
-                else if (i == 4)
-                {
-                    s_min = Lib_Card.Configure.Parameter.Machine_Area5_CupMin.ToString();
-                    s_max = Lib_Card.Configure.Parameter.Machine_Area5_CupMax.ToString();
-                }
-                else if (i == 5)
-                {
-                    s_min = Lib_Card.Configure.Parameter.Machine_Area6_CupMin.ToString();
-                    s_max = Lib_Card.Configure.Parameter.Machine_Area6_CupMax.ToString();
-                }
-
-                DataTable dt_data = FADM_Object.Communal._fadmSqlserver.GetData(
-               "SELECT * FROM cup_details WHERE CupNum >= " + s_min + " and CupNum <=" + s_max + ";");
-
-                foreach (DataRow row in dt_data.Rows)
-                {
-                    int i_enable = Convert.ToInt16(row["Enable"]);
-                    if (1 == i_enable)
+                    string s_min = "", s_max = "";
+                    if (i == 0)
                     {
-                        FADM_Object.Communal._ia_dyeStatus[i] = 1;
-                        break;
+                        s_min = Lib_Card.Configure.Parameter.Machine_Area1_CupMin.ToString();
+                        s_max = Lib_Card.Configure.Parameter.Machine_Area1_CupMax.ToString();
                     }
-                }
-            }
-
-
-            //染色机配置
-            try
-            {
-                //FADM_Object.Communal.DyeHMI = new Lib_SerialPort.HMI.HMI
-                //{
-                //    PortName = "COM3",
-                //    BaudRate = Lib_SerialPort.BaudRates.BR_9600,
-                //    DataBits = Lib_SerialPort.DataBits.Eight,
-                //    StopBits = System.IO.Ports.StopBits.Two,
-                //    Parity = System.IO.Ports.Parity.None
-                //};
-
-                //FADM_Object.Communal.DyeHMI.Open();
-                string s_path = Environment.CurrentDirectory + "\\Config\\Config.ini";
-                string s_server1 = Lib_File.Ini.GetIni("HMI1", "IP", s_path);
-                string s_port1 = Lib_File.Ini.GetIni("HMI1", "Port", s_path);
-                string s_server2 = Lib_File.Ini.GetIni("HMI2", "IP", s_path);
-                string s_port2 = Lib_File.Ini.GetIni("HMI2", "Port", s_path);
-                string s_server3 = Lib_File.Ini.GetIni("HMI3", "IP", s_path);
-                string s_port3 = Lib_File.Ini.GetIni("HMI3", "Port", s_path);
-                string s_server4 = Lib_File.Ini.GetIni("HMI4", "IP", s_path);
-                string s_port4 = Lib_File.Ini.GetIni("HMI4", "Port", s_path);
-                string s_server5 = Lib_File.Ini.GetIni("HMI5", "IP", s_path);
-                string s_port5 = Lib_File.Ini.GetIni("HMI5", "Port", s_path);
-                string s_server6 = Lib_File.Ini.GetIni("HMI6", "IP", s_path);
-                string s_port6 = Lib_File.Ini.GetIni("HMI6", "Port", s_path);
-                string HMIBaClo_IP = Lib_File.Ini.GetIni("HMIBaClo", "IP", s_path);
-                string HMIBaClo_s_port6 = Lib_File.Ini.GetIni("HMIBaClo", "Port", s_path);
-                string Power_IP = Lib_File.Ini.GetIni("Power", "IP", s_path);
-                string Power_port = Lib_File.Ini.GetIni("Power", "Port", s_path);
-
-                string s_isUseCloth = Lib_File.Ini.GetIni("Setting", "IsUseCloth", "0", s_path);
-                if (s_isUseCloth == "1")
-                {
-                    FADM_Object.Communal._b_isUseCloth = true;
-                }
-
-                string s_isUsePower = Lib_File.Ini.GetIni("Setting", "IsUsePower", "0", s_path);
-                if (s_isUsePower == "1")
-                {
-                    FADM_Object.Communal._b_isUsePower = true;
-                }
-
-                if (Lib_Card.Configure.Parameter.Machine_Area1_Type == 3)
-                {
-                    FADM_Object.Communal._tcpDyeHMI1 = new HMITCPModBus();
-                    FADM_Object.Communal._tcpDyeHMI1._i_port = Convert.ToInt32(s_port1);
-                    FADM_Object.Communal._tcpDyeHMI1._s_ip = s_server1;
-                    FADM_Object.Communal._tcpDyeHMI1.Connect();
-                }
-                if (Lib_Card.Configure.Parameter.Machine_Area2_Type == 3)
-                {
-                    FADM_Object.Communal._tcpDyeHMI2 = new HMITCPModBus();
-                    FADM_Object.Communal._tcpDyeHMI2._i_port = Convert.ToInt32(s_port2);
-                    FADM_Object.Communal._tcpDyeHMI2._s_ip = s_server2;
-                    FADM_Object.Communal._tcpDyeHMI2.Connect();
-                }
-                if (Lib_Card.Configure.Parameter.Machine_Area3_Type == 3)
-                {
-                    FADM_Object.Communal._tcpDyeHMI3 = new HMITCPModBus();
-                    FADM_Object.Communal._tcpDyeHMI3._i_port = Convert.ToInt32(s_port3);
-                    FADM_Object.Communal._tcpDyeHMI3._s_ip = s_server3;
-                    FADM_Object.Communal._tcpDyeHMI3.Connect();
-                }
-                if (Lib_Card.Configure.Parameter.Machine_Area4_Type == 3)
-                {
-                    FADM_Object.Communal._tcpDyeHMI4 = new HMITCPModBus();
-                    FADM_Object.Communal._tcpDyeHMI4._i_port = Convert.ToInt32(s_port4);
-                    FADM_Object.Communal._tcpDyeHMI4._s_ip = s_server4;
-                    FADM_Object.Communal._tcpDyeHMI4.Connect();
-                }
-                if (Lib_Card.Configure.Parameter.Machine_Area5_Type == 3)
-                {
-                    FADM_Object.Communal._tcpDyeHMI5 = new HMITCPModBus();
-                    FADM_Object.Communal._tcpDyeHMI5._i_port = Convert.ToInt32(s_port5);
-                    FADM_Object.Communal._tcpDyeHMI5._s_ip = s_server5;
-                    FADM_Object.Communal._tcpDyeHMI5.Connect();
-                }
-                if (Lib_Card.Configure.Parameter.Machine_Area6_Type == 3)
-                {
-                    FADM_Object.Communal._tcpDyeHMI6 = new HMITCPModBus();
-                    FADM_Object.Communal._tcpDyeHMI6._i_port = Convert.ToInt32(s_port6);
-                    FADM_Object.Communal._tcpDyeHMI6._s_ip = s_server6;
-                    FADM_Object.Communal._tcpDyeHMI6.Connect();
-                }
-                if (HMIBaClo_IP != "" && HMIBaClo_IP.Length > 0 && HMIBaClo_s_port6 != "" && HMIBaClo_s_port6.Length > 0)
-                {
-                    if (Communal._b_isUseCloth) {
-                        FADM_Object.Communal.HMIBaClo = new HMITCPModBus();
-                        FADM_Object.Communal.HMIBaClo._i_port = Convert.ToInt32(HMIBaClo_s_port6);
-                        FADM_Object.Communal.HMIBaClo._s_ip = HMIBaClo_IP;
-                        FADM_Object.Communal.HMIBaClo.Connect();
+                    else if (i == 1)
+                    {
+                        s_min = Lib_Card.Configure.Parameter.Machine_Area2_CupMin.ToString();
+                        s_max = Lib_Card.Configure.Parameter.Machine_Area2_CupMax.ToString();
                     }
-                    
-                }
-
-                if (Communal._b_isUsePower)
-                {
-                    FADM_Object.Communal.Powder = new HMITCPModBus();
-                    FADM_Object.Communal.Powder._i_port = Convert.ToInt32(Power_port);
-                    FADM_Object.Communal.Powder._s_ip = Power_IP;
-                    FADM_Object.Communal.Powder.Connect();
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-                if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                    FADM_Form.CustomMessageBox.Show(ex.Message, "测试染色机", MessageBoxButtons.OK, false);
-                else
-                    FADM_Form.CustomMessageBox.Show(ex.Message, "Test dyeing machine", MessageBoxButtons.OK, false);
-                System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-            }
-
-            //开料机配置
-            try
-            {
-                //使用TCP通讯
-                if (0 == Lib_Card.Configure.Parameter.Machine_Opening_Type|| 1 == Lib_Card.Configure.Parameter.Machine_Opening_Type)
-                {
-                    string s_path = Environment.CurrentDirectory + "\\Config\\Config.ini";
-                    string s_server1 = Lib_File.Ini.GetIni("HMIBrew", "IP", s_path);
-                    string s_port1 = Lib_File.Ini.GetIni("HMIBrew", "Port", s_path);
-
-                    FADM_Object.Communal._tcpModBusBrew = new TCPModBus();
-                    FADM_Object.Communal._tcpModBusBrew._i_port = Convert.ToInt32(s_port1);
-                    FADM_Object.Communal._tcpModBusBrew._s_IP = s_server1;
-                    FADM_Object.Communal._tcpModBusBrew.Connect();
-                }
-                //使用串口通讯
-                else
-                {
-
-                    FADM_Object.Communal.MyBrew = new Lib_SerialPort.HMI.BrewHMI
+                    else if (i == 2)
                     {
-                        PortName = "COM2",
-                        BaudRate = Lib_SerialPort.BaudRates.BR_9600,
-                        DataBits = Lib_SerialPort.DataBits.Eight,
-                        StopBits = System.IO.Ports.StopBits.Two,
-                        Parity = System.IO.Ports.Parity.None
-                    };
-                    FADM_Object.Communal.MyBrew.Open();
-                    byte[] b_send = new byte[6];
-                    //威纶
-                    if (2 == Lib_Card.Configure.Parameter.Machine_Opening_Type)
-                    {
-                        b_send[0] = 0x01;
-                        b_send[1] = 0x06;
-                        b_send[2] = ((10999) / 256);
-                        b_send[3] = ((10999) % 256);
-                        b_send[4] = Convert.ToByte(Lib_Card.Configure.Parameter.Machine_Bottle_Total / 256);
-                        b_send[5] = Convert.ToByte(Lib_Card.Configure.Parameter.Machine_Bottle_Total % 256);
+                        s_min = Lib_Card.Configure.Parameter.Machine_Area3_CupMin.ToString();
+                        s_max = Lib_Card.Configure.Parameter.Machine_Area3_CupMax.ToString();
                     }
-                    //台达
-                    else
+                    else if (i == 3)
                     {
-                        b_send[0] = 0x01;
-                        b_send[1] = 0x06;
-                        b_send[2] = ((3000) / 256);
-                        b_send[3] = ((3000) % 256);
-                        b_send[4] = Convert.ToByte(Lib_Card.Configure.Parameter.Machine_Bottle_Total / 256);
-                        b_send[5] = Convert.ToByte(Lib_Card.Configure.Parameter.Machine_Bottle_Total % 256);
+                        s_min = Lib_Card.Configure.Parameter.Machine_Area4_CupMin.ToString();
+                        s_max = Lib_Card.Configure.Parameter.Machine_Area4_CupMax.ToString();
+                    }
+                    else if (i == 4)
+                    {
+                        s_min = Lib_Card.Configure.Parameter.Machine_Area5_CupMin.ToString();
+                        s_max = Lib_Card.Configure.Parameter.Machine_Area5_CupMax.ToString();
+                    }
+                    else if (i == 5)
+                    {
+                        s_min = Lib_Card.Configure.Parameter.Machine_Area6_CupMin.ToString();
+                        s_max = Lib_Card.Configure.Parameter.Machine_Area6_CupMax.ToString();
                     }
 
-                    FADM_Object.Communal.MyBrew.WriteAndRead(b_send);
+                    DataTable dt_data = FADM_Object.Communal._fadmSqlserver.GetData(
+                   "SELECT * FROM cup_details WHERE CupNum >= " + s_min + " and CupNum <=" + s_max + ";");
 
+                    foreach (DataRow row in dt_data.Rows)
+                    {
+                        int i_enable = Convert.ToInt16(row["Enable"]);
+                        if (1 == i_enable)
+                        {
+                            FADM_Object.Communal._ia_dyeStatus[i] = 1;
+                            break;
+                        }
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                    FADM_Form.CustomMessageBox.Show(ex.Message, "测试开料机", MessageBoxButtons.OK, false);
-                else
-                    FADM_Form.CustomMessageBox.Show(ex.Message, "Testing the cutting machine", MessageBoxButtons.OK, false);
-                System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-            }
 
-            //吸光度配置
-            if (Lib_Card.Configure.Parameter.Other_UseAbs == 1)
-            {
+
+                //染色机配置
                 try
                 {
-                    string s_path = Environment.CurrentDirectory + "\\Config\\Config.ini";
-                    string s_server1 = Lib_File.Ini.GetIni("HMIAbs", "IP", s_path);
-                    string s_port1 = Lib_File.Ini.GetIni("HMIAbs", "Port", s_path);
+                    //FADM_Object.Communal.DyeHMI = new Lib_SerialPort.HMI.HMI
+                    //{
+                    //    PortName = "COM3",
+                    //    BaudRate = Lib_SerialPort.BaudRates.BR_9600,
+                    //    DataBits = Lib_SerialPort.DataBits.Eight,
+                    //    StopBits = System.IO.Ports.StopBits.Two,
+                    //    Parity = System.IO.Ports.Parity.None
+                    //};
 
-                    FADM_Object.Communal._tcpModBusAbs = new TCPModBus();
-                    FADM_Object.Communal._tcpModBusAbs._i_port = Convert.ToInt32(s_port1);
-                    FADM_Object.Communal._tcpModBusAbs._s_IP = s_server1;
-                    FADM_Object.Communal._tcpModBusAbs.Connect();
+                    //FADM_Object.Communal.DyeHMI.Open();
+                    string s_path = Environment.CurrentDirectory + "\\Config\\Config.ini";
+                    string s_server1 = Lib_File.Ini.GetIni("HMI1", "IP", s_path);
+                    string s_port1 = Lib_File.Ini.GetIni("HMI1", "Port", s_path);
+                    string s_server2 = Lib_File.Ini.GetIni("HMI2", "IP", s_path);
+                    string s_port2 = Lib_File.Ini.GetIni("HMI2", "Port", s_path);
+                    string s_server3 = Lib_File.Ini.GetIni("HMI3", "IP", s_path);
+                    string s_port3 = Lib_File.Ini.GetIni("HMI3", "Port", s_path);
+                    string s_server4 = Lib_File.Ini.GetIni("HMI4", "IP", s_path);
+                    string s_port4 = Lib_File.Ini.GetIni("HMI4", "Port", s_path);
+                    string s_server5 = Lib_File.Ini.GetIni("HMI5", "IP", s_path);
+                    string s_port5 = Lib_File.Ini.GetIni("HMI5", "Port", s_path);
+                    string s_server6 = Lib_File.Ini.GetIni("HMI6", "IP", s_path);
+                    string s_port6 = Lib_File.Ini.GetIni("HMI6", "Port", s_path);
+                    string HMIBaClo_IP = Lib_File.Ini.GetIni("HMIBaClo", "IP", s_path);
+                    string HMIBaClo_s_port6 = Lib_File.Ini.GetIni("HMIBaClo", "Port", s_path);
+                    string Power_IP = Lib_File.Ini.GetIni("Power", "IP", s_path);
+                    string Power_port = Lib_File.Ini.GetIni("Power", "Port", s_path);
+
+                    string s_isUseCloth = Lib_File.Ini.GetIni("Setting", "IsUseCloth", "0", s_path);
+                    if (s_isUseCloth == "1")
+                    {
+                        FADM_Object.Communal._b_isUseCloth = true;
+                    }
+
+                    string s_isUsePower = Lib_File.Ini.GetIni("Setting", "IsUsePower", "0", s_path);
+                    if (s_isUsePower == "1")
+                    {
+                        FADM_Object.Communal._b_isUsePower = true;
+                    }
+
+                    if (Lib_Card.Configure.Parameter.Machine_Area1_Type == 3)
+                    {
+                        FADM_Object.Communal._tcpDyeHMI1 = new HMITCPModBus();
+                        FADM_Object.Communal._tcpDyeHMI1._i_port = Convert.ToInt32(s_port1);
+                        FADM_Object.Communal._tcpDyeHMI1._s_ip = s_server1;
+                        FADM_Object.Communal._tcpDyeHMI1.Connect();
+                    }
+                    if (Lib_Card.Configure.Parameter.Machine_Area2_Type == 3)
+                    {
+                        FADM_Object.Communal._tcpDyeHMI2 = new HMITCPModBus();
+                        FADM_Object.Communal._tcpDyeHMI2._i_port = Convert.ToInt32(s_port2);
+                        FADM_Object.Communal._tcpDyeHMI2._s_ip = s_server2;
+                        FADM_Object.Communal._tcpDyeHMI2.Connect();
+                    }
+                    if (Lib_Card.Configure.Parameter.Machine_Area3_Type == 3)
+                    {
+                        FADM_Object.Communal._tcpDyeHMI3 = new HMITCPModBus();
+                        FADM_Object.Communal._tcpDyeHMI3._i_port = Convert.ToInt32(s_port3);
+                        FADM_Object.Communal._tcpDyeHMI3._s_ip = s_server3;
+                        FADM_Object.Communal._tcpDyeHMI3.Connect();
+                    }
+                    if (Lib_Card.Configure.Parameter.Machine_Area4_Type == 3)
+                    {
+                        FADM_Object.Communal._tcpDyeHMI4 = new HMITCPModBus();
+                        FADM_Object.Communal._tcpDyeHMI4._i_port = Convert.ToInt32(s_port4);
+                        FADM_Object.Communal._tcpDyeHMI4._s_ip = s_server4;
+                        FADM_Object.Communal._tcpDyeHMI4.Connect();
+                    }
+                    if (Lib_Card.Configure.Parameter.Machine_Area5_Type == 3)
+                    {
+                        FADM_Object.Communal._tcpDyeHMI5 = new HMITCPModBus();
+                        FADM_Object.Communal._tcpDyeHMI5._i_port = Convert.ToInt32(s_port5);
+                        FADM_Object.Communal._tcpDyeHMI5._s_ip = s_server5;
+                        FADM_Object.Communal._tcpDyeHMI5.Connect();
+                    }
+                    if (Lib_Card.Configure.Parameter.Machine_Area6_Type == 3)
+                    {
+                        FADM_Object.Communal._tcpDyeHMI6 = new HMITCPModBus();
+                        FADM_Object.Communal._tcpDyeHMI6._i_port = Convert.ToInt32(s_port6);
+                        FADM_Object.Communal._tcpDyeHMI6._s_ip = s_server6;
+                        FADM_Object.Communal._tcpDyeHMI6.Connect();
+                    }
+                    if (HMIBaClo_IP != "" && HMIBaClo_IP.Length > 0 && HMIBaClo_s_port6 != "" && HMIBaClo_s_port6.Length > 0)
+                    {
+                        if (Communal._b_isUseCloth)
+                        {
+                            FADM_Object.Communal.HMIBaClo = new HMITCPModBus();
+                            FADM_Object.Communal.HMIBaClo._i_port = Convert.ToInt32(HMIBaClo_s_port6);
+                            FADM_Object.Communal.HMIBaClo._s_ip = HMIBaClo_IP;
+                            FADM_Object.Communal.HMIBaClo.Connect();
+                        }
+
+                    }
+
+                    if (Communal._b_isUsePower)
+                    {
+                        FADM_Object.Communal.Powder = new HMITCPModBus();
+                        FADM_Object.Communal.Powder._i_port = Convert.ToInt32(Power_port);
+                        FADM_Object.Communal.Powder._s_ip = Power_IP;
+                        FADM_Object.Communal.Powder.Connect();
+                    }
+
+
                 }
                 catch (Exception ex)
                 {
                     if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                        FADM_Form.CustomMessageBox.Show(ex.Message, "测试吸光度机", MessageBoxButtons.OK, false);
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "测试染色机", MessageBoxButtons.OK, false);
                     else
-                        FADM_Form.CustomMessageBox.Show(ex.Message, "Test the absorbance machine", MessageBoxButtons.OK, false);
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "Test dyeing machine", MessageBoxButtons.OK, false);
                     System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
                 }
+
+                //开料机配置
+                try
+                {
+                    //使用TCP通讯
+                    if (0 == Lib_Card.Configure.Parameter.Machine_Opening_Type || 1 == Lib_Card.Configure.Parameter.Machine_Opening_Type)
+                    {
+                        string s_path = Environment.CurrentDirectory + "\\Config\\Config.ini";
+                        string s_server1 = Lib_File.Ini.GetIni("HMIBrew", "IP", s_path);
+                        string s_port1 = Lib_File.Ini.GetIni("HMIBrew", "Port", s_path);
+
+                        FADM_Object.Communal._tcpModBusBrew = new TCPModBus();
+                        FADM_Object.Communal._tcpModBusBrew._i_port = Convert.ToInt32(s_port1);
+                        FADM_Object.Communal._tcpModBusBrew._s_IP = s_server1;
+                        FADM_Object.Communal._tcpModBusBrew.Connect();
+                    }
+                    //使用串口通讯
+                    else
+                    {
+
+                        FADM_Object.Communal.MyBrew = new Lib_SerialPort.HMI.BrewHMI
+                        {
+                            PortName = "COM2",
+                            BaudRate = Lib_SerialPort.BaudRates.BR_9600,
+                            DataBits = Lib_SerialPort.DataBits.Eight,
+                            StopBits = System.IO.Ports.StopBits.Two,
+                            Parity = System.IO.Ports.Parity.None
+                        };
+                        FADM_Object.Communal.MyBrew.Open();
+                        byte[] b_send = new byte[6];
+                        //威纶
+                        if (2 == Lib_Card.Configure.Parameter.Machine_Opening_Type)
+                        {
+                            b_send[0] = 0x01;
+                            b_send[1] = 0x06;
+                            b_send[2] = ((10999) / 256);
+                            b_send[3] = ((10999) % 256);
+                            b_send[4] = Convert.ToByte(Lib_Card.Configure.Parameter.Machine_Bottle_Total / 256);
+                            b_send[5] = Convert.ToByte(Lib_Card.Configure.Parameter.Machine_Bottle_Total % 256);
+                        }
+                        //台达
+                        else
+                        {
+                            b_send[0] = 0x01;
+                            b_send[1] = 0x06;
+                            b_send[2] = ((3000) / 256);
+                            b_send[3] = ((3000) % 256);
+                            b_send[4] = Convert.ToByte(Lib_Card.Configure.Parameter.Machine_Bottle_Total / 256);
+                            b_send[5] = Convert.ToByte(Lib_Card.Configure.Parameter.Machine_Bottle_Total % 256);
+                        }
+
+                        FADM_Object.Communal.MyBrew.WriteAndRead(b_send);
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "测试开料机", MessageBoxButtons.OK, false);
+                    else
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "Testing the cutting machine", MessageBoxButtons.OK, false);
+                    System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                }
+
+                //吸光度配置
+                if (Lib_Card.Configure.Parameter.Other_UseAbs == 1)
+                {
+                    try
+                    {
+                        string s_path = Environment.CurrentDirectory + "\\Config\\Config.ini";
+                        string s_server1 = Lib_File.Ini.GetIni("HMIAbs", "IP", s_path);
+                        string s_port1 = Lib_File.Ini.GetIni("HMIAbs", "Port", s_path);
+
+                        FADM_Object.Communal._tcpModBusAbs = new TCPModBus();
+                        FADM_Object.Communal._tcpModBusAbs._i_port = Convert.ToInt32(s_port1);
+                        FADM_Object.Communal._tcpModBusAbs._s_IP = s_server1;
+                        FADM_Object.Communal._tcpModBusAbs.Connect();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                            FADM_Form.CustomMessageBox.Show(ex.Message, "测试吸光度机", MessageBoxButtons.OK, false);
+                        else
+                            FADM_Form.CustomMessageBox.Show(ex.Message, "Test the absorbance machine", MessageBoxButtons.OK, false);
+                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                    }
+                }
+
+
+                FADM_Object.Communal._fadmSqlserver.ReviseData(
+                "TRUNCATE TABLE SpeechInfo;");
+
             }
-
-
-            FADM_Object.Communal._fadmSqlserver.ReviseData(
-            "TRUNCATE TABLE SpeechInfo;");
-
 
         }
 
@@ -1864,6 +1995,7 @@ namespace SmartDyeing.FADM_Form
 
         private void BtnLogOn_Click(object sender, EventArgs e)
         {
+
             //FADM_Object.Communal._fadmSqlserver.ReviseData(
             //            "INSERT INTO abs_wait_list(BottleNum, InsertDate) VALUES('" + 1 + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + "');");
             //string s_sql_QQ = "SELECT top 1 * FROM abs_wait_list  order by InsertDate;";
@@ -2479,6 +2611,101 @@ namespace SmartDyeing.FADM_Form
 
                 }
 
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'formula_head' AND COLUMN_NAME = 'ClothNum'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE formula_head ADD ClothNum int null ");
+
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'formula_head_temp' AND COLUMN_NAME = 'ClothNum'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE formula_head_temp ADD ClothNum int null ");
+
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'formula_head' AND COLUMN_NAME = 'IsAutoIn'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE formula_head ADD IsAutoIn int null ");
+                    Communal._fadmSqlserver.ReviseData("Update formula_head Set IsAutoIn=0");
+
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'formula_head_temp' AND COLUMN_NAME = 'IsAutoIn'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE formula_head_temp ADD IsAutoIn int null ");
+
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'drop_head' AND COLUMN_NAME = 'IsAutoIn'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE drop_head ADD IsAutoIn int null ");
+                    Communal._fadmSqlserver.ReviseData("Update drop_head Set IsAutoIn=0");
+
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'drop_head' AND COLUMN_NAME = 'ClothNum'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE drop_head ADD ClothNum int null ");
+
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'history_head' AND COLUMN_NAME = 'ClothNum'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE history_head ADD ClothNum int null");
+
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'history_head' AND COLUMN_NAME = 'IsAutoIn'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE history_head ADD IsAutoIn int null");
+                    Communal._fadmSqlserver.ReviseData("Update history_head Set IsAutoIn=0");
+
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'bottle_details' AND COLUMN_NAME = 'WashSyringeSpan'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE bottle_details ADD WashSyringeSpan int null ");
+                    Communal._fadmSqlserver.ReviseData("Update bottle_details Set WashSyringeSpan=24");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'bottle_details' AND COLUMN_NAME = 'LastWashTime'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE bottle_details ADD LastWashTime [datetime2](0) null ");
+                    Communal._fadmSqlserver.ReviseData("Update bottle_details Set LastWashTime='"+ DateTime.Now+"'");
+                    
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'formula_handle_details' AND COLUMN_NAME = 'No'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE formula_handle_details ADD No int null ");
+
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'formula_handle_details_temp' AND COLUMN_NAME = 'No'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE formula_handle_details_temp ADD No int null ");
+
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'assistant_details' AND COLUMN_NAME = 'Reweigh'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE assistant_details ADD Reweigh int null ");
+                    Communal._fadmSqlserver.ReviseData("Update assistant_details Set Reweigh=1");
+                }
+
             }
             catch { }
 
@@ -2490,6 +2717,7 @@ namespace SmartDyeing.FADM_Form
             SmartDyeing.FADM_Object.Communal._dic_first_second.Clear();
             SmartDyeing.FADM_Object.Communal._dic_big_small_cup.Clear();
             SmartDyeing.FADM_Object.Communal._dic_cup_index.Clear();
+            SmartDyeing.FADM_Object.Communal._lis_PrecisionCupNum.Clear();
             Communal._dic_dyecup_index.Clear();
             int i_cupmin = 0;
             int i_cupmax = 0;
@@ -2584,6 +2812,12 @@ namespace SmartDyeing.FADM_Form
                         else
                         {
                             SmartDyeing.FADM_Object.Communal._dic_first_second.Add(i, 0);
+                        }
+
+                        //新增精密机杯号
+                        if (Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 6)
+                        {
+                            SmartDyeing.FADM_Object.Communal._lis_PrecisionCupNum.Add(i);
                         }
                     }
                 }
@@ -2703,6 +2937,12 @@ namespace SmartDyeing.FADM_Form
                         {
                             SmartDyeing.FADM_Object.Communal._dic_first_second.Add(i, 0);
                         }
+
+                        //新增精密机杯号
+                        if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 6)
+                        {
+                            SmartDyeing.FADM_Object.Communal._lis_PrecisionCupNum.Add(i);
+                        }
                     }
                 }
             }
@@ -2819,6 +3059,12 @@ namespace SmartDyeing.FADM_Form
                         else
                         {
                             SmartDyeing.FADM_Object.Communal._dic_first_second.Add(i, 0);
+                        }
+
+                        //新增精密机杯号
+                        if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 6)
+                        {
+                            SmartDyeing.FADM_Object.Communal._lis_PrecisionCupNum.Add(i);
                         }
                     }
                 }
@@ -2940,6 +3186,12 @@ namespace SmartDyeing.FADM_Form
                         {
                             SmartDyeing.FADM_Object.Communal._dic_first_second.Add(i, 0);
                         }
+
+                        //新增精密机杯号
+                        if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 6)
+                        {
+                            SmartDyeing.FADM_Object.Communal._lis_PrecisionCupNum.Add(i);
+                        }
                     }
                 }
             }
@@ -3057,6 +3309,12 @@ namespace SmartDyeing.FADM_Form
                         {
                             SmartDyeing.FADM_Object.Communal._dic_first_second.Add(i, 0);
                         }
+
+                        //新增精密机杯号
+                        if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 6)
+                        {
+                            SmartDyeing.FADM_Object.Communal._lis_PrecisionCupNum.Add(i);
+                        }
                     }
                 }
             }
@@ -3173,6 +3431,12 @@ namespace SmartDyeing.FADM_Form
                         else
                         {
                             SmartDyeing.FADM_Object.Communal._dic_first_second.Add(i, 0);
+                        }
+
+                        //新增精密机杯号
+                        if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 6)
+                        {
+                            SmartDyeing.FADM_Object.Communal._lis_PrecisionCupNum.Add(i);
                         }
                     }
                 }

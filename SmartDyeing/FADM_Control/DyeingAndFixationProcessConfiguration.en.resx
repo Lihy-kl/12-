@@ -188,7 +188,7 @@
     <value>TemperatureRate</value>
   </data>
   <data name="dataGridViewTextBoxColumn4.HeaderText" xml:space="preserve">
-    <value>Percentage(%)/time(s)</value>
+    <value>Percentage(%)/time(m)</value>
   </data>
   <data name="dataGridViewTextBoxColumn5.HeaderText" xml:space="preserve">
     <value>Speed</value>

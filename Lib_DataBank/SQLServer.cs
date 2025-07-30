@@ -15,6 +15,8 @@ namespace Lib_DataBank
 
         private SqlConnection m_Connection;
 
+        bool b_isJustShowInfo = false;
+
 
         /// <summary>
         /// SQLServer配置参数
@@ -101,6 +103,16 @@ namespace Lib_DataBank
             }
         }
 
+        /// <summary>
+        /// 插入播报内容
+        /// </summary>
+        /// <param name="sSql">sql语句</param>
+        /// <returns></returns>
+        public void SetShowInfo(bool b)
+        {
+            b_isJustShowInfo = b;
+        }
+
 
         /// <summary>
         /// 删除播报内容
@@ -167,22 +179,26 @@ namespace Lib_DataBank
         /// <param name="sSql">sql语句</param>
         public void ReviseData(string sSql)
         {
-            lock (this)
+            if (!b_isJustShowInfo)
             {
-                try
+                lock (this)
                 {
-                    Open();
-                    SqlCommand sqlCommand = new SqlCommand(sSql, m_Connection);
-                    sqlCommand.ExecuteNonQuery();
-                    sqlCommand.Dispose();
-                    Close();
-                }
-                catch (Exception ex)
-                {
-                    Lib_Log.Log.writeLogException(ex + ":" + sSql);
+                    try
+                    {
+                        Open();
+                        SqlCommand sqlCommand = new SqlCommand(sSql, m_Connection);
+                        sqlCommand.ExecuteNonQuery();
+                        sqlCommand.Dispose();
+                        Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        Lib_Log.Log.writeLogException(ex + ":" + sSql);
 
+                    }
                 }
             }
+
         }
 
         /// <summary>
@@ -287,7 +303,9 @@ namespace Lib_DataBank
         /// <param name="sValues">内容</param>
         public void InsertRun(string sName, string sValues)
         {
-            Thread thread = new Thread(() =>
+            if (!b_isJustShowInfo)
+            {
+                Thread thread = new Thread(() =>
             {
                 lock (this)
                 {
@@ -316,7 +334,8 @@ namespace Lib_DataBank
 
                 }
             });
-            thread.Start();
+                thread.Start();
+            }
         }
     }
 }

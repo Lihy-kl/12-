@@ -33,6 +33,12 @@ namespace SmartDyeing.FADM_Control
                     c.KeyPress += TextBox_KeyPress;
                 }
             }
+
+            if(!FADM_Object.Communal._b_isAssShowWater)
+            {
+                rdo_3.Visible = false;
+                rdo_4.Visible = false;
+            }
         }
 
         //输入检查
@@ -153,7 +159,10 @@ namespace SmartDyeing.FADM_Control
                     {
                         if (c is TextBox && c.Name == s_name)
                         {
-                            c.Text = dt_assistantdetails.Rows[0][mDc].ToString();
+                            if (dt_assistantdetails.Rows[0][mDc] is DBNull)
+                                c.Text = "";
+                            else
+                                c.Text = dt_assistantdetails.Rows[0][mDc].ToString();
                         }
 
                         if (c.Name == "txt_AssistantCode")
@@ -188,6 +197,38 @@ namespace SmartDyeing.FADM_Control
                     if (s_name == "txt_AssistantType")
                     {
                         cbo_AssistantType.Text = dt_assistantdetails.Rows[0][mDc].ToString();
+                    }
+
+                    if (s_name == "txt_Reweigh")
+                    {
+                        if (dt_assistantdetails.Rows[0][mDc] is DBNull)
+                        {
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                            {
+                                cbo_Reweigh.Text = "否";
+                            }
+                            else
+                            {
+                                cbo_Reweigh.Text = "No";
+                            }
+                        }
+                        else
+                        {
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                            {
+                                if (dt_assistantdetails.Rows[0][mDc].ToString() == "1")
+                                    cbo_Reweigh.Text = "是";
+                                else
+                                    cbo_Reweigh.Text = "否";
+                            }
+                            else
+                            {
+                                if (dt_assistantdetails.Rows[0][mDc].ToString() == "1")
+                                    cbo_Reweigh.Text = "Yes";
+                                else
+                                    cbo_Reweigh.Text = "No";
+                            }
+                        }
                     }
                 }
                 return 0;
@@ -288,15 +329,24 @@ namespace SmartDyeing.FADM_Control
                 }
             }
 
+            if (cbo_Reweigh.Text == "是" || cbo_Reweigh.Text == "Yes")
+            {
+                lis_data.Add("1");
+            }
+            else
+            {
+                lis_data.Add("0");
+            }
+
             if (_b_insert)
             {
                 //如果是新增
                 string s_sql = "INSERT INTO assistant_details" +
                                    " (AssistantCode, AssistantBarCode, AssistantName, AssistantType, UnitOfAccount," +
                                    " AllowMinColoringConcentration, AllowMaxColoringConcentration, TermOfValidity," +
-                                   " Intensity, Cost) VALUES('" + lis_data[0] + "','" + lis_data[1] + "','" + lis_data[2] + "'," +
+                                   " Intensity, Cost,Reweigh) VALUES('" + lis_data[0] + "','" + lis_data[1] + "','" + lis_data[2] + "'," +
                                    "'" + lis_data[3] + "','" + lis_data[4] + "','" + lis_data[5] + "','" + lis_data[6] + "'," +
-                                   "'" + lis_data[7] + "','" + lis_data[8] + "','" + lis_data[9] + "');";
+                                   "'" + lis_data[7] + "','" + lis_data[8] + "','" + lis_data[9] + "','" + lis_data[10] + "');";
                 FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
 
                 //更新染助剂资料表
@@ -312,7 +362,7 @@ namespace SmartDyeing.FADM_Control
                                    " AssistantType= '" + lis_data[3] + "', UnitOfAccount = '" + lis_data[4] + "'," +
                                    " AllowMinColoringConcentration = '" + lis_data[5] + "'," +
                                    " AllowMaxColoringConcentration = '" + lis_data[6] + "', TermOfValidity = '" + lis_data[7] + "'," +
-                                   " Intensity ='" + lis_data[8] + "',Cost = '" + lis_data[9] + "' WHERE AssistantCode ='" + lis_data[0] + "' ;";
+                                   " Intensity ='" + lis_data[8] + "',Cost = '" + lis_data[9] + "',Reweigh = '" + lis_data[10] + "' WHERE AssistantCode ='" + lis_data[0] + "' ;";
                 FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
 
                 AssistantHeadShow(txt_AssistantCode.Text);

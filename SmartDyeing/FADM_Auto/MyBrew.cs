@@ -304,7 +304,8 @@ namespace SmartDyeing.FADM_Auto
                                             s_sql = "UPDATE bottle_details SET RealConcentration = '" +
                                                         string.Format("{0:F6}", Convert.ToDouble(i_realcon) / 1000000.00) + "'" +
                                                         ", CurrentWeight = '" + string.Format("{0:F6}", Convert.ToDouble(i_weight) / 1000.00) + "'" +
-                                                        ", BrewingData = '" + P_time + "', AdjustSuccess = 0" + sStatus +
+                                                        ", BrewingData = '" + P_time + "'" +
+                                                        ", LastWashTime = '" + DateTime.Now + "', AdjustSuccess = 0" + sStatus +
                                                         " WHERE BottleNum = " + i_bottle + ";";
                                             FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
                                         }
@@ -320,7 +321,8 @@ namespace SmartDyeing.FADM_Auto
                                             s_sql = "UPDATE bottle_details SET RealConcentration = '" +
                                                         string.Format("{0:F6}", Convert.ToDouble(i_realcon) / 1000000.00) + "'" +
                                                         ", CurrentWeight = '" + string.Format("{0:F6}", Convert.ToDouble(i_weight) / 1000.00) + "'" +
-                                                        ", BrewingData = '" + P_time + "' " + sStatus +
+                                                        ", BrewingData = '" + P_time + "'" +
+                                                        ", LastWashTime = '" + DateTime.Now + "' " + sStatus +
                                                         " WHERE BottleNum = " + i_bottle + ";";
                                             FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
                                         }
@@ -972,35 +974,38 @@ namespace SmartDyeing.FADM_Auto
 
                                 int i_oribottle = i_bottle;
                                 System.DateTime P_time = System.DateTime.Now;
-                                //bool P_bl = false;
-                                //again:
-                                //    string s_sql = "SELECT * FROM bottle_details WHERE BottleNum = " + i_oribottle + ";";
-                                //    DataTable P_dt_bottle = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
+                                if (FADM_Object.Communal._b_isUseMotherDate)
+                                {
+                                    bool P_bl = false;
+                                again:
+                                    string s_sql1 = "SELECT * FROM bottle_details WHERE BottleNum = " + i_oribottle + ";";
+                                    DataTable P_dt_bottle = FADM_Object.Communal._fadmSqlserver.GetData(s_sql1);
 
-                                //    if (P_dt_bottle.Rows.Count > 0)
-                                //    {
+                                    if (P_dt_bottle.Rows.Count > 0)
+                                    {
 
-                                //        i_oribottle = Convert.ToInt16(P_dt_bottle.Rows[0]["OriginalBottleNum"]);
-                                //        if (i_oribottle > 0)
-                                //        {
-                                //            P_bl = true;
-                                //            goto again;
-                                //        }
-                                //        else
-                                //        {
-                                //            if (P_bl)
-                                //            {
+                                        i_oribottle = Convert.ToInt16(P_dt_bottle.Rows[0]["OriginalBottleNum"]);
+                                        if (i_oribottle > 0)
+                                        {
+                                            P_bl = true;
+                                            goto again;
+                                        }
+                                        else
+                                        {
+                                            if (P_bl)
+                                            {
 
 
-                                //                int maxB = Lib_Card.Configure.Parameter.Machine_Bottle_Total;
-                                //                if (Convert.ToInt16(P_dt_bottle.Rows[0]["BottleNum"]) <= maxB)
-                                //                {
-                                //                    P_time = Convert.ToDateTime(P_dt_bottle.Rows[0]["BrewingData"]);
-                                //                }
-                                //            }
+                                                int maxB = Lib_Card.Configure.Parameter.Machine_Bottle_Total;
+                                                if (Convert.ToInt16(P_dt_bottle.Rows[0]["BottleNum"]) <= maxB)
+                                                {
+                                                    P_time = Convert.ToDateTime(P_dt_bottle.Rows[0]["BrewingData"]);
+                                                }
+                                            }
 
-                                //        }
-                                //    }
+                                        }
+                                    }
+                                }
 
                                 //if (i_bottle == Class_SemiAuto.MyMove_XY.Move_XY_BottleNum)
                                 //{
@@ -1073,7 +1078,8 @@ namespace SmartDyeing.FADM_Auto
                                             s_sql = "UPDATE bottle_details SET RealConcentration = '" +
                                                         string.Format("{0:F6}", Convert.ToDouble(i_realcon) / 1000000.00) + "'" +
                                                         ", CurrentWeight = '" + string.Format("{0:F6}", Convert.ToDouble(i_weight) / 1000.00) + "'" +
-                                                        ", BrewingData = '" + P_time + "', AdjustSuccess = 0" +sStatus+
+                                                        ", BrewingData = '" + P_time + "'" +
+                                                        ", LastWashTime = '" + DateTime.Now + "', AdjustSuccess = 0" +sStatus+
                                                         " WHERE BottleNum = " + i_bottle + ";";
                                             FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
 
@@ -1104,7 +1110,8 @@ namespace SmartDyeing.FADM_Auto
                                             s_sql = "UPDATE bottle_details SET RealConcentration = '" +
                                                         string.Format("{0:F6}", Convert.ToDouble(i_realcon) / 1000000.00) + "'" +
                                                         ", CurrentWeight = '" + string.Format("{0:F6}", Convert.ToDouble(i_weight) / 1000.00) + "'" +
-                                                        ", BrewingData = '" + P_time + "' " +sStatus+
+                                                        ", BrewingData = '" + P_time + "'" +
+                                                        ", LastWashTime = '" + DateTime.Now + "' " +sStatus+
                                                         " WHERE BottleNum = " + i_bottle + ";";
                                             FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
 
@@ -1880,7 +1887,8 @@ namespace SmartDyeing.FADM_Auto
                                             P_str_sql = "UPDATE bottle_details SET RealConcentration = '" +
                                                         string.Format("{0:F6}", Convert.ToDouble(P_int_realcon) / 1000000.00) + "'" +
                                                         ", CurrentWeight = '" + string.Format("{0:F6}", Convert.ToDouble(P_int_weight) / 1000.00) + "'" +
-                                                        ", BrewingData = '" + P_time + "', AdjustSuccess = 0" +sStatus+
+                                                        ", BrewingData = '" + P_time + "'" +
+                                                        ", LastWashTime = '" + DateTime.Now + "', AdjustSuccess = 0" +sStatus+
                                                         " WHERE BottleNum = " + P_int_bottle + ";";
                                             FADM_Object.Communal._fadmSqlserver.ReviseData(P_str_sql);
                                         }
@@ -1895,7 +1903,8 @@ namespace SmartDyeing.FADM_Auto
                                             P_str_sql = "UPDATE bottle_details SET RealConcentration = '" +
                                                         string.Format("{0:F6}", Convert.ToDouble(P_int_realcon) / 1000000.00) + "'" +
                                                         ", CurrentWeight = '" + string.Format("{0:F6}", Convert.ToDouble(P_int_weight) / 1000.00) + "'" +
-                                                        ", BrewingData = '" + P_time + "' " +sStatus+
+                                                        ", BrewingData = '" + P_time + "'" +
+                                                        ", LastWashTime = '" + DateTime.Now + "' " +sStatus+
                                                         " WHERE BottleNum = " + P_int_bottle + ";";
                                             FADM_Object.Communal._fadmSqlserver.ReviseData(P_str_sql);
                                         }
@@ -2609,7 +2618,8 @@ namespace SmartDyeing.FADM_Auto
                                             P_str_sql = "UPDATE bottle_details SET RealConcentration = '" +
                                                         string.Format("{0:F6}", Convert.ToDouble(P_int_realcon) / 1000000.00) + "'" +
                                                         ", CurrentWeight = '" + string.Format("{0:F6}", Convert.ToDouble(P_int_weight) / 1000.00) + "'" +
-                                                        ", BrewingData = '" + P_time + "', AdjustSuccess = 0" +sStatus+
+                                                        ", BrewingData = '" + P_time + "'" +
+                                                        ", LastWashTime = '" + DateTime.Now + "', AdjustSuccess = 0" +sStatus+
                                                         " WHERE BottleNum = " + P_int_bottle + ";";
                                             FADM_Object.Communal._fadmSqlserver.ReviseData(P_str_sql);
                                         }
@@ -2624,7 +2634,8 @@ namespace SmartDyeing.FADM_Auto
                                             P_str_sql = "UPDATE bottle_details SET RealConcentration = '" +
                                                         string.Format("{0:F6}", Convert.ToDouble(P_int_realcon) / 1000000.00) + "'" +
                                                         ", CurrentWeight = '" + string.Format("{0:F6}", Convert.ToDouble(P_int_weight) / 1000.00) + "'" +
-                                                        ", BrewingData = '" + P_time + "' " +sStatus+
+                                                        ", BrewingData = '" + P_time + "'" +
+                                                        ", LastWashTime = '" + DateTime.Now + "' " +sStatus+
                                                         " WHERE BottleNum = " + P_int_bottle + ";";
                                             FADM_Object.Communal._fadmSqlserver.ReviseData(P_str_sql);
                                         }

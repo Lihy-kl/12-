@@ -61,6 +61,8 @@ namespace SmartDyeing.FADM_Control
             this.lab_AssistantName = new System.Windows.Forms.Label();
             this.lab_AssistantBarCode = new System.Windows.Forms.Label();
             this.lab_AssistantCode = new System.Windows.Forms.Label();
+            this.cbo_Reweigh = new System.Windows.Forms.ComboBox();
+            this.lab_Reweigh = new System.Windows.Forms.Label();
             this.grp_Browse.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Assistant)).BeginInit();
             this.grp_AssistantDetails.SuspendLayout();
@@ -68,20 +70,20 @@ namespace SmartDyeing.FADM_Control
             // 
             // grp_Browse
             // 
-            resources.ApplyResources(this.grp_Browse, "grp_Browse");
             this.grp_Browse.Controls.Add(this.dgv_Assistant);
+            resources.ApplyResources(this.grp_Browse, "grp_Browse");
             this.grp_Browse.Name = "grp_Browse";
             this.grp_Browse.TabStop = false;
             // 
             // dgv_Assistant
             // 
-            resources.ApplyResources(this.dgv_Assistant, "dgv_Assistant");
             this.dgv_Assistant.AllowUserToAddRows = false;
             this.dgv_Assistant.AllowUserToDeleteRows = false;
             this.dgv_Assistant.AllowUserToResizeColumns = false;
             this.dgv_Assistant.AllowUserToResizeRows = false;
             this.dgv_Assistant.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgv_Assistant.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            resources.ApplyResources(this.dgv_Assistant, "dgv_Assistant");
             this.dgv_Assistant.MultiSelect = false;
             this.dgv_Assistant.Name = "dgv_Assistant";
             this.dgv_Assistant.ReadOnly = true;
@@ -92,7 +94,8 @@ namespace SmartDyeing.FADM_Control
             // 
             // grp_AssistantDetails
             // 
-            resources.ApplyResources(this.grp_AssistantDetails, "grp_AssistantDetails");
+            this.grp_AssistantDetails.Controls.Add(this.cbo_Reweigh);
+            this.grp_AssistantDetails.Controls.Add(this.lab_Reweigh);
             this.grp_AssistantDetails.Controls.Add(this.rdo_4);
             this.grp_AssistantDetails.Controls.Add(this.rdo_3);
             this.grp_AssistantDetails.Controls.Add(this.btn_Delete);
@@ -119,6 +122,7 @@ namespace SmartDyeing.FADM_Control
             this.grp_AssistantDetails.Controls.Add(this.lab_AssistantName);
             this.grp_AssistantDetails.Controls.Add(this.lab_AssistantBarCode);
             this.grp_AssistantDetails.Controls.Add(this.lab_AssistantCode);
+            resources.ApplyResources(this.grp_AssistantDetails, "grp_AssistantDetails");
             this.grp_AssistantDetails.Name = "grp_AssistantDetails";
             this.grp_AssistantDetails.TabStop = false;
             // 
@@ -176,8 +180,8 @@ namespace SmartDyeing.FADM_Control
             // 
             // cbo_AssistantType
             // 
-            resources.ApplyResources(this.cbo_AssistantType, "cbo_AssistantType");
             this.cbo_AssistantType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.cbo_AssistantType, "cbo_AssistantType");
             this.cbo_AssistantType.FormattingEnabled = true;
             this.cbo_AssistantType.Items.AddRange(new object[] {
             resources.GetString("cbo_AssistantType.Items"),
@@ -284,6 +288,21 @@ namespace SmartDyeing.FADM_Control
             resources.ApplyResources(this.lab_AssistantCode, "lab_AssistantCode");
             this.lab_AssistantCode.Name = "lab_AssistantCode";
             // 
+            // cbo_Reweigh
+            // 
+            this.cbo_Reweigh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.cbo_Reweigh, "cbo_Reweigh");
+            this.cbo_Reweigh.FormattingEnabled = true;
+            this.cbo_Reweigh.Items.AddRange(new object[] {
+            resources.GetString("cbo_Reweigh.Items"),
+            resources.GetString("cbo_Reweigh.Items1")});
+            this.cbo_Reweigh.Name = "cbo_Reweigh";
+            // 
+            // lab_Reweigh
+            // 
+            resources.ApplyResources(this.lab_Reweigh, "lab_Reweigh");
+            this.lab_Reweigh.Name = "lab_Reweigh";
+            // 
             // AssistantDefin
             // 
             resources.ApplyResources(this, "$this");
@@ -330,6 +349,7 @@ namespace SmartDyeing.FADM_Control
         private System.Windows.Forms.Button btn_Insert;
         private System.Windows.Forms.RadioButton rdo_4;
         private System.Windows.Forms.RadioButton rdo_3;
-
+        private ComboBox cbo_Reweigh;
+        private Label lab_Reweigh;
     }
 }

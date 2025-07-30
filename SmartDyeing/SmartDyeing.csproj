@@ -593,6 +593,7 @@
     <Compile Include="FADM_Object\DrawingCurve.cs" />
     <Compile Include="FADM_Object\HMITCPModBus.cs" />
     <Compile Include="FADM_Object\HttpUtil.cs" />
+    <Compile Include="FADM_Object\IndependentDye.cs" />
     <Compile Include="FADM_Object\IOMapping.cs" />
     <Compile Include="FADM_Object\myAES.cs" />
     <Compile Include="FADM_Object\MyAlarm.cs" />

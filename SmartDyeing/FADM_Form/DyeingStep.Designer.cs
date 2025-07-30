@@ -67,7 +67,16 @@ namespace SmartDyeing.FADM_Form
             resources.GetString("cbo_TechnologyName.Items11"),
             resources.GetString("cbo_TechnologyName.Items12"),
             resources.GetString("cbo_TechnologyName.Items13"),
-            resources.GetString("cbo_TechnologyName.Items14")});
+            resources.GetString("cbo_TechnologyName.Items14"),
+            resources.GetString("cbo_TechnologyName.Items15"),
+            resources.GetString("cbo_TechnologyName.Items16"),
+            resources.GetString("cbo_TechnologyName.Items17"),
+            resources.GetString("cbo_TechnologyName.Items18"),
+            resources.GetString("cbo_TechnologyName.Items19"),
+            resources.GetString("cbo_TechnologyName.Items20"),
+            resources.GetString("cbo_TechnologyName.Items21"),
+            resources.GetString("cbo_TechnologyName.Items22"),
+            resources.GetString("cbo_TechnologyName.Items23")});
             this.cbo_TechnologyName.Name = "cbo_TechnologyName";
             this.cbo_TechnologyName.SelectedIndexChanged += new System.EventHandler(this.cbo_TechnologyName_SelectedIndexChanged);
             this.cbo_TechnologyName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cbo_TechnologyName_KeyDown);

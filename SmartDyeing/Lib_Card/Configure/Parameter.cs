@@ -173,6 +173,8 @@
         /// </summary>
         public static int Machine_Type_Lv { get; set; }
 
+      
+
         /// <summary>
         /// 区域1类型
         /// 0：无
@@ -2215,6 +2217,16 @@
         /// </summary>
         public static int Coordinate_Standby_Y { get; set; }
 
+        /// <summary>
+        /// 清洗针筒X轴坐标
+        /// </summary>
+        public static int Coordinate_Wash_X { get; set; }
+
+        /// <summary>
+        /// 清洗针筒Y轴坐标
+        /// </summary>
+        public static int Coordinate_Wash_Y { get; set; }
+
         #endregion
 
         #region 校正参数
@@ -2253,6 +2265,11 @@
         /// 加水校正值
         /// </summary>
         public static double Correcting_Water_Value { get; set; }
+
+        /// <summary>
+        /// 流量计校正值
+        /// </summary>
+        public static double Correcting_FlowPulse_Value { get; set; }
 
         /// <summary>
         /// 加水首秒重量
@@ -2585,6 +2602,36 @@
         /// 染杯口下探开夹脉冲
         /// </summary>
         public static int Other_CupDownPulse { get; set; }
+
+        /// <summary>
+        /// 加水放大倍数 0放大1000倍 1是放大100倍
+        /// </summary>
+        public static int Other_WaterMagnification { get; set; }
+
+        /// <summary>
+        /// 出布时气缸位置 0阻挡位 1慢速中
+        /// </summary>
+        public static int Other_OutClothPosition { get; set; }
+
+        /// <summary>
+        /// 洗针次数
+        /// </summary>
+        public static int Other_WashTime { get; set; }
+
+        /// <summary>
+        /// 是否配置抓手撑盖选项
+        /// </summary>
+        public static int Other_Tongs_Decompression { get; set; }
+
+        /// <summary>
+        /// 撑盖Y轴位置偏移
+        /// </summary>
+        public static int Other_SupportCoverY { get; set; }
+
+        /// <summary>
+        /// 是否启用阀岛
+        /// </summary>
+        public static int Other_ValveTerminal { get; set; }
 
     }
 }

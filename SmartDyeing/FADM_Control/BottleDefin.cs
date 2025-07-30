@@ -250,6 +250,9 @@ namespace SmartDyeing.FADM_Control
                                 }
                             }
                             break;
+                        case "txt_WashSyringeSpan":
+                            txt_WashSyringeSpan.Text = dt_bottledetails.Rows[0][mDc].ToString();
+                            break;
                         default:
                             break;
 
@@ -448,6 +451,7 @@ namespace SmartDyeing.FADM_Control
             {
                 lis_data.Add("0");
             }
+            lis_data.Add(txt_WashSyringeSpan.Text);
             if (_b_insert)
             {
                 //如果是新增
@@ -455,12 +459,12 @@ namespace SmartDyeing.FADM_Control
                             " BottleNum, AssistantCode, SettingConcentration," +
                             " CurrentWeight, SyringeType, DropMinWeight," +
                             " BrewingCode, OriginalBottleNum, AllowMaxWeight," +
-                            " BrewingData, RealConcentration,DripReserveFirst) VALUES( '" + lis_data[0] + "'," +
+                            " BrewingData, RealConcentration,DripReserveFirst,WashSyringeSpan) VALUES( '" + lis_data[0] + "'," +
                             " '" + lis_data[1] + "','" + lis_data[2] + "'," +
                             " '" + lis_data[3] + "','" + lis_data[4] + "'," +
                             " '" + lis_data[5] + "','" + lis_data[6] + "'," +
                             " '" + lis_data[7] + "','" + lis_data[8] + "'," +
-                            "'" + lis_data[9] + "','" + lis_data[10] + "','" + lis_data[11] + "');";
+                            "'" + lis_data[9] + "','" + lis_data[10] + "','" + lis_data[11] + "','" + lis_data[12] + "');";
                 FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
 
 
@@ -503,6 +507,7 @@ namespace SmartDyeing.FADM_Control
                                 " AllowMaxWeight ='" + lis_data[8] + "'," +
                                 " BrewingData = '" + lis_data[9] + "'," +
                                 " DripReserveFirst = '" + lis_data[11] + "'," +
+                                " WashSyringeSpan = '" + lis_data[12] + "'," +
                                 " AdjustSuccess = 0" +
                                 " WHERE BottleNum ='" + lis_data[0] + "' ;";
                 }
@@ -520,6 +525,7 @@ namespace SmartDyeing.FADM_Control
                                 " BrewingData = '" + lis_data[9] + "'," +
                                 " RealConcentration = '" + lis_data[10] + "'," +
                                 " DripReserveFirst = '" + lis_data[11] + "'," +
+                                " WashSyringeSpan = '" + lis_data[12] + "'," +
                                 " AdjustSuccess = 0" +
                                 " WHERE BottleNum ='" + lis_data[0] + "' ;";
                 }
@@ -869,14 +875,9 @@ namespace SmartDyeing.FADM_Control
                                 txt_AllowMaxWeight = null;
                                 return;
                             }
-                            if (Communal._b_isAloneDripReserve)
-                            {
-                                cbo_DripReserveFirst.Focus();
-                            }
-                            else
-                            {
-                                btn_Save.Focus();
-                            }
+
+                            txt_WashSyringeSpan.Focus();
+
                         }
                         else
                         {
@@ -928,6 +929,30 @@ namespace SmartDyeing.FADM_Control
                         else
                         {
                             return;
+                        }
+                    }
+                    catch
+                    { }
+
+                    break;
+                default: break;
+            }
+        }
+
+        private void txt_WashSyringeSpan_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    try
+                    {
+                        if (Communal._b_isAloneDripReserve)
+                        {
+                            cbo_DripReserveFirst.Focus();
+                        }
+                        else
+                        {
+                            btn_Save.Focus();
                         }
                     }
                     catch

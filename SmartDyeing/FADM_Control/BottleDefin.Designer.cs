@@ -35,6 +35,8 @@ namespace SmartDyeing.FADM_Control
             this.grp_Browse = new System.Windows.Forms.GroupBox();
             this.dgv_Bottle = new System.Windows.Forms.DataGridView();
             this.grp_BottleDetails = new System.Windows.Forms.GroupBox();
+            this.txt_WashSyringeSpan = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.cbo_DripReserveFirst = new System.Windows.Forms.ComboBox();
             this.lab_DripReserveFirst = new System.Windows.Forms.Label();
             this.cbo_OriginalBottleNum = new System.Windows.Forms.ComboBox();
@@ -88,20 +90,20 @@ namespace SmartDyeing.FADM_Control
             // 
             // grp_Browse
             // 
-            resources.ApplyResources(this.grp_Browse, "grp_Browse");
             this.grp_Browse.Controls.Add(this.dgv_Bottle);
+            resources.ApplyResources(this.grp_Browse, "grp_Browse");
             this.grp_Browse.Name = "grp_Browse";
             this.grp_Browse.TabStop = false;
             // 
             // dgv_Bottle
             // 
-            resources.ApplyResources(this.dgv_Bottle, "dgv_Bottle");
             this.dgv_Bottle.AllowUserToAddRows = false;
             this.dgv_Bottle.AllowUserToDeleteRows = false;
             this.dgv_Bottle.AllowUserToResizeColumns = false;
             this.dgv_Bottle.AllowUserToResizeRows = false;
             this.dgv_Bottle.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgv_Bottle.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            resources.ApplyResources(this.dgv_Bottle, "dgv_Bottle");
             this.dgv_Bottle.MultiSelect = false;
             this.dgv_Bottle.Name = "dgv_Bottle";
             this.dgv_Bottle.ReadOnly = true;
@@ -112,7 +114,8 @@ namespace SmartDyeing.FADM_Control
             // 
             // grp_BottleDetails
             // 
-            resources.ApplyResources(this.grp_BottleDetails, "grp_BottleDetails");
+            this.grp_BottleDetails.Controls.Add(this.txt_WashSyringeSpan);
+            this.grp_BottleDetails.Controls.Add(this.label1);
             this.grp_BottleDetails.Controls.Add(this.cbo_DripReserveFirst);
             this.grp_BottleDetails.Controls.Add(this.lab_DripReserveFirst);
             this.grp_BottleDetails.Controls.Add(this.cbo_OriginalBottleNum);
@@ -138,13 +141,25 @@ namespace SmartDyeing.FADM_Control
             this.grp_BottleDetails.Controls.Add(this.lab_DropMinWeight);
             this.grp_BottleDetails.Controls.Add(this.lab_AssistantCode);
             this.grp_BottleDetails.Controls.Add(this.lab_BottleNum);
+            resources.ApplyResources(this.grp_BottleDetails, "grp_BottleDetails");
             this.grp_BottleDetails.Name = "grp_BottleDetails";
             this.grp_BottleDetails.TabStop = false;
             // 
+            // txt_WashSyringeSpan
+            // 
+            resources.ApplyResources(this.txt_WashSyringeSpan, "txt_WashSyringeSpan");
+            this.txt_WashSyringeSpan.Name = "txt_WashSyringeSpan";
+            this.txt_WashSyringeSpan.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_WashSyringeSpan_KeyDown);
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
             // cbo_DripReserveFirst
             // 
-            resources.ApplyResources(this.cbo_DripReserveFirst, "cbo_DripReserveFirst");
             this.cbo_DripReserveFirst.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.cbo_DripReserveFirst, "cbo_DripReserveFirst");
             this.cbo_DripReserveFirst.FormattingEnabled = true;
             this.cbo_DripReserveFirst.Items.AddRange(new object[] {
             resources.GetString("cbo_DripReserveFirst.Items"),
@@ -159,8 +174,8 @@ namespace SmartDyeing.FADM_Control
             // 
             // cbo_OriginalBottleNum
             // 
-            resources.ApplyResources(this.cbo_OriginalBottleNum, "cbo_OriginalBottleNum");
             this.cbo_OriginalBottleNum.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.cbo_OriginalBottleNum, "cbo_OriginalBottleNum");
             this.cbo_OriginalBottleNum.FormattingEnabled = true;
             this.cbo_OriginalBottleNum.Name = "cbo_OriginalBottleNum";
             this.cbo_OriginalBottleNum.Click += new System.EventHandler(this.cbo_OriginalBottleNum_Click);
@@ -175,8 +190,8 @@ namespace SmartDyeing.FADM_Control
             // 
             // cbo_BrewingCode
             // 
-            resources.ApplyResources(this.cbo_BrewingCode, "cbo_BrewingCode");
             this.cbo_BrewingCode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.cbo_BrewingCode, "cbo_BrewingCode");
             this.cbo_BrewingCode.FormattingEnabled = true;
             this.cbo_BrewingCode.Name = "cbo_BrewingCode";
             this.cbo_BrewingCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cbo_BrewingCode_KeyDown);
@@ -188,8 +203,8 @@ namespace SmartDyeing.FADM_Control
             // 
             // cbo_SyringeType
             // 
-            resources.ApplyResources(this.cbo_SyringeType, "cbo_SyringeType");
             this.cbo_SyringeType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.cbo_SyringeType, "cbo_SyringeType");
             this.cbo_SyringeType.FormattingEnabled = true;
             this.cbo_SyringeType.Items.AddRange(new object[] {
             resources.GetString("cbo_SyringeType.Items"),
@@ -231,6 +246,7 @@ namespace SmartDyeing.FADM_Control
             // 
             resources.ApplyResources(this.txt_AllowMaxWeight, "txt_AllowMaxWeight");
             this.txt_AllowMaxWeight.Name = "txt_AllowMaxWeight";
+            this.txt_AllowMaxWeight.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_AllowMaxWeight_KeyDown);
             // 
             // txt_BottleNum
             // 
@@ -306,7 +322,6 @@ namespace SmartDyeing.FADM_Control
             // 
             // grp_AssistantDetails
             // 
-            resources.ApplyResources(this.grp_AssistantDetails, "grp_AssistantDetails");
             this.grp_AssistantDetails.Controls.Add(this.rdo_3);
             this.grp_AssistantDetails.Controls.Add(this.rdo_4);
             this.grp_AssistantDetails.Controls.Add(this.rdo_2);
@@ -326,6 +341,7 @@ namespace SmartDyeing.FADM_Control
             this.grp_AssistantDetails.Controls.Add(this.lab_AssistantType);
             this.grp_AssistantDetails.Controls.Add(this.txt_AssistantName);
             this.grp_AssistantDetails.Controls.Add(this.lab_AssistantName);
+            resources.ApplyResources(this.grp_AssistantDetails, "grp_AssistantDetails");
             this.grp_AssistantDetails.Name = "grp_AssistantDetails";
             this.grp_AssistantDetails.TabStop = false;
             // 
@@ -505,5 +521,7 @@ namespace SmartDyeing.FADM_Control
         private System.Windows.Forms.RadioButton rdo_4;
         private ComboBox cbo_DripReserveFirst;
         private Label lab_DripReserveFirst;
+        private TextBox txt_WashSyringeSpan;
+        private Label label1;
     }
 }

@@ -220,6 +220,12 @@
   <data name="grp_in.Text" xml:space="preserve">
     <value>InputMonitor</value>
   </data>
+  <data name="ChkInPut_SupportCover.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 9pt</value>
+  </data>
+  <data name="ChkInPut_SupportCover.Text" xml:space="preserve">
+    <value>Coveropen</value>
+  </data>
   <data name="ChkInPut_Back.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 9pt</value>
   </data>
@@ -502,6 +508,30 @@
   <data name="grp_out.Text" xml:space="preserve">
     <value>OutputMonitor</value>
   </data>
+  <data name="BtnOutPut_Wash_Blow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 64</value>
+  </data>
+  <data name="BtnOutPut_Wash_Blow.Text" xml:space="preserve">
+    <value>WashSyringe_Blow</value>
+  </data>
+  <data name="BtnOutPut_Wash_Out.Location" type="System.Drawing.Point, System.Drawing">
+    <value>514, 373</value>
+  </data>
+  <data name="BtnOutPut_Wash_Out.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 64</value>
+  </data>
+  <data name="BtnOutPut_Wash_Out.Text" xml:space="preserve">
+    <value>WashSyringe_Out</value>
+  </data>
+  <data name="BtnOutPut_Wash_In.Location" type="System.Drawing.Point, System.Drawing">
+    <value>263, 373</value>
+  </data>
+  <data name="BtnOutPut_Wash_In.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 64</value>
+  </data>
+  <data name="BtnOutPut_Wash_In.Text" xml:space="preserve">
+    <value>WashSyringe_In</value>
+  </data>
   <data name="BtnOutPut_Block_Cylinder.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 64</value>
   </data>
@@ -631,11 +661,29 @@
   <data name="groupBox5.Text" xml:space="preserve">
     <value>FixedPointMove</value>
   </data>
+  <data name="RdoWash.Location" type="System.Drawing.Point, System.Drawing">
+    <value>281, 197</value>
+  </data>
+  <data name="RdoWash.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 23</value>
+  </data>
+  <data name="RdoWash.Text" xml:space="preserve">
+    <value>Wash</value>
+  </data>
+  <data name="button4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>315, 451</value>
+  </data>
   <data name="button4.Text" xml:space="preserve">
     <value>Generate-Coordinate</value>
   </data>
+  <data name="button3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>171, 451</value>
+  </data>
   <data name="button3.Text" xml:space="preserve">
     <value>Write-Coordinate</value>
+  </data>
+  <data name="button2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>27, 451</value>
   </data>
   <data name="button2.Text" xml:space="preserve">
     <value>Test-Coordinate</value>
@@ -722,16 +770,16 @@
     <value>MotherLiquidArea</value>
   </data>
   <data name="BtnStartMove.Location" type="System.Drawing.Point, System.Drawing">
-    <value>176, 272</value>
+    <value>176, 319</value>
   </data>
   <data name="BtnStartMove.Text" xml:space="preserve">
     <value>Start</value>
   </data>
   <data name="TxtNum.Location" type="System.Drawing.Point, System.Drawing">
-    <value>226, 236</value>
+    <value>226, 251</value>
   </data>
   <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>73, 241</value>
+    <value>73, 256</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 19</value>

@@ -3754,7 +3754,7 @@ namespace SmartDyeing.FADM_Control
                         {
                             DialogResult dialogResult = FADM_Form.CustomMessageBox.Show("当前只选择了一个配方，是否继续?(确认只滴一杯请点是，否则请点否)", "开始滴液", MessageBoxButtons.YesNo, true);
 
-                            if (dialogResult == DialogResult.No)
+                            if (dialogResult == DialogResult.No || dialogResult == DialogResult.Cancel)
                             {
                                 FADM_Object.Communal._b_isDripping = false;
                                 return;
@@ -3764,7 +3764,7 @@ namespace SmartDyeing.FADM_Control
                         {
                             DialogResult dialogResult = FADM_Form.CustomMessageBox.Show("Currently, only one formula has been selected. Do you want to continue? (Confirm that only one cup is dropped, please click yes; otherwise, please click no)", "Start dripping liquid", MessageBoxButtons.YesNo, true);
 
-                            if (dialogResult == DialogResult.No)
+                            if (dialogResult == DialogResult.No || dialogResult == DialogResult.Cancel)
                             {
                                 FADM_Object.Communal._b_isDripping = false;
                                 return;

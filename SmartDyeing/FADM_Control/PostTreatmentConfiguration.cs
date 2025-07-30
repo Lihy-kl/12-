@@ -53,7 +53,7 @@ namespace SmartDyeing.FADM_Control
                 if (Lib_Card.Configure.Parameter.Other_Language == 0)
                 {
                     //设置标题栏名称
-                    string[] sa_lineName = { "步号", "操作类型", "温度", "速率", "百分比(%)/时间(s)", "转速" };
+                    string[] sa_lineName = { "步号", "操作类型", "温度", "速率", "百分比(%)/时间(m)", "转速" };
                     for (int i = 0; i < 6; i++)
                     {
                         dgv_Child_DyeData.Columns[i].HeaderCell.Value = sa_lineName[i];
@@ -70,7 +70,7 @@ namespace SmartDyeing.FADM_Control
                 else
                 {
                     //设置标题栏名称
-                    string[] sa_lineName = { "StepNumber", "OperationFlow", "SettingTemperature", "TemperatureRate", "Percentage(%)/time(s)", "Speed" };
+                    string[] sa_lineName = { "StepNumber", "OperationFlow", "SettingTemperature", "TemperatureRate", "Percentage(%)/time(m)", "Speed" };
                     for (int i = 0; i < 6; i++)
                     {
                         dgv_Child_DyeData.Columns[i].HeaderCell.Value = sa_lineName[i];
