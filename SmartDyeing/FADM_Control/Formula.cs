@@ -1,4 +1,5 @@
-﻿using SmartDyeing.FADM_Form;
+﻿using Lib_DataBank.MySQL;
+using SmartDyeing.FADM_Form;
 using SmartDyeing.FADM_Object;
 using System;
 using System.Collections.Generic;
@@ -198,7 +199,14 @@ namespace SmartDyeing.FADM_Control
             if (P_dt_enabled.Rows.Count <= 0)
             {
                 s_sql = "INSERT INTO enabled_set (MyID) VALUES(1);";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                }
                 goto again;
             }
             foreach (DataColumn mDc in P_dt_enabled.Columns)
@@ -297,7 +305,8 @@ namespace SmartDyeing.FADM_Control
                         btn_BatchAdd.Focus();
                         return false;
                     }
-                    btn_BatchAdd_Click(null, null);
+                    if (!FADM_Object.Communal._b_isBlockSaveButton)
+                        btn_BatchAdd_Click(null, null);
                     return false;
                 case Keys.F2:
                     if (txt_DyeingCode.Focused || txt_FormulaGroup.Focused)
@@ -305,15 +314,19 @@ namespace SmartDyeing.FADM_Control
                         btn_Save.Focus();
                         return false;
                     }
-                    btn_Save_Click(null, null);
+                    if (!FADM_Object.Communal._b_isBlockSaveButton)
+                        btn_Save_Click(null, null);
                     return false;
                 case Keys.F3:
-                    btn_pre_Click(null, null);
+                    if (!FADM_Object.Communal._b_isBlockSaveButton)
+                        btn_pre_Click(null, null);
                     return false;
                 case Keys.F5:
-                    btn_FormulaCodeAdd_Click(null, null);
+                    if (!FADM_Object.Communal._b_isBlockSaveButton)
+                        btn_FormulaCodeAdd_Click(null, null);
                     return false;
                 case Keys.F10:
+                    if(!FADM_Object.Communal._b_isJustShowInfo)
                     btn_Start_Click(null, null);
                     return false;
                 default:
@@ -346,7 +359,14 @@ namespace SmartDyeing.FADM_Control
                                 s_sql = "UPDATE enabled_set SET" +
                                             " " + c.Name.ToString() + " = 1" +
                                             " WHERE MyID = 1;";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
 
                             }
@@ -356,7 +376,14 @@ namespace SmartDyeing.FADM_Control
                                 s_sql = "UPDATE enabled_set SET" +
                                            " " + c.Name.ToString() + " = 0" +
                                            " WHERE MyID = 1;";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                             }
 
@@ -1027,7 +1054,7 @@ namespace SmartDyeing.FADM_Control
         void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             Control[] c = null;
-            if (Communal._b_isUseClamp)
+            if (Communal._b_isUseClamp|| Communal._b_isUseCloth)
             {
                 Control[] c1 = {txt_FormulaCode,txt_CupNum,txt_ClothNum,txt_FormulaGroup, txt_FormulaName,txt_ClothType, txt_Customer,
                              txt_ClothWeight, txt_BathRatio,chk_AddWaterChoose,txt_Non_AnhydrationWR,txt_AnhydrationWR,txt_Operator, txt_DyeingCode,chk_Auto,
@@ -1170,7 +1197,7 @@ namespace SmartDyeing.FADM_Control
                                     {
                                         if (Convert.ToInt32(txt_CupNum.Text) >= FADM_Object.Communal._b_isDyMin)  //滴液区
                                         {
-                                            Lib_Log.Log.writeLogException("=======滴液区输入杯号为" + txt_CupNum.Text);
+                                            Lib_Log.Log.writeLogException("=======滴液区输入杯号" + txt_CupNum.Text);
                                             int TXT = Convert.ToInt32(txt_CupNum.Text) - (FADM_Object.Communal._b_isDyMin - 1);
                                             txt_ClothNum.Text = TXT.ToString();
                                             int TXT2 = TXT;
@@ -2276,15 +2303,36 @@ namespace SmartDyeing.FADM_Control
 
                             //删除批次浏览表头资料
                             s_sql = "DELETE FROM drop_head WHERE CupNum = '" + s_temp + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
 
                             //删除批次浏览表详细资料
                             s_sql = "DELETE FROM drop_details WHERE CupNum = '" + s_temp + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
 
                             //删除批次浏览表详细资料
                             s_sql = "DELETE FROM dye_details WHERE CupNum = '" + s_temp + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
 
                             ////删除批次浏览表详细资料
                             //s_sql = "DELETE FROM dye_details WHERE CupNum = '" + s_temp + "';";
@@ -2292,7 +2340,14 @@ namespace SmartDyeing.FADM_Control
 
                             //更新杯号使用情况
                             s_sql = "Update cup_details set IsUsing = 0 where CupNum = '" + s_temp + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
 
                         _b_updateWait = true;
@@ -2320,7 +2375,14 @@ namespace SmartDyeing.FADM_Control
                                 if (dt_head.Rows.Count > 0)
                                 {
                                     //先把所有杯状态置为没使用
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where Type = 2");
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 0 where Type = 2");
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where Type = 2");
+                                    }
                                 }
 
                                 int i_n = 0;
@@ -2329,10 +2391,24 @@ namespace SmartDyeing.FADM_Control
                                     int i_cup = Convert.ToInt16(dr1["CupNum"].ToString());
 
                                     string s_sql1 = "UPDATE drop_head SET CupNum = " + FADM_Object.Communal._lis_dripCupNum[i_n] + " WHERE CupNum = " + i_cup + ";";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql1);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                    }
 
                                     s_sql1 = "UPDATE drop_details SET CupNum = " + FADM_Object.Communal._lis_dripCupNum[i_n] + " WHERE CupNum = " + i_cup + ";";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql1);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                    }
                                     i_n++;
                                 }
 
@@ -2361,7 +2437,14 @@ namespace SmartDyeing.FADM_Control
                                 if (i_n > 0)
                                 {
                                     //把对应杯位置为使用
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where Type = 2 and CupNum <=" + FADM_Object.Communal._lis_dripCupNum[i_n - 1]);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 1 where Type = 2 and CupNum <=" + FADM_Object.Communal._lis_dripCupNum[i_n - 1]);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where Type = 2 and CupNum <=" + FADM_Object.Communal._lis_dripCupNum[i_n - 1]);
+                                    }
                                 }
                                 //
                             }
@@ -4013,18 +4096,39 @@ namespace SmartDyeing.FADM_Control
                                     s_sql = "DELETE FROM formula_head WHERE" +
                                               " FormulaCode = '" + FormulaCode + "' AND" +
                                               " VersionNum = '" + VersionNum + "' ;";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
                                     if (Stage.Equals("后处理"))
                                     {
                                         s_sql = "DELETE FROM formula_handle_details WHERE" +
                                               " FormulaCode = '" + FormulaCode + "' AND" +
                                               " VersionNum = '" + VersionNum + "' ;";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
 
                                         s_sql = "DELETE FROM dyeing_details WHERE" +
                                           " FormulaCode = '" + FormulaCode + "' AND" +
                                           " VersionNum = '" + VersionNum + "' ;";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
                                     }
                                 }
                             }
@@ -4050,7 +4154,14 @@ namespace SmartDyeing.FADM_Control
                                     s_sql = "DELETE FROM formula_details WHERE" +
                                                " FormulaCode = '" + txt_FormulaCode.Text + "' AND" +
                                                " VersionNum = '" + txt_VersionNum.Text + "' ;";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
 
                                     txt_VersionNum.Text = (Convert.ToInt16(dt_ver.Rows[0][dt_ver.Columns[0]])).ToString();
                                     if (_s_stage == "后处理")
@@ -4058,24 +4169,52 @@ namespace SmartDyeing.FADM_Control
                                         s_sql = "DELETE FROM formula_handle_details WHERE" +
                                                " FormulaCode = '" + txt_FormulaCode.Text + "' AND" +
                                                " VersionNum = '" + txt_VersionNum.Text + "' ;";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
 
                                         s_sql = "DELETE FROM dyeing_details WHERE" +
                                           " FormulaCode = '" + txt_FormulaCode.Text + "' AND" +
                                           " VersionNum = '" + txt_VersionNum.Text + "' ;";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
                                     }
                                     else
                                     {
                                         s_sql = "DELETE FROM formula_handle_details WHERE" +
                                                    " FormulaCode = '" + txt_FormulaCode.Text + "' AND" +
                                                    " VersionNum = '" + txt_VersionNum.Text + "' ;";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
 
                                         s_sql = "DELETE FROM dyeing_details WHERE" +
                                           " FormulaCode = '" + txt_FormulaCode.Text + "' AND" +
                                           " VersionNum = '" + txt_VersionNum.Text + "' ;";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
 
                                     }
                                 }
@@ -4096,7 +4235,14 @@ namespace SmartDyeing.FADM_Control
                     string delete_s_sql = "DELETE FROM dyeing_details WHERE" +
                                          " FormulaCode = '" + txt_FormulaCode.Text + "' AND" +
                                          " VersionNum = '" + txt_VersionNum.Text + "' ;";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(delete_s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(delete_s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(delete_s_sql);
+                    }
 
 
                     //11-01 注释 改掉
@@ -4309,7 +4455,14 @@ namespace SmartDyeing.FADM_Control
                                                           " '" + value9 + "', '" + value10 + "', '" + ll[1] + "', '" + ll[3] +
                                                           "', '" + ll[4] + "', '" + ll[5] + "', '" + ll[6] + "" +
                                                           "', '" + ll[7] + "', '" + ll[2] + "', '" + ll[8] + "', '" + ll[9] + "','" + ll[10] + "','',0, '" + SuperIndex + "');";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    }
 
                                                     //染色工艺 分步加药 重复加A 就不要保存进去 这个表了 这里要判断下
                                                     if (TemMap.ContainsKey(value2))
@@ -4326,7 +4479,14 @@ namespace SmartDyeing.FADM_Control
                                                               " '" + value7 + "', '" + value8 + "', '" + value2 + "', '" + ll[1] + "'," +
                                                               " '" + ll[2] + "', '" + ll[3] + "', '" + ll[4] + "', '" + ll[5] + "'," +
                                                               " '" + ll[6] + "', '" + ll[7] + "', '" + ll[8] + "', '" + ll[9] + "', '" + ll[10] + "','" + SuperIndex + "');";
-                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_0);
+                                                        }
+                                                        else
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                                                        }
 
                                                         TemMap.Add(value2, value2);
 
@@ -4351,7 +4511,14 @@ namespace SmartDyeing.FADM_Control
                                                            " Code, DyeType,Time,RotorSpeed,Finish,No) VALUES( '" + value7 + "', '" + value8 + "'," +
                                                            " '" + indexI + "', '" + value2 + "', " +
                                                            " '" + value9 + "', '" + value10 + "', '" + value5 + "', '" + value6 + "',0,'" + SuperIndex + "');";
-                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                        }
+                                                        else
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                        }
                                                     }
                                                 }
                                                 else if (value2 == "温控")
@@ -4364,7 +4531,14 @@ namespace SmartDyeing.FADM_Control
                                                           " '" + indexI + "', '" + value2 + "', '" + value3 + "'," +
                                                           " '" + value4 + "', '" + value5 + "', '" + value6 + "'," +
                                                           " '" + value9 + "', '" + value10 + "',0,'" + SuperIndex + "');";
-                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                        }
+                                                        else
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                        }
                                                     }
                                                     else
                                                     {
@@ -4379,7 +4553,14 @@ namespace SmartDyeing.FADM_Control
                                                           " Code, DyeType,Finish,No) VALUES( '" + value7 + "', '" + value8 + "'," +
                                                           " '" + indexI + "', '" + value2 + "', " +
                                                           " '" + value9 + "', '" + value10 + "',0,'" + SuperIndex + "');";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    }
                                                 }
                                                 //else if (value2 == "排液" ||  value2 == "冷行" || value2 == "洗杯" || value2 == "搅拌")
                                                 //{
@@ -4405,7 +4586,14 @@ namespace SmartDyeing.FADM_Control
                                                            " Code, DyeType,RotorSpeed,Finish,No) VALUES( '" + value7 + "', '" + value8 + "'," +
                                                            " '" + indexI + "', '" + value2 + "', " +
                                                            " '" + value9 + "', '" + value10 + "', '" + value6 + "',0,'" + SuperIndex + "');";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    }
                                                 }
                                             }
                                             indexI++;
@@ -4474,7 +4662,14 @@ namespace SmartDyeing.FADM_Control
                                                       " '" + indexI + "', '" + value2 + "', '" + value3 + "'," +
                                                       " '" + value4 + "', '" + value5 + "', '" + value6 + "'," +
                                                       " '" + value9 + "', '" + value10 + "',0,'" + SuperIndex + "');";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    }
                                                 }
                                                 else
                                                 {
@@ -4495,7 +4690,14 @@ namespace SmartDyeing.FADM_Control
                                                   " Code, DyeType,RotorSpeed,Time,Finish,No) VALUES( '" + value7 + "', '" + value8 + "'," +
                                                   " '" + indexI + "', '" + value2 + "', " +
                                                   " '" + value9 + "', '" + value10 + "','" + value6 + "','" + value5 + "',0,'" + SuperIndex + "');";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    }
                                                 }
                                             }
                                             else if (value2.Substring(0, 1) == "加" && value2 != "加水" && value2 != "加药")
@@ -4521,7 +4723,14 @@ namespace SmartDyeing.FADM_Control
                                                           " '" + value9 + "', '" + value10 + "', '" + ll[1] + "', '" + ll[3] +
                                                           "', '" + ll[4] + "', '" + ll[5] + "', '" + ll[6] + "" +
                                                           "', '" + ll[7] + "', '" + ll[2] + "', '" + ll[8] + "', '" + 0 + "','" + ll[10] + "','',0,'" + SuperIndex + "');";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    }
 
                                                     if (TemMap.ContainsKey(value2))
                                                     {
@@ -4553,7 +4762,14 @@ namespace SmartDyeing.FADM_Control
                                                                 " '" + value7 + "', '" + value8 + "', '" + value2 + "', '" + ll[1] + "'," +
                                                                 " '" + ll[2] + "', '" + ll[3] + "', '" + ll[4] + "', '" + ll[5] + "'," +
                                                                 " '" + ll[6] + "', '" + ll[7] + "', '" + ll[8] + "', '" + ll[9] + "', '" + ll[10] + "', '" + SuperIndex + "');";
-                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_0);
+                                                        }
+                                                        else
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                                                        }
 
                                                         List<string> s_ = new List<string>();
                                                         s_.Add(ll[5]);
@@ -4573,7 +4789,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code, DyeType,RotorSpeed,Time,Finish,No) VALUES( '" + value7 + "', '" + value8 + "'," +
                                                    " '" + indexI + "', '" + value2 + "', " +
                                                    " '" + value9 + "', '" + value10 + "','" + value6 + "','" + value5 + "',0,'" + SuperIndex + "');";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
                                             }
                                             else
                                             {
@@ -4583,7 +4806,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code, DyeType,RotorSpeed,Finish,No) VALUES( '" + value7 + "', '" + value8 + "'," +
                                                    " '" + indexI + "', '" + value2 + "', " +
                                                    " '" + value9 + "', '" + value10 + "','" + value6 + "',0,'" + SuperIndex + "');";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
                                             }
                                             indexI++;
                                         }
@@ -4606,7 +4836,14 @@ namespace SmartDyeing.FADM_Control
                         string s_sql_q = "DELETE FROM formula_head WHERE" +
                                            " FormulaCode = '" + txt_FormulaCode.Text + "'" +
                                            " AND VersionNum = '" + txt_VersionNum.Text + "' ;";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_q);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_q);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_q);
+                        }
 
                         goto lab_ag1;
                     }
@@ -4623,7 +4860,14 @@ namespace SmartDyeing.FADM_Control
                         string s_sql_q = "DELETE FROM formula_details WHERE" +
                                            " FormulaCode = '" + txt_FormulaCode.Text + "'" +
                                            " AND VersionNum = '" + txt_VersionNum.Text + "' ;";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_q);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_q);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_q);
+                        }
 
                         goto lab_ag2;
                     }
@@ -4653,7 +4897,7 @@ namespace SmartDyeing.FADM_Control
                     int i_machineType = Lib_Card.Configure.Parameter.Machine_Bottle_Total;
 
                     string s_bottleLower = null;
-
+                    string s_logPastDue = ""; //超过有效时间的染助剂
                     //添加进配方浏览详细表
                     foreach (DataGridViewRow dr in dgv_FormulaData.Rows)
                     {
@@ -4701,7 +4945,14 @@ namespace SmartDyeing.FADM_Control
                                                  " '" + lis_Detail[2] + "', '" + lis_Detail[3] + "', '" + lis_Detail[4] + "', '" + lis_Detail[5] + "'," +
                                                  " '" + lis_Detail[6] + "', '" + lis_Detail[7] + "', '" + lis_Detail[8] + "', '" + lis_Detail[9] + "'," +
                                                  " '" + lis_Detail[10] + "', '" + lis_Detail[11] + "', '" + lis_Detail[12] + "');";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_0);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                            }
                             if (Convert.ToInt16(lis_Detail[7]) <= i_machineType)
                             {
 
@@ -4716,6 +4967,26 @@ namespace SmartDyeing.FADM_Control
                                 {
                                     s_bottleLower += (lis_Detail[7] + " ");
                                 }
+
+                                s_sql_0 = "SELECT BrewingData FROM bottle_details WHERE" +
+                                              " BottleNum = '" + lis_Detail[7] + "';";
+
+                                DataTable BrewingData = FADM_Object.Communal._fadmSqlserver.GetData(s_sql_0);
+                                DateTime brewTime = Convert.ToDateTime(BrewingData.Rows[0][0]);   //调液日期 
+                                s_sql_0 = "SELECT TermOfValidity  FROM assistant_details WHERE" +
+                                             " AssistantCode = '" + lis_Detail[3] + "' ; ";
+                                DataTable dt_assistant = FADM_Object.Communal._fadmSqlserver.GetData(s_sql_0);
+                                string s_termOfValidity = dt_assistant.Rows[0][0].ToString();//染助剂有效期限
+                                //获取当前时间
+                                DateTime timeNow = DateTime.Now;
+                                //计算时间差
+                                UInt32 timeDifference = Convert.ToUInt32(timeNow.Subtract(brewTime).Duration().TotalSeconds);
+
+                                if (timeDifference > Convert.ToUInt32(s_termOfValidity) * 60 * 60)
+                                {
+                                    s_logPastDue += (lis_Detail[7] + "  ");
+                                }
+
                             }
                         }
 
@@ -4819,7 +5090,14 @@ namespace SmartDyeing.FADM_Control
                                          " '" + lis_head[13] + "', '" + lis_head[14] + "', '" + lis_head[15] + "', '" +
                                          lis_head[16] + "', '" + lis_head[17] + "', '" + lis_head[18] + "', '" + lis_head[19]
                                          + "', '" + lis_head[20] + "', '" + lis_head[21] + "', '" + lis_head[22] + "', '" + lis_head[23] + "', '" + lis_head[24] + "', '" + lis_head[25] + "', '" + lis_head[26] + "', '" + lis_head[27] + "','" + lis_head[28] + "', '" + lis_head[29] + "');";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_1);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                    }
 
 
 
@@ -4841,15 +5119,36 @@ namespace SmartDyeing.FADM_Control
                         lab_ag:
                             //删除批次浏览表头资料
                             s_sql_1 = "DELETE FROM drop_head WHERE CupNum = '" + s_cup + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_1);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                            }
 
                             //删除批次浏览表详细资料
                             s_sql_1 = "DELETE FROM drop_details WHERE CupNum = '" + s_cup + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_1);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                            }
 
                             //删除批次浏览表详细资料
                             s_sql_1 = "DELETE FROM dye_details WHERE CupNum = '" + s_cup + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_1);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                            }
 
                             //查询是否删除成功，如果没有，重新删除
                             s_sql_agaon = "SELECT *  FROM drop_head WHERE CupNum = '" + s_cup + "';";
@@ -4880,12 +5179,26 @@ namespace SmartDyeing.FADM_Control
                             if (SmartDyeing.FADM_Object.Communal._lis_dripCupNum.Contains(Convert.ToInt32(s_cup)) && _s_stage != "滴液")
                             {
                                 b_temp = true;
-                                FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                                }
                             }
                             else if (!SmartDyeing.FADM_Object.Communal._lis_dripCupNum.Contains(Convert.ToInt32(s_cup)) && _s_stage == "滴液")
                             {
                                 b_temp = true;
-                                FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                                }
                             }
                             else
                             {
@@ -4907,7 +5220,14 @@ namespace SmartDyeing.FADM_Control
                                             if (JudDyeingCode(txt_FormulaCode.Text, txt_VersionNum.Text, dt_drop_head.Rows[0]["FormulaCode"].ToString(), dt_drop_head.Rows[0]["VersionNum"].ToString()) == -1)
                                             {
                                                 b_temp = true;
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                                                }
                                             }
                                             else
                                             {
@@ -4933,22 +5253,52 @@ namespace SmartDyeing.FADM_Control
                     //删除等待列表对于配方不符合记录
                     if (_s_stage == "滴液")
                     {
-                        FADM_Object.Communal._fadmSqlserver.ReviseData("DELETE FROM wait_list WHERE FormulaCode = '" + txt_FormulaCode.Text + "' and Type =3");
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show("DELETE FROM wait_list WHERE FormulaCode = '" + txt_FormulaCode.Text + "' and Type =3");
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData("DELETE FROM wait_list WHERE FormulaCode = '" + txt_FormulaCode.Text + "' and Type =3");
+                        }
                     }
                     else
                     {
-                        FADM_Object.Communal._fadmSqlserver.ReviseData("DELETE FROM wait_list WHERE FormulaCode = '" + txt_FormulaCode.Text + "' and Type =2");
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show("DELETE FROM wait_list WHERE FormulaCode = '" + txt_FormulaCode.Text + "' and Type =2");
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData("DELETE FROM wait_list WHERE FormulaCode = '" + txt_FormulaCode.Text + "' and Type =2");
+                        }
                     }
 
                     //通过配方代码 把版本也更新下
                     //FADM_Object.Communal._fadmSqlserver.ReviseData("Update wait_list set VersionNum = '" + txt_VersionNum.Text + "' where FormulaCode = '" + txt_FormulaCode.Text + "';");
 
-                    if (s_bottleLower != null)
+                    if (FADM_Object.Communal._b_isLowDrip)
                     {
-                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                            FADM_Form.CustomMessageBox.Show(s_bottleLower + "号母液瓶液量不足！", "温馨提示", MessageBoxButtons.OK, false);
-                        else
-                            FADM_Form.CustomMessageBox.Show("Insufficient liquid volume in the " + s_bottleLower + " mother liquor bottle！", "Tips", MessageBoxButtons.OK, false);
+                        if (s_bottleLower != null)
+                        {
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                FADM_Form.CustomMessageBox.Show(s_bottleLower + "号母液瓶液量不足！", "温馨提示", MessageBoxButtons.OK, false);
+                            else
+                                FADM_Form.CustomMessageBox.Show("Insufficient liquid volume in the " + s_bottleLower + " mother liquor bottle！", "Tips", MessageBoxButtons.OK, false);
+                        }
+                    }
+
+
+                    if (FADM_Object.Communal._b_isOutDrip)
+                    {
+                        //这里加个生命周期检查 过期了就提示
+                        if (!string.IsNullOrEmpty(s_logPastDue))
+                        {
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                FADM_Form.CustomMessageBox.Show(s_logPastDue + "号母液瓶过期！", "过期", MessageBoxButtons.OK, false);
+                            else
+                                FADM_Form.CustomMessageBox.Show(s_logPastDue + "mother liquor bottle expired！", "expire", MessageBoxButtons.OK, false);
+                        }
                     }
                     if (b_temp)
                     {
@@ -5028,7 +5378,14 @@ namespace SmartDyeing.FADM_Control
                             //改下状态
                             int bb = 10000 + 3000 - 1 + ClothIndex + Convert.ToInt32(txt_ClothNum.Text) - 1;
                             Lib_Log.Log.writeLogException("=======保存配方改布位状态 bb" + bb.ToString() + "&&txt_CupNum.Text=" + txt_ClothNum.Text);
-                            FADM_Object.Communal._fadmSqlserver.ReviseData("Update Lay set Status = 1  where Number = '" + txt_ClothNum.Text + "';");
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update Lay set Status = 1  where Number = '" + txt_ClothNum.Text + "';");
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData("Update Lay set Status = 1  where Number = '" + txt_ClothNum.Text + "';");
+                            }
                             int statte = FADM_Object.Communal.HMIBaClo.Write(bb, ia_values2);
                             if (statte == -1)
                             {
@@ -5104,17 +5461,59 @@ namespace SmartDyeing.FADM_Control
                             {
                                 string s_temp;
                                 s_temp = "insert into formula_details_temp select * from formula_details where FormulaCode='" + dr["FormulaCode"].ToString() + "' and VersionNum='" + dr["VersionNum"].ToString() + "';";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_temp);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                                }
                                 s_temp = "delete from  formula_details where FormulaCode='" + dr["FormulaCode"].ToString() + "' and VersionNum='" + dr["VersionNum"].ToString() + "';";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_temp);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                                }
                                 s_temp = "insert into formula_handle_details_temp select * from formula_handle_details where FormulaCode='" + dr["FormulaCode"].ToString() + "' and VersionNum='" + dr["VersionNum"].ToString() + "';";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_temp);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                                }
                                 s_temp = "delete from  formula_handle_details where FormulaCode='" + dr["FormulaCode"].ToString() + "' and VersionNum='" + dr["VersionNum"].ToString() + "';";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_temp);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                                }
                                 s_temp = "insert into formula_head_temp select * from formula_head where FormulaCode='" + dr["FormulaCode"].ToString() + "' and VersionNum='" + dr["VersionNum"].ToString() + "';";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_temp);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                                }
                                 s_temp = "delete from formula_head where FormulaCode='" + dr["FormulaCode"].ToString() + "' and VersionNum='" + dr["VersionNum"].ToString() + "';";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_temp);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                                }
                             }
                         }
                     }
@@ -5681,7 +6080,14 @@ namespace SmartDyeing.FADM_Control
                                                         }
 
                                                         s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
-                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                                                        }
+                                                        else
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                        }
                                                         b_has = true;
                                                         break;
                                                     }
@@ -5786,7 +6192,14 @@ namespace SmartDyeing.FADM_Control
                                                     }
 
                                                     s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                    }
                                                 }
                                             }
                                         }
@@ -5888,7 +6301,14 @@ namespace SmartDyeing.FADM_Control
                                                 }
 
                                                 s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                }
                                             }
                                         }
                                     }
@@ -5909,7 +6329,14 @@ namespace SmartDyeing.FADM_Control
                                         }
 
                                         s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                        }
                                     }
                                 }
                                 else
@@ -5934,7 +6361,14 @@ namespace SmartDyeing.FADM_Control
                                         }
 
                                         s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                        }
                                     }
                                     else
                                     {
@@ -5989,7 +6423,14 @@ namespace SmartDyeing.FADM_Control
                                                                         }
 
                                                                         s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
-                                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                                        {
+                                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                                        }
                                                                     }
                                                                 }
                                                                 else
@@ -6008,7 +6449,14 @@ namespace SmartDyeing.FADM_Control
                                                                     }
 
                                                                     s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
-                                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                                    {
+                                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                                    }
                                                                 }
                                                             }
                                                             else
@@ -6039,7 +6487,14 @@ namespace SmartDyeing.FADM_Control
                                                                         }
 
                                                                         s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
-                                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                                        {
+                                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                                        }
                                                                     }
                                                                 }
                                                                 else
@@ -6058,7 +6513,14 @@ namespace SmartDyeing.FADM_Control
                                                                     }
 
                                                                     s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
-                                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                                    {
+                                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                                    }
                                                                 }
                                                             }
                                                         }
@@ -6079,7 +6541,14 @@ namespace SmartDyeing.FADM_Control
                                                         }
 
                                                         s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
-                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                                                        }
+                                                        else
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                        }
 
                                                     }
                                                 }
@@ -6127,7 +6596,14 @@ namespace SmartDyeing.FADM_Control
                                                             }
 
                                                             s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
-                                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                                            {
+                                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                                                            }
+                                                            else
+                                                            {
+                                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                            }
                                                         }
                                                     }
                                                     else
@@ -6146,7 +6622,14 @@ namespace SmartDyeing.FADM_Control
                                                         }
 
                                                         s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
-                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                                                        }
+                                                        else
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                                        }
 
                                                     }
                                                 }
@@ -6188,7 +6671,14 @@ namespace SmartDyeing.FADM_Control
                                             }
 
                                             s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",2);";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                            }
                                         }
                                         else
                                         {
@@ -6211,7 +6701,14 @@ namespace SmartDyeing.FADM_Control
                                         }
 
                                         s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",2);";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                        }
                                     }
                                 }
                                 else
@@ -6242,7 +6739,15 @@ namespace SmartDyeing.FADM_Control
                                         }
 
                                         s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",2);";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                        
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                                        }
                                     }
                                 }
                             }
@@ -6676,7 +7181,14 @@ namespace SmartDyeing.FADM_Control
                                 else
                                 {
                                     //把杯号置为正在使用，重新选择
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where CupNum = '" + txt_CupNum.Text + "';");
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 1 where CupNum = '" + txt_CupNum.Text + "';");
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where CupNum = '" + txt_CupNum.Text + "';");
+                                    }
                                     goto SelectCup;
                                 }
                             }
@@ -6916,7 +7428,14 @@ namespace SmartDyeing.FADM_Control
                                         else
                                         {
                                             //把杯号置为正在使用，重新选择
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where CupNum = '" + dr[0].ToString() + "';");
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 1 where CupNum = '" + dr[0].ToString() + "';");
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where CupNum = '" + dr[0].ToString() + "';");
+                                            }
                                             //goto SelectCup;
                                         }
                                     }
@@ -6981,12 +7500,26 @@ namespace SmartDyeing.FADM_Control
                                         {
                                             //删除占位记录
                                             s_maxCupNum = dt_temp.Rows[0][0].ToString();
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData("Delete FROM drop_head WHERE  CupNum = " + dt_temp.Rows[0][0].ToString() + " ;");
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show("Delete FROM drop_head WHERE  CupNum = " + dt_temp.Rows[0][0].ToString() + " ;");
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData("Delete FROM drop_head WHERE  CupNum = " + dt_temp.Rows[0][0].ToString() + " ;");
+                                            }
                                         }
                                         else
                                         {
                                             //把杯号置为正在使用，重新选择
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where CupNum = '" + dt_temp.Rows[0][0].ToString() + "';");
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 1 where CupNum = '" + dt_temp.Rows[0][0].ToString() + "';");
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where CupNum = '" + dt_temp.Rows[0][0].ToString() + "';");
+                                            }
                                             goto SelectCup2;
                                         }
                                     }
@@ -7041,12 +7574,26 @@ namespace SmartDyeing.FADM_Control
                                         {
                                             //删除占位记录
                                             s_maxCupNum = dt_temp.Rows[0][0].ToString();
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData("Delete FROM drop_head WHERE  CupNum = " + dt_temp.Rows[0][0].ToString() + " ;");
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show("Delete FROM drop_head WHERE  CupNum = " + dt_temp.Rows[0][0].ToString() + " ;");
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData("Delete FROM drop_head WHERE  CupNum = " + dt_temp.Rows[0][0].ToString() + " ;");
+                                            }
                                         }
                                         else
                                         {
                                             //把杯号置为正在使用，重新选择
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where CupNum = '" + dt_temp.Rows[0][0].ToString() + "';");
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 1 where CupNum = '" + dt_temp.Rows[0][0].ToString() + "';");
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where CupNum = '" + dt_temp.Rows[0][0].ToString() + "';");
+                                            }
                                             goto SelectCup2;
                                         }
                                     }
@@ -7100,11 +7647,32 @@ namespace SmartDyeing.FADM_Control
                     if (!b_addWaitList)
                     {
                         s_sql = "DELETE FROM drop_head WHERE CupNum = " + s_maxCupNum + ";";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
                         s_sql = "DELETE FROM drop_details WHERE CupNum = " + s_maxCupNum + ";";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
                         s_sql = "DELETE FROM dye_details WHERE CupNum = " + s_maxCupNum + ";";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
                     }
 
 
@@ -7178,7 +7746,14 @@ namespace SmartDyeing.FADM_Control
                                    " '" + lis_head[12] + "', '" + lis_head[13] + "', '" + lis_head[14] + "'," +
                                     " '" + lis_head[15] + "','" + lis_head[16] + "','" + lis_head[17] + "', '" + lis_head[18] + "', '" + lis_head[19]
                                              + "', '" + lis_head[20] + "', '" + lis_head[21] + "', '" + lis_head[22] + "', '" + lis_head[23] + "', '" + lis_head[24] + "', '" + lis_head[25] + "', '" + lis_head[26] + "', '" + lis_head[27] + "', '" + lis_head[28] + "', '" + lis_head[29] + "');";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
                     }
 
 
@@ -7209,7 +7784,14 @@ namespace SmartDyeing.FADM_Control
                                     " '" + lis_Detail[5] + "', '" + lis_Detail[6] + "', '" + lis_Detail[7] + "'," +
                                     " '" + lis_Detail[8] + "', '" + lis_Detail[9] + "', '" + lis_Detail[10] + "'," +
                                     " '" + lis_Detail[11] + "', '" + string.Format("{0:F}", 0) + "', '" + lis_Detail[13] + "');";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
                     }
 
@@ -7316,7 +7898,14 @@ namespace SmartDyeing.FADM_Control
                                         " '" + lis_dye_Detail[9] + "'," +
                                         " '" + lis_dye_Detail[10] + "'," +
                                         " '" + lis_dye_Detail[11] + "',1);";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                         }
                                     }
                                     else if (dr[17].ToString() == "冷行" || dr[17].ToString() == "洗杯" || dr[17].ToString() == "排液" || dr[17].ToString() == "搅拌"
@@ -7331,7 +7920,14 @@ namespace SmartDyeing.FADM_Control
                                         " '" + lis_dye_Detail[2] + "', '" + lis_dye_Detail[3] + "', '" + lis_dye_Detail[4] + "'," +
                                         " '" + lis_dye_Detail[5] + "', '" + lis_dye_Detail[6] + "', '" + lis_dye_Detail[7] + "', '" + lis_dye_Detail[8] + "'," +
                                         " '" + lis_dye_Detail[9] + "',1);";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                         }
                                     }
                                     else if ((dr[17].ToString().Substring(0, 1) == "加" && dr[17].ToString() != "加水" && dr[17].ToString() != "加药")
@@ -7369,7 +7965,14 @@ namespace SmartDyeing.FADM_Control
                                         " '" + lis_dye_Detail[11] + "', '" + lis_dye_Detail[12] + "', '" + lis_dye_Detail[13] + "', '" + lis_dye_Detail[14] + "', '"
                                         + lis_dye_Detail[15] + "', '" + lis_dye_Detail[16] + "', '" + lis_dye_Detail[17] + "', '" + lis_dye_Detail[18] + "', '" + lis_dye_Detail[19] + "'," +
                                         " '" + lis_dye_Detail[20] + "',1);";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                         }
                                     }
                                     else if (dr[17].ToString() == "加水" || dr[17].ToString() == "Add Water")
@@ -7384,11 +7987,32 @@ namespace SmartDyeing.FADM_Control
                                             if (s_cup != null)
                                             {
                                                 s_sql = "DELETE FROM drop_head WHERE CupNum = " + s_cup + ";";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
                                                 s_sql = "DELETE FROM drop_details WHERE CupNum = " + s_cup + ";";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
                                                 s_sql = "DELETE FROM dye_details WHERE CupNum = " + s_cup + ";";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
                                                 BatchHeadShow("");
                                                 return;
                                             }
@@ -7405,7 +8029,14 @@ namespace SmartDyeing.FADM_Control
                                         " '" + lis_dye_Detail[7] + "'," +
                                         " '" + lis_dye_Detail[8] + "'," +
                                         " '" + lis_dye_Detail[9] + "',1);";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                         }
                                     }
                                     else
@@ -7420,7 +8051,14 @@ namespace SmartDyeing.FADM_Control
                                         " '" + lis_dye_Detail[6] + "'," +
                                         " '" + lis_dye_Detail[7] + "'," +
                                         " '" + lis_dye_Detail[8] + "',1);";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                         }
                                     }
                                 }
@@ -7460,11 +8098,32 @@ namespace SmartDyeing.FADM_Control
                                                 if (s_cup != null)
                                                 {
                                                     s_sql = "DELETE FROM drop_head WHERE CupNum = " + s_cup + ";";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    }
                                                     s_sql = "DELETE FROM drop_details WHERE CupNum = " + s_cup + ";";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    }
                                                     s_sql = "DELETE FROM dye_details WHERE CupNum = " + s_cup + ";";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    }
                                                     BatchHeadShow("");
                                                     return;
                                                 }
@@ -7519,7 +8178,14 @@ namespace SmartDyeing.FADM_Control
                                         " '" + lis_dye_Detail[9] + "'," +
                                         " '" + lis_dye_Detail[10] + "'," +
                                         " '" + lis_dye_Detail[11] + "',2);";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                         }
                                     }
                                     else if (dr[17].ToString() == "冷行" || dr[17].ToString() == "洗杯" || dr[17].ToString() == "排液" || dr[17].ToString() == "搅拌"
@@ -7539,7 +8205,14 @@ namespace SmartDyeing.FADM_Control
                                         " Time,DyeType) VALUES( '" + lis_dye_Detail[0] + "', '" + lis_dye_Detail[1] + "'," +
                                         " '" + lis_dye_Detail[2] + "', '" + lis_dye_Detail[3] + "', '" + lis_dye_Detail[4] + "'," +
                                         " '" + lis_dye_Detail[5] + "', '" + lis_dye_Detail[6] + "', '" + lis_dye_Detail[7] + "', '" + lis_dye_Detail[8] + "', '" + lis_dye_Detail[9] + "',2);";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                         }
                                     }
                                     else if ((dr[17].ToString().Substring(0, 1) == "加" && dr[17].ToString() != "加水" && dr[17].ToString() != "加药")
@@ -7575,11 +8248,32 @@ namespace SmartDyeing.FADM_Control
                                                     if (s_cup != null)
                                                     {
                                                         s_sql = "DELETE FROM drop_head WHERE CupNum = " + s_cup + ";";
-                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                        }
+                                                        else
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                        }
                                                         s_sql = "DELETE FROM drop_details WHERE CupNum = " + s_cup + ";";
-                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                        }
+                                                        else
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                        }
                                                         s_sql = "DELETE FROM dye_details WHERE CupNum = " + s_cup + ";";
-                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                        }
+                                                        else
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                        }
                                                         BatchHeadShow("");
                                                         return;
                                                     }
@@ -7604,7 +8298,14 @@ namespace SmartDyeing.FADM_Control
                                         " '" + lis_dye_Detail[8] + "', '" + lis_dye_Detail[9] + "', '" + lis_dye_Detail[10] + "'," +
                                         " '" + lis_dye_Detail[11] + "', '" + lis_dye_Detail[12] + "', '" + lis_dye_Detail[13] + "', '" + lis_dye_Detail[14] + "', '"
                                         + lis_dye_Detail[15] + "', '" + lis_dye_Detail[16] + "', '" + lis_dye_Detail[17] + "', '" + lis_dye_Detail[18] + "', '" + lis_dye_Detail[19] + "', '" + lis_dye_Detail[21] + "',2);";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
 
                                         }
                                     }
@@ -7622,11 +8323,32 @@ namespace SmartDyeing.FADM_Control
                                                 if (s_cup != null)
                                                 {
                                                     s_sql = "DELETE FROM drop_head WHERE CupNum = " + s_cup + ";";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    }
                                                     s_sql = "DELETE FROM drop_details WHERE CupNum = " + s_cup + ";";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    }
                                                     s_sql = "DELETE FROM dye_details WHERE CupNum = " + s_cup + ";";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    }
                                                     BatchHeadShow("");
                                                     return;
                                                 }
@@ -7648,7 +8370,14 @@ namespace SmartDyeing.FADM_Control
                                         " '" + lis_dye_Detail[7] + "'," +
                                         " '" + lis_dye_Detail[8] + "'," +
                                         " '" + lis_dye_Detail[9] + "',2);";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                         }
                                     }
                                     else
@@ -7663,7 +8392,14 @@ namespace SmartDyeing.FADM_Control
                                         " '" + lis_dye_Detail[6] + "'," +
                                         " '" + lis_dye_Detail[7] + "'," +
                                         " '" + lis_dye_Detail[8] + "',2);";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                         }
                                     }
 
@@ -7679,7 +8415,14 @@ namespace SmartDyeing.FADM_Control
                     {
                         //修改杯号正在使用
                         s_sql = "Update cup_details set IsUsing = 1 where CupNum = '" + s_maxCupNum + "';";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
 
                         //更新批次表
                         //BatchHeadShow((Convert.ToInt16(s_maxCupNum) + 1).ToString());
@@ -7706,7 +8449,15 @@ namespace SmartDyeing.FADM_Control
                         }
 
                         s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + txt_FormulaCode.Text + "','" + txt_VersionNum.Text + "'," + i_nIndex.ToString() + "," + txt_CupNum.Text + "," + s_stage.ToString() + ");";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                        
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sqltemp);
+                        }
                         _b_updateWait = true;
 
                         BatchHeadShow("");
@@ -7721,11 +8472,32 @@ namespace SmartDyeing.FADM_Control
                     if (s_cup != null)
                     {
                         string s_sql = "DELETE FROM drop_head WHERE CupNum = " + s_cup + ";";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
                         s_sql = "DELETE FROM drop_details WHERE CupNum = " + s_cup + ";";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
                         s_sql = "DELETE FROM dye_details WHERE CupNum = " + s_cup + ";";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
                         BatchHeadShow("");
                     }
                 }
@@ -7903,7 +8675,14 @@ namespace SmartDyeing.FADM_Control
                            " '" + lis_head[12] + "', '" + lis_head[13] + "', '" + lis_head[14] + "'," +
                             " '" + lis_head[15] + "','" + lis_head[16] + "','" + lis_head[17] + "', '" + lis_head[18] + "', '" + lis_head[19]
                                      + "', '" + lis_head[20] + "', '" + lis_head[21] + "', '" + lis_head[22] + "', '" + lis_head[23] + "', '" + lis_head[24] + "', '" + lis_head[25] + "', '" + lis_head[26] + "', '" + lis_head[27] + "', '" + lis_head[28] + "', '" + lis_head[29] + "');";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                }
 
 
                 //添加进批次详细表
@@ -7932,7 +8711,14 @@ namespace SmartDyeing.FADM_Control
                                 " '" + lis_detail[5] + "', '" + lis_detail[6] + "', '" + lis_detail[7] + "'," +
                                 " '" + lis_detail[8] + "', '" + lis_detail[9] + "', '" + lis_detail[10] + "'," +
                                 " '" + lis_detail[11] + "', '" + string.Format("{0:F}", 0) + "', '" + lis_detail[13] + "');";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
                 }
 
                 //插入后处理详细步骤表
@@ -8014,7 +8800,14 @@ namespace SmartDyeing.FADM_Control
                                    " '" + lis_dye_Detail[9] + "'," +
                                    " '" + lis_dye_Detail[10] + "'," +
                                    " '" + lis_dye_Detail[11] + "',1);";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
                                     /*if (!b_addWaitList)//!b_addWaitList
                                     {
                                        
@@ -8030,7 +8823,14 @@ namespace SmartDyeing.FADM_Control
                                   " '" + lis_dye_Detail[2] + "', '" + lis_dye_Detail[3] + "', '" + lis_dye_Detail[4] + "'," +
                                   " '" + lis_dye_Detail[5] + "', '" + lis_dye_Detail[6] + "', '" + lis_dye_Detail[7] + "', '" + lis_dye_Detail[8] + "'," +
                                   " '" + lis_dye_Detail[9] + "',1);";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
                                     /*if (!b_addWaitList)
                                     {
                                       
@@ -8069,7 +8869,14 @@ namespace SmartDyeing.FADM_Control
                                    " '" + lis_dye_Detail[11] + "', '" + lis_dye_Detail[12] + "', '" + lis_dye_Detail[13] + "', '" + lis_dye_Detail[14] + "', '"
                                    + lis_dye_Detail[15] + "', '" + lis_dye_Detail[16] + "', '" + lis_dye_Detail[17] + "', '" + lis_dye_Detail[18] + "', '" + lis_dye_Detail[19] + "'," +
                                    " '" + lis_dye_Detail[20] + "',1);";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
                                     /*if (!b_addWaitList)
                                     {
                                        
@@ -8087,11 +8894,32 @@ namespace SmartDyeing.FADM_Control
                                         if (s_cup != null)
                                         {
                                             s_sql = "DELETE FROM drop_head WHERE CupNum = " + s_cup + ";";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                             s_sql = "DELETE FROM drop_details WHERE CupNum = " + s_cup + ";";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                             s_sql = "DELETE FROM dye_details WHERE CupNum = " + s_cup + ";";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                             BatchHeadShow("");
                                             return;
                                         }
@@ -8106,7 +8934,14 @@ namespace SmartDyeing.FADM_Control
                                    " '" + lis_dye_Detail[7] + "'," +
                                    " '" + lis_dye_Detail[8] + "'," +
                                    " '" + lis_dye_Detail[9] + "',1);";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
                                     /*if (!b_addWaitList)
                                     {
                                        
@@ -8122,7 +8957,14 @@ namespace SmartDyeing.FADM_Control
                                    " '" + lis_dye_Detail[6] + "'," +
                                    " '" + lis_dye_Detail[7] + "'," +
                                    " '" + lis_dye_Detail[8] + "',1);";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
                                     /* if (!b_addWaitList)
                                      {
 
@@ -8164,11 +9006,32 @@ namespace SmartDyeing.FADM_Control
                                         if (s_cup != null)
                                         {
                                             s_sql = "DELETE FROM drop_head WHERE CupNum = " + s_cup + ";";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                             s_sql = "DELETE FROM drop_details WHERE CupNum = " + s_cup + ";";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                             s_sql = "DELETE FROM dye_details WHERE CupNum = " + s_cup + ";";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                             BatchHeadShow("");
                                             return;
                                         }
@@ -8214,7 +9077,14 @@ namespace SmartDyeing.FADM_Control
                                    " '" + lis_dye_Detail[9] + "'," +
                                    " '" + lis_dye_Detail[10] + "'," +
                                    " '" + lis_dye_Detail[11] + "',2);";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
                                     /*if (!b_addWaitList)
                                     {
                                        
@@ -8235,7 +9105,14 @@ namespace SmartDyeing.FADM_Control
                                    " Time,DyeType) VALUES( '" + lis_dye_Detail[0] + "', '" + lis_dye_Detail[1] + "'," +
                                    " '" + lis_dye_Detail[2] + "', '" + lis_dye_Detail[3] + "', '" + lis_dye_Detail[4] + "'," +
                                    " '" + lis_dye_Detail[5] + "', '" + lis_dye_Detail[6] + "', '" + lis_dye_Detail[7] + "', '" + lis_dye_Detail[8] + "', '" + lis_dye_Detail[9] + "',2);";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
 
                                     /* if (dr[17].ToString() == "排液")
                                      {
@@ -8284,11 +9161,32 @@ namespace SmartDyeing.FADM_Control
                                             if (s_cup != null)
                                             {
                                                 s_sql = "DELETE FROM drop_head WHERE CupNum = " + s_cup + ";";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
                                                 s_sql = "DELETE FROM drop_details WHERE CupNum = " + s_cup + ";";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
                                                 s_sql = "DELETE FROM dye_details WHERE CupNum = " + s_cup + ";";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
                                                 BatchHeadShow("");
                                                 return;
                                             }
@@ -8313,7 +9211,14 @@ namespace SmartDyeing.FADM_Control
                                     " '" + lis_dye_Detail[8] + "', '" + lis_dye_Detail[9] + "', '" + lis_dye_Detail[10] + "'," +
                                     " '" + lis_dye_Detail[11] + "', '" + lis_dye_Detail[12] + "', '" + lis_dye_Detail[13] + "', '" + lis_dye_Detail[14] + "', '"
                                     + lis_dye_Detail[15] + "', '" + lis_dye_Detail[16] + "', '" + lis_dye_Detail[17] + "', '" + lis_dye_Detail[18] + "', '" + lis_dye_Detail[19] + "', '" + lis_dye_Detail[20] + "',2);";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
 
                                     /*if (!b_addWaitList)
                                     {
@@ -8330,11 +9235,32 @@ namespace SmartDyeing.FADM_Control
                                         else
                                             FADM_Form.CustomMessageBox.Show("Abnormal water addition, please check the formula！", "Tips", MessageBoxButtons.OK, false);
                                         s_sql = "DELETE FROM drop_head WHERE CupNum = " + s_cup + ";";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
                                         s_sql = "DELETE FROM drop_details WHERE CupNum = " + s_cup + ";";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
                                         s_sql = "DELETE FROM dye_details WHERE CupNum = " + s_cup + ";";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
                                         BatchHeadShow("");
                                         return;
                                         /*if (!b_addWaitList)
@@ -8359,7 +9285,14 @@ namespace SmartDyeing.FADM_Control
                                    " '" + lis_dye_Detail[7] + "'," +
                                    " '" + lis_dye_Detail[8] + "'," +
                                    " '" + lis_dye_Detail[9] + "',2);";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
                                     /*if (!b_addWaitList)
                                     {
                                        
@@ -8746,7 +9679,14 @@ namespace SmartDyeing.FADM_Control
 
                 //修改杯号正在使用
                 s_sql = "Update cup_details set IsUsing = 1 where CupNum = '" + s_maxCupNum + "';";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                }
 
                 //更新批次表
                 //BatchHeadShow((Convert.ToInt16(s_maxCupNum) + 1).ToString());
@@ -8766,11 +9706,32 @@ namespace SmartDyeing.FADM_Control
                 if (s_cup != null)
                 {
                     string s_sql = "DELETE FROM drop_head WHERE CupNum = " + s_cup + ";";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
                     s_sql = "DELETE FROM drop_details WHERE CupNum = " + s_cup + ";";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
                     s_sql = "DELETE FROM dye_details WHERE CupNum = " + s_cup + ";";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
                     BatchHeadShow("");
                 }
             }
@@ -8795,7 +9756,14 @@ namespace SmartDyeing.FADM_Control
                 if (dt_enabled.Rows.Count <= 0)
                 {
                     s_sql = "INSERT INTO enabled_set (MyID) VALUES(1);";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
                     goto again;
                 }
                 foreach (DataColumn mDc in dt_enabled.Columns)
@@ -9402,7 +10370,14 @@ namespace SmartDyeing.FADM_Control
                 //修改当前批次号
                 s_sql = "UPDATE enabled_set SET BatchName = '" + s_batchNum + "'" +
                             " WHERE MyID = 1;";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                }
 
 
                 if (dgv_BatchData.SelectedRows.Count > 0)
@@ -9433,23 +10408,51 @@ namespace SmartDyeing.FADM_Control
                                             //写入批次表头批次号
                                             s_sql = "UPDATE drop_head SET BatchName = '" + s_batchNum + "'," +
                                                         " State = '已滴定配方',Step=1 WHERE CupNum = '" + i_cup + "' and BatchName = '0';";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
 
                                             //写入批次表详细内容批次号
                                             s_sql = "UPDATE drop_details SET BatchName = '" + s_batchNum + "'" +
                                                         " WHERE CupNum = '" + i_cup + "' and BatchName = '0';";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
 
                                             //写入配方浏览表
                                             s_sql = "UPDATE formula_head SET State = '已滴定配方'" +
                                                        " WHERE FormulaCode = '" + s_code + "' AND" +
                                                        " VersionNum = " + s_ver + " ;";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
 
                                             //写入批次表详细内容批次号
                                             s_sql = "UPDATE dye_details SET BatchName = '" + s_batchNum + "'" +
                                                         " WHERE CupNum = '" + i_cup + "' and BatchName = '0';";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                         }
                                         else
                                         {
@@ -9458,23 +10461,51 @@ namespace SmartDyeing.FADM_Control
                                                 //写入批次表头批次号
                                                 s_sql = "UPDATE drop_head SET BatchName = '" + s_batchNum + "'," +
                                                             " State = '已滴定配方',Step=1 WHERE CupNum = '" + i_cup + "' and BatchName = '0';";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
 
                                                 //写入批次表详细内容批次号
                                                 s_sql = "UPDATE drop_details SET BatchName = '" + s_batchNum + "'" +
                                                             " WHERE CupNum = '" + i_cup + "' and BatchName = '0';";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
 
                                                 //写入配方浏览表
                                                 s_sql = "UPDATE formula_head SET State = '已滴定配方'" +
                                                            " WHERE FormulaCode = '" + s_code + "' AND" +
                                                            " VersionNum = " + s_ver + " ;";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
 
                                                 //写入批次表详细内容批次号
                                                 s_sql = "UPDATE dye_details SET BatchName = '" + s_batchNum + "'" +
                                                             " WHERE CupNum = '" + i_cup + "' and BatchName = '0';";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
                                             }
                                         }
                                     }
@@ -9485,23 +10516,51 @@ namespace SmartDyeing.FADM_Control
                                     //写入批次表头批次号
                                     s_sql = "UPDATE drop_head SET BatchName = '" + s_batchNum + "'," +
                                                 " State = '已滴定配方',Step=1 WHERE CupNum = '" + i_cup + "' and BatchName = '0';";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
 
                                     //写入批次表详细内容批次号
                                     s_sql = "UPDATE drop_details SET BatchName = '" + s_batchNum + "'" +
                                                 " WHERE CupNum = '" + i_cup + "' and BatchName = '0';";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
 
                                     //写入配方浏览表
                                     s_sql = "UPDATE formula_head SET State = '已滴定配方'" +
                                                " WHERE FormulaCode = '" + s_code + "' AND" +
                                                " VersionNum = " + s_ver + " ;";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
 
                                     //写入批次表详细内容批次号
                                     s_sql = "UPDATE dye_details SET BatchName = '" + s_batchNum + "'" +
                                                 " WHERE CupNum = '" + i_cup + "' and BatchName = '0';";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
                                 }
                             }
                             //单杯
@@ -9510,23 +10569,51 @@ namespace SmartDyeing.FADM_Control
                                 //写入批次表头批次号
                                 s_sql = "UPDATE drop_head SET BatchName = '" + s_batchNum + "'," +
                                             " State = '已滴定配方',Step=1 WHERE CupNum = '" + i_cup + "' and BatchName = '0';";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 //写入批次表详细内容批次号
                                 s_sql = "UPDATE drop_details SET BatchName = '" + s_batchNum + "'" +
                                             " WHERE CupNum = '" + i_cup + "' and BatchName = '0';";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 //写入配方浏览表
                                 s_sql = "UPDATE formula_head SET State = '已滴定配方'" +
                                            " WHERE FormulaCode = '" + s_code + "' AND" +
                                            " VersionNum = " + s_ver + " ;";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 //写入批次表详细内容批次号
                                 s_sql = "UPDATE dye_details SET BatchName = '" + s_batchNum + "'" +
                                             " WHERE CupNum = '" + i_cup + "' and BatchName = '0';";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
 
                         }
@@ -9542,23 +10629,51 @@ namespace SmartDyeing.FADM_Control
                                 //写入批次表头批次号
                                 s_sql = "UPDATE drop_head SET BatchName = '" + s_batchNum + "'," +
                                         " State = '已滴定配方',Step=1 WHERE CupNum = '" + i_cup + "' and BatchName = '0';";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 //写入批次表详细内容批次号
                                 s_sql = "UPDATE drop_details SET BatchName = '" + s_batchNum + "'" +
                                             " WHERE CupNum = '" + i_cup + "' and BatchName = '0';";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 //写入配方浏览表
                                 s_sql = "UPDATE formula_head SET State = '已滴定配方'" +
                                            " WHERE FormulaCode = '" + s_code + "' AND" +
                                            " VersionNum = " + s_ver + " ;";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 //写入批次表详细内容批次号
                                 s_sql = "UPDATE dye_details SET BatchName = '" + s_batchNum + "'" +
                                             " WHERE CupNum = '" + i_cup + "' and BatchName = '0';";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
                         }
                     }
@@ -9641,14 +10756,35 @@ namespace SmartDyeing.FADM_Control
 
                     //修改批次表头批次号
                     s_sql = "UPDATE drop_head SET BatchName = '" + s_batchNum + "', State = '已滴定配方',Step = 1 where  BatchName = '0' " + s + ";";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
 
                     //修改批次详细资料表批次号
                     s_sql = "UPDATE drop_details SET BatchName = '" + s_batchNum + "' where  BatchName = '0'" + s + ";";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
 
                     s_sql = "UPDATE dye_details SET BatchName = '" + s_batchNum + "' where  BatchName = '0'" + s + ";";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
 
                     foreach (DataGridViewRow dr in dgv_BatchData.Rows)
                     {
@@ -9666,7 +10802,14 @@ namespace SmartDyeing.FADM_Control
                         s_sql = "UPDATE formula_head SET State = '已滴定配方'" +
                                    " WHERE FormulaCode = '" + s_code + "' AND" +
                                    " VersionNum = " + s_ver + " ;";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
 
                     }
                 }
@@ -9884,7 +11027,7 @@ namespace SmartDyeing.FADM_Control
 
         }
 
-
+        int i_countTimer = 0;
         //定时器
         private void tmr_Tick(object sender, EventArgs e)
         {
@@ -9952,6 +11095,30 @@ namespace SmartDyeing.FADM_Control
             {
                 btn_Stop.Enabled = true;
                 bstopf = false;
+            }
+
+            if(FADM_Object.Communal._b_isBlockSaveButton)
+            {
+                i_countTimer++;
+                //30秒更新一次
+                if(i_countTimer % 300 == 0)
+                {
+                    BatchHeadShow("");
+
+                    DataTable dt_wait = FADM_Object.Communal._fadmSqlserver.GetData(
+                    "SELECT * FROM wait_list;");
+                    int i_num = dt_wait.Rows.Count;
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                    {
+                        Btn_WaitList.Text = "等待列表(" + i_num + ")";
+                    }
+                    else
+                    {
+
+                        Btn_WaitList.Text = "WaitList(" + i_num + ")";
+                    }
+                    BatchHeadShow("");
+                }
             }
         }
 
@@ -10025,13 +11192,42 @@ namespace SmartDyeing.FADM_Control
                                     }
 
                                     string s_sql1 = "UPDATE drop_head SET CupNum = " + FADM_Object.Communal._lis_dripCupNum[i_n1 + 1] + " WHERE CupNum = " + FADM_Object.Communal._lis_dripCupNum[i_n1] + ";";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql1);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                    }
 
                                     s_sql1 = "UPDATE drop_details SET CupNum = " + FADM_Object.Communal._lis_dripCupNum[i_n1 + 1] + " WHERE CupNum = " + FADM_Object.Communal._lis_dripCupNum[i_n1] + ";";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                    
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql1);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                    }
 
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum =  " + FADM_Object.Communal._lis_dripCupNum[i_n1]);
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where CupNum =  " + FADM_Object.Communal._lis_dripCupNum[i_n1 + 1]);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 0 where CupNum =  " + FADM_Object.Communal._lis_dripCupNum[i_n1]);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum =  " + FADM_Object.Communal._lis_dripCupNum[i_n1]);
+                                    }
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 1 where CupNum =  " + FADM_Object.Communal._lis_dripCupNum[i_n1 + 1]);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where CupNum =  " + FADM_Object.Communal._lis_dripCupNum[i_n1 + 1]);
+                                    }
                                 }
                             }
 
@@ -10052,7 +11248,14 @@ namespace SmartDyeing.FADM_Control
                             //FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
 
                             s_sql = "INSERT INTO drop_head (CupNum) VALUES(" + i_cup + ");";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
                         else
                         {
@@ -10066,7 +11269,14 @@ namespace SmartDyeing.FADM_Control
                                 }
                             }
                             //把原来等待列表序号后延一位
-                            FADM_Object.Communal._fadmSqlserver.ReviseData("UPDATE wait_list Set IndexNum = IndexNum+1 where Type = 2");
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show("UPDATE wait_list Set IndexNum = IndexNum+1 where Type = 2");
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData("UPDATE wait_list Set IndexNum = IndexNum+1 where Type = 2");
+                            }
                             if (dt_head.Rows[dt_head.Rows.Count - 1]["FormulaCode"] != System.DBNull.Value)
                             {
                                 //把最后一个配方移入等待列表
@@ -10077,16 +11287,37 @@ namespace SmartDyeing.FADM_Control
                             //删除最后一个配方
                             //删除批次浏览表头资料
                             s_sql = "DELETE FROM drop_head WHERE CupNum = '" + dt_head.Rows[dt_head.Rows.Count - 1]["CupNum"].ToString() + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
 
                             //删除批次浏览表详细资料
                             s_sql = "DELETE FROM drop_details WHERE CupNum = '" + dt_head.Rows[dt_head.Rows.Count - 1]["CupNum"].ToString() + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
 
                             //如果是最后一杯插入
                             if (i_cup == FADM_Object.Communal._lis_dripCupNum[FADM_Object.Communal._lis_dripCupNum.Count - 1])
                             {
-                                FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum =  " + i_cup);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 0 where CupNum =  " + i_cup);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum =  " + i_cup);
+                                }
                             }
 
                             for (int i = dt_head.Rows.Count - 2; i >= 0; i--)
@@ -10103,13 +11334,43 @@ namespace SmartDyeing.FADM_Control
                                     }
 
                                     string s_sql1 = "UPDATE drop_head SET CupNum = " + FADM_Object.Communal._lis_dripCupNum[i_n1 + 1] + " WHERE CupNum = " + FADM_Object.Communal._lis_dripCupNum[i_n1] + ";";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql1);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                    }
 
                                     s_sql1 = "UPDATE drop_details SET CupNum = " + FADM_Object.Communal._lis_dripCupNum[i_n1 + 1] + " WHERE CupNum = " + FADM_Object.Communal._lis_dripCupNum[i_n1] + ";";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                    
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql1);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                    }
 
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum =  " + FADM_Object.Communal._lis_dripCupNum[i_n1]);
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where CupNum =  " + FADM_Object.Communal._lis_dripCupNum[i_n1 + 1]);
+
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 0 where CupNum =  " + FADM_Object.Communal._lis_dripCupNum[i_n1]);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum =  " + FADM_Object.Communal._lis_dripCupNum[i_n1]);
+                                    }
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 1 where CupNum =  " + FADM_Object.Communal._lis_dripCupNum[i_n1 + 1]);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where CupNum =  " + FADM_Object.Communal._lis_dripCupNum[i_n1 + 1]);
+                                    }
                                 }
                             }
 
@@ -10120,7 +11381,14 @@ namespace SmartDyeing.FADM_Control
                             //FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum =  " + i_cup);
 
                             s_sql = "INSERT INTO drop_head (CupNum) VALUES(" + i_cup + ");";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
                         _b_updateWait = true;
                         BatchHeadShow("");
@@ -11162,6 +12430,20 @@ namespace SmartDyeing.FADM_Control
                 chk_Auto.Checked = true;
             }
             //dy_type_comboBox1.SelectedIndex = 0;//设置该下拉框默认选中第一项。
+
+            if (FADM_Object.Communal._b_isBlockSaveButton)
+            {
+                btn_BatchAdd.Visible = false;
+                btn_pre.Visible= false;
+                btn_Save.Visible= false;
+                btn_upd.Visible= false;
+                btn_FormulaCodeAdd.Visible= false;
+            }
+            if(FADM_Object.Communal._b_isJustShowInfo)
+            {
+                btn_Start.Visible = false;
+                btn_Stop.Visible= false;
+            }
         }
 
 
@@ -11846,11 +13128,25 @@ namespace SmartDyeing.FADM_Control
 
                             //删除批次浏览表头资料
                             s_sql = "DELETE FROM drop_head WHERE CupNum = '" + s_cup + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
 
                             //删除批次浏览表详细资料
                             s_sql = "DELETE FROM drop_details WHERE CupNum = '" + s_cup + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
 
                             ////删除批次浏览表详细资料
                             //s_sql = "DELETE FROM dye_details WHERE CupNum = '" + s_temp + "';";
@@ -11862,7 +13158,14 @@ namespace SmartDyeing.FADM_Control
 
                             //更新杯号使用情况
                             s_sql = "Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
                         //后处理杯号就发一个停止信号
                         else
@@ -11894,7 +13197,14 @@ namespace SmartDyeing.FADM_Control
                         if (dt_head.Rows.Count > 0)
                         {
                             //先把所有杯状态置为没使用
-                            FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where Type = 2");
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 0 where Type = 2");
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where Type = 2");
+                            }
                         }
 
                         int i_n = 0;
@@ -11903,10 +13213,24 @@ namespace SmartDyeing.FADM_Control
                             int i_cup = Convert.ToInt16(dr1["CupNum"].ToString());
 
                             string s_sql1 = "UPDATE drop_head SET CupNum = " + FADM_Object.Communal._lis_dripCupNum[i_n] + " WHERE CupNum = " + i_cup + ";";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
 
                             s_sql1 = "UPDATE drop_details SET CupNum = " + FADM_Object.Communal._lis_dripCupNum[i_n] + " WHERE CupNum = " + i_cup + ";";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                             i_n++;
                         }
 
@@ -11935,7 +13259,14 @@ namespace SmartDyeing.FADM_Control
                         if (i_n > 0)
                         {
                             //把对应杯位置为使用
-                            FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where Type = 2 and CupNum <=" + FADM_Object.Communal._lis_dripCupNum[i_n - 1]);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 1 where Type = 2 and CupNum <=" + FADM_Object.Communal._lis_dripCupNum[i_n - 1]);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where Type = 2 and CupNum <=" + FADM_Object.Communal._lis_dripCupNum[i_n - 1]);
+                            }
                         }
                         //
                     }
@@ -12157,18 +13488,46 @@ namespace SmartDyeing.FADM_Control
                                     string s_sql = "DELETE FROM formula_head WHERE" +
                                                        " FormulaCode = '" + s_formulaCode + "' AND" +
                                                        " VersionNum = '" + s_versionNum + "';";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
 
                                     s_sql = "DELETE FROM formula_details WHERE" +
                                                 " FormulaCode = '" + s_formulaCode + "' AND" +
                                                 " VersionNum = '" + s_versionNum + "';";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
 
                                     s_sql = "delete from  formula_handle_details where FormulaCode='" + s_formulaCode + "' and VersionNum='" + s_versionNum + "';";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
 
                                     s_sql = "delete from  dyeing_details where FormulaCode='" + s_formulaCode + "' and VersionNum='" + s_versionNum + "';";
-                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                    }
+                                    else
+                                    {
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                    }
                                 }
                             }
 
@@ -12202,21 +13561,56 @@ namespace SmartDyeing.FADM_Control
                             string s_sql = "DELETE FROM formula_head WHERE" +
                                                " FormulaCode = '" + s_formulaCode + "' AND" +
                                                " VersionNum = '" + s_versionNum + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
 
                             s_sql = "DELETE FROM formula_details WHERE" +
                                         " FormulaCode = '" + s_formulaCode + "' AND" +
                                         " VersionNum = '" + s_versionNum + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
 
                             s_sql = "delete from  formula_handle_details where FormulaCode='" + s_formulaCode + "' and VersionNum='" + s_versionNum + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
 
                             s_sql = "delete from  formula_handle_details where FormulaCode='" + s_formulaCode + "' and VersionNum='" + s_versionNum + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
 
                             s_sql = "delete from  dyeing_details where FormulaCode='" + s_formulaCode + "' and VersionNum='" + s_versionNum + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
 
                             FormulaBrowseHeadShow("");
                         }
@@ -14544,15 +15938,36 @@ namespace SmartDyeing.FADM_Control
 
                                                 //删除批次浏览表头资料
                                                 s_sql = "DELETE FROM drop_head WHERE CupNum = '" + s_temp + "';";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
 
                                                 //删除批次浏览表详细资料
                                                 s_sql = "DELETE FROM drop_details WHERE CupNum = '" + s_temp + "';";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
 
                                                 //删除批次浏览表详细资料
                                                 s_sql = "DELETE FROM dye_details WHERE CupNum = '" + s_temp + "';";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
 
                                                 ////删除批次浏览表详细资料
                                                 //s_sql = "DELETE FROM dye_details WHERE CupNum = '" + s_temp + "';";
@@ -14560,7 +15975,14 @@ namespace SmartDyeing.FADM_Control
 
                                                 //更新杯号使用情况
                                                 s_sql = "Update cup_details set IsUsing = 0 where CupNum = '" + s_temp + "';";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
                                                 _b_updateWait = true;
 
                                                 P_bl_update = true;
@@ -14584,7 +16006,14 @@ namespace SmartDyeing.FADM_Control
                                                     if (dt_head.Rows.Count > 0)
                                                     {
                                                         //先把所有杯状态置为没使用
-                                                        FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where Type = 2");
+                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 0 where Type = 2");
+                                                        }
+                                                        else
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where Type = 2");
+                                                        }
                                                     }
 
                                                     int i_n = 0;
@@ -14593,10 +16022,24 @@ namespace SmartDyeing.FADM_Control
                                                         int i_cup = Convert.ToInt16(dr1["CupNum"].ToString());
 
                                                         string s_sql1 = "UPDATE drop_head SET CupNum = " + FADM_Object.Communal._lis_dripCupNum[i_n] + " WHERE CupNum = " + i_cup + ";";
-                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql1);
+                                                        }
+                                                        else
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                                        }
 
                                                         s_sql1 = "UPDATE drop_details SET CupNum = " + FADM_Object.Communal._lis_dripCupNum[i_n] + " WHERE CupNum = " + i_cup + ";";
-                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql1);
+                                                        }
+                                                        else
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql1);
+                                                        }
                                                         i_n++;
                                                     }
 
@@ -14625,7 +16068,14 @@ namespace SmartDyeing.FADM_Control
                                                     if (i_n > 0)
                                                     {
                                                         //把对应杯位置为使用
-                                                        FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where Type = 2 and CupNum <=" + FADM_Object.Communal._lis_dripCupNum[i_n - 1]);
+                                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 1 where Type = 2 and CupNum <=" + FADM_Object.Communal._lis_dripCupNum[i_n - 1]);
+                                                        }
+                                                        else
+                                                        {
+                                                            FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 1 where Type = 2 and CupNum <=" + FADM_Object.Communal._lis_dripCupNum[i_n - 1]);
+                                                        }
                                                     }
                                                     //
                                                 }
@@ -14654,23 +16104,51 @@ namespace SmartDyeing.FADM_Control
                 s_sql = "DELETE FROM formula_head WHERE" +
                                            " FormulaCode = '" + txt_FormulaCode.Text + "'" +
                                            " AND VersionNum = '" + txt_VersionNum.Text + "' ;";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                }
 
                 s_sql = "DELETE FROM formula_details WHERE" +
                             " FormulaCode = '" + txt_FormulaCode.Text + "' AND" +
                             " VersionNum = '" + txt_VersionNum.Text + "' ;";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                }
 
 
                 s_sql = "DELETE FROM formula_handle_details WHERE" +
                             " FormulaCode = '" + txt_FormulaCode.Text + "' AND" +
                             " VersionNum = '" + txt_VersionNum.Text + "' ;";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                }
 
                 s_sql = "DELETE FROM dyeing_details WHERE" +
                        " FormulaCode = '" + txt_FormulaCode.Text + "' AND" +
                        " VersionNum = '" + txt_VersionNum.Text + "' ;";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                }
 
                 //11-01 改造
                 if (_s_stage == "后处理")
@@ -14814,7 +16292,14 @@ namespace SmartDyeing.FADM_Control
                                                       " '" + value9 + "', '" + value10 + "', '" + ll[1] + "', '" + ll[3] +
                                                       "', '" + ll[4] + "', '" + ll[5] + "', '" + ll[6] + "" +
                                                       "', '" + ll[7] + "', '" + ll[2] + "', '" + ll[8] + "', '" + ll[9] + "','" + ll[10] + "','',0,'" + SuperIndex + "');";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
 
                                                 if (TemMap.ContainsKey(value2))
                                                 {
@@ -14830,7 +16315,14 @@ namespace SmartDyeing.FADM_Control
                                                          " '" + value7 + "', '" + value8 + "', '" + value2 + "', '" + ll[1] + "'," +
                                                          " '" + ll[2] + "', '" + ll[3] + "', '" + ll[4] + "', '" + ll[5] + "'," +
                                                          " '" + ll[6] + "', '" + ll[7] + "', '" + ll[8] + "', '" + ll[9] + "', '" + ll[10] + "', '" + SuperIndex + "');";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_0);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                                                    }
                                                     TemMap.Add(value2, value2);
                                                 }
 
@@ -14853,7 +16345,14 @@ namespace SmartDyeing.FADM_Control
                                                        " Code, DyeType,Time,RotorSpeed,Finish,No) VALUES( '" + value7 + "', '" + value8 + "'," +
                                                        " '" + indexI + "', '" + value2 + "', " +
                                                        " '" + value9 + "', '" + value10 + "', '" + value5 + "', '" + value6 + "',0,'" + SuperIndex + "');";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    }
                                                 }
                                             }
                                             else if (value2 == "温控")
@@ -14866,7 +16365,14 @@ namespace SmartDyeing.FADM_Control
                                                       " '" + indexI + "', '" + value2 + "', '" + value3 + "'," +
                                                       " '" + value4 + "', '" + value5 + "', '" + value6 + "'," +
                                                       " '" + value9 + "', '" + value10 + "',0,'" + SuperIndex + "');";
-                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    if (FADM_Object.Communal._b_isJustShowInfo)
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                    }
+                                                    else
+                                                    {
+                                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                    }
                                                 }
                                                 else
                                                 {
@@ -14881,7 +16387,14 @@ namespace SmartDyeing.FADM_Control
                                                       " Code, DyeType,Finish,No) VALUES( '" + value7 + "', '" + value8 + "'," +
                                                       " '" + indexI + "', '" + value2 + "', " +
                                                       " '" + value9 + "', '" + value10 + "',0,'" + SuperIndex + "');";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
                                             }
                                             else
                                             {
@@ -14890,7 +16403,14 @@ namespace SmartDyeing.FADM_Control
                                                        " Code, DyeType,RotorSpeed,Finish,No) VALUES( '" + value7 + "', '" + value8 + "'," +
                                                        " '" + indexI + "', '" + value2 + "', " +
                                                        " '" + value9 + "', '" + value10 + "', '" + value6 + "',0,'" + SuperIndex + "');";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
                                             }
                                         }
                                         indexI++;
@@ -14958,7 +16478,14 @@ namespace SmartDyeing.FADM_Control
                                                   " '" + indexI + "', '" + value2 + "', '" + value3 + "'," +
                                                   " '" + value4 + "', '" + value5 + "', '" + value6 + "'," +
                                                   " '" + value9 + "', '" + value10 + "',0,'" + SuperIndex + "');";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
                                             }
                                             else
                                             {
@@ -14979,7 +16506,14 @@ namespace SmartDyeing.FADM_Control
                                               " Code, DyeType,RotorSpeed,Time,Finish,No) VALUES( '" + value7 + "', '" + value8 + "'," +
                                               " '" + indexI + "', '" + value2 + "', " +
                                               " '" + value9 + "', '" + value10 + "','" + value6 + "','" + value5 + "',0,'" + SuperIndex + "');";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
                                             }
                                         }
                                         else if (value2.Substring(0, 1) == "加" && value2 != "加水" && value2 != "加药")
@@ -15003,7 +16537,14 @@ namespace SmartDyeing.FADM_Control
                                                       " '" + value9 + "', '" + value10 + "', '" + ll[1] + "', '" + ll[3] +
                                                       "', '" + ll[4] + "', '" + ll[5] + "', '" + ll[6] + "" +
                                                       "', '" + ll[7] + "', '" + ll[2] + "', '" + ll[8] + "', '" + 0 + "','" + ll[10] + "','',0,'" + SuperIndex + "');";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                                }
 
                                                 string s_sql_0 = "INSERT INTO formula_handle_details (" +
                                                     "Code,FormulaCode, VersionNum, TechnologyName, AssistantCode,AssistantName," +
@@ -15013,7 +16554,14 @@ namespace SmartDyeing.FADM_Control
                                                     " '" + value7 + "', '" + value8 + "', '" + value2 + "', '" + ll[1] + "'," +
                                                     " '" + ll[2] + "', '" + ll[3] + "', '" + ll[4] + "', '" + ll[5] + "'," +
                                                     " '" + ll[6] + "', '" + ll[7] + "', '" + ll[8] + "', '" + ll[9] + "', '" + ll[10] + "', '" + SuperIndex + "');";
-                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_0);
+                                                }
+                                                else
+                                                {
+                                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                                                }
                                                 indexI++;
                                             }
                                         }
@@ -15027,7 +16575,14 @@ namespace SmartDyeing.FADM_Control
                                                " Code, DyeType,RotorSpeed,Time,Finish,No) VALUES( '" + value7 + "', '" + value8 + "'," +
                                                " '" + indexI + "', '" + value2 + "', " +
                                                " '" + value9 + "', '" + value10 + "','" + value6 + "','" + value5 + "',0,'" + SuperIndex + "');";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                         }
                                         else
                                         {
@@ -15037,7 +16592,14 @@ namespace SmartDyeing.FADM_Control
                                                " Code, DyeType,RotorSpeed,Finish,No) VALUES( '" + value7 + "', '" + value8 + "'," +
                                                " '" + indexI + "', '" + value2 + "', " +
                                                " '" + value9 + "', '" + value10 + "','" + value6 + "',0,'" + SuperIndex + "');";
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                            }
                                         }
                                         indexI++;
                                     }
@@ -15060,7 +16622,14 @@ namespace SmartDyeing.FADM_Control
                     string s_sql_q = "DELETE FROM formula_head WHERE" +
                                        " FormulaCode = '" + txt_FormulaCode.Text + "'" +
                                        " AND VersionNum = '" + txt_VersionNum.Text + "' ;";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_q);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_q);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_q);
+                    }
 
                     goto lab_ag1;
                 }
@@ -15077,7 +16646,14 @@ namespace SmartDyeing.FADM_Control
                     string s_sql_q = "DELETE FROM formula_details WHERE" +
                                        " FormulaCode = '" + txt_FormulaCode.Text + "'" +
                                        " AND VersionNum = '" + txt_VersionNum.Text + "' ;";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_q);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_q);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_q);
+                    }
 
                     goto lab_ag2;
                 }
@@ -15153,7 +16729,14 @@ namespace SmartDyeing.FADM_Control
                                              " '" + lis_Detail[2] + "', '" + lis_Detail[3] + "', '" + lis_Detail[4] + "', '" + lis_Detail[5] + "'," +
                                              " '" + lis_Detail[6] + "', '" + lis_Detail[7] + "', '" + lis_Detail[8] + "', '" + lis_Detail[9] + "'," +
                                              " '" + lis_Detail[10] + "', '" + lis_Detail[11] + "', '" + lis_Detail[12] + "');";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_0);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                        }
                         if (Convert.ToInt16(lis_Detail[7]) <= i_machineType)
                         {
 
@@ -15271,7 +16854,14 @@ namespace SmartDyeing.FADM_Control
                                      " '" + lis_head[13] + "', '" + lis_head[14] + "', '" + lis_head[15] + "', '" +
                                      lis_head[16] + "', '" + lis_head[17] + "', '" + lis_head[18] + "', '" + lis_head[19]
                                      + "', '" + lis_head[20] + "', '" + lis_head[21] + "', '" + lis_head[22] + "', '" + lis_head[23] + "', '" + lis_head[24] + "', '" + lis_head[25] + "', '" + lis_head[26] + "', '" + lis_head[27] + "','" + lis_head[28] + "', '" + lis_head[29] + "');";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_1);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                }
 
 
 
@@ -15293,15 +16883,36 @@ namespace SmartDyeing.FADM_Control
                     lab_ag:
                         //删除批次浏览表头资料
                         s_sql_1 = "DELETE FROM drop_head WHERE CupNum = '" + s_cup + "';";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_1);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                        }
 
                         //删除批次浏览表详细资料
                         s_sql_1 = "DELETE FROM drop_details WHERE CupNum = '" + s_cup + "';";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_1);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                        }
 
                         //删除批次浏览表详细资料
                         s_sql_1 = "DELETE FROM dye_details WHERE CupNum = '" + s_cup + "';";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_1);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                        }
 
                         //查询是否删除成功，如果没有，重新删除
                         s_sql_agaon = "SELECT *  FROM drop_head WHERE CupNum = '" + s_cup + "';";
@@ -15332,12 +16943,26 @@ namespace SmartDyeing.FADM_Control
                         if (SmartDyeing.FADM_Object.Communal._lis_dripCupNum.Contains(Convert.ToInt32(s_cup)) && _s_stage != "滴液")
                         {
                             b_temp = true;
-                            FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                            }
                         }
                         else if (!SmartDyeing.FADM_Object.Communal._lis_dripCupNum.Contains(Convert.ToInt32(s_cup)) && _s_stage == "滴液")
                         {
                             b_temp = true;
-                            FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                            }
                         }
                         else
                         {
@@ -15359,7 +16984,14 @@ namespace SmartDyeing.FADM_Control
                                         if (JudDyeingCode(txt_FormulaCode.Text, txt_VersionNum.Text, dt_drop_head.Rows[0]["FormulaCode"].ToString(), dt_drop_head.Rows[0]["VersionNum"].ToString()) == -1)
                                         {
                                             b_temp = true;
-                                            FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                                            if (FADM_Object.Communal._b_isJustShowInfo)
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                                            }
+                                            else
+                                            {
+                                                FADM_Object.Communal._fadmSqlserver.ReviseData("Update cup_details set IsUsing = 0 where CupNum = '" + s_cup + "';");
+                                            }
                                         }
                                         else
                                         {
@@ -15385,11 +17017,25 @@ namespace SmartDyeing.FADM_Control
                 //删除等待列表对于配方不符合记录
                 if (_s_stage == "滴液")
                 {
-                    FADM_Object.Communal._fadmSqlserver.ReviseData("DELETE FROM wait_list WHERE FormulaCode = '" + txt_FormulaCode.Text + "' and Type =3");
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show("DELETE FROM wait_list WHERE FormulaCode = '" + txt_FormulaCode.Text + "' and Type =3");
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData("DELETE FROM wait_list WHERE FormulaCode = '" + txt_FormulaCode.Text + "' and Type =3");
+                    }
                 }
                 else
                 {
-                    FADM_Object.Communal._fadmSqlserver.ReviseData("DELETE FROM wait_list WHERE FormulaCode = '" + txt_FormulaCode.Text + "' and Type =2");
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show("DELETE FROM wait_list WHERE FormulaCode = '" + txt_FormulaCode.Text + "' and Type =2");
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData("DELETE FROM wait_list WHERE FormulaCode = '" + txt_FormulaCode.Text + "' and Type =2");
+                    }
                 }
 
                 if (s_bottleLower != null)
@@ -15482,17 +17128,59 @@ namespace SmartDyeing.FADM_Control
                         {
                             string s_temp;
                             s_temp = "insert into formula_details_temp select * from formula_details where FormulaCode='" + dr["FormulaCode"].ToString() + "' and VersionNum='" + dr["VersionNum"].ToString() + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_temp);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                            }
                             s_temp = "delete from  formula_details where FormulaCode='" + dr["FormulaCode"].ToString() + "' and VersionNum='" + dr["VersionNum"].ToString() + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_temp);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                            }
                             s_temp = "insert into formula_handle_details_temp select * from formula_handle_details where FormulaCode='" + dr["FormulaCode"].ToString() + "' and VersionNum='" + dr["VersionNum"].ToString() + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_temp);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                            }
                             s_temp = "delete from  formula_handle_details where FormulaCode='" + dr["FormulaCode"].ToString() + "' and VersionNum='" + dr["VersionNum"].ToString() + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_temp);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                            }
                             s_temp = "insert into formula_head_temp select * from formula_head where FormulaCode='" + dr["FormulaCode"].ToString() + "' and VersionNum='" + dr["VersionNum"].ToString() + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_temp);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                            }
                             s_temp = "delete from formula_head where FormulaCode='" + dr["FormulaCode"].ToString() + "' and VersionNum='" + dr["VersionNum"].ToString() + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_temp);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_temp);
+                            }
                         }
                     }
                 }

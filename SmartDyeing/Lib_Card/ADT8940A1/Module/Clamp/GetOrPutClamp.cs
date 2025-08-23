@@ -1,27 +1,29 @@
-﻿using Lib_Card.ADT8940A1.Module.Home;
-using Lib_Card.ADT8940A1.OutPut.Blender;
+﻿using Lib_Card;
 using Lib_Card.ADT8940A1;
-using Lib_Card;
+using Lib_Card.ADT8940A1.Module.Home;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Lib_Card.ADT8940A1.OutPut.Tongs;
 
 namespace Lib_Card.ADT8940A1.Module
 {
-    public class GetOrPutCover
+    public class GetOrPutClamp
     {
         /// <summary>
-        /// 拿盖
+        /// 拿夹具
         /// </summary>
         /// <param name="iCylinderVersion">0：单控上下气缸；1：双控上下气缸</param>
         /// <param name="iType">0:开盖 1：关盖</param>
         /// <returns>0：正常；-1：异常；-2：收到退出消息</returns>
-        public int GetCover(int iCylinderVersion, int iType)
+        public int GetClamp(int iCylinderVersion, int iType)
         {
+
+            OutPut.Blender.Blender blender = new OutPut.Blender.Blender_Basic();
+            if (-1 == blender.Blender_On())
+                return -1;
 
             OutPut.Tray.Tray tray = new OutPut.Tray.Tray_Condition();
             if (-1 == tray.Tray_Off())
@@ -32,29 +34,11 @@ namespace Lib_Card.ADT8940A1.Module
                 cylinder = new OutPut.Cylinder.SingleControl.Cylinder_Condition();
             else
                 cylinder = new OutPut.Cylinder.DualControl.Cylinder_Condition();
-            if (iType == 0)
-            {
-                //如果有撑盖部件，就在开盖时，下不到位也去夹盖子
-                if (Lib_Card.Configure.Parameter.Other_Tongs_Decompression == 1)
-                {
-                    if (-1 == cylinder.CylinderDown(1))
-                        return -1;
-                    //气缸下不到位，返回-9就直接继续进行
-                }
-                else
-                {
-                    if (-1 == cylinder.CylinderDown(0))
-                        return -1;
-                }
-            }
-            else
-            {
-                if (-1 == cylinder.CylinderDown(0))
-                    return -1;
-            }
+            if (-1 == cylinder.CylinderDown(0))
+                return -1;
 
 
-                OutPut.Tongs.Tongs tongs = new OutPut.Tongs.Tongs_Condition();
+            OutPut.Tongs.Tongs tongs = new OutPut.Tongs.Tongs_Condition();
             if (-1 == tongs.Tongs_On())
                 return -1;
 
@@ -89,16 +73,28 @@ namespace Lib_Card.ADT8940A1.Module
             }
 
 
-            if (bDelay)
+            Base.Card.MoveArg s_Movearg = new Base.Card.MoveArg();
+            if (bDelay && 0 == iSyringe)
             {
                 if (-1 == tongs.Tongs_Off())
                     return -1;
 
-                if (-1 == cylinder.CylinderUp(0))
-                    return -1;
+              
+                    s_Movearg.Pulse = -Configure.Parameter.Home_Z_Offset;
+                    s_Movearg.LSpeed = Configure.Parameter.Move_S_LSpeed;
+                    s_Movearg.HSpeed = Configure.Parameter.Move_S_HSpeed;
+                    s_Movearg.Time = Configure.Parameter.Move_S_UTime;
 
-                if (-1 == cylinder.CylinderDown(0))
-                    return -1;
+                try
+                {
+                    if (-1 == CardObject.OA1Axis.Relative_Z(s_Movearg, 0))
+                        return -1;
+                }
+                catch (Exception ex)
+                {
+                    if ("Z轴反限位已通" != ex.Message)
+                        throw;
+                }
 
                 if (-1 == tongs.Tongs_On())
                     return -1;
@@ -130,7 +126,7 @@ namespace Lib_Card.ADT8940A1.Module
 
                 }
 
-                if (bDelay)
+                if (bDelay && 0 == iSyringe)
                 {
                     if (-1 == tongs.Tongs_Off())
                         return -1;
@@ -140,55 +136,27 @@ namespace Lib_Card.ADT8940A1.Module
                     Home.Home home = new Home.Home_Condition();
                     if (-1 == home.Home_Z(iCylinderVersion))
                         throw new Exception("驱动异常");
-                    throw new Exception("未发现杯盖");
+                    //当没发现针筒时，先打搅拌打开，继续搅拌
+                    if (-1 == blender.Blender_Off())
+                        return -1;
+                    throw new Exception("未发现针筒");
                 }
-                int res = cylinder.CylinderUp(1);
-                if (-1 == res)
-                    return -1;
-                else if (-9 == res)
-                {
-                    //拿着盖子升不到位，先气缸下，松开抓手，再升一次，看看是否因为气压不够导致
-                    if (-1 == cylinder.CylinderDown(0))
-                        return -1;
-                    if (-1 == tongs.Tongs_Off())
-                        return -1;
-
-                    res = cylinder.CylinderUp(1);
-                    if (-1 == res)
-                        return -1;
-                    else if (-9 == res)
-                    {
-                        //throw new Exception("气缸上超时");
-                        cylinder.CylinderUp(0);
-                    }
-                    //松开杯盖可以正常升到位
-                    if (iType == 1)
-                    {
-                        //杯盖区拿盖失败
-                        throw new Exception("放盖区取盖失败");
-                    }
-                    else
-                    {
-                        throw new Exception("配液杯取盖失败");
-                    }
-                }
-
-
             }
 
-            //获取盖子
+
+
             return 0;
         }
 
         /// <summary>
-        /// 放盖
+        /// 放夹具
         /// </summary>
         /// <param name="iCylinderVersion">0：单控上下气缸；1：双控上下气缸</param>
         /// <param name="iType">0:开盖 1：关盖</param>
         /// <param name="x">撑盖x坐标</param>
         /// <param name="y">撑盖y坐标</param>
         /// <returns>0：正常；-1：异常；-2：收到退出消息</returns>
-        public int PutCover(int iCylinderVersion, int iType,int x,int y)
+        public int PutClamp(int iCylinderVersion, int iType, int x, int y)
         {
             //放盖子
             OutPut.Tray.Tray tray = new OutPut.Tray.Tray_Condition();
@@ -206,7 +174,7 @@ namespace Lib_Card.ADT8940A1.Module
                 return -1;
             else if (-9 == res)
             {
-                
+
                 //第一次放盖子失败
                 if (-1 == cylinder.CylinderUp(0))
                     return -1;
@@ -216,7 +184,7 @@ namespace Lib_Card.ADT8940A1.Module
                 else if (-9 == res)
                 {
                     //第二次放盖子失败,松开抓手
-                    
+
                     if (-1 == tongs.Tongs_Off())
                         return -1;
                     if (iType == 1)
@@ -228,7 +196,7 @@ namespace Lib_Card.ADT8940A1.Module
                         throw new Exception("放盖失败");
                     }
                 }
-                
+
             }
 
             //如果关盖就要压2秒

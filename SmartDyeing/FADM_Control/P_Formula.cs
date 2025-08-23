@@ -130,13 +130,16 @@ namespace SmartDyeing.FADM_Control
             switch (keyData)
             {
                 case Keys.F4:
-                    btn_BatchAdd_Click(null, null);
+                    if (!FADM_Object.Communal._b_isBlockSaveButton)
+                        btn_BatchAdd_Click(null, null);
                     return false;
                 case Keys.F2:
-                    btn_Save_Click(null, null);
+                    if (!FADM_Object.Communal._b_isBlockSaveButton)
+                        btn_Save_Click(null, null);
                     return false;
                 case Keys.F5:
-                    btn_FormulaCodeAdd_Click(null, null);
+                    if (!FADM_Object.Communal._b_isBlockSaveButton)
+                        btn_FormulaCodeAdd_Click(null, null);
                     return false;
                 case Keys.F10:
                     btn_Start_Click(null, null);
@@ -4757,7 +4760,12 @@ namespace SmartDyeing.FADM_Control
             ReSet_txt_FormulaGroup();
 
 
-            
+            if(FADM_Object.Communal._b_isBlockSaveButton)
+            {
+                btn_BatchAdd.Visible = false;
+                btn_Save.Visible = false;
+                btn_FormulaCodeAdd.Visible = false;
+            }
 
         }
 

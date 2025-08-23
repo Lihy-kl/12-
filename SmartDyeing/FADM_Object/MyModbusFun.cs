@@ -4460,6 +4460,14 @@ namespace SmartDyeing.FADM_Object
                             {
                                 throw new Exception("未发现针筒");
                             }
+                            else if (ia_errArray[i] == 2102)
+                            {
+                                throw new Exception("取针筒时抓手关失败");
+                            }
+                            else if (ia_errArray[i] == 2103)
+                            {
+                                throw new Exception("取针筒时气缸下失败");
+                            }
 
                         }
                         throw e;
@@ -4591,6 +4599,14 @@ namespace SmartDyeing.FADM_Object
                             if (ia_errArray[i] == 2101)
                             {
                                 throw new Exception("未发现针筒");
+                            }
+                            else if (ia_errArray[i] == 2102)
+                            {
+                                throw new Exception("取针筒时抓手关失败");
+                            }
+                            else if (ia_errArray[i] == 2103)
+                            {
+                                throw new Exception("取针筒时气缸下失败");
                             }
 
                         }
@@ -5548,7 +5564,7 @@ namespace SmartDyeing.FADM_Object
                 try
                 {
                     Lib_Card.ADT8940A1.Module.GetOrPutCover getOrPutCover = new Lib_Card.ADT8940A1.Module.GetOrPutCover();
-                    getOrPutCover.PutCover(Lib_Card.Configure.Parameter.Machine_CylinderVersion, i_type);
+                    getOrPutCover.PutCover(Lib_Card.Configure.Parameter.Machine_CylinderVersion, i_type, i_xEndPules, i_yEndPules+ Lib_Card.Configure.Parameter.Other_SupportCoverY);
                 }
                 catch (Exception ex)
                 {
@@ -5686,6 +5702,42 @@ namespace SmartDyeing.FADM_Object
                             else if (ia_errArray[i] == 2709)
                             {
                                 throw new Exception("二次关盖未发现杯盖");
+                            }
+                            else if (ia_errArray[i] == 2710)
+                            {
+                                throw new Exception("移动前抓手打开异常");
+                            }
+                            else if (ia_errArray[i] == 2711)
+                            {
+                                throw new Exception("移动前抓手打开关闭都发现异常");
+                            }
+                            else if (ia_errArray[i] == 2712)
+                            {
+                                throw new Exception("感应杯盖时打开抓手失败");
+                            }
+                            else if (ia_errArray[i] == 2713)
+                            {
+                                throw new Exception("配液杯取盖失败抓手关失败");
+                            }
+                            else if (ia_errArray[i] == 2714)
+                            {
+                                throw new Exception("放盖区取盖失败抓手关失败");
+                            }
+                            else if (ia_errArray[i] == 2715)
+                            {
+                                throw new Exception("放盖后抓手打开失败");
+                            }
+                            else if (ia_errArray[i] == 2716)
+                            {
+                                throw new Exception("关盖时抓手打开失败");
+                            }
+                            else if (ia_errArray[i] == 2717)
+                            {
+                                throw new Exception("关盖时撑盖开失败");
+                            }
+                            else if (ia_errArray[i] == 2718)
+                            {
+                                throw new Exception("关盖撑盖时气缸下失败");
                             }
 
                         }
@@ -6099,6 +6151,14 @@ namespace SmartDyeing.FADM_Object
                             {
                                 throw new Exception("未发现抓手");
                             }
+                            else if (ia_errArray[i] == 4502)
+                            {
+                                throw new Exception("取布夹具时抓手关失败");
+                            }
+                            else if (ia_errArray[i] == 4503)
+                            {
+                                throw new Exception("取布夹具时气缸下失败");
+                            }
                             else if (ia_errArray[i] == 2701)
                             {
                                 throw new Exception("发现杯盖或针筒");
@@ -6207,6 +6267,14 @@ namespace SmartDyeing.FADM_Object
                             if (ia_errArray[i] == 4501)
                             {
                                 throw new Exception("未发现抓手");
+                            }
+                            else if (ia_errArray[i] == 4502)
+                            {
+                                throw new Exception("取布夹具时抓手关失败");
+                            }
+                            else if (ia_errArray[i] == 4503)
+                            {
+                                throw new Exception("取布夹具时气缸下失败");
                             }
                             else if (ia_errArray[i] == 2701)
                             {
@@ -7718,6 +7786,14 @@ namespace SmartDyeing.FADM_Object
                             {
                                 throw new Exception("未发现针筒");
                             }
+                            else if (ia_errArray[i] == 4502)
+                            {
+                                throw new Exception("取布夹具时抓手关失败");
+                            }
+                            else if (ia_errArray[i] == 4503)
+                            {
+                                throw new Exception("取布夹具时气缸下失败");
+                            }
                             else if (ia_errArray[i] == 2701)
                             {
                                 throw new Exception("发现杯盖或针筒");
@@ -7811,6 +7887,14 @@ namespace SmartDyeing.FADM_Object
                             if (ia_errArray[i] == 4501)
                             {
                                 throw new Exception("未发现抓手");
+                            }
+                            else if (ia_errArray[i] == 4502)
+                            {
+                                throw new Exception("取布夹具时抓手关失败");
+                            }
+                            else if (ia_errArray[i] == 4503)
+                            {
+                                throw new Exception("取布夹具时气缸下失败");
                             }
                             else if (ia_errArray[i] == 2701)
                             {

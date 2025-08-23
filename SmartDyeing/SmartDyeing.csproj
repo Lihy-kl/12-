@@ -611,6 +611,7 @@
     <Compile Include="Lib_Card\ADT8940A1\Cadt8940a1m.cs" />
     <Compile Include="Lib_Card\ADT8940A1\InPut\InPut.cs" />
     <Compile Include="Lib_Card\ADT8940A1\InPut\InPut_Basic.cs" />
+    <Compile Include="Lib_Card\ADT8940A1\Module\Clamp\GetOrPutClamp.cs" />
     <Compile Include="Lib_Card\ADT8940A1\Module\Cover\GetOrPutCover.cs" />
     <Compile Include="Lib_Card\ADT8940A1\Module\Extraction\Extraction.cs" />
     <Compile Include="Lib_Card\ADT8940A1\Module\Extraction\Extraction_Check.cs" />

@@ -148,7 +148,14 @@ namespace SmartDyeing.FADM_Control
 
             s_sql = "DELETE FROM dyeing_process" +
                                " WHERE Code = '" + txt_Dye_Code.Text + "';";
-            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+            if (FADM_Object.Communal._b_isJustShowInfo)
+            {
+                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+            }
+            else
+            {
+                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+            }
 
             //重新排序
             s_sql = "Select DyeingCode FROM dyeing_code" +
@@ -167,7 +174,14 @@ namespace SmartDyeing.FADM_Control
                 {
                     s_sql = "DELETE FROM dyeing_code" +
                                    " WHERE  DyeingCode = '" + dr[0].ToString() + "';";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
                 }
                 else
                 {
@@ -175,12 +189,26 @@ namespace SmartDyeing.FADM_Control
                     //先删除
                     s_sql = "DELETE FROM dyeing_code" +
                                    " WHERE Code = '" + txt_Dye_Code.Text + "' and DyeingCode = '" + dr[0].ToString() + "';";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
 
                     //修改比删除Step大的序号
                     s_sql = "Update dyeing_code Set Step = Step - 1" +
                                    " WHERE  DyeingCode = '" + dr[0].ToString() + "' and Step >" + P_dt1.Rows[0][0].ToString() + " ;";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
                 }
             }
 
@@ -456,7 +484,14 @@ namespace SmartDyeing.FADM_Control
             s_sql = "DELETE FROM dyeing_process WHERE" +
                               " StepNum = '" + dgv_Child_DyeData.CurrentRow.Cells[0].Value.ToString() + "'" +
                               " AND Code = '" + txt_Dye_Code.Text + "' ;";
-            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+            if (FADM_Object.Communal._b_isJustShowInfo)
+            {
+                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+            }
+            else
+            {
+                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+            }
             try
             {
                 ChildDyeDataShow(dgv_Child_DyeData.Rows[dgv_Child_DyeData.CurrentCell.RowIndex - 1].Cells[0].Value.ToString());
@@ -564,7 +599,14 @@ namespace SmartDyeing.FADM_Control
 
                         s_sql = "INSERT INTO dyeing_process" +
                                            " (Code,Type,Remark) VALUES( '" + txt_Dye_Code.Text + "' ,1,'" + txt_Notes.Text + "');";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
 
 
                         ////更新调液流程代码表
@@ -722,8 +764,14 @@ namespace SmartDyeing.FADM_Control
 
                 string s_stepNum = dgv_Child_DyeData.CurrentRow.Cells[0].Value.ToString();
                 //把步号加1
-                FADM_Object.Communal._fadmSqlserver.ReviseData("Update dyeing_process Set StepNum = StepNum + 1 where StepNum >= " + s_stepNum + " AND Code = '" + txt_Dye_Code.Text + "';");
-
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update dyeing_process Set StepNum = StepNum + 1 where StepNum >= " + s_stepNum + " AND Code = '" + txt_Dye_Code.Text + "';");
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update dyeing_process Set StepNum = StepNum + 1 where StepNum >= " + s_stepNum + " AND Code = '" + txt_Dye_Code.Text + "';");
+                }
                 string s_technologyName = "";
                 string s_proportionOrTime = "1";
                 string s_temp = "";

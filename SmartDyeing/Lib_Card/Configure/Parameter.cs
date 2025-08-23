@@ -2633,5 +2633,11 @@
         /// </summary>
         public static int Other_ValveTerminal { get; set; }
 
+
+        /// <summary>
+        /// 开盖是否要伸出接液盘
+        /// </summary>
+        public static int Other_CoverTray { get; set; }
+
     }
 }

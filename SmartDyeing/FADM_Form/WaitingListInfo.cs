@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lib_DataBank.MySQL;
+using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
@@ -273,7 +274,14 @@ namespace SmartDyeing.FADM_Form
                 foreach (DataGridViewRow dgvr in dgv_WaitList.Rows)
                 {
                     string s_sql_0 = "INSERT INTO wait_list ( FormulaCode, VersionNum, IndexNum, CupNum,Type) values('" + dgv_WaitList[1, dgvr.Index].Value.ToString() + "','" + dgv_WaitList[2, dgvr.Index].Value.ToString() + "','" + dgv_WaitList[0, dgvr.Index].Value.ToString() + "','" + dgv_WaitList[3, dgvr.Index].Value.ToString() + "',3);";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_0);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                    }
                 }
                 //重新显示
                 if (Lib_Card.Configure.Parameter.Other_Language == 0)
@@ -420,7 +428,14 @@ namespace SmartDyeing.FADM_Form
                 foreach (DataGridViewRow dgvr in dgv_WaitList1.Rows)
                 {
                     string s_sql_0 = "INSERT INTO wait_list ( FormulaCode, VersionNum, IndexNum, CupNum,Type) values('" + dgv_WaitList1[1, dgvr.Index].Value.ToString() + "','" + dgv_WaitList1[2, dgvr.Index].Value.ToString() + "','" + dgv_WaitList1[0, dgvr.Index].Value.ToString() + "','" + dgv_WaitList1[3, dgvr.Index].Value.ToString() + "',2);";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_0);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
+                    }
                 }
                 //重新显示
                 if (Lib_Card.Configure.Parameter.Other_Language == 0)

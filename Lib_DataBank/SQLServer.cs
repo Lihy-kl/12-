@@ -1,8 +1,10 @@
 ﻿//using Google.Protobuf.WellKnownTypes;
 using Microsoft.VisualBasic;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Xml.Linq;
@@ -173,6 +175,29 @@ namespace Lib_DataBank
             }
         }
 
+        private List<string> GetCurrentCallPath()
+        {
+            var stackTrace = new StackTrace(true); // true表示捕获文件和行号信息
+            var callPath = new List<string>();
+
+            // 遍历堆栈帧（跳过当前方法自身）
+            foreach (var frame in stackTrace.GetFrames())
+            {
+                var method = frame.GetMethod();
+                if (method == null) continue;
+
+                // 方法全名：命名空间.类名.方法名
+                var methodFullName = $"{method.DeclaringType?.Namespace}.{method.DeclaringType?.Name}.{method.Name}";
+                callPath.Add(methodFullName);
+
+                // 终止条件：到达程序入口（如Main方法）
+                if (method.Name == "Main") break;
+            }
+
+            callPath.Reverse(); // 反转后从入口到当前方法
+            return callPath;
+        }
+
         /// <summary>
         /// 修改数据
         /// </summary>
@@ -181,6 +206,10 @@ namespace Lib_DataBank
         {
             if (!b_isJustShowInfo)
             {
+                //var callPath = GetCurrentCallPath();
+                //Console.WriteLine("当前调用路径：");
+                //Console.WriteLine(string.Join(" → ", callPath));
+
                 lock (this)
                 {
                     try
@@ -200,6 +229,32 @@ namespace Lib_DataBank
             }
 
         }
+
+        /// <summary>
+        /// 修改数据,单独输入配方时使用
+        /// </summary>
+        /// <param name="sSql">sql语句</param>
+        public void ReviseData_show(string sSql)
+        {
+            lock (this)
+            {
+                try
+                {
+                    Open();
+                    SqlCommand sqlCommand = new SqlCommand(sSql, m_Connection);
+                    sqlCommand.ExecuteNonQuery();
+                    sqlCommand.Dispose();
+                    Close();
+                }
+                catch (Exception ex)
+                {
+                    Lib_Log.Log.writeLogException(ex + ":" + sSql);
+
+                }
+            }
+        }
+
+
 
         /// <summary>
         /// </summary>

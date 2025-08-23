@@ -187,6 +187,14 @@
         public static int InPut_Block_In { get; set; }
         #endregion
 
+        #region 撑盖
+
+        /// <summary>
+        /// 撑盖开到位
+        /// </summary>
+        public static int InPut_SupportCover { get; set; }
+        #endregion
+
 
         #region 备用输入
         /// <summary>

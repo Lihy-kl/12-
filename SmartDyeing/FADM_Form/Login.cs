@@ -185,6 +185,8 @@ namespace SmartDyeing.FADM_Form
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2002, "非法区域");
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2101, "未发现针筒");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2102, "取针筒时抓手关失败");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2103, "取针筒时气缸下失败");
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2401, "发现针筒");
 
@@ -198,7 +200,15 @@ namespace SmartDyeing.FADM_Form
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2708, "二次关盖失败");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2709, "二次关盖未发现杯盖");
 
-
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2710, "移动前抓手打开异常");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2711, "移动前抓手打开关闭都发现异常");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2712, "感应杯盖时打开抓手失败");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2713, "配液杯取盖失败抓手关失败");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2714, "放盖区取盖失败抓手关失败");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2715, "放盖后抓手打开失败");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2716, "关盖时抓手打开失败");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2717, "关盖时撑盖开失败");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2718, "关盖撑盖时气缸下失败");
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(3301, "天平通讯异常,检查恢复后请点是");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(3302, "天平开机未拿走废液桶,请先拿走废液桶，等待天平清零后重新放置废液桶，然后点确定");
@@ -215,7 +225,8 @@ namespace SmartDyeing.FADM_Form
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(1113, "气缸在阻挡位置");
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(4501, "未发现抓手");
-
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(4502, "取布夹具时抓手关失败");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(4503, "取布夹具时气缸下失败");
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(1120, "气缸阻挡位与气缸下同时接通");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(1121, "气缸单输出点不存在气缸慢速中信号");
@@ -382,6 +393,8 @@ namespace SmartDyeing.FADM_Form
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2002, "Illegal Area");
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2101, "No syringe found");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2102, "The gripper failed to close when taking out the syringe");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2103, "The cylinder failed to descend when removing the syringe");
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2401, "syringe found");
 
@@ -396,6 +409,16 @@ namespace SmartDyeing.FADM_Form
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2707, "Failed to close the cover again");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2708, "Failed to close the cover twice");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2709, "No lid was found after closing the lid again");
+
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2710, "The gripper opens abnormally before moving");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2711, "Abnormalities were found when the front gripper was opened or closed");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2712, "The gripper failed to open when sensing the cup lid");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2713, "The lid of the liquid preparation cup failed to be removed and the gripper failed to close");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2714, "The lid removal in the lid placement area failed and the gripper failed to close");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2715, "The gripper failed to open after the cover was placed");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2716, "The handle failed to open when closing the cover");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2717, "The lid failed to open when it was closed");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2718, "The cylinder failed to descend when closing and supporting the cover");
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(3301, "Abnormal communication on the balance,Click Yes after checking the recovery");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(3302, "The balance was turned on but the waste liquid tank was not taken away,Please take away the waste liquid bucket first, wait for the balance to be cleared and re-place the waste liquid bucket, and then click OK");
@@ -412,6 +435,8 @@ namespace SmartDyeing.FADM_Form
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(1113, "Cylinder in blocking position");
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(4501, "No gripper found");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(4502, "The gripper failed to close when taking the fabric fixture");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(4503, "The cylinder failed to drop when taking the fabric fixture");
 
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(1120, "The cylinder block position is connected simultaneously with the cylinder bottom");
@@ -1165,6 +1190,11 @@ namespace SmartDyeing.FADM_Form
                     int i_d166_166 = 0;
                     this.ComParment(i_other_ValveTerminal, ref i_d166, ref i_d166_166);
 
+                    int i_other_CoverTray = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_CoverTray);//开盖是否要伸出接液盘
+                    int i_d168 = 0;
+                    int i_d168_168 = 0;
+                    this.ComParment(i_other_CoverTray, ref i_d168, ref i_d168_168);
+
                     if (Convert.ToInt32(Lib_Card.Configure.Parameter.Correcting_B_Pulse) < 0)
                     {
                         FADM_Form.CustomMessageBox.Show("大针筒校正脉冲错误!", "设备", MessageBoxButtons.OK, false);
@@ -1242,7 +1272,7 @@ namespace SmartDyeing.FADM_Form
                         }
 
                         int[] ia_array2 = { i_d148, i_d148_148, i_d150, i_d150_150, i_d152, i_d152_152, i_d154, i_d154_154, i_d156, i_d156_156, i_d158
-                                , i_d158_158, i_d160, i_d160_160, i_d162, i_d162_162,i_d164,i_d164_164,i_d166,i_d166_166 };
+                                , i_d158_158, i_d160, i_d160_160, i_d162, i_d162_162,i_d164,i_d164_164,i_d166,i_d166_166,i_d168,i_d168_168 };
 
                         int i_c2 = FADM_Object.Communal._tcpModBus.Write(1148, ia_array2);
                         if (i_c2 == -1)

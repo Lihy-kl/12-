@@ -412,10 +412,84 @@ namespace SmartDyeing.FADM_Auto
                             }
                             FADM_Object.MyAlarm myAlarm;
                             if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                                myAlarm = new FADM_Object.MyAlarm(i_bottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出自检请点否)", "自检", true, 1);
+                                myAlarm = new FADM_Object.MyAlarm(i_bottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出自检请点否)", "自检", true, 1, true);
                             else
                                 myAlarm = new FADM_Object.MyAlarm(i_bottleNo + " bottle did not find a syringe. Do you want to continue? " +
-                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "SelfChecking", true, 1);
+                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "SelfChecking", true, 1, true);
+
+                            while (true)
+                            {
+                                if (0 != myAlarm._i_alarm_Choose)
+                                    break;
+                                Thread.Sleep(1);
+                            }
+
+                            if (1 == myAlarm._i_alarm_Choose)
+                                goto label2;
+                            else
+                                throw new Exception("收到退出消息");
+
+                        }
+                        else if ("取针筒时抓手关失败" == ex.Message)
+                        {
+                            //判断洗针筒字典是否存在需要洗针的
+                            if (FADM_Object.Communal._b_isHasWashSyringe)
+                            {
+                                List<int> value = new List<int>();
+                                //可以放针
+                                value.Add(1);
+                                //可以洗
+                                value.Add(1);
+                                if (Communal.GetValueWash(i_bottleNo.ToString(), out value))
+                                {
+                                    //标记夹不到针筒
+                                    value[1] = 0;
+                                    Communal.AddOrUpdateWash(i_bottleNo.ToString(), value);
+                                }
+                            }
+                            FADM_Object.MyAlarm myAlarm;
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                myAlarm = new FADM_Object.MyAlarm(i_bottleNo + "号母液瓶取针筒时抓手关失败，是否继续执行?(继续寻找请点是，退出自检请点否)", "自检", true, 1, true);
+                            else
+                                myAlarm = new FADM_Object.MyAlarm(i_bottleNo + " bottle The gripper failed to close when taking out the syringe. Do you want to continue? " +
+                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "SelfChecking", true, 1, true);
+
+                            while (true)
+                            {
+                                if (0 != myAlarm._i_alarm_Choose)
+                                    break;
+                                Thread.Sleep(1);
+                            }
+
+                            if (1 == myAlarm._i_alarm_Choose)
+                                goto label2;
+                            else
+                                throw new Exception("收到退出消息");
+
+                        }
+                        else if ("取针筒时气缸下失败" == ex.Message)
+                        {
+                            //判断洗针筒字典是否存在需要洗针的
+                            if (FADM_Object.Communal._b_isHasWashSyringe)
+                            {
+                                List<int> value = new List<int>();
+                                //可以放针
+                                value.Add(1);
+                                //可以洗
+                                value.Add(1);
+                                if (Communal.GetValueWash(i_bottleNo.ToString(), out value))
+                                {
+                                    //标记夹不到针筒
+                                    value[1] = 0;
+                                    Communal.AddOrUpdateWash(i_bottleNo.ToString(), value);
+                                }
+                            }
+                            FADM_Object.MyAlarm myAlarm;
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                myAlarm = new FADM_Object.MyAlarm(i_bottleNo + "号母液瓶取针筒时气缸下失败，是否继续执行?(继续寻找请点是，退出自检请点否)", "自检", true, 1, true);
+                            else
+                                myAlarm = new FADM_Object.MyAlarm(i_bottleNo + " bottle The cylinder failed to descend when removing the syringe. Do you want to continue? " +
+                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "SelfChecking", true, 1, true);
 
                             while (true)
                             {
@@ -496,10 +570,87 @@ namespace SmartDyeing.FADM_Auto
 
                             FADM_Object.MyAlarm myAlarm;
                             if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                                myAlarm = new FADM_Object.MyAlarm(i_bottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出自检请点否)", "自检", true, 1);
+                                myAlarm = new FADM_Object.MyAlarm(i_bottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出自检请点否)", "自检", true, 1, true);
                             else
                                 myAlarm = new FADM_Object.MyAlarm(i_bottleNo + " bottle did not find a syringe. Do you want to continue? " +
-                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "SelfChecking", true, 1);
+                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "SelfChecking", true, 1, true);
+
+                            while (true)
+                            {
+                                if (0 != myAlarm._i_alarm_Choose)
+                                    break;
+                                Thread.Sleep(1);
+                            }
+
+                            if (1 == myAlarm._i_alarm_Choose)
+                                goto label3;
+                            else
+                                throw new Exception("收到退出消息");
+
+                        }
+                        else if ("取针筒时抓手关失败" == ex.Message)
+                        {
+                            //判断洗针筒字典是否存在需要洗针的
+                            if (FADM_Object.Communal._b_isHasWashSyringe)
+                            {
+                                List<int> value = new List<int>();
+                                //可以放针
+                                value.Add(1);
+                                //可以洗
+                                value.Add(1);
+                                if (Communal.GetValueWash(i_bottleNo.ToString(), out value))
+                                {
+                                    //标记夹不到针筒
+                                    value[1] = 0;
+                                    Communal.AddOrUpdateWash(i_bottleNo.ToString(), value);
+                                }
+                            }
+
+                            FADM_Object.MyAlarm myAlarm;
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                myAlarm = new FADM_Object.MyAlarm(i_bottleNo + "号母液瓶取针筒时抓手关失败，是否继续执行?(继续寻找请点是，退出自检请点否)", "自检", true, 1, true);
+                            else
+                                myAlarm = new FADM_Object.MyAlarm(i_bottleNo + " bottle The gripper failed to close when taking out the syringe. Do you want to continue? " +
+                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "SelfChecking", true, 1, true);
+
+                            while (true)
+                            {
+                                if (0 != myAlarm._i_alarm_Choose)
+                                    break;
+                                Thread.Sleep(1);
+                            }
+
+                            if (1 == myAlarm._i_alarm_Choose)
+                                goto label3;
+                            else
+                                throw new Exception("收到退出消息");
+
+                        }
+
+                        else if ("取针筒时气缸下失败" == ex.Message)
+                        {
+                            //判断洗针筒字典是否存在需要洗针的
+                            if (FADM_Object.Communal._b_isHasWashSyringe)
+                            {
+                                List<int> value = new List<int>();
+                                //可以放针
+                                value.Add(1);
+                                //可以洗
+                                value.Add(1);
+                                if (Communal.GetValueWash(i_bottleNo.ToString(), out value))
+                                {
+                                    //标记夹不到针筒
+                                    value[1] = 0;
+                                    Communal.AddOrUpdateWash(i_bottleNo.ToString(), value);
+                                }
+                            }
+
+                            FADM_Object.MyAlarm myAlarm;
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                myAlarm = new FADM_Object.MyAlarm(i_bottleNo + "号母液瓶取针筒时气缸下失败，是否继续执行?(继续寻找请点是，退出自检请点否)", "自检", true, 1, true);
+                            else
+                                myAlarm = new FADM_Object.MyAlarm(i_bottleNo + " bottle The cylinder failed to descend when removing the syringe. Do you want to continue? " +
+                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "SelfChecking", true, 1, true);
 
                             while (true)
                             {

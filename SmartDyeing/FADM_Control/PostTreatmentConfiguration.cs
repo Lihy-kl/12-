@@ -316,7 +316,14 @@ namespace SmartDyeing.FADM_Control
 
                         s_sql = "INSERT INTO dyeing_process" +
                                            " (Code,Type,Remark) VALUES( '" + txt_Dye_Code.Text + "' ,2,'" + txt_Notes.Text + "');";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
 
 
                         ////更新调液流程代码表
@@ -391,7 +398,14 @@ namespace SmartDyeing.FADM_Control
 
             s_sql = "DELETE FROM dyeing_process" +
                                " WHERE Code = '" + txt_Dye_Code.Text + "';";
-            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+            if (FADM_Object.Communal._b_isJustShowInfo)
+            {
+                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+            }
+            else
+            {
+                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+            }
 
             //重新排序
             s_sql = "Select DyeingCode FROM dyeing_code" +
@@ -410,7 +424,14 @@ namespace SmartDyeing.FADM_Control
                 {
                     s_sql = "DELETE FROM dyeing_code" +
                                    " WHERE  DyeingCode = '" + dr[0].ToString() + "';";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
                 }
                 else
                 {
@@ -418,12 +439,26 @@ namespace SmartDyeing.FADM_Control
                     //先删除
                     s_sql = "DELETE FROM dyeing_code" +
                                    " WHERE Code = '" + txt_Dye_Code.Text + "' and DyeingCode = '" + dr[0].ToString() + "';";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
 
                     //修改比删除Step大的序号
                     s_sql = "Update dyeing_code Set Step = Step - 1" +
                                    " WHERE  DyeingCode = '" + dr[0].ToString() + "' and Step >" + dt_data1.Rows[0][0].ToString() + " ;";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
                 }
             }
 
@@ -603,7 +638,14 @@ namespace SmartDyeing.FADM_Control
             s_sql = "DELETE FROM dyeing_process WHERE" +
                               " StepNum = '" + dgv_Child_DyeData.CurrentRow.Cells[0].Value.ToString() + "'" +
                               " AND Code = '" + txt_Dye_Code.Text + "' ;";
-            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+            if (FADM_Object.Communal._b_isJustShowInfo)
+            {
+                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+            }
+            else
+            {
+                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+            }
             try
             {
                 ChildDyeDataShow(dgv_Child_DyeData.Rows[dgv_Child_DyeData.CurrentCell.RowIndex - 1].Cells[0].Value.ToString());
@@ -693,7 +735,14 @@ namespace SmartDyeing.FADM_Control
 
                         //删除新增为空的数据
                         string s_sql = "delete from dyeing_process where  StepNum is null and Code = '" + txt_Dye_Code.Text + "'; ";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
                         if (Lib_Card.Configure.Parameter.Other_Language == 1)
                         {
                             //根据选中模版插入数据
@@ -705,7 +754,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Add A','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //2.温控
@@ -713,7 +769,14 @@ namespace SmartDyeing.FADM_Control
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                        " ProportionOrTime, Code,Temp,Rate,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                        "'Temperature control','10','" + txt_Dye_Code.Text + "','60','2',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //3.排液
@@ -721,7 +784,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'Drainage'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //4.加水
@@ -729,7 +799,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Add Water','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //5.搅拌
@@ -737,7 +814,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Stir','3'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //6.排液
@@ -745,7 +829,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'Drainage'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //7.加药
@@ -753,7 +844,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Add B','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //8.温控
@@ -761,7 +859,14 @@ namespace SmartDyeing.FADM_Control
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                        " ProportionOrTime, Code,Temp,Rate,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                        "'Temperature control','30','" + txt_Dye_Code.Text + "','95','2',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //9.排液
@@ -769,7 +874,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'Drainage'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //10.加水
@@ -777,7 +889,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Add Water','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //11.搅拌
@@ -785,7 +904,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Stir','3'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //12.排液
@@ -793,7 +919,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'Drainage'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
                             else if (txt_Template.Text == "Distributed template")
                             {
@@ -803,7 +936,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Add A','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //2.温控
@@ -811,7 +951,14 @@ namespace SmartDyeing.FADM_Control
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                        " ProportionOrTime, Code,Temp,Rate,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                        "'Temperature control','10','" + txt_Dye_Code.Text + "','80','2',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //3.加药
@@ -819,7 +966,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Add B','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //4.温控
@@ -827,7 +981,14 @@ namespace SmartDyeing.FADM_Control
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                        " ProportionOrTime, Code,Temp,Rate,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                        "'Temperature control','20','" + txt_Dye_Code.Text + "','80','2',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //5.排液
@@ -835,7 +996,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'Drainage'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //6.加水
@@ -843,7 +1011,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Add Water','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //7.搅拌
@@ -851,7 +1026,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Stir','3'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //8.排液
@@ -859,7 +1041,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'Drainage'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //9.加药
@@ -867,7 +1056,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Add C','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //10.温控
@@ -875,7 +1071,14 @@ namespace SmartDyeing.FADM_Control
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                        " ProportionOrTime, Code,Temp,Rate,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                        "'Temperature control','30','" + txt_Dye_Code.Text + "','95','2',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //11.排液
@@ -883,7 +1086,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'Drainage'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //12.加水
@@ -891,7 +1101,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Add Water','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //13.搅拌
@@ -899,7 +1116,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Stir','3'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //14.排液
@@ -907,7 +1131,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'Drainage'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
                             else if (txt_Template.Text == "Acidic template")
                             {
@@ -917,7 +1148,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Add A','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //2.温控
@@ -925,7 +1163,14 @@ namespace SmartDyeing.FADM_Control
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                        " ProportionOrTime, Code,Temp,Rate,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                        "'Temperature control','10','" + txt_Dye_Code.Text + "','60','2',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //3.排液
@@ -933,7 +1178,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'Drainage'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //4.加水
@@ -941,7 +1193,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Add Water','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //5.搅拌
@@ -949,7 +1208,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'Stir','3'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //6.排液
@@ -957,7 +1223,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'Drainage'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
                         }
                         else
@@ -971,7 +1244,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'加A','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //2.温控
@@ -979,7 +1259,14 @@ namespace SmartDyeing.FADM_Control
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                        " ProportionOrTime, Code,Temp,Rate,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                        "'温控','10','" + txt_Dye_Code.Text + "','60','2',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //3.排液
@@ -987,7 +1274,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'排液'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //4.加水
@@ -995,7 +1289,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'加水','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //5.搅拌
@@ -1003,7 +1304,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'搅拌','3'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //6.排液
@@ -1011,7 +1319,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'排液'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //7.加药
@@ -1019,7 +1334,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'加B','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //8.温控
@@ -1027,7 +1349,14 @@ namespace SmartDyeing.FADM_Control
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                        " ProportionOrTime, Code,Temp,Rate,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                        "'温控','30','" + txt_Dye_Code.Text + "','95','2',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //9.排液
@@ -1035,7 +1364,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'排液'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //10.加水
@@ -1043,7 +1379,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'加水','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //11.搅拌
@@ -1051,7 +1394,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'搅拌','3'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //12.排液
@@ -1059,7 +1409,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'排液'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
                             else if (txt_Template.Text == "分散模版")
                             {
@@ -1069,7 +1426,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'加A','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //2.温控
@@ -1077,7 +1441,14 @@ namespace SmartDyeing.FADM_Control
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                        " ProportionOrTime, Code,Temp,Rate,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                        "'温控','10','" + txt_Dye_Code.Text + "','80','2',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //3.加药
@@ -1085,7 +1456,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'加B','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //4.温控
@@ -1093,7 +1471,14 @@ namespace SmartDyeing.FADM_Control
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                        " ProportionOrTime, Code,Temp,Rate,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                        "'温控','20','" + txt_Dye_Code.Text + "','80','2',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //5.排液
@@ -1101,7 +1486,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'排液'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //6.加水
@@ -1109,7 +1501,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'加水','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //7.搅拌
@@ -1117,7 +1516,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'搅拌','3'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //8.排液
@@ -1125,7 +1531,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'排液'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //9.加药
@@ -1133,7 +1546,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'加C','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //10.温控
@@ -1141,7 +1561,14 @@ namespace SmartDyeing.FADM_Control
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                        " ProportionOrTime, Code,Temp,Rate,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                        "'温控','30','" + txt_Dye_Code.Text + "','95','2',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //11.排液
@@ -1149,7 +1576,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'排液'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //12.加水
@@ -1157,7 +1591,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'加水','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //13.搅拌
@@ -1165,7 +1606,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'搅拌','3'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //14.排液
@@ -1173,7 +1621,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'排液'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
                             else if (txt_Template.Text == "酸性模版")
                             {
@@ -1183,7 +1638,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'加A','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //2.温控
@@ -1191,7 +1653,14 @@ namespace SmartDyeing.FADM_Control
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                        " ProportionOrTime, Code,Temp,Rate,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                        "'温控','10','" + txt_Dye_Code.Text + "','60','2',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //3.排液
@@ -1199,7 +1668,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'排液'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //4.加水
@@ -1207,7 +1683,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'加水','100'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //5.搅拌
@@ -1215,7 +1698,14 @@ namespace SmartDyeing.FADM_Control
                                                   " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                   "'搅拌','3'," +
                                                   "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
 
                                 i_step += 1;
                                 //6.排液
@@ -1223,7 +1713,14 @@ namespace SmartDyeing.FADM_Control
                                                    " Code,Type,Rev,Remark) VALUES('" + i_step + "'," +
                                                    "'排液'," +
                                                    "'" + txt_Dye_Code.Text + "',2,0,'" + txt_Notes.Text + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
                         }
 
@@ -1635,8 +2132,14 @@ namespace SmartDyeing.FADM_Control
 
                 string s_stepNum = dgv_Child_DyeData.CurrentRow.Cells[0].Value.ToString();
                 //把步号加1
-                FADM_Object.Communal._fadmSqlserver.ReviseData("Update dyeing_process Set StepNum = StepNum + 1 where StepNum >= "+ s_stepNum +" AND Code = '" + txt_Dye_Code.Text + "';");
-
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update dyeing_process Set StepNum = StepNum + 1 where StepNum >= " + s_stepNum + " AND Code = '" + txt_Dye_Code.Text + "';");
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update dyeing_process Set StepNum = StepNum + 1 where StepNum >= " + s_stepNum + " AND Code = '" + txt_Dye_Code.Text + "';");
+                }
                 string s_technologyName = "";
                 string s_proportionOrTime = "1";
                 string s_temp = "";

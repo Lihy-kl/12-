@@ -20,10 +20,17 @@ namespace Lib_Card.ADT8940A1.Module.Put
             if(-1 == cylinder.CylinderDown(0))
                 return -1;
 
-
-            int iZRes = CardObject.OA1Axis.Absolute_Z(iSyringeType, 0, 0);
-            if (0 != iZRes)
-                return iZRes;
+            try
+            {
+                int iZRes = CardObject.OA1Axis.Absolute_Z(iSyringeType, 0, 0);
+                if (0 != iZRes)
+                    return iZRes;
+            }
+            catch (Exception ex)
+            {
+                if ("Z轴反限位已通" != ex.Message)
+                    throw;
+            }
 
             OutPut.Tongs.Tongs tongs = new OutPut.Tongs.Tongs_Condition();
             if(-1 == tongs.Tongs_Off())

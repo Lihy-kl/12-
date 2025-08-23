@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lib_DataBank.MySQL;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -94,14 +95,42 @@ namespace SmartDyeing.FADM_Object
                 string s_cup = lis_head[0];
 
                 s_sql = "DELETE FROM drop_head WHERE CupNum = " + s_maxCupNum + ";";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                }
                 s_sql = "DELETE FROM drop_details WHERE CupNum = " + s_maxCupNum + ";";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                }
                 s_sql = "DELETE FROM dye_details WHERE CupNum = " + s_maxCupNum + ";";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                }
 
                 s_sql = "DELETE FROM dyeing_details WHERE CupNum = " + s_maxCupNum + ";";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                }
 
                 {
                     //if (Communal._b_isUseCloth)
@@ -130,7 +159,14 @@ namespace SmartDyeing.FADM_Object
                     //           " '" + lis_head[12] + "', '" + lis_head[13] + "', '" + lis_head[14] + "'," +
                     //            " '" + lis_head[15] + "','" + lis_head[16] + "','" + lis_head[17] + "', '" + lis_head[18] + "', '" + lis_head[19]
                     //                     + "', '" + lis_head[20] + "', '" + lis_head[21] + "', '" + lis_head[22] + "', '" + lis_head[23] + "', '" + lis_head[24] + "', '" + lis_head[25] + "', '" + lis_head[26] + "', '" + lis_head[27]  + "');";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
                 }
 
 
@@ -159,7 +195,14 @@ namespace SmartDyeing.FADM_Object
                                 " '" + lis_detail[5] + "', '" + lis_detail[6] + "', '" + lis_detail[7] + "'," +
                                 " '" + lis_detail[8] + "', '" + lis_detail[9] + "', '" + lis_detail[10] + "'," +
                                 " '" + lis_detail[11] + "', '" + string.Format("{0:F}", 0) + "', '" + lis_detail[13] + "');";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
                     }
                 }
                 if (i_type == 3)
@@ -237,7 +280,14 @@ namespace SmartDyeing.FADM_Object
                                     " '" + lis_Dye_Detail[9] + "'," +
                                     " '" + lis_Dye_Detail[10] + "'," +
                                     " '" + lis_Dye_Detail[11] + "',1);";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
                                     }
                                 }
                                 else if (dr[17].ToString() == "冷行" || dr[17].ToString() == "洗杯" || dr[17].ToString() == "排液" || dr[17].ToString() == "搅拌")
@@ -250,7 +300,14 @@ namespace SmartDyeing.FADM_Object
                                     " '" + lis_Dye_Detail[2] + "', '" + lis_Dye_Detail[3] + "', '" + lis_Dye_Detail[4] + "'," +
                                     " '" + lis_Dye_Detail[5] + "', '" + lis_Dye_Detail[6] + "', '" + lis_Dye_Detail[7] + "', '" + lis_Dye_Detail[8] + "'," +
                                     " '" + lis_Dye_Detail[9] + "',1);";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
                                     }
                                 }
                                 else if (dr[17].ToString().Substring(0, 1) == "加" && dr[17].ToString() != "加水" && dr[17].ToString() != "加药")
@@ -284,7 +341,14 @@ namespace SmartDyeing.FADM_Object
                                     " '" + lis_Dye_Detail[11] + "', '" + lis_Dye_Detail[12] + "', '" + lis_Dye_Detail[13] + "', '" + lis_Dye_Detail[14] + "', '"
                                     + lis_Dye_Detail[15] + "', '" + lis_Dye_Detail[16] + "', '" + lis_Dye_Detail[17] + "', '" + lis_Dye_Detail[18] + "', '" + lis_Dye_Detail[19] + "'," +
                                     " '" + lis_Dye_Detail[20] + "',1);";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
                                     }
                                 }
                                 else if (dr[17].ToString() == "加水")
@@ -301,7 +365,14 @@ namespace SmartDyeing.FADM_Object
                                     " '" + lis_Dye_Detail[7] + "'," +
                                     " '" + lis_Dye_Detail[8] + "'," +
                                     " '" + lis_Dye_Detail[9] + "',1);";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
                                     }
                                 }
                                 else
@@ -316,7 +387,14 @@ namespace SmartDyeing.FADM_Object
                                     " '" + lis_Dye_Detail[6] + "'," +
                                     " '" + lis_Dye_Detail[7] + "'," +
                                     " '" + lis_Dye_Detail[8] + "',1);";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
                                     }
                                 }
                             }
@@ -383,7 +461,14 @@ namespace SmartDyeing.FADM_Object
                                     " '" + lis_dye_Detail[9] + "'," +
                                     " '" + lis_dye_Detail[10] + "'," +
                                     " '" + lis_dye_Detail[11] + "',2);";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
                                     }
                                 }
                                 else if (dr[17].ToString() == "冷行" || dr[17].ToString() == "洗杯" || dr[17].ToString() == "排液" || dr[17].ToString() == "搅拌")
@@ -400,7 +485,14 @@ namespace SmartDyeing.FADM_Object
                                     " Time,DyeType) VALUES( '" + lis_dye_Detail[0] + "', '" + lis_dye_Detail[1] + "'," +
                                     " '" + lis_dye_Detail[2] + "', '" + lis_dye_Detail[3] + "', '" + lis_dye_Detail[4] + "'," +
                                     " '" + lis_dye_Detail[5] + "', '" + lis_dye_Detail[6] + "', '" + lis_dye_Detail[7] + "', '" + lis_dye_Detail[8] + "', '" + lis_dye_Detail[9] + "',2);";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
                                     }
                                 }
                                 else if (dr[17].ToString().Substring(0, 1) == "加" && dr[17].ToString() != "加水" && dr[17].ToString() != "加药")
@@ -435,7 +527,14 @@ namespace SmartDyeing.FADM_Object
                                     " '" + lis_dye_Detail[8] + "', '" + lis_dye_Detail[9] + "', '" + lis_dye_Detail[10] + "'," +
                                     " '" + lis_dye_Detail[11] + "', '" + lis_dye_Detail[12] + "', '" + lis_dye_Detail[13] + "', '" + lis_dye_Detail[14] + "', '"
                                     + lis_dye_Detail[15] + "', '" + lis_dye_Detail[16] + "', '" + lis_dye_Detail[17] + "', '" + lis_dye_Detail[18] + "', '" + lis_dye_Detail[19] + "', '" + lis_dye_Detail[20] + "',2);";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
                                     }
                                 }
                                 else if (dr[17].ToString() == "加水")
@@ -469,7 +568,14 @@ namespace SmartDyeing.FADM_Object
                                     " '" + lis_dye_Detail[6] + "'," +
                                     " '" + lis_dye_Detail[7] + "'," +
                                     " '" + lis_dye_Detail[8] + "',2);";
-                                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        if (FADM_Object.Communal._b_isJustShowInfo)
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                        }
+                                        else
+                                        {
+                                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                        }
                                     }
                                 }
                             }
@@ -780,29 +886,71 @@ namespace SmartDyeing.FADM_Object
 
                 //修改杯号正在使用
                 s_sql = "Update cup_details set IsUsing = 1 where CupNum = '" + s_maxCupNum + "';";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                }
             }
             catch
             {
                 //删除批次浏览表头资料
                 string s_sql_1 = "DELETE FROM drop_head WHERE CupNum = '" + s_cupNum + "';";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_1);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                }
 
                 //删除批次浏览表详细资料
                 s_sql_1 = "DELETE FROM drop_details WHERE CupNum = '" + s_cupNum + "';";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_1);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                }
 
                 //删除批次浏览表详细资料
                 s_sql_1 = "DELETE FROM dye_details WHERE CupNum = '" + s_cupNum + "';";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_1);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                }
 
                 //把杯号置位null
                 s_sql_1 = "UPDATE dyeing_details set CupNum = '' WHERE CupNum = '" + s_cupNum + "';";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_1);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                }
 
                 //更新杯号使用情况
                 s_sql_1 = "Update cup_details set IsUsing = 0 where CupNum = '" + s_cupNum + "';";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_1);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_1);
+                }
             }
         }
     }

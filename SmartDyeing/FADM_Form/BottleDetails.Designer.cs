@@ -33,6 +33,8 @@ namespace SmartDyeing.FADM_Form
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BottleDetails));
             this.grp_BottleDetails = new System.Windows.Forms.GroupBox();
+            this.txt_LeftTime = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.txt_SelfChecking4 = new System.Windows.Forms.TextBox();
             this.lb_SelfChecking4 = new System.Windows.Forms.Label();
             this.txt_SelfChecking3 = new System.Windows.Forms.TextBox();
@@ -87,6 +89,8 @@ namespace SmartDyeing.FADM_Form
             // grp_BottleDetails
             // 
             resources.ApplyResources(this.grp_BottleDetails, "grp_BottleDetails");
+            this.grp_BottleDetails.Controls.Add(this.txt_LeftTime);
+            this.grp_BottleDetails.Controls.Add(this.label1);
             this.grp_BottleDetails.Controls.Add(this.txt_SelfChecking4);
             this.grp_BottleDetails.Controls.Add(this.lb_SelfChecking4);
             this.grp_BottleDetails.Controls.Add(this.txt_SelfChecking3);
@@ -119,6 +123,18 @@ namespace SmartDyeing.FADM_Form
             this.grp_BottleDetails.Controls.Add(this.lab_AllowMaxWeight);
             this.grp_BottleDetails.Name = "grp_BottleDetails";
             this.grp_BottleDetails.TabStop = false;
+            // 
+            // txt_LeftTime
+            // 
+            resources.ApplyResources(this.txt_LeftTime, "txt_LeftTime");
+            this.txt_LeftTime.Name = "txt_LeftTime";
+            this.txt_LeftTime.ReadOnly = true;
+            this.txt_LeftTime.TabStop = false;
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
             // txt_SelfChecking4
             // 
@@ -485,5 +501,7 @@ namespace SmartDyeing.FADM_Form
         private Label lb_SelfChecking1;
         private TextBox txt_SelfChecking4;
         private Label lb_SelfChecking4;
+        private TextBox txt_LeftTime;
+        private Label label1;
     }
 }

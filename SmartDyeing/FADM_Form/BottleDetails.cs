@@ -74,6 +74,39 @@ namespace SmartDyeing.FADM_Form
                     }
                 }
 
+                if(txt_TermOfValidity.Text != "" && txt_BrewingData.Text != "")
+                {
+                    DateTime dateTime1 = Convert.ToDateTime(txt_BrewingData.Text);
+                    DateTime dateTime2 = DateTime.Now;
+                    TimeSpan ts = dateTime2 - dateTime1;
+                    TimeSpan ts1 = TimeSpan.FromHours(Convert.ToInt32(txt_TermOfValidity.Text)); // 
+                    if (ts > ts1)
+                    {
+                        //已过期
+                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        {
+                            txt_LeftTime.Text = "已过期";
+                        }
+                        else
+                        {
+                            txt_LeftTime.Text = "Expired";
+                        }
+                    }
+                    else
+                    {
+                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        {
+                            string s_temp = Convert.ToInt32((ts1-ts).TotalSeconds) / 60 / 60 + "时" + Convert.ToInt32((ts1 - ts).TotalSeconds) % (60 * 60) / 60 + "分" + Convert.ToInt32((ts1 - ts).TotalSeconds) % (60 * 60) % 60 + "秒";
+                            txt_LeftTime.Text = s_temp;
+                        }
+                        else
+                        {
+                            string s_temp = Convert.ToInt32((ts1 - ts).TotalSeconds) / 60 / 60 + "H" + Convert.ToInt32((ts1 - ts).TotalSeconds) % (60 * 60) / 60 + "M" + Convert.ToInt32((ts1 - ts).TotalSeconds) % (60 * 60) % 60 + "S";
+                            txt_LeftTime.Text = s_temp;
+                        }
+                    }
+                }
+
                 if (Lib_Card.Configure.Parameter.Other_Language == 0)
                 {
                     //更新自检值大小

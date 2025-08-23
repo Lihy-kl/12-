@@ -856,6 +856,16 @@ namespace SmartDyeing.FADM_Object
         /// </summary>
         public static bool _b_isDripPriority = true;
 
+        /// <summary>
+        /// 是否屏蔽保存配方按钮
+        /// </summary>
+        public static bool _b_isBlockSaveButton = false;
+
+        /// <summary>
+        /// 是否60秒记录一次温度，默认30
+        /// </summary>
+        public static bool _b_is60Mark = false;
+
 
         /// <summary>
         /// 染助剂资料页面是否显示G/L或者WATER单位
@@ -1225,9 +1235,78 @@ namespace SmartDyeing.FADM_Object
                     FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "拿针筒启动");
                     //计算针筒位置
                     MyModbusFun.CalTarget(11, 0, ref i_xStart, ref i_yStart);
-                    int i_mRes3 = MyModbusFun.GetSyringes(i_xStart, i_yStart);
-                    if (-2 == i_mRes3)
-                        throw new Exception("收到退出消息");
+                    try
+                    {
+                        int i_mRes3 = MyModbusFun.GetSyringes(i_xStart, i_yStart);
+                        if (-2 == i_mRes3)
+                            throw new Exception("收到退出消息");
+                    }
+                    catch (Exception ex)
+                    {
+                        if ("未发现针筒" == ex.Message)
+                        {
+                            //判断洗针筒字典是否存在需要洗针的
+                            if (FADM_Object.Communal._b_isHasWashSyringe)
+                            {
+                                List<int> value = new List<int>();
+                                //可以放针
+                                value.Add(1);
+                                //可以洗
+                                value.Add(1);
+                                if (Communal.GetValueWash(i_minBottleNo.ToString(), out value))
+                                {
+                                    //标记夹不到针筒
+                                    value[1] = 0;
+                                    Communal.AddOrUpdateWash(i_minBottleNo.ToString(), value);
+                                }
+                            }
+                            return -1;
+
+                        }
+                        else if ("取针筒时抓手关失败" == ex.Message)
+                        {
+                            //判断洗针筒字典是否存在需要洗针的
+                            if (FADM_Object.Communal._b_isHasWashSyringe)
+                            {
+                                List<int> value = new List<int>();
+                                //可以放针
+                                value.Add(1);
+                                //可以洗
+                                value.Add(1);
+                                if (Communal.GetValueWash(i_minBottleNo.ToString(), out value))
+                                {
+                                    //标记夹不到针筒
+                                    value[1] = 0;
+                                    Communal.AddOrUpdateWash(i_minBottleNo.ToString(), value);
+                                }
+                            }
+                            return -1;
+
+                        }
+                        else if ("取针筒时气缸下失败" == ex.Message)
+                        {
+                            //判断洗针筒字典是否存在需要洗针的
+                            if (FADM_Object.Communal._b_isHasWashSyringe)
+                            {
+                                List<int> value = new List<int>();
+                                //可以放针
+                                value.Add(1);
+                                //可以洗
+                                value.Add(1);
+                                if (Communal.GetValueWash(i_minBottleNo.ToString(), out value))
+                                {
+                                    //标记夹不到针筒
+                                    value[1] = 0;
+                                    Communal.AddOrUpdateWash(i_minBottleNo.ToString(), value);
+                                }
+                            }
+                            return -1;
+
+                        }
+                        else
+                            throw;
+                    }
+                    
                     FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "拿针筒完成");
                 }
             }
@@ -1403,6 +1482,46 @@ namespace SmartDyeing.FADM_Object
                         return -1;
 
                     }
+                    else if ("取针筒时抓手关失败" == ex.Message)
+                    {
+                        //判断洗针筒字典是否存在需要洗针的
+                        if (FADM_Object.Communal._b_isHasWashSyringe)
+                        {
+                            List<int> value = new List<int>();
+                            //可以放针
+                            value.Add(1);
+                            //可以洗
+                            value.Add(1);
+                            if (Communal.GetValueWash(i_minBottleNo.ToString(), out value))
+                            {
+                                //标记夹不到针筒
+                                value[1] = 0;
+                                Communal.AddOrUpdateWash(i_minBottleNo.ToString(), value);
+                            }
+                        }
+                        return -1;
+
+                    }
+                    else if ("取针筒时气缸下失败" == ex.Message)
+                    {
+                        //判断洗针筒字典是否存在需要洗针的
+                        if (FADM_Object.Communal._b_isHasWashSyringe)
+                        {
+                            List<int> value = new List<int>();
+                            //可以放针
+                            value.Add(1);
+                            //可以洗
+                            value.Add(1);
+                            if (Communal.GetValueWash(i_minBottleNo.ToString(), out value))
+                            {
+                                //标记夹不到针筒
+                                value[1] = 0;
+                                Communal.AddOrUpdateWash(i_minBottleNo.ToString(), value);
+                            }
+                        }
+                        return -1;
+
+                    }
                     else
                         throw;
                 }
@@ -1515,6 +1634,48 @@ namespace SmartDyeing.FADM_Object
                 catch (Exception ex)
                 {
                     if ("未发现针筒" == ex.Message)
+                    {
+                        //判断洗针筒字典是否存在需要洗针的
+                        if (FADM_Object.Communal._b_isHasWashSyringe)
+                        {
+                            List<int> value = new List<int>();
+                            //可以放针
+                            value.Add(1);
+                            //可以洗
+                            value.Add(1);
+                            if (Communal.GetValueWash(i_minBottleNo.ToString(), out value))
+                            {
+                                //标记夹不到针筒
+                                value[1] = 0;
+                                Communal.AddOrUpdateWash(i_minBottleNo.ToString(), value);
+                            }
+                        }
+                        return -1;
+
+
+                    }
+                    else if ("取针筒时抓手关失败" == ex.Message)
+                    {
+                        //判断洗针筒字典是否存在需要洗针的
+                        if (FADM_Object.Communal._b_isHasWashSyringe)
+                        {
+                            List<int> value = new List<int>();
+                            //可以放针
+                            value.Add(1);
+                            //可以洗
+                            value.Add(1);
+                            if (Communal.GetValueWash(i_minBottleNo.ToString(), out value))
+                            {
+                                //标记夹不到针筒
+                                value[1] = 0;
+                                Communal.AddOrUpdateWash(i_minBottleNo.ToString(), value);
+                            }
+                        }
+                        return -1;
+
+
+                    }
+                    else if ("取针筒时气缸下失败" == ex.Message)
                     {
                         //判断洗针筒字典是否存在需要洗针的
                         if (FADM_Object.Communal._b_isHasWashSyringe)

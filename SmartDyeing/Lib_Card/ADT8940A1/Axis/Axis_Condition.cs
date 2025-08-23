@@ -779,7 +779,7 @@ namespace Lib_Card.ADT8940A1.Axis
                 int iZCorotation = CardObject.OA1Input.InPutStatus(ADT8940A1_IO.InPut_Z_Corotation);
                 if (-1 == iZCorotation)
                     return -1;
-                else if (1 == iZCorotation && iPulse < 0)
+                else if (1 == iZCorotation && iPulse <= 0)
                 {
                     if (-1 == CardObject.OA1.SuddnStop(ADT8940A1_IO.Axis_Z))
                         return -1;
@@ -790,6 +790,17 @@ namespace Lib_Card.ADT8940A1.Axis
                 //    //第二次抓针筒时不报警
                 //    return 0;
                 //}
+
+                //脉冲为正数时，方向向下时才报警，方向向上就不报警
+                else if (1 == iZCorotation)
+                {
+                    int iPositionNowY1 = 0;
+                    int iPositionRes1 = CardObject.OA1.ReadAxisCommandPosition(ADT8940A1_IO.Axis_Y, ref iPositionNowY1);
+                    if (-1 == iPositionRes1)
+                        return -1;
+                    if (iPulse <= iPositionNowY1)
+                        throw new Exception("Z轴反限位已通");
+                }
 
                 int iPositionNowY = 0;
                 int iPositionRes = CardObject.OA1.ReadAxisCommandPosition(ADT8940A1_IO.Axis_Y, ref iPositionNowY);

@@ -40,6 +40,11 @@ namespace Lib_Card
             public int Count;
             //播放次数
             public int SpeechCount;
+
+            //是否需要自动点击确认
+            public int Auto;
+            //自动点是次数
+            public int AutoTimes;
         }
         //提示信息
         public static Dictionary<string, prompt> keyValuePairs = new Dictionary<string, prompt>();
@@ -47,6 +52,79 @@ namespace Lib_Card
         public static Dictionary<string, prompt> keyValuePairsCopy1 = new Dictionary<string, prompt>();
 
         private static readonly object lockObject = new object();
+
+        /// <summary>
+        /// 插入语音播报字典
+        /// </summary>
+        /// <param name="Text">待做事件</param>
+        /// <param name="Caption">类型</param>
+        public static string InsertD(string Text, string Caption, int Repeat)
+        {
+            lock (lockObject)
+            {
+            labe2:
+                try
+                {
+                    Console.WriteLine("插入" + Text);
+                    keyValuePairsCopy1 = new Dictionary<string, prompt>(keyValuePairs);
+                    foreach (string s in keyValuePairsCopy1.Keys)
+                    {
+                        if (s == null)
+                        {
+                            continue;
+                        }
+                        //已存在
+                        if (keyValuePairsCopy1[s].Type == Caption && keyValuePairsCopy1[s].Info == Text)
+                        {
+                            //mutexlock.WaitOne();
+                            //try 
+                            //{
+                            //    //keyValuePairs[s].Count;
+                            //}
+                            //finally
+                            //{ mutexlock.ReleaseMutex(); }
+                            return s;
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Lib_Log.Log.writeLogException("插入InsertD：" + e.ToString());
+                    Lib_Log.Log.writeLogException("插入InsertD：" + Text);
+                    Thread.Sleep(1000);
+                    goto labe2;
+                }
+
+
+            label:
+
+                try
+                {
+                    DateTime dateTime = DateTime.Now;
+                    string time = dateTime.ToString("HH:mm:ss.fff");
+                    prompt prompt = new prompt();
+
+                    prompt.Type = Caption;
+                    prompt.Info = Text;
+                    prompt.Choose = 0;
+                    prompt.Count = 0;
+                    prompt.SpeechCount = 0;
+                    prompt.AutoTimes = 0;
+                    prompt.Auto = Repeat;
+                    keyValuePairs.Add(time, prompt);
+                    return time;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    Lib_Log.Log.writeLogException("InsertD：" + e.ToString());
+                    Lib_Log.Log.writeLogException("InsertD：" + Text);
+                    Thread.Sleep(1000);
+                    goto label;
+                }
+            }
+
+        }
 
         /// <summary>
         /// 插入语音播报字典
@@ -104,6 +182,8 @@ namespace Lib_Card
                     prompt.Choose = 0;
                     prompt.Count = 0;
                     prompt.SpeechCount = 0;
+                    prompt.AutoTimes = 0;
+                    prompt.Auto = 0;
                     keyValuePairs.Add(time, prompt);
                     return time;
                 }
@@ -114,6 +194,91 @@ namespace Lib_Card
                     Lib_Log.Log.writeLogException("InsertD：" + Text);
                     Thread.Sleep(1000);
                     goto label;
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// 插入语音播报字典(重复)
+        /// </summary>
+        /// <param name="Text">待做事件</param>
+        /// <param name="Caption">类型</param>
+        public static string InsertCF(string Text, string Caption, int Repeat)
+        {
+            lock (lockObject)
+            {
+
+            label2:
+                try
+                {
+                    Console.WriteLine("插入" + Text);
+                    keyValuePairsCopy = new Dictionary<string, prompt>(keyValuePairs);
+                    foreach (string s in keyValuePairsCopy.Keys)
+                    {
+                        if (s == null)
+                        {
+                            continue;
+                        }
+                        //已存在
+                        if (keyValuePairsCopy[s].Type == Caption && keyValuePairsCopy[s].Info == Text)
+                        {
+                            //mutexlock.WaitOne();
+                            //try 
+                            //{
+                            //    //keyValuePairs[s].Count;
+                            //}
+                            //finally
+                            //{ mutexlock.ReleaseMutex(); }
+                            if (keyValuePairsCopy[s].Choose != 0)
+                            {
+                                //证明已经选择过
+                                return "重复1";
+                            }
+                            else
+                            {
+                                return "重复";
+                            }
+
+                        }
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Lib_Log.Log.writeLogException("插入InsertCF：" + e.ToString());
+                    Lib_Log.Log.writeLogException("插入InsertCF：" + Text);
+                    goto label2;
+                }
+
+
+            label:
+
+                try
+                {
+                    DateTime dateTime = DateTime.Now;
+                    string time = dateTime.ToString("HH:mm:ss.fff");
+                    prompt prompt = new prompt();
+
+                    prompt.Type = Caption;
+                    prompt.Info = Text;
+                    prompt.Choose = 0;
+                    prompt.Count = 0;
+                    prompt.SpeechCount = 0;
+                    prompt.Speech = false;
+                    prompt.AutoTimes = 0;
+                    prompt.Auto = Repeat;
+                    keyValuePairs.Add(time, prompt);
+                    return time;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+
+                    Lib_Log.Log.writeLogException("InsertCF：" + e.ToString());
+                    Lib_Log.Log.writeLogException("InsertCF：" + Text);
+                    Thread.Sleep(1000);
+                    goto label2;
                 }
             }
 
@@ -186,6 +351,8 @@ namespace Lib_Card
                     prompt.Count = 0;
                     prompt.SpeechCount = 0;
                     prompt.Speech = false;
+                    prompt.AutoTimes = 0;
+                    prompt.Auto = 0;
                     keyValuePairs.Add(time, prompt);
                     return time;
                 }

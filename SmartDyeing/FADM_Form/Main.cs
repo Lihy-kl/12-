@@ -116,6 +116,15 @@ namespace SmartDyeing.FADM_Form
             if (!FADM_Object.Communal._b_isJustShowInfo)
                 countDown();
 
+            string s_is60Mark = Lib_File.Ini.GetIni("Setting", "Is60Mark", "0", s_path);
+            if (s_is60Mark == "1")
+            {
+                FADM_Object.Communal._b_is60Mark = true;
+                
+                TmrTemp.Interval = 60000;
+                TmrTemp.Enabled = true;
+            }
+
             BtnMain_Click(sender, e);
 
             if (!FADM_Object.Communal._b_isJustShowInfo)
@@ -181,6 +190,11 @@ namespace SmartDyeing.FADM_Form
                 Thread P_thd = new Thread(Speech);
                 P_thd.IsBackground = true;
                 P_thd.Start();
+
+                //自动点击待办事项线程
+                Thread P_thd3 = new Thread(AutoChoose);
+                P_thd3.IsBackground = true;
+                P_thd3.Start();
 
                 //自动加入批次
                 Thread P_thd1 = new Thread(WaitList);
@@ -711,6 +725,12 @@ namespace SmartDyeing.FADM_Form
                 FADM_Object.Communal._b_isAssShowWater = true;
             }
 
+            string s_isBlockSaveButton = Lib_File.Ini.GetIni("Setting", "IsBlockSaveButton", "0", s_path);
+            if (s_isBlockSaveButton == "1")
+            {
+                FADM_Object.Communal._b_isBlockSaveButton = true;
+            }
+
 
             string s_AlarmDropWeight = Lib_File.Ini.GetIni("Setting", "AlarmDropWeight", "0.1", s_path);
             FADM_Object.Communal._d_AlarmDropWeight = Convert.ToDouble(s_AlarmDropWeight);
@@ -915,6 +935,107 @@ namespace SmartDyeing.FADM_Form
                 catch (Exception ex)
                 {
                     Lib_Log.Log.writeLogException("Main Speech2：" + ex.ToString());
+                }
+            }
+        }
+
+        int _i_chooseTimes = 0;
+        //自动选择待办事项
+        private void AutoChoose()
+        {
+            while (true)
+            {
+                try
+                {
+                    //调试页面下不操作
+                    if (!FADM_Object.Communal._b_auto)
+                    {
+                        //休眠60秒
+                        Thread.Sleep(60000);
+                        if (_i_chooseTimes % 2 == 0)
+                        {
+
+                        }
+                        else
+                        {
+                            _i_chooseTimes++;
+                        }
+                    }
+                    else
+                    {
+                        //5分钟执行一次
+                        if (_i_chooseTimes % 2 == 0)
+                        {
+                            var sortedKeys = Lib_Card.CardObject.keyValuePairs.Keys.OrderByDescending(k => k);
+
+                            DataTable dataTable = new DataTable();
+
+                            if (sortedKeys.Any())
+                            {
+                                //查询30分钟内报警
+                                string sql = "";
+                                if (DateTime.Now.Hour == 0 && DateTime.Now.Minute < 30)
+                                {
+                                    TimeSpan ts = new TimeSpan(1, 0, 0, 0);
+                                    DateTime dateTime = DateTime.Now - ts;
+                                    sql = "select * from alarm_table where (MyDate = '" + dateTime.ToString("yyyy-MM-dd") + "' and MyTime >'23:30:00') or (MyDate = '" + dateTime.ToString("yyyy-MM-dd") + "')";
+                                }
+                                else
+                                {
+                                    TimeSpan ts = new TimeSpan(0, 0, 30, 0);
+                                    DateTime dateTime = DateTime.Now - ts;
+                                    sql = "select * from alarm_table where MyDate = '" + dateTime.ToString("yyyy-MM-dd") + "' and MyTime > '" + dateTime.ToString("HH:mm:ss") + "'";
+                                }
+                                //string sql = "select * from alarm_table where MyDate = ";
+                                dataTable = FADM_Object.Communal._fadmSqlserver.GetData(sql);
+                            }
+
+                            foreach (var key in sortedKeys)
+                            {
+                                if (Lib_Card.CardObject.keyValuePairs.ContainsKey(key))
+                                {
+                                    //先判断是否是自动选择的待办事项，然后再判断次数
+                                    if (Lib_Card.CardObject.keyValuePairs[key].Auto == 1)
+                                    {
+                                        int i_count = 0;
+                                        foreach (DataRow dataRow in dataTable.Rows)
+                                        {
+                                            string s_temp = dataRow["AlarmDetails"].ToString();
+                                            s_temp = s_temp.Replace("(Yes)", "");
+                                            s_temp = s_temp.Replace("(No)", "");
+                                            if (s_temp == Lib_Card.CardObject.keyValuePairs[key].Info)
+                                            {
+                                                i_count++;
+                                            }
+                                        }
+                                        if (i_count < 3)
+                                        {
+                                            Lib_Card.CardObject.prompt prompt = new Lib_Card.CardObject.prompt();
+                                            prompt = Lib_Card.CardObject.keyValuePairs[key];
+                                            prompt.Choose = 1;
+                                            Lib_Card.CardObject.keyValuePairs[key] = prompt;
+                                        }
+                                        else
+                                        {
+                                            Lib_Card.CardObject.prompt prompt = new Lib_Card.CardObject.prompt();
+                                            prompt = Lib_Card.CardObject.keyValuePairs[key];
+                                            prompt.Auto = 0;
+                                            Lib_Card.CardObject.keyValuePairs[key] = prompt;
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                        //休眠60秒
+                        Thread.Sleep(60000);
+                        _i_chooseTimes++;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Lib_Log.Log.writeLogException("Main AutoChoose：" + ex.ToString());
                 }
             }
         }

@@ -156,26 +156,54 @@ namespace SmartDyeing.FADM_Form
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                    " ProportionOrTime, Code,Temp,Rate,Type,Rev,Remark) VALUES('" + txt_StepNum.Text + "'," +
                                                    "'" + cbo_TechnologyName.Text + "','" + txt_ProportionOrTime.Text + "','" + _s_code + "','" + txt_Temp.Text + "','" + txt_Rate.Text + "'," + _i_type + "," + txt_Rev.Text + ",'" + _s_remark + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
                             else
                             {
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                    " ProportionOrTime, Code,Temp,Rate,Type,Rev) VALUES('" + txt_StepNum.Text + "'," +
                                                    "'" + cbo_TechnologyName.Text + "','" + txt_ProportionOrTime.Text + "','" + _s_code + "','" + txt_Temp.Text + "','" + txt_Rate.Text + "'," + _i_type + "," + txt_Rev.Text + ");";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
 
                             //删除新增为空的数据
                             s_sql = "delete from dyeing_process where  StepNum is null and Code = '" + _s_code + "'; ";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
                         else
                         {
                             string s_sql = "UPDATE dyeing_process SET TechnologyName = '" + cbo_TechnologyName.Text + "'," +
                                                " ProportionOrTime = '" + txt_ProportionOrTime.Text + "', Temp = '" + txt_Temp.Text + "', Rate='" + txt_Rate.Text + "', Rev='" + txt_Rev.Text + "' WHERE StepNum = '" + txt_StepNum.Text + "'" +
                                                " AND Code = '" + _s_code + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
 
                         if (_i_type == 1)
@@ -211,7 +239,14 @@ namespace SmartDyeing.FADM_Form
                                                " Code,Type,Remark) VALUES('" + txt_StepNum.Text + "'," +
                                                "'" + cbo_TechnologyName.Text + "'," +
                                                "'" + _s_code + "'," + _i_type + ",'" + _s_remark + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
                             else
                             {
@@ -219,19 +254,40 @@ namespace SmartDyeing.FADM_Form
                                                " Code,Type) VALUES('" + txt_StepNum.Text + "'," +
                                                "'" + cbo_TechnologyName.Text + "'," +
                                                "'" + _s_code + "'," + _i_type + ");";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
 
                             //删除新增为空的数据
                             s_sql = "delete from dyeing_process where  StepNum is null and Code = '" + _s_code + "'; ";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
                         else
                         {
                             string s_sql = "UPDATE dyeing_process SET TechnologyName = '" + cbo_TechnologyName.Text + "' ,ProportionOrTime = null,Temp=null,Rate=null,Rev=null " +
                                                " WHERE StepNum = '" + txt_StepNum.Text + "'" +
                                                " AND Code = '" + _s_code + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
 
                         if (_i_type == 1)
@@ -266,7 +322,14 @@ namespace SmartDyeing.FADM_Form
                                                " Code,Type,Rev,Remark) VALUES('" + txt_StepNum.Text + "'," +
                                                "'" + cbo_TechnologyName.Text + "'," +
                                                "'" + _s_code + "'," + _i_type + "," + txt_Rev.Text + ",'" + _s_remark + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
                             else
                             {
@@ -274,19 +337,40 @@ namespace SmartDyeing.FADM_Form
                                                " Code,Type,Rev) VALUES('" + txt_StepNum.Text + "'," +
                                                "'" + cbo_TechnologyName.Text + "'," +
                                                "'" + _s_code + "'," + _i_type + "," + txt_Rev.Text + ");";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
 
                             //删除新增为空的数据
                             s_sql = "delete from dyeing_process where  StepNum is null and Code = '" + _s_code + "'; ";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
                         else
                         {
                             string s_sql = "UPDATE dyeing_process SET TechnologyName = '" + cbo_TechnologyName.Text + "', Rev='" + txt_Rev.Text + "' ,ProportionOrTime = null,Temp=null,Rate=null " +
                                                " WHERE StepNum = '" + txt_StepNum.Text + "'" +
                                                " AND Code = '" + _s_code + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
                         if (_i_type == 1)
                         {
@@ -334,7 +418,14 @@ namespace SmartDyeing.FADM_Form
                                               " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + txt_StepNum.Text + "'," +
                                               "'" + cbo_TechnologyName.Text + "','" + txt_ProportionOrTime.Text + "'," +
                                               "'" + _s_code + "'," + _i_type + "," + txt_Rev.Text + ",'" + _s_remark + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
                             else
                             {
@@ -342,19 +433,40 @@ namespace SmartDyeing.FADM_Form
                                                " ProportionOrTime, Code,Type,Rev) VALUES('" + txt_StepNum.Text + "'," +
                                                "'" + cbo_TechnologyName.Text + "','" + txt_ProportionOrTime.Text + "'," +
                                                "'" + _s_code + "'," + _i_type + "," + txt_Rev.Text + ");";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
 
                             //删除新增为空的数据
                             s_sql = "delete from dyeing_process where  StepNum is null and Code = '" + _s_code + "'; ";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
                         else
                         {
                             string s_sql = "UPDATE dyeing_process SET TechnologyName = '" + cbo_TechnologyName.Text + "'," +
                                                " ProportionOrTime = '" + txt_ProportionOrTime.Text + "', Rev='" + txt_Rev.Text + "' ,Temp=null,Rate=null  WHERE StepNum = '" + txt_StepNum.Text + "'" +
                                                " AND Code = '" + _s_code + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
 
                         if (_i_type == 1)
@@ -400,26 +512,54 @@ namespace SmartDyeing.FADM_Form
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                    " ProportionOrTime, Code,Temp,Rate,Type,Rev,Remark) VALUES('" + txt_StepNum.Text + "'," +
                                                    "'" + cbo_TechnologyName.Text + "','" + txt_ProportionOrTime.Text + "','" + _s_code + "','" + txt_Temp.Text + "','" + txt_Rate.Text + "'," + _i_type + "," + txt_Rev.Text + ",'" + _s_remark + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
                             else
                             {
                                 s_sql = "INSERT INTO dyeing_process (StepNum, TechnologyName," +
                                                    " ProportionOrTime, Code,Temp,Rate,Type,Rev) VALUES('" + txt_StepNum.Text + "'," +
                                                    "'" + cbo_TechnologyName.Text + "','" + txt_ProportionOrTime.Text + "','" + _s_code + "','" + txt_Temp.Text + "','" + txt_Rate.Text + "'," + _i_type + "," + txt_Rev.Text + ");";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
 
                             //删除新增为空的数据
                             s_sql = "delete from dyeing_process where  StepNum is null and Code = '" + _s_code + "'; ";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
                         else
                         {
                             string s_sql = "UPDATE dyeing_process SET TechnologyName = '" + cbo_TechnologyName.Text + "'," +
                                                " ProportionOrTime = '" + txt_ProportionOrTime.Text + "', Temp = '" + txt_Temp.Text + "', Rate='" + txt_Rate.Text + "', Rev='" + txt_Rev.Text + "' WHERE StepNum = '" + txt_StepNum.Text + "'" +
                                                " AND Code = '" + _s_code + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
 
                         if (_i_type == 1)
@@ -458,7 +598,14 @@ namespace SmartDyeing.FADM_Form
                                                " Code,Type,Remark) VALUES('" + txt_StepNum.Text + "'," +
                                                "'" + cbo_TechnologyName.Text + "'," +
                                                "'" + _s_code + "'," + _i_type + ",'" + _s_remark + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
                             else
                             {
@@ -466,19 +613,40 @@ namespace SmartDyeing.FADM_Form
                                                " Code,Type) VALUES('" + txt_StepNum.Text + "'," +
                                                "'" + cbo_TechnologyName.Text + "'," +
                                                "'" + _s_code + "'," + _i_type + ");";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
 
                             //删除新增为空的数据
                             s_sql = "delete from dyeing_process where  StepNum is null and Code = '" + _s_code + "'; ";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
                         else
                         {
                             string s_sql = "UPDATE dyeing_process SET TechnologyName = '" + cbo_TechnologyName.Text + "' ,ProportionOrTime = null,Temp=null,Rate=null,Rev=null " +
                                                " WHERE StepNum = '" + txt_StepNum.Text + "'" +
                                                " AND Code = '" + _s_code + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
 
                         if (_i_type == 1)
@@ -516,7 +684,14 @@ namespace SmartDyeing.FADM_Form
                                                " Code,Type,Rev,Remark) VALUES('" + txt_StepNum.Text + "'," +
                                                "'" + cbo_TechnologyName.Text + "'," +
                                                "'" + _s_code + "'," + _i_type + "," + txt_Rev.Text + ",'" + _s_remark + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
                             else
                             {
@@ -524,19 +699,40 @@ namespace SmartDyeing.FADM_Form
                                                " Code,Type,Rev) VALUES('" + txt_StepNum.Text + "'," +
                                                "'" + cbo_TechnologyName.Text + "'," +
                                                "'" + _s_code + "'," + _i_type + "," + txt_Rev.Text + ");";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
 
                             //删除新增为空的数据
                             s_sql = "delete from dyeing_process where  StepNum is null and Code = '" + _s_code + "'; ";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
                         else
                         {
                             string s_sql = "UPDATE dyeing_process SET TechnologyName = '" + cbo_TechnologyName.Text + "', Rev='" + txt_Rev.Text + "' ,ProportionOrTime = null,Temp=null,Rate=null " +
                                                " WHERE StepNum = '" + txt_StepNum.Text + "'" +
                                                " AND Code = '" + _s_code + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
                         if (_i_type == 1)
                         {
@@ -578,7 +774,14 @@ namespace SmartDyeing.FADM_Form
                                               " ProportionOrTime, Code,Type,Rev,Remark) VALUES('" + txt_StepNum.Text + "'," +
                                               "'" + cbo_TechnologyName.Text + "','" + txt_ProportionOrTime.Text + "'," +
                                               "'" + _s_code + "'," + _i_type + "," + txt_Rev.Text + ",'" + _s_remark + "');";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
                             else
                             {
@@ -586,19 +789,40 @@ namespace SmartDyeing.FADM_Form
                                                " ProportionOrTime, Code,Type,Rev) VALUES('" + txt_StepNum.Text + "'," +
                                                "'" + cbo_TechnologyName.Text + "','" + txt_ProportionOrTime.Text + "'," +
                                                "'" + _s_code + "'," + _i_type + "," + txt_Rev.Text + ");";
-                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                                }
                             }
 
                             //删除新增为空的数据
                             s_sql = "delete from dyeing_process where  StepNum is null and Code = '" + _s_code + "'; ";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
                         else
                         {
                             string s_sql = "UPDATE dyeing_process SET TechnologyName = '" + cbo_TechnologyName.Text + "'," +
                                                " ProportionOrTime = '" + txt_ProportionOrTime.Text + "', Rev='" + txt_Rev.Text + "' ,Temp=null,Rate=null  WHERE StepNum = '" + txt_StepNum.Text + "'" +
                                                " AND Code = '" + _s_code + "';";
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
 
                         if (_i_type == 1)

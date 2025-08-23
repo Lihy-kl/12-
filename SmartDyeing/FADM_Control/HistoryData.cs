@@ -1279,7 +1279,14 @@ namespace SmartDyeing.FADM_Control
                         _times = new DateTime[sa_arr.Count()];
                         for (int i = 0; i < sa_arr.Count(); i++)
                         {
-                            _times[i] = DateTime.Now.AddSeconds((i - sa_arr.Count()) * 30);
+                            if (FADM_Object.Communal._b_is60Mark)
+                            {
+                                _times[i] = DateTime.Now.AddSeconds((i - sa_arr.Count()) * 60);
+                            }
+                            else
+                            {
+                                _times[i] = DateTime.Now.AddSeconds((i - sa_arr.Count()) * 30);
+                            }
                         }
 
 
@@ -1293,7 +1300,16 @@ namespace SmartDyeing.FADM_Control
                         }
 
                         double totalTimeInSeconds = 0; // 每条曲线的总计用时（秒）
-                        totalTimeInSeconds = sa_arr.Length * 30; // 每个点代表30秒
+                        if (FADM_Object.Communal._b_is60Mark)
+                        {
+                            totalTimeInSeconds = sa_arr.Length * 60; // 每个点代表60秒
+                        }
+
+                        else
+
+                        {
+                            totalTimeInSeconds = sa_arr.Length * 30; // 每个点代表30秒
+                        }
                                                                  // 将总计用时转换为时分秒
                         //double time = totalTimeInSeconds - newtotalTimeInSeconds;
                         // 获取当前时间
@@ -1539,7 +1555,14 @@ namespace SmartDyeing.FADM_Control
             times = new DateTime[sa_arr.Count()];
             for (int i = 0; i < sa_arr.Count(); i++)
             {
-                times[i] = dateTime.AddSeconds((i - sa_arr.Count()) * 30);
+                if (FADM_Object.Communal._b_is60Mark)
+                {
+                    times[i] = dateTime.AddSeconds((i - sa_arr.Count()) * 60);
+                }
+                else
+                {
+                    times[i] = dateTime.AddSeconds((i - sa_arr.Count()) * 30);
+                }
             }
             
                 AddSeries("温度", Color.Red);
@@ -1726,8 +1749,14 @@ namespace SmartDyeing.FADM_Control
                 chartArea.AxisY.LineColor = Color.Black;
                 chartArea.AxisY.Enabled = AxisEnabled.True;
 
-
-                chartArea.AxisX.Title = @"时间(X30s)";
+                if (FADM_Object.Communal._b_is60Mark)
+                {
+                    chartArea.AxisX.Title = @"时间(X60s)";
+                }
+                else
+                {
+                    chartArea.AxisX.Title = @"时间(X30s)";
+                }
                 chartArea.AxisX.IsLabelAutoFit = true;
                 chartArea.AxisX.LabelAutoFitMinFontSize = 5;
                 chartArea.AxisX.LabelStyle.Angle = -15;
@@ -1740,8 +1769,14 @@ namespace SmartDyeing.FADM_Control
                 chartArea.AxisY.LineColor = Color.Black;
                 chartArea.AxisY.Enabled = AxisEnabled.True;
 
-
-                chartArea.AxisX.Title = @"Time(X30s)";
+                if (FADM_Object.Communal._b_is60Mark)
+                {
+                    chartArea.AxisX.Title = @"Time(X60s)";
+                }
+                else
+                {
+                    chartArea.AxisX.Title = @"Time(X30s)";
+                }
                 chartArea.AxisX.IsLabelAutoFit = true;
                 chartArea.AxisX.LabelAutoFitMinFontSize = 5;
                 chartArea.AxisX.LabelStyle.Angle = -15;

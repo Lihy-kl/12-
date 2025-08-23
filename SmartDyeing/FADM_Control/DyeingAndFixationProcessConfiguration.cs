@@ -1,4 +1,5 @@
-﻿using SmartDyeing.FADM_Form;
+﻿using Lib_DataBank.MySQL;
+using SmartDyeing.FADM_Form;
 using SmartDyeing.FADM_Object;
 using System;
 using System.Collections.Generic;
@@ -459,11 +460,25 @@ namespace SmartDyeing.FADM_Control
 
             s_sql = "DELETE FROM dyeing_code" +
                                " WHERE DyeingCode = '" + txt_DyeingCode.Text + "';";
-            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+            if (FADM_Object.Communal._b_isJustShowInfo)
+            {
+                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+            }
+            else
+            {
+                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+            }
 
             s_sql = "update formula_head set DyeingCode = null,Stage='滴液'  where DyeingCode = '" + txt_DyeingCode.Text + "';";
 
-            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+            if (FADM_Object.Communal._b_isJustShowInfo)
+            {
+                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+            }
+            else
+            {
+                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+            }
             FADM_Object.Communal._b_isUpdateNotDripList = true;
             try
             {
@@ -737,7 +752,14 @@ namespace SmartDyeing.FADM_Control
                 //删除原有固染色流程记录
                 s_sql = "DELETE FROM dyeing_code" +
                                    " WHERE DyeingCode = '" + txt_DyeingCode.Text + "';";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                }
                 int i_nDye = 0;
                 int i_nHandle = 0;
 
@@ -763,7 +785,14 @@ namespace SmartDyeing.FADM_Control
                     
                     s_sql = "INSERT INTO dyeing_code (DyeingCode, Type," +
                                                " Step, Code,IndexNum,IsUse) VALUES('" + txt_DyeingCode.Text + "',"+ s_type+"," + s_step + ",'" + dgv_Combination.Rows[i].Cells[0].Value.ToString() +"',"+(i+1).ToString() +",'"+ (checkBox1.Checked?"1":"0")+ "');";
-                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    if (FADM_Object.Communal._b_isJustShowInfo)
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                    }
+                    else
+                    {
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                    }
                 }
 
 
@@ -916,7 +945,14 @@ namespace SmartDyeing.FADM_Control
                         //将新的调液流程代码写入数据库
                         string s_sql = "INSERT INTO dyeing_code" +
                                            " (DyeingCode) VALUES( '" + txt_DyeingCode.Text + "' );";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
 
                         //更新调液流程代码表
                         DyeingCodeShow(txt_DyeingCode.Text);
@@ -994,11 +1030,25 @@ namespace SmartDyeing.FADM_Control
         {
             if (checkBox1.Checked) 
             {
-                Communal._fadmSqlserver.ReviseData("Update dyeing_code Set IsUse=1 where DyeingCode = '"+ txt_DyeingCode.Text+"';");
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update dyeing_code Set IsUse=1 where DyeingCode = '" + txt_DyeingCode.Text + "';");
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update dyeing_code Set IsUse=1 where DyeingCode = '" + txt_DyeingCode.Text + "';");
+                }
             }
             else
             {
-                Communal._fadmSqlserver.ReviseData("Update dyeing_code Set IsUse=0 where DyeingCode = '" + txt_DyeingCode.Text + "';");
+                if (FADM_Object.Communal._b_isJustShowInfo)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update dyeing_code Set IsUse=0 where DyeingCode = '" + txt_DyeingCode.Text + "';");
+                }
+                else
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update dyeing_code Set IsUse=0 where DyeingCode = '" + txt_DyeingCode.Text + "';");
+                }
             }
         }
     }

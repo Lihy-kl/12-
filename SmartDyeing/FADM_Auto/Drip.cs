@@ -3317,10 +3317,10 @@ namespace SmartDyeing.FADM_Auto
                     Communal._b_isAllowDrip = false;
                     FADM_Object.MyAlarm myAlarm;
                     if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                        myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶针检失败，是否继续?(继续针检请点是，退出针检请点否)", "滴液针检", true, 1);
+                        myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶针检失败，是否继续?(继续针检请点是，退出针检请点否)", "滴液针检", true, 1, true);
                     else
                         myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + " bottle needle inspection failed, do you want to continue? " +
-                            "(To continue the needle examination, please click Yes, and to exit the needle examination, please click No)", "Drip needle examination", true, 1);
+                            "(To continue the needle examination, please click Yes, and to exit the needle examination, please click No)", "Drip needle examination", true, 1, true);
                     while (true)
 
                     {
@@ -3432,10 +3432,10 @@ namespace SmartDyeing.FADM_Auto
                     Communal._b_isAllowDrip = false;
                     FADM_Object.MyAlarm myAlarm;
                     if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                        myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出滴液请点否)", "滴液", true, 1);
+                        myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出滴液请点否)", "滴液", true, 1, true);
                     else
                         myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + " bottle did not find a syringe. Do you want to continue? " +
-                            "(To continue searching, please click Yes. To exit Drip, please click No)", "Drip", true, 1);
+                            "(To continue searching, please click Yes. To exit Drip, please click No)", "Drip", true, 1, true);
                     while (true)
                     {
                         if (0 != myAlarm._i_alarm_Choose)
@@ -4074,10 +4074,10 @@ namespace SmartDyeing.FADM_Auto
                 FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
                 MyAlarm myAlarm;
                 if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                    myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶预滴液数值太小,请检查实际是否液量过低?(继续执行请点是)", "Drip", i_minBottleNo, 2, 10);
+                    myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶预滴液数值太小,请检查实际是否液量过低?(继续执行请点是)", "Drip", i_minBottleNo, 2, 10, true);
                 else
                     myAlarm = new FADM_Object.MyAlarm(" The number of pre-drops in mother liquor bottle " + i_minBottleNo + "  is too small, please check whether the actual amount of liquid is too low" +
-                        "( Continue to perform please click Yes)", "Drip", i_minBottleNo, 2, 10);
+                        "( Continue to perform please click Yes)", "Drip", i_minBottleNo, 2, 10, true);
 
                 //回一次原点再继续，担心失步导致后续母液抽不了
                 int i_state = MyModbusFun.goHome();
@@ -4283,9 +4283,9 @@ namespace SmartDyeing.FADM_Auto
 
                 FADM_Object.MyAlarm myAlarm;
                 if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + "号母液瓶未检测到针筒，是否继续滴液 ? ", "滴液", true, 1);
+                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + "号母液瓶未检测到针筒，是否继续滴液 ? ", "滴液", true, 1, true);
                 else
-                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + " bottle did not find a syringe. Do you want to continue? " , "Drip", true, 1);
+                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + " bottle did not find a syringe. Do you want to continue? " , "Drip", true, 1, true);
                 while (true)
                 {
                     if (0 != myAlarm._i_alarm_Choose)
@@ -6046,10 +6046,10 @@ namespace SmartDyeing.FADM_Auto
                     FADM_Object.Communal.WriteDripWait(true);
                     FADM_Object.MyAlarm myAlarm;
                     if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                        myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶针检失败，是否继续?(继续针检请点是，退出针检请点否)", "滴液针检", true, 1);
+                        myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶针检失败，是否继续?(继续针检请点是，退出针检请点否)", "滴液针检", true, 1, true);
                     else
                         myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + " bottle needle inspection failed, do you want to continue? " +
-                            "(To continue the needle examination, please click Yes, and to exit the needle examination, please click No)", "Drip needle examination", true, 1);
+                            "(To continue the needle examination, please click Yes, and to exit the needle examination, please click No)", "Drip needle examination", true, 1, true);
                     while (true)
 
                     {
@@ -6218,10 +6218,108 @@ namespace SmartDyeing.FADM_Auto
                             FADM_Object.Communal.WriteDripWait(true);
                             FADM_Object.MyAlarm myAlarm;
                             if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                                myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出针检请点否)", "滴液", true, 1);
+                                myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出针检请点否)", "滴液", true, 1, true);
                             else
                                 myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + " bottle did not find a syringe. Do you want to continue? " +
-                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "Drip", true, 1);
+                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "Drip", true, 1, true);
+                            while (true)
+                            {
+                                if (0 != myAlarm._i_alarm_Choose)
+                                    break;
+                                Thread.Sleep(1);
+                            }
+                            //判断染色线程是否需要用机械手
+                            if (null != FADM_Object.Communal.ReadDyeThread())
+                            {
+                                FADM_Object.Communal.WriteDripWait(true);
+
+                                while (true)
+                                {
+                                    if (false == FADM_Object.Communal.ReadDripWait())
+                                        break;
+                                    Thread.Sleep(1);
+                                }
+                            }
+                            else
+                            {
+                                FADM_Object.Communal.WriteDripWait(false);
+                            }
+
+                            if (1 == myAlarm._i_alarm_Choose)
+                                goto label3;
+                            else
+                                throw new Exception("收到退出消息");
+                        }
+                        else
+                        {
+
+                            s_sql = "UPDATE drop_details SET MinWeight = 2 WHERE BatchName = '" + oBatchName + "' AND " +
+                            "BottleNum = " + i_minBottleNo + " AND Finish = 0;";
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            goto label3;
+                        }
+
+                    }
+                    else if ("取针筒时抓手关失败" == ex.Message)
+                    {
+                        if (i_lowSrart == 2)
+                        {
+                            FADM_Object.Communal.WriteDripWait(true);
+                            FADM_Object.MyAlarm myAlarm;
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶取针筒时抓手关失败，是否继续执行?(继续寻找请点是，退出针检请点否)", "滴液", true, 1, true);
+                            else
+                                myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + " bottle The gripper failed to close when taking out the syringe. Do you want to continue? " +
+                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "Drip", true, 1, true);
+                            while (true)
+                            {
+                                if (0 != myAlarm._i_alarm_Choose)
+                                    break;
+                                Thread.Sleep(1);
+                            }
+                            //判断染色线程是否需要用机械手
+                            if (null != FADM_Object.Communal.ReadDyeThread())
+                            {
+                                FADM_Object.Communal.WriteDripWait(true);
+
+                                while (true)
+                                {
+                                    if (false == FADM_Object.Communal.ReadDripWait())
+                                        break;
+                                    Thread.Sleep(1);
+                                }
+                            }
+                            else
+                            {
+                                FADM_Object.Communal.WriteDripWait(false);
+                            }
+
+                            if (1 == myAlarm._i_alarm_Choose)
+                                goto label3;
+                            else
+                                throw new Exception("收到退出消息");
+                        }
+                        else
+                        {
+
+                            s_sql = "UPDATE drop_details SET MinWeight = 2 WHERE BatchName = '" + oBatchName + "' AND " +
+                            "BottleNum = " + i_minBottleNo + " AND Finish = 0;";
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            goto label3;
+                        }
+
+                    }
+                    else if ("取针筒时气缸下失败" == ex.Message)
+                    {
+                        if (i_lowSrart == 2)
+                        {
+                            FADM_Object.Communal.WriteDripWait(true);
+                            FADM_Object.MyAlarm myAlarm;
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶取针筒时气缸下失败，是否继续执行?(继续寻找请点是，退出针检请点否)", "滴液", true, 1, true);
+                            else
+                                myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + " bottle The cylinder failed to descend when removing the syringe. Do you want to continue? " +
+                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "Drip", true, 1, true);
                             while (true)
                             {
                                 if (0 != myAlarm._i_alarm_Choose)
@@ -6331,10 +6429,108 @@ namespace SmartDyeing.FADM_Auto
                             FADM_Object.Communal.WriteDripWait(true);
                             FADM_Object.MyAlarm myAlarm;
                             if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                                myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出针检请点否)", "滴液", true, 1);
+                                myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出针检请点否)", "滴液", true, 1, true);
                             else
                                 myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + " bottle did not find a syringe. Do you want to continue? " +
-                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "Drip", true, 1);
+                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "Drip", true, 1, true);
+                            while (true)
+                            {
+                                if (0 != myAlarm._i_alarm_Choose)
+                                    break;
+                                Thread.Sleep(1);
+                            }
+                            //判断染色线程是否需要用机械手
+                            if (null != FADM_Object.Communal.ReadDyeThread())
+                            {
+                                FADM_Object.Communal.WriteDripWait(true);
+
+                                while (true)
+                                {
+                                    if (false == FADM_Object.Communal.ReadDripWait())
+                                        break;
+                                    Thread.Sleep(1);
+                                }
+                            }
+                            else
+                            {
+                                FADM_Object.Communal.WriteDripWait(false);
+                            }
+
+                            if (1 == myAlarm._i_alarm_Choose)
+                                goto label3;
+                            else
+                                throw new Exception("收到退出消息");
+                        }
+                        else
+                        {
+                            s_sql = "UPDATE drop_details SET MinWeight = 2 WHERE BatchName = '" + oBatchName + "' AND " +
+                             "BottleNum = " + i_minBottleNo + " AND Finish = 0;";
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            goto label3;
+                        }
+
+
+                    }
+                    else if ("取针筒时抓手关失败" == ex.Message)
+                    {
+                        if (i_lowSrart == 2)
+                        {
+                            FADM_Object.Communal.WriteDripWait(true);
+                            FADM_Object.MyAlarm myAlarm;
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶取针筒时抓手关失败，是否继续执行?(继续寻找请点是，退出针检请点否)", "滴液", true, 1, true);
+                            else
+                                myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + " bottle The gripper failed to close when taking out the syringe. Do you want to continue? " +
+                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "Drip", true, 1, true);
+                            while (true)
+                            {
+                                if (0 != myAlarm._i_alarm_Choose)
+                                    break;
+                                Thread.Sleep(1);
+                            }
+                            //判断染色线程是否需要用机械手
+                            if (null != FADM_Object.Communal.ReadDyeThread())
+                            {
+                                FADM_Object.Communal.WriteDripWait(true);
+
+                                while (true)
+                                {
+                                    if (false == FADM_Object.Communal.ReadDripWait())
+                                        break;
+                                    Thread.Sleep(1);
+                                }
+                            }
+                            else
+                            {
+                                FADM_Object.Communal.WriteDripWait(false);
+                            }
+
+                            if (1 == myAlarm._i_alarm_Choose)
+                                goto label3;
+                            else
+                                throw new Exception("收到退出消息");
+                        }
+                        else
+                        {
+                            s_sql = "UPDATE drop_details SET MinWeight = 2 WHERE BatchName = '" + oBatchName + "' AND " +
+                             "BottleNum = " + i_minBottleNo + " AND Finish = 0;";
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            goto label3;
+                        }
+
+
+                    }
+                    else if ("取针筒时气缸下失败" == ex.Message)
+                    {
+                        if (i_lowSrart == 2)
+                        {
+                            FADM_Object.Communal.WriteDripWait(true);
+                            FADM_Object.MyAlarm myAlarm;
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶取针筒时气缸下失败，是否继续执行?(继续寻找请点是，退出针检请点否)", "滴液", true, 1, true);
+                            else
+                                myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + " bottle The cylinder failed to descend when removing the syringe. Do you want to continue? " +
+                                    "(To continue searching, please click Yes. To exit the needle test, please click No)", "Drip", true, 1, true);
                             while (true)
                             {
                                 if (0 != myAlarm._i_alarm_Choose)
@@ -6802,9 +6998,9 @@ namespace SmartDyeing.FADM_Auto
                 FADM_Object.Communal.WriteDripWait(true);
                 FADM_Object.MyAlarm myAlarm;
                 if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + "号母液瓶未检测到针筒，是否继续滴液 ? ", "滴液", true, 1);
+                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + "号母液瓶未检测到针筒，是否继续滴液 ? ", "滴液", true, 1, true);
                 else
-                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + " bottle did not find a syringe. Do you want to continue? ", "Drip", true, 1);
+                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + " bottle did not find a syringe. Do you want to continue? ", "Drip", true, 1, true);
                 while (true)
                 {
                     if (0 != myAlarm._i_alarm_Choose)
@@ -8790,10 +8986,10 @@ namespace SmartDyeing.FADM_Auto
                     Communal._b_isAllowDrip = false;
                     FADM_Object.MyAlarm myAlarm;
                     if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                        myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶针检失败，是否继续?(继续针检请点是，退出针检请点否)", "滴液针检", true, 1);
+                        myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶针检失败，是否继续?(继续针检请点是，退出针检请点否)", "滴液针检", true, 1, true);
                     else
                         myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + " bottle needle inspection failed, do you want to continue? " +
-                            "(To continue the needle examination, please click Yes, and to exit the needle examination, please click No)", "Drip needle examination", true, 1);
+                            "(To continue the needle examination, please click Yes, and to exit the needle examination, please click No)", "Drip needle examination", true, 1, true);
                     while (true)
 
                     {
@@ -8909,10 +9105,10 @@ namespace SmartDyeing.FADM_Auto
                     FADM_Object.Communal.WriteDripWait(true);
                     FADM_Object.MyAlarm myAlarm;
                     if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                        myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出滴液请点否)", "滴液", true, 1);
+                        myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出滴液请点否)", "滴液", true, 1, true);
                     else
                         myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + " bottle did not find a syringe. Do you want to continue? " +
-                            "(To continue searching, please click Yes. To exit Drip, please click No)", "Drip", true, 1);
+                            "(To continue searching, please click Yes. To exit Drip, please click No)", "Drip", true, 1, true);
                     while (true)
                     {
                         if (0 != myAlarm._i_alarm_Choose) {
@@ -9570,10 +9766,10 @@ namespace SmartDyeing.FADM_Auto
                 FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
                 MyAlarm myAlarm;
                 if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                    myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶预滴液数值太小,请检查实际是否液量过低?(继续执行请点是)", "Drip", i_minBottleNo, 2, 10);
+                    myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶预滴液数值太小,请检查实际是否液量过低?(继续执行请点是)", "Drip", i_minBottleNo, 2, 10, true);
                 else
                     myAlarm = new FADM_Object.MyAlarm( " The number of pre-drops in mother liquor bottle "+i_minBottleNo +"  is too small, please check whether the actual amount of liquid is too low" +
-                        "( Continue to perform please click Yes)", "Drip", i_minBottleNo, 2, 10);
+                        "( Continue to perform please click Yes)", "Drip", i_minBottleNo, 2, 10, true);
 
                 //回一次原点再继续，担心失步导致后续母液抽不了
                 int i_state = MyModbusFun.goHome();
@@ -10337,9 +10533,9 @@ namespace SmartDyeing.FADM_Auto
                 Communal._b_isAllowDrip = false;
                 FADM_Object.MyAlarm myAlarm;
                 if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + "号母液瓶未检测到针筒，是否继续滴液 ? ", "滴液", true, 1);
+                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + "号母液瓶未检测到针筒，是否继续滴液 ? ", "滴液", true, 1, true);
                 else
-                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + " bottle did not find a syringe. Do you want to continue? ", "Drip", true, 1);
+                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + " bottle did not find a syringe. Do you want to continue? ", "Drip", true, 1, true);
                 while (true)
                 {
                     if (0 != myAlarm._i_alarm_Choose) {
@@ -12231,10 +12427,10 @@ namespace SmartDyeing.FADM_Auto
                     Communal._b_isAllowDrip = false;
                     FADM_Object.MyAlarm myAlarm;
                     if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                        myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶针检失败，是否继续?(继续针检请点是，退出针检请点否)", "滴液针检", true, 1);
+                        myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶针检失败，是否继续?(继续针检请点是，退出针检请点否)", "滴液针检", true, 1, true);
                     else
                         myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + " bottle needle inspection failed, do you want to continue? " +
-                            "(To continue the needle examination, please click Yes, and to exit the needle examination, please click No)", "Drip needle examination", true, 1);
+                            "(To continue the needle examination, please click Yes, and to exit the needle examination, please click No)", "Drip needle examination", true, 1, true);
                     while (true)
 
                     {
@@ -12349,10 +12545,10 @@ namespace SmartDyeing.FADM_Auto
                     Communal._b_isAllowDrip = false;
                     FADM_Object.MyAlarm myAlarm;
                     if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                        myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出滴液请点否)", "滴液", true, 1);
+                        myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出滴液请点否)", "滴液", true, 1, true);
                     else
                         myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + " bottle did not find a syringe. Do you want to continue? " +
-                            "(To continue searching, please click Yes. To exit Drip, please click No)", "Drip", true, 1);
+                            "(To continue searching, please click Yes. To exit Drip, please click No)", "Drip", true, 1, true);
                     while (true)
                     {
                         if (0 != myAlarm._i_alarm_Choose) {
@@ -13007,10 +13203,10 @@ namespace SmartDyeing.FADM_Auto
                 FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
                 MyAlarm myAlarm;
                 if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                    myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶预滴液数值太小,请检查实际是否液量过低?(继续执行请点是)", "Drip", i_minBottleNo, 2, 10);
+                    myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶预滴液数值太小,请检查实际是否液量过低?(继续执行请点是)", "Drip", i_minBottleNo, 2, 10, true);
                 else
                     myAlarm = new FADM_Object.MyAlarm(" The number of pre-drops in mother liquor bottle " + i_minBottleNo + "  is too small, please check whether the actual amount of liquid is too low" +
-                        "( Continue to perform please click Yes)", "Drip", i_minBottleNo, 2, 10);
+                        "( Continue to perform please click Yes)", "Drip", i_minBottleNo, 2, 10, true);
 
                 //回一次原点再继续，担心失步导致后续母液抽不了
                 int i_state = MyModbusFun.goHome();
@@ -13225,9 +13421,9 @@ namespace SmartDyeing.FADM_Auto
                 Communal._b_isAllowDrip = false;
                 FADM_Object.MyAlarm myAlarm;
                 if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + "号母液瓶未检测到针筒，是否继续滴液 ? ", "滴液", true, 1);
+                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + "号母液瓶未检测到针筒，是否继续滴液 ? ", "滴液", true, 1, true);
                 else
-                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + " bottle did not find a syringe. Do you want to continue? ", "Drip", true, 1);
+                    myAlarm = new FADM_Object.MyAlarm(s_alarmBottleNo + " bottle did not find a syringe. Do you want to continue? ", "Drip", true, 1, true);
                 while (true)
                 {
                     if (0 != myAlarm._i_alarm_Choose) {

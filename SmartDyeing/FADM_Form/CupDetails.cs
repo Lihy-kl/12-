@@ -91,7 +91,14 @@ namespace SmartDyeing.FADM_Form
 
                     for (int i = 0; i < sa_arr.Count(); i++)
                     {
-                        _times[i] = DateTime.Now.AddSeconds((i - sa_arr.Count()) * 30);
+                        if (FADM_Object.Communal._b_is60Mark)
+                        {
+                            _times[i] = DateTime.Now.AddSeconds((i - sa_arr.Count()) * 60);
+                        }
+                        else
+                        {
+                            _times[i] = DateTime.Now.AddSeconds((i - sa_arr.Count()) * 30);
+                        }
                     }
 
 
@@ -105,7 +112,14 @@ namespace SmartDyeing.FADM_Form
                         series.Points.AddXY(Convert.ToDouble(i + 1), Convert.ToDouble(sa_arr[i]));
                     }
                     double totalTimeInSeconds = 0; // 每条曲线的总计用时（秒）
-                    totalTimeInSeconds = sa_arr.Length * 30; // 每个点代表30秒
+                    if (FADM_Object.Communal._b_is60Mark)
+                    {
+                        totalTimeInSeconds = sa_arr.Length * 60; // 每个点代表60秒
+                    }
+                    else
+                    {
+                        totalTimeInSeconds = sa_arr.Length * 30; // 每个点代表30秒
+                    }
                                                              // 将总计用时转换为时分秒
                     newtotalTimeInSeconds = totalTimeInSeconds;
                     TimeSpan totalTime = TimeSpan.FromSeconds(totalTimeInSeconds);
@@ -288,12 +302,19 @@ namespace SmartDyeing.FADM_Form
                     }
 
                     double totalTimeInSeconds = 0; // 每条曲线的总计用时（秒）
-                    totalTimeInSeconds = sa_arr.Length * 30; // 每个点代表30秒
+                    if (FADM_Object.Communal._b_is60Mark)
+                    {
+                        totalTimeInSeconds = sa_arr.Length * 60; // 每个点代表60秒
+                    }
+                    else
+                    {
+                        totalTimeInSeconds = sa_arr.Length * 30; // 每个点代表30秒
+                    }
                                                              // 将总计用时转换为时分秒
                     double time = totalTimeInSeconds - newtotalTimeInSeconds;
                     // 获取当前时间
                     DateTime now = DateTime.Now;
-                    TimeSpan duration = TimeSpan.FromSeconds(sa_arr_need.Length*30);
+                    TimeSpan duration = TimeSpan.FromSeconds(sa_arr_need.Length*(FADM_Object.Communal._b_is60Mark? 60: 30));
                     DateTime futureTime = now + duration;
                     string cc = futureTime.ToString("HH:mm:ss");
 
@@ -856,7 +877,7 @@ namespace SmartDyeing.FADM_Form
             _times = new DateTime[arr.Count()];
             for (int i = 0; i < arr.Count(); i++)
             {
-                _times[i] = DateTime.Now.AddSeconds((i - arr.Count()) * 30);
+                _times[i] = DateTime.Now.AddSeconds((i - arr.Count()) * (FADM_Object.Communal._b_is60Mark?60: 30));
             }
 
             AddSeries("温度", Color.Red);
