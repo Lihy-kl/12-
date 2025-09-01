@@ -2060,6 +2060,7 @@
         /// </summary>
         public static int Coordinate_CupCover48_IntervalY { get; set; }
 
+
         /// <summary>
         /// 干布区域1最小配液杯X轴坐标
         /// </summary>
@@ -2638,6 +2639,11 @@
         /// 开盖是否要伸出接液盘
         /// </summary>
         public static int Other_CoverTray { get; set; }
+
+        /// <summary>
+        /// 出布时是否进行两次出布动作
+        /// </summary>
+        public static int Other_RepeatGetCloth { get; set; }
 
     }
 }

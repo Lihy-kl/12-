@@ -1,4 +1,5 @@
 ﻿using SmartDyeing.FADM_Form;
+using SmartDyeing.FADM_Object;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +23,9 @@ namespace SmartDyeing.FADM_Control
             InitializeComponent();
             UpdateListAndDyeCode();
             DyeCodeShow("");
+
+            if (!FADM_Object.Communal._b_isCloseAddMed)
+                checkBox1.Visible = false;
         }
 
         /// <summary>
@@ -786,6 +790,18 @@ namespace SmartDyeing.FADM_Control
                     FADM_Form.CustomMessageBox.Show("未发现可修改的行,请先添加！", "操作异常", MessageBoxButtons.OK, false);
                 else
                     FADM_Form.CustomMessageBox.Show("No modifiable rows found, please add first！", "Abnormal operation", MessageBoxButtons.OK, false);
+            }
+        }
+
+        private void checkBox1_Click(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                Communal._fadmSqlserver.ReviseData("Update dyeing_process Set OpenMedicine=1 where Code = '" + txt_Dye_Code.Text + "';");
+            }
+            else
+            {
+                Communal._fadmSqlserver.ReviseData("Update dyeing_process Set OpenMedicine=0 where Code = '" + txt_Dye_Code.Text + "';");
             }
         }
     }

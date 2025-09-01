@@ -71,8 +71,8 @@ namespace SmartDyeing.FADM_Control
             this.grp_in = new System.Windows.Forms.GroupBox();
             this.ChkInPut_SupportCover = new System.Windows.Forms.CheckBox();
             this.ChkInPut_Back = new System.Windows.Forms.CheckBox();
-            this.ChkInPut_Slow_Mid = new System.Windows.Forms.CheckBox();
-            this.ChkInPut_Block = new System.Windows.Forms.CheckBox();
+            this.ChkInPut_Slow_Cylinder_Mid = new System.Windows.Forms.CheckBox();
+            this.ChkInPut_Cylinder_Block = new System.Windows.Forms.CheckBox();
             this.ChkInPut_Apocenosis_Up = new System.Windows.Forms.CheckBox();
             this.ChkInPut_Decompression_Up = new System.Windows.Forms.CheckBox();
             this.ChkInPut_Block_Out = new System.Windows.Forms.CheckBox();
@@ -109,7 +109,7 @@ namespace SmartDyeing.FADM_Control
             this.BtnOutPut_Slow = new System.Windows.Forms.Button();
             this.BtnOutPut_ResetY = new System.Windows.Forms.Button();
             this.BtnOutPut_ResetX = new System.Windows.Forms.Button();
-            this.BtnOutPut_Block = new System.Windows.Forms.Button();
+            this.BtnOutPut_Block_Out = new System.Windows.Forms.Button();
             this.BtnOutPut_Decompression = new System.Windows.Forms.Button();
             this.BtnOutPut_Apocenosis = new System.Windows.Forms.Button();
             this.BtnOutPut_Buzzer = new System.Windows.Forms.Button();
@@ -148,7 +148,6 @@ namespace SmartDyeing.FADM_Control
             // 
             // grp_move
             // 
-            resources.ApplyResources(this.grp_move, "grp_move");
             this.grp_move.Controls.Add(this.BtnStop);
             this.grp_move.Controls.Add(this.TxtRPosY);
             this.grp_move.Controls.Add(this.TxtRPosX);
@@ -180,6 +179,7 @@ namespace SmartDyeing.FADM_Control
             this.grp_move.Controls.Add(this.label3);
             this.grp_move.Controls.Add(this.label2);
             this.grp_move.Controls.Add(this.label1);
+            resources.ApplyResources(this.grp_move, "grp_move");
             this.grp_move.Name = "grp_move";
             this.grp_move.TabStop = false;
             // 
@@ -352,9 +352,9 @@ namespace SmartDyeing.FADM_Control
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.btn_reset_a);
             this.groupBox2.Controls.Add(this.LabBalanceValue);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -372,11 +372,10 @@ namespace SmartDyeing.FADM_Control
             // 
             // grp_in
             // 
-            resources.ApplyResources(this.grp_in, "grp_in");
             this.grp_in.Controls.Add(this.ChkInPut_SupportCover);
             this.grp_in.Controls.Add(this.ChkInPut_Back);
-            this.grp_in.Controls.Add(this.ChkInPut_Slow_Mid);
-            this.grp_in.Controls.Add(this.ChkInPut_Block);
+            this.grp_in.Controls.Add(this.ChkInPut_Slow_Cylinder_Mid);
+            this.grp_in.Controls.Add(this.ChkInPut_Cylinder_Block);
             this.grp_in.Controls.Add(this.ChkInPut_Apocenosis_Up);
             this.grp_in.Controls.Add(this.ChkInPut_Decompression_Up);
             this.grp_in.Controls.Add(this.ChkInPut_Block_Out);
@@ -405,6 +404,7 @@ namespace SmartDyeing.FADM_Control
             this.grp_in.Controls.Add(this.ChkInPut_X_Ready);
             this.grp_in.Controls.Add(this.ChkInPut_X_Reverse);
             this.grp_in.Controls.Add(this.ChkInPut_X_Corotation);
+            resources.ApplyResources(this.grp_in, "grp_in");
             this.grp_in.Name = "grp_in";
             this.grp_in.TabStop = false;
             // 
@@ -420,17 +420,17 @@ namespace SmartDyeing.FADM_Control
             this.ChkInPut_Back.Name = "ChkInPut_Back";
             this.ChkInPut_Back.UseVisualStyleBackColor = true;
             // 
-            // ChkInPut_Slow_Mid
+            // ChkInPut_Slow_Cylinder_Mid
             // 
-            resources.ApplyResources(this.ChkInPut_Slow_Mid, "ChkInPut_Slow_Mid");
-            this.ChkInPut_Slow_Mid.Name = "ChkInPut_Slow_Mid";
-            this.ChkInPut_Slow_Mid.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.ChkInPut_Slow_Cylinder_Mid, "ChkInPut_Slow_Cylinder_Mid");
+            this.ChkInPut_Slow_Cylinder_Mid.Name = "ChkInPut_Slow_Cylinder_Mid";
+            this.ChkInPut_Slow_Cylinder_Mid.UseVisualStyleBackColor = true;
             // 
-            // ChkInPut_Block
+            // ChkInPut_Cylinder_Block
             // 
-            resources.ApplyResources(this.ChkInPut_Block, "ChkInPut_Block");
-            this.ChkInPut_Block.Name = "ChkInPut_Block";
-            this.ChkInPut_Block.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.ChkInPut_Cylinder_Block, "ChkInPut_Cylinder_Block");
+            this.ChkInPut_Cylinder_Block.Name = "ChkInPut_Cylinder_Block";
+            this.ChkInPut_Cylinder_Block.UseVisualStyleBackColor = true;
             // 
             // ChkInPut_Apocenosis_Up
             // 
@@ -602,7 +602,6 @@ namespace SmartDyeing.FADM_Control
             // 
             // grp_out
             // 
-            resources.ApplyResources(this.grp_out, "grp_out");
             this.grp_out.Controls.Add(this.BtnOutPut_Wash_Blow);
             this.grp_out.Controls.Add(this.BtnOutPut_Wash_Out);
             this.grp_out.Controls.Add(this.BtnOutPut_Wash_In);
@@ -610,7 +609,7 @@ namespace SmartDyeing.FADM_Control
             this.grp_out.Controls.Add(this.BtnOutPut_Slow);
             this.grp_out.Controls.Add(this.BtnOutPut_ResetY);
             this.grp_out.Controls.Add(this.BtnOutPut_ResetX);
-            this.grp_out.Controls.Add(this.BtnOutPut_Block);
+            this.grp_out.Controls.Add(this.BtnOutPut_Block_Out);
             this.grp_out.Controls.Add(this.BtnOutPut_Decompression);
             this.grp_out.Controls.Add(this.BtnOutPut_Apocenosis);
             this.grp_out.Controls.Add(this.BtnOutPut_Buzzer);
@@ -622,6 +621,7 @@ namespace SmartDyeing.FADM_Control
             this.grp_out.Controls.Add(this.BtnOutPut_Tongs);
             this.grp_out.Controls.Add(this.BtnOutPut_Y_Power);
             this.grp_out.Controls.Add(this.BtnOutPut_X_Power);
+            resources.ApplyResources(this.grp_out, "grp_out");
             this.grp_out.Name = "grp_out";
             this.grp_out.TabStop = false;
             // 
@@ -674,12 +674,12 @@ namespace SmartDyeing.FADM_Control
             this.BtnOutPut_ResetX.UseVisualStyleBackColor = true;
             this.BtnOutPut_ResetX.Click += new System.EventHandler(this.button3_Click);
             // 
-            // BtnOutPut_Block
+            // BtnOutPut_Block_Out
             // 
-            resources.ApplyResources(this.BtnOutPut_Block, "BtnOutPut_Block");
-            this.BtnOutPut_Block.Name = "BtnOutPut_Block";
-            this.BtnOutPut_Block.UseVisualStyleBackColor = true;
-            this.BtnOutPut_Block.Click += new System.EventHandler(this.BtnOutPut_Block_Click);
+            resources.ApplyResources(this.BtnOutPut_Block_Out, "BtnOutPut_Block_Out");
+            this.BtnOutPut_Block_Out.Name = "BtnOutPut_Block_Out";
+            this.BtnOutPut_Block_Out.UseVisualStyleBackColor = true;
+            this.BtnOutPut_Block_Out.Click += new System.EventHandler(this.BtnOutPut_Block_Click);
             // 
             // BtnOutPut_Decompression
             // 
@@ -760,7 +760,6 @@ namespace SmartDyeing.FADM_Control
             // 
             // groupBox5
             // 
-            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Controls.Add(this.RdoWash);
             this.groupBox5.Controls.Add(this.button4);
             this.groupBox5.Controls.Add(this.button3);
@@ -777,6 +776,7 @@ namespace SmartDyeing.FADM_Control
             this.groupBox5.Controls.Add(this.BtnStartMove);
             this.groupBox5.Controls.Add(this.TxtNum);
             this.groupBox5.Controls.Add(this.label12);
+            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
             // 
@@ -997,7 +997,7 @@ namespace SmartDyeing.FADM_Control
         private CheckBox ChkInPut_Block_Out;
         private CheckBox ChkInPut_Block_In;
         private CheckBox ChkInPut_Decompression_Down;
-        private Button BtnOutPut_Block;
+        private Button BtnOutPut_Block_Out;
         private Button BtnOutPut_Decompression;
         private Button BtnOutPut_Apocenosis;
         private RadioButton RdoDecompression;
@@ -1013,8 +1013,8 @@ namespace SmartDyeing.FADM_Control
         private RadioButton RdoDryClamp;
         private RadioButton RdoWetCloth;
         private RadioButton RdoDryCloth;
-        private CheckBox ChkInPut_Slow_Mid;
-        private CheckBox ChkInPut_Block;
+        private CheckBox ChkInPut_Slow_Cylinder_Mid;
+        private CheckBox ChkInPut_Cylinder_Block;
         private Button BtnOutPut_Slow;
         private Button BtnOutPut_Block_Cylinder;
         private CheckBox ChkInPut_Back;

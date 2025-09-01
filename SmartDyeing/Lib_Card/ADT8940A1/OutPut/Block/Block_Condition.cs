@@ -23,7 +23,10 @@ namespace Lib_Card.ADT8940A1.OutPut.Block
 
 
             lable:
-            int iRes = CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Block, 0);
+            int iRes = CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Block_Out, 0);
+            if (-1 == iRes)
+                return -1;
+            iRes = CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Block_In, 1);
             if (-1 == iRes)
                 return -1;
 
@@ -114,7 +117,10 @@ namespace Lib_Card.ADT8940A1.OutPut.Block
 
             if (1 == iCylinderUp)
             {
-                int iRes = CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Block, 1);
+                int iRes = CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Block_Out, 1);
+                if (-1 == iRes)
+                    return -1;
+                iRes = CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Block_In, 0);
                 if (-1 == iRes)
                     return -1;
 

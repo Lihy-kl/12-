@@ -68,6 +68,8 @@ namespace Lib_Card.ADT8940A1.OutPut.Cylinder.DualControl
                     goto labelTop;
                 }
 
+                
+
                 if (0 == iXStatus && 0 == iYStatus && 0 == iXAlarm &&
                     0 == iYAlarm && 1 == iTrayIn)
                 {
@@ -264,14 +266,25 @@ namespace Lib_Card.ADT8940A1.OutPut.Cylinder.DualControl
                 if (-1 == iRes)
                     return -1;
 
-                int iCylinderMid = CardObject.OA1Input.InPutStatus(ADT8940A1_IO.InPut_Cylinder_Mid);
-                if (-1 == iCylinderMid)
-                    return -1;
-                else if (0 == iCylinderMid)
+                //int iCylinderMid = CardObject.OA1Input.InPutStatus(ADT8940A1_IO.InPut_Cylinder_Mid);
+                //if (-1 == iCylinderMid)
+                //    return -1;
+                //else if (0 == iCylinderMid)
+                //{
+                //    Block.Block block = new Block.Block_Condition();
+                //    if (-1 == block.Block_In())
+                //        return -1;
+                //}
+
+                if (Lib_Card.Configure.Parameter.Machine_BlockCylinder != 0)
                 {
-                    Block.Block block = new Block.Block_Condition();
-                    if (-1 == block.Block_In())
-                        return -1;
+                    int i_Cylinder_Block = CardObject.OA1Input.InPutStatus(ADT8940A1_IO.InPut_Cylinder_Block);
+                    if(i_Cylinder_Block == 0)
+                    {
+                        Block.Block block = new Block.Block_Condition();
+                        if (-1 == block.Block_In())
+                            return -1;
+                    }
                 }
 
                 iRes = CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Cylinder_Up, 1);
@@ -360,12 +373,12 @@ namespace Lib_Card.ADT8940A1.OutPut.Cylinder.DualControl
                 //if (bDelay)
                 //    Lib_Card.CardObject.DeleteD(s);
 
-                if (1 == iCylinderMid)
-                {
-                    Block.Block block = new Block.Block_Condition();
-                    if (-1 == block.Block_In())
-                        return -1;
-                }
+                //if (1 == iCylinderMid)
+                //{
+                //    Block.Block block = new Block.Block_Condition();
+                //    if (-1 == block.Block_In())
+                //        return -1;
+                //}
 
                 //再判断一下气缸下信号是否有，有就提示，要手动确认没问题才可以继续
                 int iCylinderDown = CardObject.OA1Input.InPutStatus(ADT8940A1_IO.InPut_Cylinder_Down);

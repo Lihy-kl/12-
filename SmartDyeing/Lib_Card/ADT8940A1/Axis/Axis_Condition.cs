@@ -794,11 +794,11 @@ namespace Lib_Card.ADT8940A1.Axis
                 //脉冲为正数时，方向向下时才报警，方向向上就不报警
                 else if (1 == iZCorotation)
                 {
-                    int iPositionNowY1 = 0;
-                    int iPositionRes1 = CardObject.OA1.ReadAxisCommandPosition(ADT8940A1_IO.Axis_Y, ref iPositionNowY1);
+                    int iPositionNowZ1 = 0;
+                    int iPositionRes1 = CardObject.OA1.ReadAxisCommandPosition(ADT8940A1_IO.Axis_Z, ref iPositionNowZ1);
                     if (-1 == iPositionRes1)
                         return -1;
-                    if (iPulse <= iPositionNowY1)
+                    if (iPulse <= iPositionNowZ1)
                         throw new Exception("Z轴反限位已通");
                 }
 

@@ -269,6 +269,16 @@ namespace SmartDyeing.FADM_Object
                     }
                     else
                     {
+                        int[] ia_values_ask = new int[10];
+                        for (int i = 0; i < ia_values_ask.Length; i++)
+                        {
+                            ia_values_ask[i] = 0;
+                        }
+
+
+                        int i_ret1 = -1;
+                        i_ret1 = Read(270, 10, ref ia_values_ask);
+
                         for (int i = 0; i < 10; i++)
                         {
                             int[] ia_values = new int[16];
@@ -290,6 +300,7 @@ namespace SmartDyeing.FADM_Object
                                 d._s_addWater = (ia_values[9]).ToString();
                                 d._s_dripFail = (ia_values[10]).ToString();
                                 d._s_history = (ia_values[11]).ToString();
+                                d._s_putcloth = (ia_values_ask[i]).ToString();
                                 int[] ia_values1 = new int[1];
                                 lis_l.Add(d);
                                 _b_Connect = true;

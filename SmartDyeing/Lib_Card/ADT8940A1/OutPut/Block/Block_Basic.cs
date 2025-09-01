@@ -15,7 +15,9 @@ namespace Lib_Card.ADT8940A1.OutPut.Block
                 return 0;
             }
 
-            if (-1 == CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Block, 0))
+            if (-1 == CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Block_Out, 0))
+                return -1;
+            if (-1 == CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Block_In, 1))
                 return -1;
             return 0;
         }
@@ -27,7 +29,9 @@ namespace Lib_Card.ADT8940A1.OutPut.Block
                 return 0;
             }
 
-            if (-1 == CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Block, 1))
+            if (-1 == CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Block_Out, 1))
+                return -1;
+            if (-1 == CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Block_In, 0))
                 return -1;
             return 0;
         }

@@ -612,7 +612,9 @@
     <Compile Include="Lib_Card\ADT8940A1\InPut\InPut.cs" />
     <Compile Include="Lib_Card\ADT8940A1\InPut\InPut_Basic.cs" />
     <Compile Include="Lib_Card\ADT8940A1\Module\Clamp\GetOrPutClamp.cs" />
+    <Compile Include="Lib_Card\ADT8940A1\Module\Cloth\GetOrPutCloth.cs" />
     <Compile Include="Lib_Card\ADT8940A1\Module\Cover\GetOrPutCover.cs" />
+    <Compile Include="Lib_Card\ADT8940A1\Module\Cylinder\CylinderMo.cs" />
     <Compile Include="Lib_Card\ADT8940A1\Module\Extraction\Extraction.cs" />
     <Compile Include="Lib_Card\ADT8940A1\Module\Extraction\Extraction_Check.cs" />
     <Compile Include="Lib_Card\ADT8940A1\Module\Extraction\Extraction_Drip.cs" />
@@ -1147,6 +1149,8 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Lib_Card\ADT8940A1\Module\Wash\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

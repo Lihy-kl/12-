@@ -1195,6 +1195,11 @@ namespace SmartDyeing.FADM_Form
                     int i_d168_168 = 0;
                     this.ComParment(i_other_CoverTray, ref i_d168, ref i_d168_168);
 
+                    int i_other_RepeatGetCloth = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_RepeatGetCloth);//开盖是否要伸出接液盘
+                    int i_d170 = 0;
+                    int i_d170_170 = 0;
+                    this.ComParment(i_other_RepeatGetCloth, ref i_d170, ref i_d170_170);
+
                     if (Convert.ToInt32(Lib_Card.Configure.Parameter.Correcting_B_Pulse) < 0)
                     {
                         FADM_Form.CustomMessageBox.Show("大针筒校正脉冲错误!", "设备", MessageBoxButtons.OK, false);
@@ -1272,7 +1277,7 @@ namespace SmartDyeing.FADM_Form
                         }
 
                         int[] ia_array2 = { i_d148, i_d148_148, i_d150, i_d150_150, i_d152, i_d152_152, i_d154, i_d154_154, i_d156, i_d156_156, i_d158
-                                , i_d158_158, i_d160, i_d160_160, i_d162, i_d162_162,i_d164,i_d164_164,i_d166,i_d166_166,i_d168,i_d168_168 };
+                                , i_d158_158, i_d160, i_d160_160, i_d162, i_d162_162,i_d164,i_d164_164,i_d166,i_d166_166,i_d168,i_d168_168,i_d170,i_d170_170 };
 
                         int i_c2 = FADM_Object.Communal._tcpModBus.Write(1148, ia_array2);
                         if (i_c2 == -1)
@@ -2734,6 +2739,13 @@ namespace SmartDyeing.FADM_Form
                 {
                     Communal._fadmSqlserver.ReviseData("ALTER TABLE assistant_details ADD Reweigh int null ");
                     Communal._fadmSqlserver.ReviseData("Update assistant_details Set Reweigh=1");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'dyeing_process' AND COLUMN_NAME = 'OpenMedicine'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE dyeing_process ADD OpenMedicine int null ");
+                    Communal._fadmSqlserver.ReviseData("Update dyeing_process Set OpenMedicine=0");
                 }
 
             }

@@ -68,6 +68,18 @@ namespace SmartDyeing.FADM_Form
                 FADM_Object.Communal._b_isCupAreaOnly = true;
             }
 
+            string s_isUseAutoChoose = Lib_File.Ini.GetIni("Setting", "IsUseAutoChoose", "1", s_path);
+            if (s_isUseAutoChoose == "0")
+            {
+                FADM_Object.Communal._b_isUseAutoChoose = false;
+            }
+
+            FADM_Object.Communal._i_AskTimes = Convert.ToInt32(Lib_File.Ini.GetIni("Setting", "AskTimes", "2", s_path));
+            if(FADM_Object.Communal._i_AskTimes < 2)
+            {
+                FADM_Object.Communal._i_AskTimes = 2;
+            }
+
             string s_newSet = Lib_File.Ini.GetIni("Setting", "IsNewSet", "1", s_path);
             if (s_newSet == "0")
             {
@@ -191,10 +203,13 @@ namespace SmartDyeing.FADM_Form
                 P_thd.IsBackground = true;
                 P_thd.Start();
 
-                //自动点击待办事项线程
-                Thread P_thd3 = new Thread(AutoChoose);
-                P_thd3.IsBackground = true;
-                P_thd3.Start();
+                if (FADM_Object.Communal._b_isUseAutoChoose)
+                {
+                    //自动点击待办事项线程
+                    Thread P_thd3 = new Thread(AutoChoose);
+                    P_thd3.IsBackground = true;
+                    P_thd3.Start();
+                }
 
                 //自动加入批次
                 Thread P_thd1 = new Thread(WaitList);
@@ -734,6 +749,12 @@ namespace SmartDyeing.FADM_Form
 
             string s_AlarmDropWeight = Lib_File.Ini.GetIni("Setting", "AlarmDropWeight", "0.1", s_path);
             FADM_Object.Communal._d_AlarmDropWeight = Convert.ToDouble(s_AlarmDropWeight);
+
+            string s_isCloseAddMed = Lib_File.Ini.GetIni("Setting", "IsCloseAddMed", "0", s_path);
+            if (s_isCloseAddMed == "1")
+            {
+                FADM_Object.Communal._b_isCloseAddMed = true;
+            }
         }
 
         public void countDown()
@@ -952,7 +973,7 @@ namespace SmartDyeing.FADM_Form
                     {
                         //休眠60秒
                         Thread.Sleep(60000);
-                        if (_i_chooseTimes % 2 == 0)
+                        if (_i_chooseTimes % Communal._i_AskTimes == 0)
                         {
 
                         }
@@ -964,7 +985,7 @@ namespace SmartDyeing.FADM_Form
                     else
                     {
                         //5分钟执行一次
-                        if (_i_chooseTimes % 2 == 0)
+                        if (_i_chooseTimes % Communal._i_AskTimes == 0)
                         {
                             var sortedKeys = Lib_Card.CardObject.keyValuePairs.Keys.OrderByDescending(k => k);
 

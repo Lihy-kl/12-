@@ -187,6 +187,19 @@
         public static int InPut_Block_In { get; set; }
         #endregion
 
+        #region 气缸
+
+        /// <summary>
+        /// 气缸慢速中限位
+        /// </summary>
+        public static int InPut_Slow_Cylinder_Mid { get; set; }
+
+        /// <summary>
+        /// 气缸阻挡限位
+        /// </summary>
+        public static int InPut_Cylinder_Block { get; set; }
+        #endregion
+
         #region 撑盖
 
         /// <summary>
@@ -321,9 +334,42 @@
         #region 阻挡气缸
 
         /// <summary>
-        /// 阻挡气缸出
+        /// 阻挡出
         /// </summary>
-        public static int OutPut_Block { get; set; }
+        public static int OutPut_Block_Out { get; set; }
+
+        /// <summary>
+        /// 阻挡回
+        /// </summary>
+        public static int OutPut_Block_In { get; set; }
+
+        #endregion
+
+        #region 气缸慢下阀
+
+        /// <summary>
+        /// 气缸慢下阀
+        /// </summary>
+        public static int OutPut_Slow_Cylinder { get; set; }
+
+        #endregion
+
+        #region 洗针
+
+        /// <summary>
+        /// 洗针进水阀
+        /// </summary>
+        public static int OutPut_Wash_In { get; set; }
+
+        /// <summary>
+        /// 洗针排水阀
+        /// </summary>
+        public static int OutPut_Wash_Out { get; set; }
+
+        /// <summary>
+        /// 洗针吹气阀
+        /// </summary>
+        public static int OutPut_Wash_Blow { get; set; }
 
         #endregion
 

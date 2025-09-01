@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DyeingConfiguration));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DyeingConfiguration));
             this.grp_BrewingProcess = new System.Windows.Forms.GroupBox();
             this.btn_Insert = new System.Windows.Forms.Button();
             this.btn_Copy = new System.Windows.Forms.Button();
@@ -46,6 +46,7 @@
             this.lab_BrewProcessCode = new System.Windows.Forms.Label();
             this.grp_Dyeing = new System.Windows.Forms.GroupBox();
             this.dgv_Dye_Code = new System.Windows.Forms.DataGridView();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.grp_BrewingProcess.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Child_DyeData)).BeginInit();
             this.grp_Dyeing.SuspendLayout();
@@ -54,6 +55,7 @@
             // 
             // grp_BrewingProcess
             // 
+            this.grp_BrewingProcess.Controls.Add(this.checkBox1);
             this.grp_BrewingProcess.Controls.Add(this.btn_Insert);
             this.grp_BrewingProcess.Controls.Add(this.btn_Copy);
             this.grp_BrewingProcess.Controls.Add(this.txt_Notes);
@@ -197,6 +199,13 @@
             this.dgv_Dye_Code.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgv_Dye_Code.CurrentCellChanged += new System.EventHandler(this.dgv_Dye_Code_CurrentCellChanged);
             // 
+            // checkBox1
+            // 
+            resources.ApplyResources(this.checkBox1, "checkBox1");
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.Click += new System.EventHandler(this.checkBox1_Click);
+            // 
             // DyeingConfiguration
             // 
             resources.ApplyResources(this, "$this");
@@ -230,5 +239,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btn_Copy;
         private System.Windows.Forms.Button btn_Insert;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

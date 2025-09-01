@@ -42,7 +42,7 @@ namespace SmartDyeing.FADM_Control
             {
                 _lis_code.Add(dt_dyeingcode.Rows[i][0].ToString());
             }
-
+            _lis_code.Sort();
             for (int i = 0; i < dgv_Combination.Rows.Count; i++)
             {
                 DataGridViewComboBoxCell dd = (DataGridViewComboBoxCell)dgv_Combination[0, i];

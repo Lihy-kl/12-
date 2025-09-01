@@ -629,6 +629,10 @@ namespace SmartDyeing.FADM_Object
 
         public static bool _b_isCupAreaOnly = false;//配液杯是否独立页面
 
+        public static bool _b_isUseAutoChoose = true;//是否启动自动选择
+
+        public static int _i_AskTimes = 2;//自动选择轮询时间
+
         public static bool _b_isNewSet = true;//母液区摆设(0:以前传统滴液机母液区摆设 1:PLC版母液区摆设,原点在10号母液瓶)
 
         public static bool _b_isGetDryClamp = false;//是否拿着干布夹子
@@ -849,6 +853,11 @@ namespace SmartDyeing.FADM_Object
         /// 是否有洗针筒
         /// </summary>
         public static bool _b_isHasWashSyringe = false;
+
+        /// <summary>
+        /// 是否有带盖加药
+        /// </summary>
+        public static bool _b_isCloseAddMed = false;
 
 
         /// <summary>
@@ -1958,7 +1967,14 @@ namespace SmartDyeing.FADM_Object
                 if (i_type == 1)
                 {
                     FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "注液启动(" + iInfusionPulse + ")");
-                    i_mRes = MyModbusFun.Shove(iInfusionPulse, 0);
+                    if (i_special == 1)
+                    {
+                        i_mRes = MyModbusFun.DyeShove(iInfusionPulse, 1);
+                    }
+                    else
+                    {
+                        i_mRes = MyModbusFun.Shove(iInfusionPulse, 0);
+                    }
                     if (-2 == i_mRes)
                         throw new Exception("收到退出消息");
                 }
@@ -2012,7 +2028,14 @@ namespace SmartDyeing.FADM_Object
                 if (i_type == 1)
                 {
                     FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "注液启动(" + iInfusionPulse + ")");
-                    i_mRes = MyModbusFun.Shove(iInfusionPulse,1);
+                    if (i_special == 1)
+                    {
+                        i_mRes = MyModbusFun.DyeShove(iInfusionPulse, 1);
+                    }
+                    else
+                    {
+                        i_mRes = MyModbusFun.Shove(iInfusionPulse, 1);
+                    }
                     if (-2 == i_mRes)
                         throw new Exception("收到退出消息");
                 }
@@ -2043,7 +2066,7 @@ namespace SmartDyeing.FADM_Object
 
         //移动到天平位
         label13:
-            if (i_special == 1)
+            if (i_special == 1|| i_special == 2)
             {
                 if ("小针筒" == s_syringeType || "Little Syringe" == s_syringeType)
                     _d_reviewBalance = Lib_Card.Configure.Parameter.Correcting_S_Weight;

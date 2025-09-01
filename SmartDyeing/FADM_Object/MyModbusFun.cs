@@ -1,5 +1,6 @@
 ﻿using Lib_Card;
 using Lib_Card.ADT8940A1;
+using Lib_Card.ADT8940A1.Module;
 using Lib_Card.ADT8940A1.Module.Home;
 using Lib_Card.ADT8940A1.Module.Put;
 using SmartDyeing.FADM_Auto;
@@ -476,7 +477,9 @@ namespace SmartDyeing.FADM_Object
                         }
                         else
                         {
-                            if (SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Contains(i_no) && (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 4 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 5))
+                            if (SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Contains(i_no) && (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 0 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 1 
+                                || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 3 
+                                || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 4 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 5))
                             {
                                 if (i_no == 1)
                                 {
@@ -1124,7 +1127,7 @@ namespace SmartDyeing.FADM_Object
                         }
                         else
                         {
-                            if (SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Contains(i_no) && (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 4 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 5))
+                            if (SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Contains(i_no) && (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 0 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 4 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 5))
                             {
                                 if (i_no == 1)
                                 {
@@ -1804,7 +1807,9 @@ namespace SmartDyeing.FADM_Object
                         }
                         else
                         {
-                            if (SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Contains(i_no) && (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 4 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 5))
+                            if (SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Contains(i_no) && (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 0 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 1 
+                                || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 3 
+                                || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 4 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 5))
                             {
                                 if (i_no == 1)
                                 {
@@ -2452,7 +2457,7 @@ namespace SmartDyeing.FADM_Object
                         }
                         else
                         {
-                            if (SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Contains(i_no) && (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 4 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 5))
+                            if (SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Contains(i_no) && (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 0 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 4 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_no] == 5))
                             {
                                 if (i_no == 1)
                                 {
@@ -4733,6 +4738,117 @@ namespace SmartDyeing.FADM_Object
         }
 
         /// <summary>
+        /// 注液
+        /// </summary>
+        /// <param name="i_extract_Pulse">脉冲数</param>
+        /// <param name="i_syringeType">大小针筒 0 小针筒 1 大针筒</param>
+        /// <returns></returns>
+        public static int DyeShove(int i_extract_Pulse, int i_syringeType)
+        {
+            if (Lib_Card.Configure.Parameter.Machine_Type == 0)
+            {
+                //气缸到阻挡位
+                CylinderMo cylinderMo = new CylinderMo();
+                if (-1 == cylinderMo.CylinderBlock(1))
+                    return -1;
+                Lib_Card.ADT8940A1.Module.Infusion.Infusion infusion;
+                infusion = new Lib_Card.ADT8940A1.Module.Infusion.Infusion_Up();
+                int iMRes = infusion.LiquidInfusion(i_syringeType, i_extract_Pulse);
+                if (-1 == iMRes)
+                    throw new Exception("驱动异常");
+                else if (-2 == iMRes)
+                    throw new Exception("收到退出消息");
+
+                return 0;
+            }
+            else
+            {
+                try
+                {
+                Label1:
+                    if (!FADM_Object.Communal._b_auto)
+                    {//在手动页面 等待手动页面退出
+                        goto Label1;
+                    }
+                    Lib_Log.Log.writeLogException("执行注液方法Extract_Pulse=" + i_extract_Pulse.ToString());
+
+                    bool b_istrue = false;
+                    FADM_Object.Communal.WriteTcpStatus(false); //天平先不要轮询
+                    ClearSuccessState();//先清除标志位
+                    Lib_Log.Log.writeLogException("清除标志位结束");
+
+                lableTop:
+                    int d_1 = 0;
+                    d_1 = i_extract_Pulse / 65536;
+                    if (i_extract_Pulse < 0) //负数脉冲
+                    {
+                        if (d_1 == 0)
+                        {
+                            d_1 = -1;
+                        }
+                        else
+                        {
+                            if (Math.Abs(i_extract_Pulse) > 65536)
+                            {
+                                d_1 = d_1 + -1;
+                            }
+                        }
+                    }
+                    else
+                    {  //正数脉冲
+                        d_1 = i_extract_Pulse / 65536;
+                    }
+
+                    int[] ia_array = { 4, 0, 0, 0, 0, i_extract_Pulse, d_1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 };
+                    int i_state = FADM_Object.Communal._tcpModBus.Write(800, ia_array);
+                    if (i_state != -1)
+                    {
+                        //判断错误返回值
+                        if (GetReturn(1) == -2)
+                        {
+                            return -2;
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        Lib_Log.Log.writeLogException("写入注液编号返回失败,继续写入");
+                        Console.WriteLine("写入注液编号返回失败,继续写入");
+                        if (b_istrue)
+                        {
+                            b_istrue = false;
+                            FADM_Object.Communal._tcpModBus.ReConnect();
+                            goto lableTop;
+                        }
+                        b_istrue = true;
+                        goto lableTop;
+                        //throw new Exception("8");
+                    }
+                    return 0;
+                }
+                catch (Exception e)
+                {
+                    FADM_Object.Communal.WriteTcpStatus(true); //恢复
+                    if (e.Message.Equals("-2") || e.Message.Equals("8"))
+                    {
+                        throw e;
+                    }
+                    else
+                    {
+                        throw new Exception("-1");
+                    }
+                }
+                finally
+                {
+                    FADM_Object.Communal.WriteTcpStatus(true); //恢复
+                }
+            }
+        }
+
+        /// <summary>
         /// 吸光度注液
         /// </summary>
         /// <param name="i_extract_Pulse">脉冲数</param>
@@ -5153,7 +5269,7 @@ namespace SmartDyeing.FADM_Object
                     //else if (-2 == iMRes)
                     //    throw new Exception("收到退出消息");
 
-                    int i_mRes1 = MyModbusFun.TargetMove(5, FADM_Object.Communal._i_optBottleNum, 0);
+                    int i_mRes1 = MyModbusFun.TargetMove(5, i_cupNum, 0);
                     if (-2 == i_mRes1)
                         throw new Exception("收到退出消息");
 
@@ -5770,6 +5886,155 @@ namespace SmartDyeing.FADM_Object
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
                 OpenOrCloseBear();
+                Lib_Card.ADT8940A1.Module.GetOrPutCloth getOrPutCloth = new Lib_Card.ADT8940A1.Module.GetOrPutCloth();
+                //放布
+                if (i_getCloth == 0)
+                {
+                    getOrPutCloth.GetOrPut(Lib_Card.Configure.Parameter.Machine_CylinderVersion, 1, i_xStartPules, i_yStartPules, i_xEndPules, i_yEndPules);
+                }
+                //出布
+                else
+                {
+                    getOrPutCloth.GetOrPut(Lib_Card.Configure.Parameter.Machine_CylinderVersion, 2, i_xStartPules, i_yStartPules, i_xEndPules, i_yEndPules);
+                }
+                return 0;
+            }
+            else
+            {
+                try
+                {
+                Label1:
+                    if (!FADM_Object.Communal._b_auto)
+                    {//在手动页面 等待手动页面退出
+                        goto Label1;
+                    }
+                    Lib_Log.Log.writeLogException("执行出布/放布方法");
+
+                    bool b_istrue = false;
+                    FADM_Object.Communal.WriteTcpStatus(false); //天平先不要轮询
+                    ClearSuccessState();//先清除标志位
+                    Lib_Log.Log.writeLogException("清除标志位结束");
+
+                lableTop:
+                    int d_1 = 0;
+                    if (i_xStartPules > 65536)
+                    {
+                        d_1 = i_xStartPules / 65536;
+                        i_xStartPules = i_xStartPules % 65536;
+                    }
+                    int d_2 = 0;
+                    if (i_yStartPules > 65536)
+                    {
+                        d_2 = i_yStartPules / 65536;
+                        i_yStartPules = i_yStartPules % 65536;
+                    }
+                    int d_3 = 0;
+                    if (i_xEndPules > 65536)
+                    {
+                        d_3 = i_xEndPules / 65536;
+                        i_xEndPules = i_xEndPules % 65536;
+                    }
+                    int d_4 = 0;
+                    if (i_yEndPules > 65536)
+                    {
+                        d_4 = i_yEndPules / 65536;
+                        i_yEndPules = i_yEndPules % 65536;
+                    }
+                    int[] ia_array = { 16, i_xStartPules, d_1, i_yStartPules, d_2, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, i_xEndPules, d_3, i_yEndPules, d_4, 0, 0, 0, 0, 0, i_getCloth, i_putCloth };
+                    int i_state = FADM_Object.Communal._tcpModBus.Write(800, ia_array);
+                    if (i_state != -1)
+                    {
+                        //判断错误返回值
+                        if (GetReturn(1) == -2)
+                        {
+                            return -2;
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        Lib_Log.Log.writeLogException("写入出布/放布动作编号返回失败,继续写入");
+                        Console.WriteLine("出布/放布编号返回失败,继续写入");
+                        if (b_istrue)
+                        {
+                            b_istrue = false;
+                            FADM_Object.Communal._tcpModBus.ReConnect();
+                            goto lableTop;
+                        }
+                        b_istrue = true;
+                        goto lableTop;
+                        //throw new Exception("10");
+                    }
+                    return 0;
+                }
+                catch (Exception e)
+                {
+                    FADM_Object.Communal.WriteTcpStatus(true); //恢复
+                    if (e.Message.Equals("-2") || e.Message.Equals("10") || e.Message.Equals("未发现杯盖") || e.Message.Equals("发现杯盖或针筒") || e.Message.Equals("抓手A夹紧异常") || e.Message.Equals("抓手B夹紧异常"))
+                    {
+                        //    string msg = "";
+                        //    int[] ia_errArray = new int[100];
+                        //Label123:
+                        //    int i_state1 = MyModbusFun.GetErrMsgNew(ref ia_errArray);
+                        //    if (i_state1 == -1)
+                        //        goto Label123;
+                        //    for (int i = 0; i < ia_errArray.Length; i++)
+                        //    {
+                        //        if (ia_errArray[i] == 2702)
+                        //        {
+                        //            throw new Exception("未发现杯盖");
+                        //        }
+                        //        else if (ia_errArray[i] == 2701)
+                        //        {
+                        //            throw new Exception("发现杯盖或针筒");
+                        //        }
+
+                        //    }
+                        throw e;
+                    }
+                    else
+                    {
+                        throw new Exception("-1");
+                    }
+                }
+                finally
+                {
+                    FADM_Object.Communal.WriteTcpStatus(true); //恢复
+                }
+            }
+        }
+
+        /// <summary>
+        /// 出布/放布(转子)
+        /// </summary>
+        /// <param name="i_xStartPules">开始X坐标</param>
+        /// <param name="i_yStartPules">开始Y坐标</param>
+        /// <param name="i_xEndPules">结束X坐标</param>
+        /// <param name="i_yEndPules">结束Y坐标</param>
+        /// <param name="i_xt">挡水板X坐标</param>
+        /// <param name="i_yt">挡水板Y坐标</param>
+        /// <param name="i_getCloth">0:备布区 1：缸体</param>
+        /// <param name="i_putCloth">0:完成区 1：缸体</param>
+        /// <returns></returns>
+        public static int PutOrGetCloth_Rotor(int i_xStartPules, int i_yStartPules, int i_xEndPules, int i_yEndPules, int i_getCloth, int i_putCloth, int i_xt, int i_yt)
+        {
+            if (Lib_Card.Configure.Parameter.Machine_Type == 0)
+            {
+                OpenOrCloseBear();
+                Lib_Card.ADT8940A1.Module.GetOrPutCloth getOrPutCloth = new Lib_Card.ADT8940A1.Module.GetOrPutCloth();
+                //放布
+                if (i_getCloth == 0)
+                {
+                    getOrPutCloth.GetOrPut_Rotor(Lib_Card.Configure.Parameter.Machine_CylinderVersion, 1, i_xStartPules, i_yStartPules, i_xEndPules, i_yEndPules, i_xt, i_yt);
+                }
+                //出布
+                else
+                {
+                    getOrPutCloth.GetOrPut_Rotor(Lib_Card.Configure.Parameter.Machine_CylinderVersion, 2, i_xStartPules, i_yStartPules, i_xEndPules, i_yEndPules, i_xt, i_yt);
+                }
                 return 0;
             }
             else
@@ -6062,6 +6327,26 @@ namespace SmartDyeing.FADM_Object
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
                 OpenOrCloseBear();
+                //移动到布夹位置
+                Lib_Card.ADT8940A1.Module.Move.Move move = new Lib_Card.ADT8940A1.Module.Move.TargeMove();
+                int iMove = move.TargetMove(Lib_Card.Configure.Parameter.Machine_CylinderVersion, 0, i_xStartPules, i_yStartPules, 0);
+                if (-1 == iMove)
+                    throw new Exception("驱动异常");
+                else if (-2 == iMove)
+                    throw new Exception("收到退出消息");
+                //拿布夹
+                Lib_Card.ADT8940A1.Module.GetOrPutClamp getOrPutClamp=new Lib_Card.ADT8940A1.Module.GetOrPutClamp();
+                getOrPutClamp.GetClamp(Lib_Card.Configure.Parameter.Machine_CylinderVersion);
+                if (i_type == 1)
+                {
+                    FADM_Object.Communal._b_isGetDryClamp = true;
+                    FADM_Object.Communal._b_isGetWetClamp = false;
+                }
+                else
+                {
+                    FADM_Object.Communal._b_isGetWetClamp = true;
+                    FADM_Object.Communal._b_isGetDryClamp = false;
+                }
                 return 0;
             }
             else
@@ -6305,6 +6590,19 @@ namespace SmartDyeing.FADM_Object
             if (Lib_Card.Configure.Parameter.Machine_Type == 0)
             {
                 OpenOrCloseBear();
+                //移动到布夹位置
+                Lib_Card.ADT8940A1.Module.Move.Move move = new Lib_Card.ADT8940A1.Module.Move.TargeMove();
+                int iMove = move.TargetMove(Lib_Card.Configure.Parameter.Machine_CylinderVersion, 0, i_xStartPules, i_yStartPules, 0);
+                if (-1 == iMove)
+                    throw new Exception("驱动异常");
+                else if (-2 == iMove)
+                    throw new Exception("收到退出消息");
+                //拿布夹
+                Lib_Card.ADT8940A1.Module.GetOrPutClamp getOrPutClamp = new Lib_Card.ADT8940A1.Module.GetOrPutClamp();
+                getOrPutClamp.PutClamp(Lib_Card.Configure.Parameter.Machine_CylinderVersion);
+                //把抓夹子状态置为false
+                FADM_Object.Communal._b_isGetDryClamp = false;
+                FADM_Object.Communal._b_isGetWetClamp = false;
                 return 0;
             }
             else
