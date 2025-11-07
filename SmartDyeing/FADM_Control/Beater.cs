@@ -1465,5 +1465,27 @@ namespace SmartDyeing.FADM_Control
 
             }
         }
+
+        private void tsm_ReSend_Click(object sender, EventArgs e)
+        {
+            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+            {
+                DialogResult dialogResult = FADM_Form.CustomMessageBox.Show(_cup.NO + "号是否重新下发?(确认下发是，取消请点否)", "温馨提示", MessageBoxButtons.YesNo, true);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    FADM_Object.Communal._lis_ReSendCup.Add(Convert.ToInt16(_cup.NO));
+                }
+
+            }
+            else
+            {
+                DialogResult dialogResult = FADM_Form.CustomMessageBox.Show(_cup.NO + " Are you sure to Resend  ? (To confirm the Resend, please click Yes. To cancel , please click No)", "Tips", MessageBoxButtons.YesNo, true);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    FADM_Object.Communal._lis_ReSendCup.Add(Convert.ToInt16(_cup.NO));
+                }
+
+            }
+        }
     }
 }

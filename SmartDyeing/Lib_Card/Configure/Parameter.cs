@@ -1092,6 +1092,26 @@
         public static int Coordinate_Abs2_Y { get; set; }
 
 
+        /// <summary>
+        /// 吸光度3号杯X轴坐标
+        /// </summary>
+        public static int Coordinate_Abs3_X { get; set; }
+
+        /// <summary>
+        /// 吸光度3号杯Y轴坐标
+        /// </summary>
+        public static int Coordinate_Abs3_Y { get; set; }
+
+        /// <summary>
+        /// 吸光度4号杯X轴坐标
+        /// </summary>
+        public static int Coordinate_Abs4_X { get; set; }
+
+        /// <summary>
+        /// 吸光度4号杯Y轴坐标
+        /// </summary>
+        public static int Coordinate_Abs4_Y { get; set; }
+
 
         /// <summary>
         /// 1号杯X坐标
@@ -2644,6 +2664,36 @@
         /// 出布时是否进行两次出布动作
         /// </summary>
         public static int Other_RepeatGetCloth { get; set; }
+
+        /// <summary>
+        /// 50g布夹放布后回零点 0=需要回原点，1=不回原点
+        /// </summary>
+        public static int Other_OutClothZero { get; set; }
+
+        /// <summary>
+        /// 慢速中气缸常开常闭切换0=气阀常开（常用），1=气阀常闭
+        /// </summary>
+        public static int Other_ValveTerminalOpen { get; set; }
+
+        /// <summary>
+        /// 布重上限
+        /// </summary>
+        public static double Other_ClothUp { get; set; }
+
+        /// <summary>
+        /// 布重下限
+        /// </summary>
+        public static double Other_ClothDown { get; set; }
+
+        /// <summary>
+        /// 合夹夹布脉冲上限
+        /// </summary>
+        public static int Other_ClothPulseUp { get; set; }
+
+        /// <summary>
+        /// 合夹夹布脉冲下限
+        /// </summary>
+        public static int Other_ClothPulseDown { get; set; }
 
     }
 }

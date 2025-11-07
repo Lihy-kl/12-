@@ -733,6 +733,11 @@ namespace SmartDyeing.FADM_Control
                         }
                     }
                 }
+
+                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[Convert.ToInt32(_cup.NO)] != 5)
+                {
+                    tsm_ReSend.Visible = false;
+                }
             }
             catch { }
         }
@@ -746,6 +751,15 @@ namespace SmartDyeing.FADM_Control
             {
                 FADM_Object.Communal._lis_HighWashCup.Add(Convert.ToInt16(_cup.NO));
 
+            }
+        }
+
+        private void tsm_ReSend_Click_1(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = FADM_Form.CustomMessageBox.Show(_cup.NO + "号是否重新下发?(确认下发是，取消请点否)", "温馨提示", MessageBoxButtons.YesNo, true);
+            if (dialogResult == DialogResult.Yes)
+            {
+                FADM_Object.Communal._lis_ReSendCup.Add(Convert.ToInt16(_cup.NO));
             }
         }
     }

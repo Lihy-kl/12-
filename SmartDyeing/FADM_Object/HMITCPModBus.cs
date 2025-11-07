@@ -43,7 +43,8 @@ namespace SmartDyeing.FADM_Object
         //是否已经读取版本号
         public bool _b_isGetVer = false;
 
-
+        //是否急停信号已发送
+        public bool b_isSendStop = false;
         //连接
         public int Connect()
         {
@@ -191,7 +192,7 @@ namespace SmartDyeing.FADM_Object
             {
                 try
                 {
-                    if (i_type == 1 || i_type == 2|| i_type == 3 || i_type == 4 || i_type == 5)
+                    if (i_type == 1 || i_type == 2|| i_type == 3 /*|| i_type == 4*/ || i_type == 5 )
                     {
                         int[] ia_values_ask = new int[6];
                         for(int i = 0;i< ia_values_ask.Length;i++)
@@ -238,10 +239,12 @@ namespace SmartDyeing.FADM_Object
                                     d._s_history = (ia_values[11]).ToString();
                                     d._s_lockUp = (ia_values[17]).ToString();
                                     d._s_Warm = (ia_values[19]).ToString();
+                                    d._s_Warm2 = (ia_values[62]).ToString();
                                     d._s_secondhistory = (ia_values[21]).ToString();
                                     d._s_secondopenInplace = (ia_values[22]).ToString();
                                     d._s_secondrealTem = (ia_values[44]).ToString();
                                     d._s_putcloth = (ia_values_ask[i]).ToString();
+                                    d._s_reStart = (ia_values[63]).ToString();
                                     //int[] ia_values1 = new int[1];
                                     lis_l.Add(d);
                                     _b_Connect = true;
@@ -266,6 +269,94 @@ namespace SmartDyeing.FADM_Object
                         }
 
                         
+                    }
+                    //16杯翻转
+                    else if (i_type == 4)
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            int[] ia_values = new int[64];
+                            int i_ret = -1;
+                            //if (i_type == 0)
+                            {
+                                i_ret = Read(0x0100 + 64 * i, 64, ref ia_values);
+                                if (i_ret == 0)
+                                {
+                                    //解析数据
+                                    Data d = new Data();
+                                    d._s_waitData = (ia_values[0]).ToString();
+                                    d._s_isTotalFinish = (ia_values[1]).ToString();
+                                    d._s_realTem = (ia_values[2]).ToString();
+                                    d._s_currentCraft = (ia_values[3]).ToString();
+                                    d._s_currentState = (ia_values[4]).ToString();
+                                    d._s_currentStepNum = (ia_values[5]).ToString();
+                                    d._s_holdTimes = (ia_values[6]).ToString();
+                                    d._s_overTime = (ia_values[7]).ToString();
+                                    d._s_openInplace = (ia_values[8]).ToString();
+                                    d._s_addWater = (ia_values[9]).ToString();
+                                    d._s_dripFail = (ia_values[10]).ToString();
+                                    d._s_history = (ia_values[11]).ToString();
+                                    d._s_lockUp = (ia_values[17]).ToString();
+                                    d._s_Warm = (ia_values[19]).ToString();
+                                    d._s_secondhistory = (ia_values[21]).ToString();
+                                    d._s_secondopenInplace = (ia_values[22]).ToString();
+                                    d._s_secondrealTem = (ia_values[46]).ToString();
+                                    d._s_putcloth = (ia_values[23]).ToString();
+                                    //int[] ia_values1 = new int[1];
+                                    lis_l.Add(d);
+                                    _b_Connect = true;
+                                    //int ret1 = Read(508 + 64 * i, 1, ref ia_values1);
+                                    //if (ret1 == 0)
+                                    //{
+                                    //    d._s_coverSign = (ia_values1[0]).ToString();
+                                    //    lis_l.Add(d);
+                                    //    _b_Connect = true;
+                                    //}
+                                    //else
+                                    //{
+                                    //    _b_Connect = false;
+                                    //}
+                                }
+                                else
+                                {
+                                    _b_Connect = false;
+                                }
+                            }
+
+                        }
+                    }
+                    //12杯单杯单控
+                    else if (i_type == 6)
+                    {
+                        for (int i = 0; i < 12; i++)
+                        {
+                            int[] ia_values = new int[16];
+                            int i_ret = -1;
+                            //if (i_type == 0)
+                            {
+                                i_ret = Read(4100 + 100 * i, 16, ref ia_values);
+                                if (i_ret == 0)
+                                {
+                                    //解析数据
+                                    Data d = new Data();
+                                    d._s_currentState = (ia_values[0]).ToString();
+                                    d._s_Warm = (ia_values[1]).ToString();
+                                    d._s_realTem = (ia_values[6]).ToString();
+                                    d._s_currentStepNum = (ia_values[7]).ToString();
+                                    d._s_waitData = (ia_values[8]).ToString();
+                                    d._s_reqSave = (ia_values[9]).ToString();
+                                    d._s_isTotalFinish = (ia_values[10]).ToString();
+                                    d._s_currentCraft = (ia_values[13]).ToString();
+                                    lis_l.Add(d);
+                                    _b_Connect = true;
+                                }
+                                else
+                                {
+                                    _b_Connect = false;
+                                }
+                            }
+
+                        }
                     }
                     else
                     {
@@ -461,15 +552,28 @@ namespace SmartDyeing.FADM_Object
         public string _s_lockUp;
 
         /// <summary>
-        ///  报警提示 0=超极限温度 1=电机电流过大 2=高于安全温度进入冷行 3=回原点超时
+        ///  0=A杯超极限温度 1=电机电流过大 2=A杯高于安全温度进入冷行 3=回原点超时 4=上下锁止信号异常 5=B杯超温报警 6=B高于安全温度进入冷行 7=排水下到位信号异常
         /// </summary>
         public string _s_Warm;
+
+        /// <summary>
+        ///  bit0：主杯加热输出异常，bit1：副杯加热输出异常
+        /// </summary>
+        public string _s_Warm2;
 
         /// <summary>
         /// 放布确认申请(1放布申请)
         /// </summary>
         public string _s_putcloth;
 
+        /// <summary>
+        /// 请求保存数据
+        /// </summary>
+        public string _s_reqSave;
 
+        /// <summary>
+        /// 重启记录
+        /// </summary>
+        public string _s_reStart;
     }
 }

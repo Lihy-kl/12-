@@ -160,22 +160,37 @@
   <data name="cup4.Location" type="System.Drawing.Point, System.Drawing">
     <value>37, 157</value>
   </data>
+  <data name="tsm_Online.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 22</value>
+  </data>
   <data name="tsm_Online.Text" xml:space="preserve">
     <value>Online</value>
+  </data>
+  <data name="tsm_Offline.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 22</value>
   </data>
   <data name="tsm_Offline.Text" xml:space="preserve">
     <value>Offline</value>
   </data>
+  <data name="tsm_Stop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 22</value>
+  </data>
   <data name="tsm_Stop.Text" xml:space="preserve">
     <value>Stop</value>
   </data>
+  <data name="tsm_IsFix.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 22</value>
+  </data>
   <data name="tsm_IsFix.Text" xml:space="preserve">
     <value>IsFixed</value>
+  </data>
+  <data name="tsm_HighWash.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 22</value>
   </data>
   <data name="tsm_HighWash.Text" xml:space="preserve">
     <value>High Wash</value>
   </data>
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 136</value>
+    <value>140, 114</value>
   </data>
 </root>

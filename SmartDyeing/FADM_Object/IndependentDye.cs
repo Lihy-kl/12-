@@ -545,9 +545,24 @@ namespace SmartDyeing.FADM_Object
 
                             else if ("出布" == s_technologyName || "Outgoing fabric" == s_technologyName)
                                 ai_zero[0] = 0x05;
-                            //加药
-                            else
+                            else if ("加A" == s_technologyName || "Add A" == s_technologyName
+                                || "加B" == s_technologyName || "Add B" == s_technologyName
+                                ||"加C" == s_technologyName || "Add C" == s_technologyName 
+                                || "加D" == s_technologyName || "Add D" == s_technologyName
+                                || "加E" == s_technologyName || "Add E" == s_technologyName
+                                || "加F" == s_technologyName || "Add F" == s_technologyName
+                                || "加G" == s_technologyName || "Add G" == s_technologyName
+                                || "加H" == s_technologyName || "Add H" == s_technologyName
+                                || "加I" == s_technologyName || "Add I" == s_technologyName
+                                || "加J" == s_technologyName || "Add J" == s_technologyName
+                                || "加K" == s_technologyName || "Add K" == s_technologyName
+                                || "加L" == s_technologyName || "Add L" == s_technologyName
+                                || "加M" == s_technologyName || "Add M" == s_technologyName
+                                || "加N" == s_technologyName || "Add N" == s_technologyName)
                                 ai_zero[0] = 0x02;
+                            //其他
+                            else
+                                ai_zero[0] = 0x06;
                             //启动
                             ai_zero[1] = 1;
 

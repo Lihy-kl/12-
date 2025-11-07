@@ -49,6 +49,9 @@
             this.lab_BrewProcessCode = new System.Windows.Forms.Label();
             this.grp_Dyeing = new System.Windows.Forms.GroupBox();
             this.grp_BrewingProcess = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.txt_Remark = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.dgv_Combination = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -138,6 +141,9 @@
             // grp_BrewingProcess
             // 
             resources.ApplyResources(this.grp_BrewingProcess, "grp_BrewingProcess");
+            this.grp_BrewingProcess.Controls.Add(this.button1);
+            this.grp_BrewingProcess.Controls.Add(this.txt_Remark);
+            this.grp_BrewingProcess.Controls.Add(this.label1);
             this.grp_BrewingProcess.Controls.Add(this.checkBox1);
             this.grp_BrewingProcess.Controls.Add(this.dgv_Combination);
             this.grp_BrewingProcess.Controls.Add(this.btn_Save);
@@ -147,6 +153,24 @@
             this.grp_BrewingProcess.Controls.Add(this.lab_BrewProcessCode);
             this.grp_BrewingProcess.Name = "grp_BrewingProcess";
             this.grp_BrewingProcess.TabStop = false;
+            // 
+            // button1
+            // 
+            resources.ApplyResources(this.button1, "button1");
+            this.button1.Name = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // txt_Remark
+            // 
+            resources.ApplyResources(this.txt_Remark, "txt_Remark");
+            this.txt_Remark.Name = "txt_Remark";
+            this.txt_Remark.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_Remark_KeyDown);
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
             // checkBox1
             // 
@@ -405,5 +429,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox txt_Remark;
+        private System.Windows.Forms.Label label1;
     }
 }

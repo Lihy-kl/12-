@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -108,6 +109,14 @@ namespace SmartDyeing.FADM_Control
             foreach (DataRow dr in dt_operator_table.Rows)
             {
                 txt_Browse_Operator.Items.Add(Convert.ToString(dr[0]));
+            }
+
+            s_sql = "SELECT * FROM Colorists_table ;";
+            DataTable dt_Colorists_table = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
+
+            foreach (DataRow dr in dt_Colorists_table.Rows)
+            {
+                txt_Colorists.Items.Add(Convert.ToString(dr[0]));
             }
             //加个空字符串代表滴液
             txt_DyeingCode.Items.Add("");
@@ -320,6 +329,15 @@ namespace SmartDyeing.FADM_Control
                 case Keys.F3:
                     if (!FADM_Object.Communal._b_isBlockSaveButton)
                         btn_pre_Click(null, null);
+                    return false;
+                case Keys.F1:
+                    if (txt_DyeingCode.Focused || txt_FormulaGroup.Focused)
+                    {
+                        btn_upd.Focus();
+                        return false;
+                    }
+                    if (!FADM_Object.Communal._b_isBlockSaveButton)
+                        btn_upd_Click(null, null);
                     return false;
                 case Keys.F5:
                     if (!FADM_Object.Communal._b_isBlockSaveButton)
@@ -1056,8 +1074,8 @@ namespace SmartDyeing.FADM_Control
             Control[] c = null;
             if (Communal._b_isUseClamp|| Communal._b_isUseCloth)
             {
-                Control[] c1 = {txt_FormulaCode,txt_CupNum,txt_ClothNum,txt_FormulaGroup, txt_FormulaName,txt_ClothType, txt_Customer,
-                             txt_ClothWeight, txt_BathRatio,chk_AddWaterChoose,txt_Non_AnhydrationWR,txt_AnhydrationWR,txt_Operator, txt_DyeingCode,chk_Auto,
+                Control[] c1 = {txt_FormulaCode,txt_Recoloration,txt_CupNum,txt_ClothNum,txt_FormulaGroup, txt_FormulaName,txt_ClothType, txt_Customer,
+                             txt_ClothWeight, txt_BathRatio,chk_AddWaterChoose,txt_Non_AnhydrationWR,txt_AnhydrationWR,txt_Operator,txt_Colorists, txt_DyeingCode,chk_Auto,
                             dgv_FormulaData,/*dgv_Dye,txt_HandleBathRatio,dgv_Handle1,dgv_Handle2,dgv_Handle3,dgv_Handle4,dgv_Handle5*/};
                 c = c1;
                 if(!Communal._b_isUseCloth)
@@ -1067,8 +1085,8 @@ namespace SmartDyeing.FADM_Control
             }
             else
             {
-                Control[] c2 = {txt_FormulaCode,txt_CupNum,txt_FormulaGroup, txt_FormulaName,txt_ClothType, txt_Customer,
-                             txt_ClothWeight, txt_BathRatio,chk_AddWaterChoose,txt_Non_AnhydrationWR,txt_AnhydrationWR,txt_Operator,txt_DyeingCode, 
+                Control[] c2 = {txt_FormulaCode, txt_Recoloration,txt_CupNum,txt_FormulaGroup, txt_FormulaName,txt_ClothType, txt_Customer,
+                             txt_ClothWeight, txt_BathRatio,chk_AddWaterChoose,txt_Non_AnhydrationWR,txt_AnhydrationWR,txt_Operator,txt_Colorists,txt_DyeingCode,
                             dgv_FormulaData,/*dgv_Dye,txt_HandleBathRatio,dgv_Handle1,dgv_Handle2,dgv_Handle3,dgv_Handle4,dgv_Handle5*/};
                 c = c2;
                 _b_isFlagBaClo = true;
@@ -1710,11 +1728,18 @@ namespace SmartDyeing.FADM_Control
                                         {
                                             if (c[j + 1].Name == "chk_Auto")
                                             {
-                                                txt_DyeingCode.Leave -= txt_DyeingCode_Leave;
-                                                c[j + 1].Enabled = true;
-                                                c[j + 1].Focus();
+                                                if (chk_Auto.Visible)
+                                                {
+                                                    txt_DyeingCode.Leave -= txt_DyeingCode_Leave;
+                                                    c[j + 1].Enabled = true;
+                                                    c[j + 1].Focus();
 
-                                                return;
+                                                    return;
+                                                }
+                                                else
+                                                {
+                                                    continue;
+                                                }
                                             }
                                             else
                                             {
@@ -4331,6 +4356,7 @@ namespace SmartDyeing.FADM_Control
                                 _dic_dyeCode.Add(reNameDyeingCode.txt_Name.Text.Trim(), 3);
                                 txt_DyeingCode.SelectedIndexChanged -= txt_DyeingCode_SelectedIndexChanged2;
                                 this.txt_DyeingCode.Text = reNameDyeingCode.txt_Name.Text.Trim();
+                                this.txt_DyeingCodeRemark.Text = reNameDyeingCode.txt_Remark.Text.Trim();
                                 txt_DyeingCode.SelectedIndexChanged += txt_DyeingCode_SelectedIndexChanged2;
                             }
                         }
@@ -5077,19 +5103,25 @@ namespace SmartDyeing.FADM_Control
                     {
                         lis_head.Add("0");
                     }
+                    lis_head.Add(txt_Recoloration.Text);
+                    lis_head.Add(txt_DyeingCodeRemark.Text);
+                    lis_head.Add(txt_Colorists.Text);
                     // 添加进配方浏览表头
                     string s_sql_1 = "INSERT INTO formula_head (" +
                                          " FormulaCode, VersionNum, State, FormulaName," +
                                          " ClothType,Customer,AddWaterChoose,CompoundBoardChoose,ClothWeight," +
                                          " BathRatio,TotalWeight,Operator,CupCode,CreateTime," +
-                                         " ObjectAddWaterWeight,TestTubeObjectAddWaterWeight,CupNum,DyeingCode,Non_AnhydrationWR,AnhydrationWR,HandleBathRatio,Handle_Rev1,Handle_Rev2,Handle_Rev3,Handle_Rev4,Handle_Rev5,Stage,HandleBRList,ClothNum,IsAutoIn) VALUES('" + lis_head[0] + "'," +
+                                         " ObjectAddWaterWeight,TestTubeObjectAddWaterWeight,CupNum,DyeingCode,Non_AnhydrationWR,AnhydrationWR,HandleBathRatio," +
+                                         "Handle_Rev1,Handle_Rev2,Handle_Rev3,Handle_Rev4,Handle_Rev5,Stage,HandleBRList,ClothNum,IsAutoIn,Recoloration,DyeingCodeRemark,Colorists) VALUES('" + lis_head[0] + "'," +
                                          " '" + lis_head[1] + "', '" + lis_head[2] + "', '" + lis_head[3] + "', " +
                                          " '" + lis_head[4] + "', '" + lis_head[5] + "', '" + lis_head[6] + "', " +
                                          " '" + lis_head[7] + "', '" + lis_head[8] + "', '" + lis_head[9] + "', " +
                                          " '" + lis_head[10] + "', '" + lis_head[11] + "', '" + lis_head[12] + "', " +
                                          " '" + lis_head[13] + "', '" + lis_head[14] + "', '" + lis_head[15] + "', '" +
                                          lis_head[16] + "', '" + lis_head[17] + "', '" + lis_head[18] + "', '" + lis_head[19]
-                                         + "', '" + lis_head[20] + "', '" + lis_head[21] + "', '" + lis_head[22] + "', '" + lis_head[23] + "', '" + lis_head[24] + "', '" + lis_head[25] + "', '" + lis_head[26] + "', '" + lis_head[27] + "','" + lis_head[28] + "', '" + lis_head[29] + "');";
+                                         + "', '" + lis_head[20] + "', '" + lis_head[21] + "', '" + lis_head[22] + "', '" + lis_head[23]
+                                         + "', '" + lis_head[24] + "', '" + lis_head[25] + "', '" + lis_head[26] + "', '" + lis_head[27] 
+                                         + "','" + lis_head[28] + "', '" + lis_head[29] + "', '" + lis_head[30] + "', '" + lis_head[31] + "', '" + lis_head[32] + "');";
                     if (FADM_Object.Communal._b_isJustShowInfo)
                     {
                         FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_1);
@@ -6009,7 +6041,7 @@ namespace SmartDyeing.FADM_Control
                     {
 
                         //查询对应配方资料
-                        string s_sql = "SELECT FormulaCode, VersionNum, CreateTime, CupNum,Stage,DyeingCode from  formula_head WHERE FormulaCode ='" + dgv_FormulaBrowse.SelectedRows[i].Cells[0].Value.ToString() +
+                        string s_sql = "SELECT FormulaCode, VersionNum, CreateTime, CupNum,Stage,DyeingCode,ClothNum from  formula_head WHERE FormulaCode ='" + dgv_FormulaBrowse.SelectedRows[i].Cells[0].Value.ToString() +
                                 "' And  VersionNum = " + dgv_FormulaBrowse.SelectedRows[i].Cells[1].Value.ToString() + ";";
                         DataTable dt_data = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
                         if (dt_data.Rows.Count > 0)
@@ -6079,7 +6111,9 @@ namespace SmartDyeing.FADM_Control
                                                             i_nIndex = Convert.ToInt16(dt_cup_details.Rows[0]["maxnum"]) + 1;
                                                         }
 
-                                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
+                                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('" 
+                                                            + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() 
+                                                            + "," + dt_data.Rows[0][3].ToString() + "," + (dt_data.Rows[0]["ClothNum"] is DBNull?"0": dt_data.Rows[0]["ClothNum"].ToString()) + ",3);";
                                                         if (FADM_Object.Communal._b_isJustShowInfo)
                                                         {
                                                             FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
@@ -6191,7 +6225,9 @@ namespace SmartDyeing.FADM_Control
                                                         i_nIndex = Convert.ToInt16(dt_cup_details.Rows[0]["maxnum"]) + 1;
                                                     }
 
-                                                    s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
+                                                    s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('"
+                                                        + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() 
+                                                        + "," + dt_data.Rows[0][3].ToString() + "," + (dt_data.Rows[0]["ClothNum"] is DBNull ? "0" : dt_data.Rows[0]["ClothNum"].ToString()) + ",3);";
                                                     if (FADM_Object.Communal._b_isJustShowInfo)
                                                     {
                                                         FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
@@ -6300,7 +6336,9 @@ namespace SmartDyeing.FADM_Control
                                                     i_nIndex = Convert.ToInt16(dt_cup_details.Rows[0]["maxnum"]) + 1;
                                                 }
 
-                                                s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
+                                                s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('"
+                                                    + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() 
+                                                    + "," + dt_data.Rows[0][3].ToString() + "," + (dt_data.Rows[0]["ClothNum"] is DBNull ? "0" : dt_data.Rows[0]["ClothNum"].ToString()) + ",3);";
                                                 if (FADM_Object.Communal._b_isJustShowInfo)
                                                 {
                                                     FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
@@ -6328,7 +6366,9 @@ namespace SmartDyeing.FADM_Control
                                             i_nIndex = Convert.ToInt16(dt_cup_details.Rows[0]["maxnum"]) + 1;
                                         }
 
-                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
+                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('"
+                                            + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() 
+                                            + "," + dt_data.Rows[0][3].ToString() + "," + (dt_data.Rows[0]["ClothNum"] is DBNull ? "0" : dt_data.Rows[0]["ClothNum"].ToString()) + ",3);";
                                         if (FADM_Object.Communal._b_isJustShowInfo)
                                         {
                                             FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
@@ -6360,7 +6400,9 @@ namespace SmartDyeing.FADM_Control
                                             i_nIndex = Convert.ToInt16(dt_cup_details.Rows[0]["maxnum"]) + 1;
                                         }
 
-                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
+                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('"
+                                            + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() 
+                                            + "," + dt_data.Rows[0][3].ToString() + "," + (dt_data.Rows[0]["ClothNum"] is DBNull ? "0" : dt_data.Rows[0]["ClothNum"].ToString()) + ",3);";
                                         if (FADM_Object.Communal._b_isJustShowInfo)
                                         {
                                             FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
@@ -6422,7 +6464,9 @@ namespace SmartDyeing.FADM_Control
                                                                             i_nIndex = Convert.ToInt16(dt_cup_details.Rows[0]["maxnum"]) + 1;
                                                                         }
 
-                                                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
+                                                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('" 
+                                                                            + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() 
+                                                                            + "," + dt_data.Rows[0][3].ToString() + "," + (dt_data.Rows[0]["ClothNum"] is DBNull ? "0" : dt_data.Rows[0]["ClothNum"].ToString()) + ",3);";
                                                                         if (FADM_Object.Communal._b_isJustShowInfo)
                                                                         {
                                                                             FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
@@ -6448,7 +6492,9 @@ namespace SmartDyeing.FADM_Control
                                                                         i_nIndex = Convert.ToInt16(dt_cup_details.Rows[0]["maxnum"]) + 1;
                                                                     }
 
-                                                                    s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
+                                                                    s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('" 
+                                                                        + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() 
+                                                                        + "," + dt_data.Rows[0][3].ToString() + "," + (dt_data.Rows[0]["ClothNum"] is DBNull ? "0" : dt_data.Rows[0]["ClothNum"].ToString()) + ",3);";
                                                                     if (FADM_Object.Communal._b_isJustShowInfo)
                                                                     {
                                                                         FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
@@ -6486,7 +6532,9 @@ namespace SmartDyeing.FADM_Control
                                                                             i_nIndex = Convert.ToInt16(dt_cup_details.Rows[0]["maxnum"]) + 1;
                                                                         }
 
-                                                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
+                                                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('" 
+                                                                            + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() 
+                                                                            + "," + dt_data.Rows[0][3].ToString() + "," + (dt_data.Rows[0]["ClothNum"] is DBNull ? "0" : dt_data.Rows[0]["ClothNum"].ToString()) + ",3);";
                                                                         if (FADM_Object.Communal._b_isJustShowInfo)
                                                                         {
                                                                             FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
@@ -6512,7 +6560,9 @@ namespace SmartDyeing.FADM_Control
                                                                         i_nIndex = Convert.ToInt16(dt_cup_details.Rows[0]["maxnum"]) + 1;
                                                                     }
 
-                                                                    s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
+                                                                    s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('" 
+                                                                        + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() 
+                                                                        + "," + dt_data.Rows[0][3].ToString() + "," + (dt_data.Rows[0]["ClothNum"] is DBNull ? "0" : dt_data.Rows[0]["ClothNum"].ToString()) + ",3);";
                                                                     if (FADM_Object.Communal._b_isJustShowInfo)
                                                                     {
                                                                         FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
@@ -6540,7 +6590,9 @@ namespace SmartDyeing.FADM_Control
                                                             i_nIndex = Convert.ToInt16(dt_cup_details.Rows[0]["maxnum"]) + 1;
                                                         }
 
-                                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
+                                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('" 
+                                                            + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() 
+                                                            + "," + dt_data.Rows[0][3].ToString() + "," + (dt_data.Rows[0]["ClothNum"] is DBNull ? "0" : dt_data.Rows[0]["ClothNum"].ToString()) + ",3);";
                                                         if (FADM_Object.Communal._b_isJustShowInfo)
                                                         {
                                                             FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
@@ -6595,7 +6647,9 @@ namespace SmartDyeing.FADM_Control
                                                                 i_nIndex = Convert.ToInt16(dt_cup_details.Rows[0]["maxnum"]) + 1;
                                                             }
 
-                                                            s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
+                                                            s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('" 
+                                                                + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() 
+                                                                + "," + dt_data.Rows[0][3].ToString() + "," + (dt_data.Rows[0]["ClothNum"] is DBNull ? "0" : dt_data.Rows[0]["ClothNum"].ToString()) + ",3);";
                                                             if (FADM_Object.Communal._b_isJustShowInfo)
                                                             {
                                                                 FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
@@ -6621,7 +6675,9 @@ namespace SmartDyeing.FADM_Control
                                                             i_nIndex = Convert.ToInt16(dt_cup_details.Rows[0]["maxnum"]) + 1;
                                                         }
 
-                                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",3);";
+                                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('" 
+                                                            + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() 
+                                                            + "," + dt_data.Rows[0][3].ToString() + "," + (dt_data.Rows[0]["ClothNum"] is DBNull ? "0" : dt_data.Rows[0]["ClothNum"].ToString()) + ",3);";
                                                         if (FADM_Object.Communal._b_isJustShowInfo)
                                                         {
                                                             FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
@@ -6670,7 +6726,9 @@ namespace SmartDyeing.FADM_Control
                                                 i_nIndex = Convert.ToInt16(dt_cup_details.Rows[0]["maxnum"]) + 1;
                                             }
 
-                                            s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",2);";
+                                            s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('"
+                                                + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() 
+                                                + "," + dt_data.Rows[0][3].ToString() + "," + (dt_data.Rows[0]["ClothNum"] is DBNull ? "0" : dt_data.Rows[0]["ClothNum"].ToString()) + ",2);";
                                             if (FADM_Object.Communal._b_isJustShowInfo)
                                             {
                                                 FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
@@ -6700,7 +6758,9 @@ namespace SmartDyeing.FADM_Control
                                             i_nIndex = Convert.ToInt16(dt_cup_details.Rows[0]["maxnum"]) + 1;
                                         }
 
-                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",2);";
+                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('" 
+                                            + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString()
+                                            + "," + dt_data.Rows[0][3].ToString() + "," + (dt_data.Rows[0]["ClothNum"] is DBNull ? "0" : dt_data.Rows[0]["ClothNum"].ToString()) + ",2);";
                                         if (FADM_Object.Communal._b_isJustShowInfo)
                                         {
                                             FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sqltemp);
@@ -6738,7 +6798,9 @@ namespace SmartDyeing.FADM_Control
                                             i_nIndex = Convert.ToInt16(dt_cup_details.Rows[0]["maxnum"]) + 1;
                                         }
 
-                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() + "," + dt_data.Rows[0][3].ToString() + ",2);";
+                                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('" 
+                                            + dt_data.Rows[0][0].ToString() + "','" + dt_data.Rows[0][1].ToString() + "'," + i_nIndex.ToString() 
+                                            + "," + dt_data.Rows[0][3].ToString() + "," + (dt_data.Rows[0]["ClothNum"] is DBNull ? "0" : dt_data.Rows[0]["ClothNum"].ToString()) + ",2);";
                                         
                                         if (FADM_Object.Communal._b_isJustShowInfo)
                                         {
@@ -7728,7 +7790,9 @@ namespace SmartDyeing.FADM_Control
                     else
                         lis_head.Add(dt_head.Rows[0]["ClothNum"].ToString());
                     lis_head.Add(dt_head.Rows[0]["IsAutoIn"].ToString());
-
+                    lis_head.Add(dt_head.Rows[0]["Recoloration"].ToString());
+                    lis_head.Add(dt_head.Rows[0]["DyeingCodeRemark"].ToString());
+                    lis_head.Add(dt_head.Rows[0]["Colorists"].ToString());
                     s_cup = lis_head[0];
 
                     if (!b_addWaitList)
@@ -7738,14 +7802,18 @@ namespace SmartDyeing.FADM_Control
                         s_sql = "INSERT INTO drop_head (" +
                                     " CupNum, FormulaCode, VersionNum, State ,FormulaName, ClothType," +
                                     " Customer, AddWaterChoose, CompoundBoardChoose, ClothWeight, BathRatio, TotalWeight," +
-                                    " Operator, CupCode, CreateTime, ObjectAddWaterWeight, TestTubeObjectAddWaterWeight,DyeingCode,Non_AnhydrationWR,AnhydrationWR,HandleBathRatio,Handle_Rev1,Handle_Rev2,Handle_Rev3,Handle_Rev4,Handle_Rev5,Stage,HandleBRList,ClothNum,IsAutoIn) VALUES(" +
+                                    " Operator, CupCode, CreateTime, ObjectAddWaterWeight, TestTubeObjectAddWaterWeight,DyeingCode,Non_AnhydrationWR," +
+                                    "AnhydrationWR,HandleBathRatio,Handle_Rev1,Handle_Rev2,Handle_Rev3,Handle_Rev4,Handle_Rev5,Stage,HandleBRList,ClothNum," +
+                                    "IsAutoIn,Recoloration,DyeingCodeRemark,Colorists) VALUES(" +
                                     " '" + lis_head[0] + "', '" + lis_head[1] + "', '" + lis_head[2] + "'," +
                                     " '" + lis_head[3] + "', '" + lis_head[4] + "', '" + lis_head[5] + "'," +
                                     " '" + lis_head[6] + "', '" + lis_head[7] + "', '" + lis_head[8] + "'," +
                                     " '" + lis_head[9] + "', '" + lis_head[10] + "', '" + lis_head[11] + "'," +
                                    " '" + lis_head[12] + "', '" + lis_head[13] + "', '" + lis_head[14] + "'," +
                                     " '" + lis_head[15] + "','" + lis_head[16] + "','" + lis_head[17] + "', '" + lis_head[18] + "', '" + lis_head[19]
-                                             + "', '" + lis_head[20] + "', '" + lis_head[21] + "', '" + lis_head[22] + "', '" + lis_head[23] + "', '" + lis_head[24] + "', '" + lis_head[25] + "', '" + lis_head[26] + "', '" + lis_head[27] + "', '" + lis_head[28] + "', '" + lis_head[29] + "');";
+                                             + "', '" + lis_head[20] + "', '" + lis_head[21] + "', '" + lis_head[22] + "', '" + lis_head[23] + "', '" + lis_head[24] 
+                                             + "', '" + lis_head[25] + "', '" + lis_head[26] + "', '" + lis_head[27] + "', '" + lis_head[28] + "', '" + lis_head[29] 
+                                             + "', '" + lis_head[30] + "', '" + lis_head[31] + "', '" + lis_head[32] + "');";
                         if (FADM_Object.Communal._b_isJustShowInfo)
                         {
                             FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
@@ -8448,7 +8516,9 @@ namespace SmartDyeing.FADM_Control
                             i_nIndex = Convert.ToInt16(dt_temp.Rows[0]["maxnum"]) + 1;
                         }
 
-                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,Type)values('" + txt_FormulaCode.Text + "','" + txt_VersionNum.Text + "'," + i_nIndex.ToString() + "," + txt_CupNum.Text + "," + s_stage.ToString() + ");";
+                        s_sqltemp = "Insert into wait_list(FormulaCode,VersionNum,IndexNum,CupNum,ClothNum,Type)values('" 
+                            + txt_FormulaCode.Text + "','" + txt_VersionNum.Text + "'," + i_nIndex.ToString() 
+                            + "," + txt_CupNum.Text + "," + (txt_ClothNum.Text == ""?"0": txt_ClothNum.Text)+"," + s_stage.ToString() + ");";
                         
                         if (FADM_Object.Communal._b_isJustShowInfo)
                         {
@@ -8661,20 +8731,27 @@ namespace SmartDyeing.FADM_Control
                 else
                     lis_head.Add(dt_head.Rows[0]["ClothNum"].ToString());
                 lis_head.Add(dt_head.Rows[0]["IsAutoIn"].ToString());
+                lis_head.Add(dt_head.Rows[0]["Recoloration"].ToString());
+                lis_head.Add(dt_head.Rows[0]["DyeingCodeRemark"].ToString());
+                lis_head.Add(dt_head.Rows[0]["Colorists"].ToString());
                 s_cup = lis_head[0];
 
                 // 添加进批次表头
                 s_sql = "INSERT INTO drop_head (" +
                             " CupNum, FormulaCode, VersionNum, State ,FormulaName, ClothType," +
                             " Customer, AddWaterChoose, CompoundBoardChoose, ClothWeight, BathRatio, TotalWeight," +
-                            " Operator, CupCode, CreateTime, ObjectAddWaterWeight, TestTubeObjectAddWaterWeight,DyeingCode,Non_AnhydrationWR,AnhydrationWR,HandleBathRatio,Handle_Rev1,Handle_Rev2,Handle_Rev3,Handle_Rev4,Handle_Rev5,Stage,HandleBRList,ClothNum,IsAutoIn) VALUES(" +
+                            " Operator, CupCode, CreateTime, ObjectAddWaterWeight, TestTubeObjectAddWaterWeight,DyeingCode,Non_AnhydrationWR," +
+                            "AnhydrationWR,HandleBathRatio,Handle_Rev1,Handle_Rev2,Handle_Rev3,Handle_Rev4,Handle_Rev5,Stage,HandleBRList,ClothNum,IsAutoIn," +
+                            "Recoloration,DyeingCodeRemark,Colorists) VALUES(" +
                             " '" + lis_head[0] + "', '" + lis_head[1] + "', '" + lis_head[2] + "'," +
                             " '" + lis_head[3] + "', '" + lis_head[4] + "', '" + lis_head[5] + "'," +
                             " '" + lis_head[6] + "', '" + lis_head[7] + "', '" + lis_head[8] + "'," +
                             " '" + lis_head[9] + "', '" + lis_head[10] + "', '" + lis_head[11] + "'," +
                            " '" + lis_head[12] + "', '" + lis_head[13] + "', '" + lis_head[14] + "'," +
                             " '" + lis_head[15] + "','" + lis_head[16] + "','" + lis_head[17] + "', '" + lis_head[18] + "', '" + lis_head[19]
-                                     + "', '" + lis_head[20] + "', '" + lis_head[21] + "', '" + lis_head[22] + "', '" + lis_head[23] + "', '" + lis_head[24] + "', '" + lis_head[25] + "', '" + lis_head[26] + "', '" + lis_head[27] + "', '" + lis_head[28] + "', '" + lis_head[29] + "');";
+                                     + "', '" + lis_head[20] + "', '" + lis_head[21] + "', '" + lis_head[22] + "', '" + lis_head[23] + "', '" 
+                                     + lis_head[24] + "', '" + lis_head[25] + "', '" + lis_head[26] + "', '" + lis_head[27] + "', '" 
+                                     + lis_head[28] + "', '" + lis_head[29] + "', '" + lis_head[30] + "', '" + lis_head[31] + "', '" + lis_head[32] + "');";
                 if (FADM_Object.Communal._b_isJustShowInfo)
                 {
                     FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
@@ -10819,6 +10896,55 @@ namespace SmartDyeing.FADM_Control
                 DataTable dt_drop_head_2 = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
                 if (dt_drop_head_2.Rows.Count > 0)
                 {
+                    //修改缸位
+
+                    foreach (DataRow dr in dt_drop_head_2.Rows)
+                    {
+                        if (SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Contains(Convert.ToInt32(dr["CupNum"])))
+                        {
+                            //查询当天当前杯位打了多少次
+                            s_sql = "SELECT * FROM history_head where CupNum = '" + dr["CupNum"] + "' And BatchName > '" + s_batchNum.Substring(0, 8) + "' order by StartTime desc;";
+                            DataTable dt_his = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
+                            if (dt_his.Rows.Count > 0)
+                            {
+                                string s = null;
+                                if (dt_his.Rows[0]["VatNumber"] is DBNull)
+                                {
+                                    s = FADM_Object.Communal._s_MachineNumber + "-" + s_batchNum.Substring(2, 6) + Convert.ToInt32(dr["CupNum"]).ToString("D2") + (dt_his.Rows.Count + 1).ToString();
+                                }
+                                else
+                                {
+                                    string input = dt_his.Rows[0]["VatNumber"].ToString();
+                                    input = input.Substring(input.Length - 1, 1);
+
+                                    s = FADM_Object.Communal._s_MachineNumber + "-" + s_batchNum.Substring(2, 6) + Convert.ToInt32(dr["CupNum"]).ToString("D2") + (Convert.ToInt32(input) + 1).ToString();
+                                }
+                                //写入数据库
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update drop_head  set VatNumber = '" + s + "' where CupNum = '" + dr["CupNum"] + "';");
+                                }
+                                else
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update drop_head  set VatNumber = '" + s + "' where CupNum = '" + dr["CupNum"] + "';");
+                                }
+                            }
+                            else
+                            {
+                                string s = FADM_Object.Communal._s_MachineNumber + "-" + s_batchNum.Substring(2, 6) + Convert.ToInt32(dr["CupNum"]).ToString("D2") + "1";
+                                if (FADM_Object.Communal._b_isJustShowInfo)
+                                {
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData_show("Update drop_head  set VatNumber = '" + s + "' where CupNum = '" + dr["CupNum"] + "';");
+                                }
+                                else
+                                {
+                                    //写入数据库
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData("Update drop_head  set VatNumber = '" + s + "' where CupNum = '" + dr["CupNum"] + "';");
+                                }
+                            }
+                        }
+                    }
+
                     BatchHeadShow("");
 
                     Thread P_thd_drop = new Thread(drop_liquid);
@@ -11280,7 +11406,9 @@ namespace SmartDyeing.FADM_Control
                             if (dt_head.Rows[dt_head.Rows.Count - 1]["FormulaCode"] != System.DBNull.Value)
                             {
                                 //把最后一个配方移入等待列表
-                                string s_sql_0 = "INSERT INTO wait_list ( FormulaCode, VersionNum, IndexNum, CupNum,Type) values('" + dt_head.Rows[dt_head.Rows.Count - 1]["FormulaCode"].ToString() + "','" + dt_head.Rows[dt_head.Rows.Count - 1]["VersionNum"].ToString() + "',1,0,2);";
+                                string s_sql_0 = "INSERT INTO wait_list ( FormulaCode, VersionNum, IndexNum, CupNum,ClothNum,Type) values('" 
+                                    + dt_head.Rows[dt_head.Rows.Count - 1]["FormulaCode"].ToString() + "','" + dt_head.Rows[dt_head.Rows.Count - 1]["VersionNum"].ToString() 
+                                    + "',1,0,"+ dt_head.Rows[dt_head.Rows.Count - 1]["ClothNum"].ToString()+",2);";
                                 FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql_0);
                             }
 
@@ -12100,6 +12228,22 @@ namespace SmartDyeing.FADM_Control
             //找出配方表头里的染固色代码
             string s_sql2_old = "SELECT * FROM dyeing_code where DyeingCode = '" + txt_DyeingCode.Text + "' order by IndexNum;";
             DataTable dt_data2_odl = FADM_Object.Communal._fadmSqlserver.GetData(s_sql2_old);
+
+            if(dt_data2_odl.Rows.Count>0)
+            {
+                if (dt_data2_odl.Rows[0]["Remark"] is DBNull)
+                {
+                    txt_DyeingCodeRemark.Text = "";
+                }
+                else
+                {
+                    txt_DyeingCodeRemark.Text = dt_data2_odl.Rows[0]["Remark"].ToString();
+                }
+            }
+            else
+            {
+                txt_DyeingCodeRemark.Text = "";
+            }
             int vIndex = 0;
             foreach (DataRow dr in dt_data2_odl.Rows)
             {
@@ -14055,10 +14199,10 @@ namespace SmartDyeing.FADM_Control
 
 
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
                 //Console.WriteLine(1);
-                //new FullAutomaticDripMachine.FADM_Object.MyAlarm(ex.Message, "批次表当前行改变事件", false);
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -16175,6 +16319,7 @@ namespace SmartDyeing.FADM_Control
                             _dic_dyeCode.Add(reNameDyeingCode.txt_Name.Text.Trim(), 3);
                             txt_DyeingCode.SelectedIndexChanged -= txt_DyeingCode_SelectedIndexChanged2;
                             this.txt_DyeingCode.Text = reNameDyeingCode.txt_Name.Text.Trim();
+                            this.txt_DyeingCodeRemark.Text = reNameDyeingCode.txt_Remark.Text.Trim();
                             txt_DyeingCode.SelectedIndexChanged += txt_DyeingCode_SelectedIndexChanged2;
                         }
                     }
@@ -16840,20 +16985,26 @@ namespace SmartDyeing.FADM_Control
                 {
                     lis_head.Add("0");
                 }
+                lis_head.Add(txt_Recoloration.Text);
+                lis_head.Add(txt_DyeingCodeRemark.Text);
+                lis_head.Add(txt_Colorists.Text);
 
                 // 添加进配方浏览表头
                 string s_sql_1 = "INSERT INTO formula_head (" +
                                      " FormulaCode, VersionNum, State, FormulaName," +
                                      " ClothType,Customer,AddWaterChoose,CompoundBoardChoose,ClothWeight," +
                                      " BathRatio,TotalWeight,Operator,CupCode,CreateTime," +
-                                     " ObjectAddWaterWeight,TestTubeObjectAddWaterWeight,CupNum,DyeingCode,Non_AnhydrationWR,AnhydrationWR,HandleBathRatio,Handle_Rev1,Handle_Rev2,Handle_Rev3,Handle_Rev4,Handle_Rev5,Stage,HandleBRList,ClothNum,IsAutoIn) VALUES('" + lis_head[0] + "'," +
+                                     " ObjectAddWaterWeight,TestTubeObjectAddWaterWeight,CupNum,DyeingCode,Non_AnhydrationWR,AnhydrationWR,HandleBathRatio," +
+                                     "Handle_Rev1,Handle_Rev2,Handle_Rev3,Handle_Rev4,Handle_Rev5,Stage,HandleBRList,ClothNum,IsAutoIn,Recoloration,DyeingCodeRemark,Colorists) VALUES('" + lis_head[0] + "'," +
                                      " '" + lis_head[1] + "', '" + lis_head[2] + "', '" + lis_head[3] + "', " +
                                      " '" + lis_head[4] + "', '" + lis_head[5] + "', '" + lis_head[6] + "', " +
                                      " '" + lis_head[7] + "', '" + lis_head[8] + "', '" + lis_head[9] + "', " +
                                      " '" + lis_head[10] + "', '" + lis_head[11] + "', '" + lis_head[12] + "', " +
                                      " '" + lis_head[13] + "', '" + lis_head[14] + "', '" + lis_head[15] + "', '" +
                                      lis_head[16] + "', '" + lis_head[17] + "', '" + lis_head[18] + "', '" + lis_head[19]
-                                     + "', '" + lis_head[20] + "', '" + lis_head[21] + "', '" + lis_head[22] + "', '" + lis_head[23] + "', '" + lis_head[24] + "', '" + lis_head[25] + "', '" + lis_head[26] + "', '" + lis_head[27] + "','" + lis_head[28] + "', '" + lis_head[29] + "');";
+                                     + "', '" + lis_head[20] + "', '" + lis_head[21] + "', '" + lis_head[22] + "', '" + lis_head[23] + "', '" + lis_head[24] 
+                                     + "', '" + lis_head[25] + "', '" + lis_head[26] + "', '" + lis_head[27] + "','" + lis_head[28] + "', '" + lis_head[29] 
+                                     + "', '" + lis_head[30] + "', '" + lis_head[31] + "', '" + lis_head[32] + "');";
                 if (FADM_Object.Communal._b_isJustShowInfo)
                 {
                     FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_1);
@@ -17601,6 +17752,7 @@ namespace SmartDyeing.FADM_Control
                 System.Windows.Forms.ListBox cc = (System.Windows.Forms.ListBox)sender;
                 string info = noActivateFormsList[Convert.ToString(cc.AccessibleName)].lb_End_Stations.SelectedItem as string;
                 txt_DyeingCode.Text = info;
+
                 noActivateFormsList[Convert.ToString(cc.AccessibleName)].Visible = false;
                 noActivateFormsList[Convert.ToString(cc.AccessibleName)].Close();
             }
@@ -17615,6 +17767,7 @@ namespace SmartDyeing.FADM_Control
                 string selectedItem = cc.SelectedItem.ToString();
 
                 txt_DyeingCode.Text = selectedItem;
+
                 noActivateFormsList[Convert.ToString(cc.AccessibleName)].Visible = false;
                 noActivateFormsList[Convert.ToString(cc.AccessibleName)].Close();
                 // 可以在这里添加代码来处理双击事件，例如弹出消息框显示项

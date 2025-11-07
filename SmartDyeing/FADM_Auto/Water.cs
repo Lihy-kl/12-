@@ -102,10 +102,14 @@ namespace SmartDyeing.FADM_Auto
                     double d_blWeightT = Lib_Card.Configure.Parameter.Machine_IsThousandsBalance == 0 ? Convert.ToDouble(string.Format("{0:F2}", d_blRRead - d_blBalanceValue0)) : Convert.ToDouble(string.Format("{0:F3}", d_blRRead - d_blBalanceValue0));
                     FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "天平稳定读数：" + d_blRRead + ",实际重量：" + d_blWeightT);
                     double d_blAdjust = Convert.ToDouble(string.Format("{0:F3}", d_blWeightT / Convert.ToDouble(Lib_Card.Configure.Parameter.Correcting_Water_Time)));
-                    //计算脉冲系数
-                    MyModbusFun.ReadFlow();
-                    double d_blAdjust_Pulse = Convert.ToDouble(string.Format("{0:F3}", d_blWeightT / Communal.i_flowPulse));
-                    FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "脉冲：" + Communal.i_flowPulse + ",实际重量：" + d_blWeightT);
+                    double d_blAdjust_Pulse = 0;
+                    if (Communal._b_isUseLLJ)
+                    {
+                        //计算脉冲系数
+                        MyModbusFun.ReadFlow();
+                        d_blAdjust_Pulse = Convert.ToDouble(string.Format("{0:F3}", d_blWeightT / Communal.i_flowPulse));
+                        FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "脉冲：" + Communal.i_flowPulse + ",实际重量：" + d_blWeightT);
+                    }
                     if (d_blAdjust <= 0.0 && i_count < 4)
                     {
                         i_count++;
@@ -139,10 +143,12 @@ namespace SmartDyeing.FADM_Auto
                     d_blRRead = FADM_Object.Communal.SteBalance();
                     double d_blWeightC = Lib_Card.Configure.Parameter.Machine_IsThousandsBalance == 0 ? Convert.ToDouble(string.Format("{0:F2}", d_blRRead - d_blBalanceValue0)) : Convert.ToDouble(string.Format("{0:F3}", d_blRRead - d_blBalanceValue0));
                     FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "天平稳定读数：" + d_blRRead + ",实际重量：" + d_blWeightC);
-
-                    //计算脉冲系数
-                    MyModbusFun.ReadFlow();
-                    FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "脉冲：" + Communal.i_flowPulse + ",实际重量：" + d_blWeightC);
+                    if (Communal._b_isUseLLJ)
+                    {
+                        //计算脉冲系数
+                        MyModbusFun.ReadFlow();
+                        FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "脉冲：" + Communal.i_flowPulse + ",实际重量：" + d_blWeightC);
+                    }
 
                     int i_rErr = Convert.ToInt16((d_blWeightC - Lib_Card.Configure.Parameter.Correcting_Water_RWeight) / Lib_Card.Configure.Parameter.Correcting_Water_RWeight * 100);
                     i_rErr = i_rErr < 0 ? -i_rErr : i_rErr;
@@ -170,10 +176,13 @@ namespace SmartDyeing.FADM_Auto
                     {
                         //Lib_Card.Configure.Parameter.Correcting_Water_FWeight = Convert.ToDouble(string.Format("{0:F3}", d_blWeightF));
                         Lib_Card.Configure.Parameter.Correcting_Water_Value = Convert.ToDouble(string.Format("{0:F3}", d_blAdjust));
-                        Lib_Card.Configure.Parameter.Correcting_FlowPulse_Value = Convert.ToDouble(string.Format("{0:F3}", d_blAdjust_Pulse));
                         //Lib_File.Ini.WriteIni("Correcting", "Correcting_Water_FWeight", string.Format("{0:F3}", d_blWeightF), Environment.CurrentDirectory + "\\Config\\parameter.ini");
                         Lib_File.Ini.WriteIni("Correcting", "Correcting_Water_Value", string.Format("{0:F3}", d_blAdjust), Environment.CurrentDirectory + "\\Config\\parameter.ini");
-                        Lib_File.Ini.WriteIni("Correcting", "Correcting_FlowPulse_Value", string.Format("{0:F3}", d_blAdjust_Pulse), Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        if (Communal._b_isUseLLJ)
+                        {
+                            Lib_Card.Configure.Parameter.Correcting_FlowPulse_Value = Convert.ToDouble(string.Format("{0:F3}", d_blAdjust_Pulse));
+                            Lib_File.Ini.WriteIni("Correcting", "Correcting_FlowPulse_Value", string.Format("{0:F3}", d_blAdjust_Pulse), Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        }
                     }
 
                     FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "寻找待机位");
@@ -600,9 +609,13 @@ namespace SmartDyeing.FADM_Auto
                     double d_blWeightT = Lib_Card.Configure.Parameter.Machine_IsThousandsBalance == 0 ? Convert.ToDouble(string.Format("{0:F2}", d_blRRead - d_blBalanceValue0)) : Convert.ToDouble(string.Format("{0:F3}", d_blRRead - d_blBalanceValue0));
                     FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "天平稳定读数：" + d_blRRead + ",实际重量：" + d_blWeightT);
                     double d_blAdjust = Convert.ToDouble(string.Format("{0:F3}", d_blWeightT / Convert.ToDouble(Lib_Card.Configure.Parameter.Correcting_Water_Time)));
-                    //计算脉冲系数
-                    MyModbusFun.ReadFlow();
-                    double d_blAdjust_Pulse = Convert.ToDouble(string.Format("{0:F3}", d_blWeightT / Communal.i_flowPulse));
+                    double d_blAdjust_Pulse = 0;
+                    if (Communal._b_isUseLLJ)
+                    {
+                        //计算脉冲系数
+                        MyModbusFun.ReadFlow();
+                         d_blAdjust_Pulse = Convert.ToDouble(string.Format("{0:F3}", d_blWeightT / Communal.i_flowPulse));
+                    }
                     if (d_blAdjust <= 0.0)
                     {
                         goto label4;
@@ -675,10 +688,13 @@ namespace SmartDyeing.FADM_Auto
                     {
                         //Lib_Card.Configure.Parameter.Correcting_Water_FWeight = Convert.ToDouble(string.Format("{0:F3}", d_blWeightF));
                         Lib_Card.Configure.Parameter.Correcting_Water_Value = Convert.ToDouble(string.Format("{0:F3}", d_blAdjust));
-                        Lib_Card.Configure.Parameter.Correcting_FlowPulse_Value = Convert.ToDouble(string.Format("{0:F3}", d_blAdjust_Pulse));
                         //Lib_File.Ini.WriteIni("Correcting", "Correcting_Water_FWeight", string.Format("{0:F3}", d_blWeightF), Environment.CurrentDirectory + "\\Config\\parameter.ini");
                         Lib_File.Ini.WriteIni("Correcting", "Correcting_Water_Value", string.Format("{0:F3}", d_blAdjust), Environment.CurrentDirectory + "\\Config\\parameter.ini");
-                        Lib_File.Ini.WriteIni("Correcting", "Correcting_FlowPulse_Value", string.Format("{0:F3}", d_blAdjust_Pulse), Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        if (Communal._b_isUseLLJ)
+                        {
+                            Lib_Card.Configure.Parameter.Correcting_FlowPulse_Value = Convert.ToDouble(string.Format("{0:F3}", d_blAdjust_Pulse));
+                            Lib_File.Ini.WriteIni("Correcting", "Correcting_FlowPulse_Value", string.Format("{0:F3}", d_blAdjust_Pulse), Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        }
                         FADM_Object.Communal._fadmSqlserver.InsertRun("Machine", "滴液水校正完成");
                     }
 
@@ -1083,7 +1099,7 @@ namespace SmartDyeing.FADM_Auto
                     //理论重量 = 脉冲*系数 - 4.6 + power(脉冲，1/4）
                     double d_ = Communal.i_flowPulse * Lib_Card.Configure.Parameter.Correcting_FlowPulse_Value - 4.6 + Math.Pow(Communal.i_flowPulse, 0.25);
                     double d_need = Lib_Card.Configure.Parameter.Correcting_Water_Value * d_addWaterTime;
-                    //FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "理论重量：" + string.Format("{0:F3}", d_) + "需加量：" + string.Format("{0:F3}", d_need) + "脉冲值：" + Communal.i_flowPulse);
+                    FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "理论重量：" + string.Format("{0:F3}", d_) + "需加量：" + string.Format("{0:F3}", d_need) + "脉冲值：" + Communal.i_flowPulse);
 
                     string s_sql = "INSERT INTO LLJ" +
                                      "(Weight,LLWeight,Pulse,Time,LLC,AddC)" +
@@ -1275,8 +1291,8 @@ namespace SmartDyeing.FADM_Auto
             if (-1 == water.Water_On())
                 throw new Exception("驱动异常");
 
-
-            Thread.Sleep(Convert.ToInt32(dblTime * 1000));
+            if (dblTime > 0)
+                Thread.Sleep(Convert.ToInt32(dblTime * 1000));
 
             if (-1 == water.Water_Off())
                 throw new Exception("驱动异常");

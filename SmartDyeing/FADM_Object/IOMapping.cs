@@ -243,6 +243,16 @@ namespace SmartDyeing.FADM_Object
         /// </summary>
         public static int InPut_Cylinder_Block { get; set; }
 
+        /// <summary>
+        /// 气缸慢速中2限位
+        /// </summary>
+        public static int InPut_Slow_Cylinder_Mid_2 { get; set; }
+
+        /// <summary>
+        /// 气缸慢速中3限位
+        /// </summary>
+        public static int InPut_Slow_Cylinder_Mid_3 { get; set; }
+
 
 
         #endregion
@@ -258,6 +268,17 @@ namespace SmartDyeing.FADM_Object
         /// 抓手B泄压
         /// </summary>
         public static int InPut_Tongs_B_Decompression { get; set; }
+
+
+
+        #endregion
+
+        #region 转子缸急停
+
+        /// <summary>
+        /// 转子缸急停
+        /// </summary>
+        public static int InPut_Dye_Stop { get; set; }
 
 
 

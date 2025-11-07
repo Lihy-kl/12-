@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -45,11 +46,128 @@ namespace SmartDyeing
         private static extern bool SetForegroundWindow(IntPtr hWnd);
 
         /// <summary>
+        /// 检查当前进程是否具有管理员权限
+        /// </summary>
+        /// <returns>true表示已具有管理员权限，false表示没有</returns>
+        public static bool IsAdministrator()
+        {
+            using (var identity = WindowsIdentity.GetCurrent())
+            {
+                if (identity == null)
+                    return false;
+
+                var principal = new WindowsPrincipal(identity);
+                return principal.IsInRole(WindowsBuiltInRole.Administrator);
+            }
+        }
+
+        /// <summary>
+        /// 以管理员权限重新启动应用程序
+        /// </summary>
+        /// <param name="preserveArgs">是否保留原命令行参数</param>
+        /// <param name="showErrorMessage">当提升失败时是否显示错误消息</param>
+        /// <returns>如果成功启动管理员权限进程则返回true，否则返回false</returns>
+        public static bool RestartWithAdminRights(bool preserveArgs = true, bool showErrorMessage = true)
+        {
+            try
+            {
+                // 获取当前应用程序路径
+                string exePath = Process.GetCurrentProcess().MainModule.FileName;
+
+                // 创建进程启动信息
+                var startInfo = new ProcessStartInfo(exePath)
+                {
+                    Verb = "runas",  // 请求管理员权限
+                    UseShellExecute = true,
+                    WorkingDirectory = Environment.CurrentDirectory
+                };
+
+                // 处理命令行参数
+                if (preserveArgs && Environment.GetCommandLineArgs().Length > 1)
+                {
+                    // 排除第一个参数（程序路径），保留其他参数
+                    string args = string.Join(" ",
+                        Environment.GetCommandLineArgs()
+                                   .Skip(1)
+                                   .Select(arg => $"\"{arg.Replace("\"", "\\\"")}\""));
+                    startInfo.Arguments = args;
+                }
+
+                // 启动新进程
+                Process.Start(startInfo);
+                return true;
+            }
+            catch (System.ComponentModel.Win32Exception ex)
+            {
+                // 1223表示用户取消了UAC提示
+                if (ex.NativeErrorCode == 1223)
+                {
+                    if (showErrorMessage)
+                    {
+                        MessageBox.Show(
+                            "需要管理员权限才能执行此操作。\n请在弹出的用户账户控制窗口中点击\"是\"授予权限。",
+                            "权限不足",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
+                }
+                else if (showErrorMessage)
+                {
+                    MessageBox.Show(
+                        $"无法获取管理员权限：{ex.Message}\n错误代码：{ex.NativeErrorCode}",
+                        "权限提升失败",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                if (showErrorMessage)
+                {
+                    MessageBox.Show(
+                        $"发生错误：{ex.Message}",
+                        "操作失败",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 确保程序以管理员权限运行，如果不是则尝试提升权限
+        /// </summary>
+        /// <returns>如果当前已是管理员或成功提升权限则返回true，否则返回false</returns>
+        public static bool EnsureAdminRights()
+        {
+            if (IsAdministrator())
+                return true;
+
+            // 尝试提升权限
+            bool elevated = RestartWithAdminRights();
+
+            // 如果提升成功，关闭当前非管理员进程
+            if (elevated)
+            {
+                Environment.Exit(0);
+            }
+
+            return elevated;
+        }
+
+        /// <summary>
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
+            if (!EnsureAdminRights())
+            {
+                // 权限提升失败，根据需要处理
+                Console.WriteLine("无法获取管理员权限，程序将退出。");
+                return;
+            }
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
 

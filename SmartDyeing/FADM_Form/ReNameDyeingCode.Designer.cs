@@ -33,6 +33,8 @@
             this.txt_Name = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txt_Remark = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label2
@@ -59,10 +61,22 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // txt_Remark
+            // 
+            resources.ApplyResources(this.txt_Remark, "txt_Remark");
+            this.txt_Remark.Name = "txt_Remark";
+            // 
             // ReNameDyeingCode
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txt_Remark);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txt_Name);
             this.Controls.Add(this.label1);
@@ -83,5 +97,7 @@
         public System.Windows.Forms.TextBox txt_Name;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label3;
+        public System.Windows.Forms.TextBox txt_Remark;
     }
 }

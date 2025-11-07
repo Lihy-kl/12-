@@ -273,9 +273,19 @@ namespace SmartDyeing.FADM_Control
             try
             {
                 //获取当前调液代码的调液流程
+                //获取当前调液代码的调液流程
                 string s_sql = "SELECT Type  FROM dyeing_process WHERE" +
-                                   " Code = '" + txt_Dye_Code.Text + "' Order By StepNum ; ";
+                                   " Code = '" + txt_Dye_Code.Text + "' And OpenMedicine = 1 Order By StepNum ; ";
                 DataTable dt_dyeingprocess = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
+
+                if (dt_dyeingprocess.Rows.Count > 0)
+                {
+                    checkBox1.Checked = true;
+                }
+                else
+                {
+                    checkBox1.Checked = false;
+                }
 
 
                 //获取当前调液代码的调液流程

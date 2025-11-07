@@ -34,6 +34,8 @@ namespace SmartDyeing.FADM_Form
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Operator));
             this.btn_save = new System.Windows.Forms.Button();
             this.dgv_Operator = new System.Windows.Forms.DataGridView();
+            this.rdo_2 = new System.Windows.Forms.RadioButton();
+            this.rdo_1 = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Operator)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,10 +59,28 @@ namespace SmartDyeing.FADM_Form
             this.dgv_Operator.RowTemplate.Height = 23;
             this.dgv_Operator.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             // 
+            // rdo_2
+            // 
+            resources.ApplyResources(this.rdo_2, "rdo_2");
+            this.rdo_2.Name = "rdo_2";
+            this.rdo_2.UseVisualStyleBackColor = true;
+            this.rdo_2.Click += new System.EventHandler(this.rdo_2_Click);
+            // 
+            // rdo_1
+            // 
+            resources.ApplyResources(this.rdo_1, "rdo_1");
+            this.rdo_1.Checked = true;
+            this.rdo_1.Name = "rdo_1";
+            this.rdo_1.TabStop = true;
+            this.rdo_1.UseVisualStyleBackColor = true;
+            this.rdo_1.Click += new System.EventHandler(this.rdo_1_Click);
+            // 
             // Operator
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.rdo_2);
+            this.Controls.Add(this.rdo_1);
             this.Controls.Add(this.dgv_Operator);
             this.Controls.Add(this.btn_save);
             this.MaximizeBox = false;
@@ -71,6 +91,7 @@ namespace SmartDyeing.FADM_Form
             this.Load += new System.EventHandler(this.Operator_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Operator)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -78,6 +99,7 @@ namespace SmartDyeing.FADM_Form
 
         private System.Windows.Forms.Button btn_save;
         private System.Windows.Forms.DataGridView dgv_Operator;
-
+        private RadioButton rdo_2;
+        private RadioButton rdo_1;
     }
 }

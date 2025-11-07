@@ -424,9 +424,9 @@ namespace SmartDyeing.FADM_Form
                     case "测PH":
                         // 固定时间设定为3分钟
                         fixedDuration = step.Duration ?? 3;
-                        for (int i = 0; i < fixedDuration * 2; i++) // 每分钟记录两个温度值
+                        for (int i = 0; i < fixedDuration * (FADM_Object.Communal._b_is60Mark ? 1 : 2); i++) // 每分钟记录两个温度值
                         {
-                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / 2; // 根据牛顿冷却定律降温
+                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 根据牛顿冷却定律降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
@@ -447,9 +447,9 @@ namespace SmartDyeing.FADM_Form
                     case "加N":
                         // 固定时间设定为0.5分钟
                         fixedDuration = step.Duration ?? 0.5;
-                        for (int i = 0; i < fixedDuration * 2; i++) // 每分钟记录两个温度值
+                        for (int i = 0; i < fixedDuration * (FADM_Object.Communal._b_is60Mark ? 1 : 2); i++) // 每分钟记录两个温度值
                         {
-                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / 2; // 根据牛顿冷却定律降温
+                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 根据牛顿冷却定律降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
@@ -458,9 +458,9 @@ namespace SmartDyeing.FADM_Form
                     case "洗杯":
                         // 固定时间设定为10分钟
                         fixedDuration = step.Duration ?? 10;
-                        for (int i = 0; i < fixedDuration * 2; i++) // 每分钟记录两个温度值
+                        for (int i = 0; i < fixedDuration * (FADM_Object.Communal._b_is60Mark ? 1 : 2); i++) // 每分钟记录两个温度值
                         {
-                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / 2; // 根据牛顿冷却定律降温
+                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 根据牛顿冷却定律降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
@@ -469,9 +469,9 @@ namespace SmartDyeing.FADM_Form
                     case "排液":
                         // 使用结构体中的时间参数，默认0.25分钟
                         duration = step.Duration ?? 0.25;
-                        for (int i = 0; i < duration * 2; i++) // 每分钟记录两个温度值
+                        for (int i = 0; i < duration * (FADM_Object.Communal._b_is60Mark ? 1 : 2); i++) // 每分钟记录两个温度值
                         {
-                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / 2; // 根据牛顿冷却定律降温
+                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 根据牛顿冷却定律降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
@@ -479,9 +479,9 @@ namespace SmartDyeing.FADM_Form
                     case "加水":
                         // 使用结构体中的时间参数，默认1分钟
                         duration = step.Duration ?? 1;
-                        for (int i = 0; i < duration * 2; i++) // 每分钟记录两个温度值
+                        for (int i = 0; i < duration * (FADM_Object.Communal._b_is60Mark ? 1 : 2); i++) // 每分钟记录两个温度值
                         {
-                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / 2; // 根据牛顿冷却定律降温
+                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 根据牛顿冷却定律降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
@@ -489,9 +489,9 @@ namespace SmartDyeing.FADM_Form
                     case "冷行":
                         // 使用结构体中的时间参数，默认5分钟
                         duration = step.Duration ?? 5;
-                        for (int i = 0; i < duration * 2; i++) // 每分钟记录两个温度值
+                        for (int i = 0; i < duration * (FADM_Object.Communal._b_is60Mark ? 1 : 2); i++) // 每分钟记录两个温度值
                         {
-                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / 2; // 根据牛顿冷却定律降温
+                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 根据牛顿冷却定律降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
@@ -499,9 +499,9 @@ namespace SmartDyeing.FADM_Form
                     case "搅拌":
                         // 使用结构体中的时间参数，默认5分钟
                         duration = step.Duration ?? 5;
-                        for (int i = 0; i < duration * 2; i++) // 每分钟记录两个温度值
+                        for (int i = 0; i < duration * (FADM_Object.Communal._b_is60Mark ? 1 : 2); i++) // 每分钟记录两个温度值
                         {
-                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / 2; // 根据牛顿冷却定律降温
+                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 根据牛顿冷却定律降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
@@ -515,19 +515,19 @@ namespace SmartDyeing.FADM_Form
                         // 升温或降温阶段
                         double temperatureDifference = targetTemperature - currentTemperature;
                         double heatingTime = Math.Abs(temperatureDifference) / heatingRate; // 转换为分钟
-                        int heatingPoints = (int)(heatingTime * 2); // 每分钟记录两个温度值
+                        int heatingPoints = (int)(heatingTime * (FADM_Object.Communal._b_is60Mark ? 1 : 2)); // 每分钟记录两个温度值
                         for (int i = 0; i < heatingPoints; i++)
                         {
-                            currentTemperature += (temperatureDifference > 0 ? heatingRate : -heatingRate) / 2; // 每分钟升温或降温
+                            currentTemperature += (temperatureDifference > 0 ? heatingRate : -heatingRate) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 每分钟升温或降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
 
                         // 保温阶段
-                        int holdPoints = (int)(holdTime * 2); // 每分钟记录两个温度值
+                        int holdPoints = (int)(holdTime * (FADM_Object.Communal._b_is60Mark ? 1 : 2)); // 每分钟记录两个温度值
                         for (int i = 0; i < holdPoints; i++)
                         {
-                            temperatureBuilder.Append($"{currentTemperature}@");
+                            temperatureBuilder.Append($"{targetTemperature}@");
                             timePoint++;
                         }
                         break;

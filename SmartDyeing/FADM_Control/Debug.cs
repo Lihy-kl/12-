@@ -241,6 +241,49 @@ namespace SmartDyeing.FADM_Control
                         else
                         {
                             i_state = FADM_Object.Communal._tcpModBus.Read(900, 29, ref ia_array);
+
+                            if (Lib_Card.Configure.Parameter.Other_UseAbs == 1)
+                            {
+                                //读取吸光度数据
+                                int[] ia_array_Abs = new int[40];
+                                int i_state_Abs = FADM_Object.Communal._tcpModBusAbs.Read(13188, 40, ref ia_array_Abs);
+                                if (i_state_Abs != -1)
+                                {
+                                    Communal._ia_d13188 = ia_array_Abs;
+                                }
+
+                                if (Communal._b_IsABSOpen)
+                                {
+                                    int[] ia_array_Abs2 = new int[100];
+                                    int i_state_Abs2 = FADM_Object.Communal._tcpModBusAbs.Read(13088, 100, ref ia_array_Abs2);
+                                    if (i_state_Abs2 != -1)
+                                    {
+                                        Communal._ia_d13088 = ia_array_Abs2;
+                                    }
+                                }
+                            }
+
+                            if(FADM_Object.Communal._b_isHaveAutoBrew)
+                            {
+                                //读取自动开料数据
+                                int[] ia_array_Brew = new int[75];
+                                int i_state_Brew = FADM_Object.Communal._tcpModBusAbs.Read(22688, 75, ref ia_array_Brew);
+                                if (i_state_Brew != -1)
+                                {
+                                    Communal._ia_d22688 = ia_array_Brew;
+                                }
+                            }
+
+                            if (FADM_Object.Communal._b_isHaveAutoBrew)
+                            {
+                                //读取自动开料数据
+                                int[] ia_array_WashBottle = new int[10];
+                                int i_state_WashBottle = FADM_Object.Communal._tcpModBusAbs.Read(22938, 10, ref ia_array_WashBottle);
+                                if (i_state_WashBottle != -1)
+                                {
+                                    Communal._ia_d22938 = ia_array_WashBottle;
+                                }
+                            }
                         }
                         if (i_state != -1)
                         {
@@ -446,13 +489,35 @@ namespace SmartDyeing.FADM_Control
                                 }
                             }
                             //其他输入点信息
-                            s_str2 = Convert.ToString(a23, 2).PadLeft(6, '0');
+                            s_str2 = Convert.ToString(a23, 2).PadLeft(9, '0');
                             ca_cc = s_str2.ToArray();//
                             ChkInPut_Block_Out.Checked = ca_cc[ca_cc.Length - 1].Equals('1') ? true : false; //阻挡出限位
                             ChkInPut_Block_In.Checked = ca_cc[ca_cc.Length - 2].Equals('1') ? true : false; //阻挡回限位
                             ChkInPut_Slow_Cylinder_Mid.Checked = ca_cc[ca_cc.Length - 3].Equals('1') ? true : false; //气缸慢速中限位
                             ChkInPut_Cylinder_Block.Checked = ca_cc[ca_cc.Length - 4].Equals('1') ? true : false; //气缸阻挡限位
                             ChkInPut_SupportCover.Checked = ca_cc[ca_cc.Length - 5].Equals('1') ? true : false; //撑盖开到位
+                            ChkInPut_Slow_Cylinder_Mid_2.Checked = ca_cc[ca_cc.Length - 7].Equals('1') ? true : false; //气缸慢速中2限位
+                            ChkInPut_Slow_Cylinder_Mid_3.Checked = ca_cc[ca_cc.Length - 8].Equals('1') ? true : false; //气缸慢速中3限位
+                            if (FADM_Object.Communal._b_isHaveDyeStop)
+                            {
+                                ChkInPut_Dye_Stop.Checked = ca_cc[ca_cc.Length - 9].Equals('0') ? true : false; //转子缸急停
+                                if((ca_cc[ca_cc.Length - 9].Equals('0') && !FADM_Object.Communal._b_isDyeStop)||(ca_cc[ca_cc.Length - 9].Equals('1') && FADM_Object.Communal._b_isDyeStop))
+                                {
+                                    if (FADM_Object.Communal._tcpDyeHMI1 != null)
+                                        FADM_Object.Communal._tcpDyeHMI1.b_isSendStop = false;
+                                    if (FADM_Object.Communal._tcpDyeHMI2 != null)
+                                        FADM_Object.Communal._tcpDyeHMI2.b_isSendStop = false;
+                                    if (FADM_Object.Communal._tcpDyeHMI3 != null)
+                                        FADM_Object.Communal._tcpDyeHMI3.b_isSendStop = false;
+                                    if (FADM_Object.Communal._tcpDyeHMI4 != null)
+                                        FADM_Object.Communal._tcpDyeHMI4.b_isSendStop = false;
+                                    if (FADM_Object.Communal._tcpDyeHMI5 != null)
+                                        FADM_Object.Communal._tcpDyeHMI5.b_isSendStop = false;
+                                    if (FADM_Object.Communal._tcpDyeHMI6 != null)
+                                        FADM_Object.Communal._tcpDyeHMI6.b_isSendStop = false;
+                                    FADM_Object.Communal._b_isDyeStop = ca_cc[ca_cc.Length - 9].Equals('0') ? true : false;
+                                }
+                            }
                             //ChkInPut_Block.Checked = ca_cc[ca_cc.Length - 5].Equals('1') ? true : false; //抓手A泄压信号
                             //ChkInPut_Block.Checked = ca_cc[ca_cc.Length - 6].Equals('1') ? true : false; //抓手B泄压信号
 
@@ -496,14 +561,15 @@ namespace SmartDyeing.FADM_Control
 
                             }
 
-                            s_str = Convert.ToString(a25, 2).PadLeft(5, '0');
+                            s_str = Convert.ToString(a25, 2).PadLeft(6, '0');
                             if (!s_str.Equals("0"))
                             {
                                 ca_cc = s_str.ToArray();
                                 this.BtnOutPut_Wash_In.ForeColor = ca_cc[ca_cc.Length - 2].Equals('1') ? Color.Red : Color.Black; //洗针进水
                                 this.BtnOutPut_Wash_Out.ForeColor = ca_cc[ca_cc.Length - 3].Equals('1') ? Color.Red : Color.Black; //洗针出水
                                 this.BtnOutPut_Wash_Blow.ForeColor = ca_cc[ca_cc.Length - 4].Equals('1') ? Color.Red : Color.Black; //洗针吹气
-                               
+                                this.BtnOutPut_Dissolving.ForeColor = ca_cc[ca_cc.Length - 5].Equals('1') ? Color.Red : Color.Black; //洗针吹气
+
                             }
 
                             //s_str = Convert.ToString(a8, 2);//输出
@@ -1425,19 +1491,44 @@ namespace SmartDyeing.FADM_Control
                 }
                 else if (RdoWash.Checked)
                 {
-                    if (string.IsNullOrEmpty(TxtNum.Text))
-                    {
-                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                            FADM_Form.CustomMessageBox.Show("请输入瓶号！", "温馨提示", MessageBoxButtons.OK, false);
-                        else
-                            FADM_Form.CustomMessageBox.Show("Please enter the bottle number！", "Tips", MessageBoxButtons.OK, false);
-                        FADM_Object.Communal.WriteDripWait(false);
-                        return;
-                    }
-                    FADM_Object.Communal.WriteMachineStatus(14);
+                    FADM_Object.Communal.WriteMachineStatus(4);
                     Thread thread = new Thread(Wash);
                     thread.Start();
 
+                }
+
+                else if (RdoStandBy.Checked)
+                {
+                    FADM_Object.Communal.WriteMachineStatus(4);
+                    Thread thread = new Thread(StandByMove);
+                    thread.Start();
+                }
+                else if (RdoExtraction.Checked)
+                {
+                    FADM_Object.Communal.WriteMachineStatus(4);
+                    Thread thread = new Thread(ExtractionMove);
+                    thread.Start();
+                }
+                else if (RdoAbs.Checked)
+                {
+                    if (string.IsNullOrEmpty(TxtNum.Text))
+                    {
+                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                            FADM_Form.CustomMessageBox.Show("请输入杯号！", "温馨提示", MessageBoxButtons.OK, false);
+                        else
+                            FADM_Form.CustomMessageBox.Show("Please enter the cup number！", "Tips", MessageBoxButtons.OK, false);
+                        FADM_Object.Communal.WriteDripWait(false);
+                        return;
+                    }
+                    FADM_Object.Communal.WriteMachineStatus(4);
+                    Thread thread = new Thread(AbsMove);
+                    thread.Start();
+                }
+                else if (RdoSupportCover.Checked)
+                {
+                    FADM_Object.Communal.WriteMachineStatus(4);
+                    Thread thread = new Thread(SupportCoverMove);
+                    thread.Start();
                 }
                 else
                 {
@@ -1449,6 +1540,7 @@ namespace SmartDyeing.FADM_Control
                     return;
 
                 }
+
                 //while (true)
                 //{
                 //    if (0 == FADM_Object.Communal.ReadMachineStatus() || 8 == FADM_Object.Communal.ReadMachineStatus())
@@ -1575,104 +1667,8 @@ namespace SmartDyeing.FADM_Control
         {
             try
             {
-
-                if (0 >= Convert.ToInt32(TxtNum.Text) || Convert.ToInt32(TxtNum.Text) > Lib_Card.Configure.Parameter.Machine_Bottle_Total)
-                {
-                    if (FADM_Object.Communal._b_isUseABAssistant)
-                    {
-                        if (Convert.ToInt32(TxtNum.Text) > Lib_Card.Configure.Parameter.Machine_Bottle_Total - FADM_Object.Communal._i_ABAssistantCount)
-                        {
-                            MessageBox.Show("瓶号输入错误");
-                            FADM_Object.Communal.WriteDripWait(false);
-                            FADM_Object.Communal.WriteMachineStatus(0);
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("瓶号输入错误");
-                        FADM_Object.Communal.WriteDripWait(false);
-                        FADM_Object.Communal.WriteMachineStatus(0);
-                        return;
-                    }
-                }
-                int i_xStart = 0, i_yStart = 0;
-                int i_mRes = -1;
-                if (Communal._b_isGetWetClamp)
-                {
-                    //3.放夹子
-                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放夹子启动");
-                    //int i_xStart = 0, i_yStart = 0;
-                    //计算湿布布夹子位置
-                    MyModbusFun.CalTarget(9, 0, ref i_xStart, ref i_yStart);
-                    int i_mRes2 = MyModbusFun.PutClamp(i_xStart, i_yStart);
-                    if (-2 == i_mRes2)
-                        throw new Exception("收到退出消息");
-                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放夹子完成");
-                }
-
-                if (Communal._b_isGetDryClamp)
-                {
-                    //3.放夹子
-                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放夹子启动");
-                    //int i_xStart = 0, i_yStart = 0;
-                    //计算干布夹子位置
-                    MyModbusFun.CalTarget(8, 0, ref i_xStart, ref i_yStart);
-                    int iMRes1 = MyModbusFun.PutClamp(i_xStart, i_yStart);
-                    if (-2 == iMRes1)
-                        throw new Exception("收到退出消息");
-                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放夹子完成");
-                }
-
-                if (Communal._b_isGetSyringes)
-                {
-                    //3.
-                    FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "寻找放针母液瓶");
-                    i_mRes = MyModbusFun.TargetMove(11, 0, 0);
-                    if (-2 == i_mRes)
-                        throw new Exception("收到退出消息");
-
-                    FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "抵达放针母液瓶");
-
-                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放抽液针筒启动");
-                    //int i_xStart = 0, i_yStart = 0;
-
-                    int iMRes1 = MyModbusFun.Put(0);
-                    if (-2 == iMRes1)
-                        throw new Exception("收到退出消息");
-                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放抽液针筒完成");
-                }
-
-                FADM_Object.Communal._i_optBottleNum = Convert.ToInt32(TxtNum.Text);
-                FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "拿针筒启动");
-                //计算针筒位置
-                MyModbusFun.CalTarget(0, FADM_Object.Communal._i_optBottleNum, ref i_xStart, ref i_yStart);
-                int i_mRes3 = MyModbusFun.GetSyringesWash(i_xStart, i_yStart);
-                if (-2 == i_mRes3)
-                    throw new Exception("收到退出消息");
-                FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "拿针筒完成");
-
-                //移动到洗针位置
-                
-                i_mRes = MyModbusFun.TargetMove(12, 0, 0);
-                //执行洗针动作
-                MyModbusFun.WashSyringes();
-                //放回到母液瓶
-                FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "寻找"+ TxtNum.Text+"号母液瓶");
-                i_mRes = MyModbusFun.TargetMove(0, FADM_Object.Communal._i_optBottleNum, 0);
-                if (-2 == i_mRes)
-                    throw new Exception("收到退出消息");
-
-                FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "抵达"+ TxtNum.Text+"号母液瓶");
-
-                FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放针启动");
-                //int i_xStart = 0, i_yStart = 0;
-
-                int iMRes_1 = MyModbusFun.Put(0);
-                if (-2 == iMRes_1)
-                    throw new Exception("收到退出消息");
-                FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放针完成");
-
+                if (0 != MyModbusFun.TargetMove(12, 0, 0))
+                    throw new Exception("驱动异常");
                 FADM_Object.Communal.WriteMachineStatus(0);
             }
             catch (Exception ex)
@@ -1740,9 +1736,9 @@ namespace SmartDyeing.FADM_Control
                 {
                     FADM_Object.Communal.WriteMachineStatus(8);
                     if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                        FADM_Form.CustomMessageBox.Show(ex.Message, "清洗针筒", MessageBoxButtons.OK, true);
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "定点移动", MessageBoxButtons.OK, true);
                     else
-                        FADM_Form.CustomMessageBox.Show(ex.Message, "Wash", MessageBoxButtons.OK, true);
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "Fixed-point movement", MessageBoxButtons.OK, true);
                 }
             }
         }
@@ -2550,6 +2546,342 @@ namespace SmartDyeing.FADM_Control
                 }
             }
         }
+
+        private void StandByMove()
+        {
+            try
+            {
+                if (0 != MyModbusFun.TargetMove(3, 0, 0))
+                    throw new Exception("驱动异常");
+                FADM_Object.Communal.WriteMachineStatus(0);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Equals("-2"))
+                {
+                    FADM_Object.Communal.WriteMachineStatus(8);
+                    int[] ia_errArray = new int[100];
+                    MyModbusFun.GetErrMsgNew(ref ia_errArray);
+                    List<string> lis_err = new List<string>();
+                    for (int i = 0; i < ia_errArray.Length; i++)
+                    {
+                        if (ia_errArray[i] != 0)
+                        {
+                            if (SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.ContainsKey(ia_errArray[i]))
+                            {
+                                string s_err = SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew[ia_errArray[i]];
+                                string s_sql = "INSERT INTO alarm_table" +
+                                 "(MyDate,MyTime,AlarmHead,AlarmDetails)" +
+                                 " VALUES( '" +
+                                 String.Format("{0:d}", DateTime.Now) + "','" +
+                                 String.Format("{0:T}", DateTime.Now) + "','" +
+                                 "Debug" + "','" +
+                                 s_err + "(Test)');";
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
+                                string s_insert = CardObject.InsertD(s_err, " myMachineReset");
+                                if (!lis_err.Contains(s_insert))
+                                    lis_err.Add(s_insert);
+                                //while (true)
+                                //{
+                                //    Thread.Sleep(1);
+                                //    if (Lib_Card.CardObject.keyValuePairs[s_insert].Choose != 0)
+                                //        break;
+
+                                //}
+
+                                //int _i_alarm_Choose = Lib_Card.CardObject.keyValuePairs[s_insert].Choose;
+                                //CardObject.DeleteD(s_insert);
+
+                            }
+
+                        }
+                    }
+
+                    while (true)
+                    {
+                        for (int p = lis_err.Count - 1; p >= 0; p--)
+                        {
+                            if (Lib_Card.CardObject.keyValuePairs[lis_err[p]].Choose != 0)
+                            {
+                                CardObject.DeleteD(lis_err[p]);
+                                lis_err.Remove(lis_err[p]);
+                            }
+                        }
+                        if (lis_err.Count == 0)
+                        {
+                            break;
+                        }
+                        Thread.Sleep(1);
+                    }
+
+                }
+                else
+                {
+                    FADM_Object.Communal.WriteMachineStatus(8);
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "定点移动", MessageBoxButtons.OK, true);
+                    else
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "Fixed-point movement", MessageBoxButtons.OK, true);
+                }
+            }
+        }
+
+        private void ExtractionMove()
+        {
+            try
+            {
+                if (0 != MyModbusFun.TargetMove(11, 0, 0))
+                    throw new Exception("驱动异常");
+                FADM_Object.Communal.WriteMachineStatus(0);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Equals("-2"))
+                {
+                    FADM_Object.Communal.WriteMachineStatus(8);
+                    int[] ia_errArray = new int[100];
+                    MyModbusFun.GetErrMsgNew(ref ia_errArray);
+                    List<string> lis_err = new List<string>();
+                    for (int i = 0; i < ia_errArray.Length; i++)
+                    {
+                        if (ia_errArray[i] != 0)
+                        {
+                            if (SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.ContainsKey(ia_errArray[i]))
+                            {
+                                string s_err = SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew[ia_errArray[i]];
+                                string s_sql = "INSERT INTO alarm_table" +
+                                 "(MyDate,MyTime,AlarmHead,AlarmDetails)" +
+                                 " VALUES( '" +
+                                 String.Format("{0:d}", DateTime.Now) + "','" +
+                                 String.Format("{0:T}", DateTime.Now) + "','" +
+                                 "Debug" + "','" +
+                                 s_err + "(Test)');";
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
+                                string s_insert = CardObject.InsertD(s_err, " myMachineReset");
+                                if (!lis_err.Contains(s_insert))
+                                    lis_err.Add(s_insert);
+                                //while (true)
+                                //{
+                                //    Thread.Sleep(1);
+                                //    if (Lib_Card.CardObject.keyValuePairs[s_insert].Choose != 0)
+                                //        break;
+
+                                //}
+
+                                //int _i_alarm_Choose = Lib_Card.CardObject.keyValuePairs[s_insert].Choose;
+                                //CardObject.DeleteD(s_insert);
+
+                            }
+
+                        }
+                    }
+
+                    while (true)
+                    {
+                        for (int p = lis_err.Count - 1; p >= 0; p--)
+                        {
+                            if (Lib_Card.CardObject.keyValuePairs[lis_err[p]].Choose != 0)
+                            {
+                                CardObject.DeleteD(lis_err[p]);
+                                lis_err.Remove(lis_err[p]);
+                            }
+                        }
+                        if (lis_err.Count == 0)
+                        {
+                            break;
+                        }
+                        Thread.Sleep(1);
+                    }
+
+                }
+                else
+                {
+                    FADM_Object.Communal.WriteMachineStatus(8);
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "定点移动", MessageBoxButtons.OK, true);
+                    else
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "Fixed-point movement", MessageBoxButtons.OK, true);
+                }
+            }
+        }
+
+        private void AbsMove()
+        {
+            try
+            {
+                if (0 >= Convert.ToInt32(TxtNum.Text) || 4 < Convert.ToInt32(TxtNum.Text))
+                {
+                    MessageBox.Show("杯号输入错误");
+                    FADM_Object.Communal.WriteDripWait(false);
+                    FADM_Object.Communal.WriteMachineStatus(0);
+                    return;
+                }
+
+                if (0 != MyModbusFun.TargetMove(10, Convert.ToInt32(TxtNum.Text), 0))
+                    throw new Exception("驱动异常");
+                FADM_Object.Communal.WriteMachineStatus(0);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Equals("-2"))
+                {
+                    FADM_Object.Communal.WriteMachineStatus(8);
+                    int[] ia_errArray = new int[100];
+                    MyModbusFun.GetErrMsgNew(ref ia_errArray);
+                    List<string> lis_err = new List<string>();
+                    for (int i = 0; i < ia_errArray.Length; i++)
+                    {
+                        if (ia_errArray[i] != 0)
+                        {
+                            if (SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.ContainsKey(ia_errArray[i]))
+                            {
+                                string s_err = SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew[ia_errArray[i]];
+                                string s_sql = "INSERT INTO alarm_table" +
+                                 "(MyDate,MyTime,AlarmHead,AlarmDetails)" +
+                                 " VALUES( '" +
+                                 String.Format("{0:d}", DateTime.Now) + "','" +
+                                 String.Format("{0:T}", DateTime.Now) + "','" +
+                                 "Debug" + "','" +
+                                 s_err + "(Test)');";
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
+                                string s_insert = CardObject.InsertD(s_err, " myMachineReset");
+                                if (!lis_err.Contains(s_insert))
+                                    lis_err.Add(s_insert);
+                                //while (true)
+                                //{
+                                //    Thread.Sleep(1);
+                                //    if (Lib_Card.CardObject.keyValuePairs[s_insert].Choose != 0)
+                                //        break;
+
+                                //}
+
+                                //int _i_alarm_Choose = Lib_Card.CardObject.keyValuePairs[s_insert].Choose;
+                                //CardObject.DeleteD(s_insert);
+
+                            }
+
+                        }
+                    }
+
+                    while (true)
+                    {
+                        for (int p = lis_err.Count - 1; p >= 0; p--)
+                        {
+                            if (Lib_Card.CardObject.keyValuePairs[lis_err[p]].Choose != 0)
+                            {
+                                CardObject.DeleteD(lis_err[p]);
+                                lis_err.Remove(lis_err[p]);
+                            }
+                        }
+                        if (lis_err.Count == 0)
+                        {
+                            break;
+                        }
+                        Thread.Sleep(1);
+                    }
+
+                }
+                else
+                {
+                    FADM_Object.Communal.WriteMachineStatus(8);
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "定点移动", MessageBoxButtons.OK, true);
+                    else
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "Fixed-point movement", MessageBoxButtons.OK, true);
+                }
+            }
+        }
+
+        private void SupportCoverMove()
+        {
+            try
+            {
+                if (0 >= Convert.ToInt32(TxtNum.Text) || Convert.ToInt32(TxtNum.Text) > Lib_Card.Configure.Parameter.Machine_Cup_Total)
+                {
+                    MessageBox.Show("杯号输入错误");
+                    FADM_Object.Communal.WriteDripWait(false);
+                    FADM_Object.Communal.WriteMachineStatus(0);
+                    return;
+                }
+
+                if (0 != MyModbusFun.TargetMove(13, Convert.ToInt32(TxtNum.Text), 0))
+                    throw new Exception("驱动异常");
+                FADM_Object.Communal.WriteMachineStatus(0);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Equals("-2"))
+                {
+                    FADM_Object.Communal.WriteMachineStatus(8);
+                    int[] ia_errArray = new int[100];
+                    MyModbusFun.GetErrMsgNew(ref ia_errArray);
+                    List<string> lis_err = new List<string>();
+                    for (int i = 0; i < ia_errArray.Length; i++)
+                    {
+                        if (ia_errArray[i] != 0)
+                        {
+                            if (SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.ContainsKey(ia_errArray[i]))
+                            {
+                                string s_err = SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew[ia_errArray[i]];
+                                string s_sql = "INSERT INTO alarm_table" +
+                                 "(MyDate,MyTime,AlarmHead,AlarmDetails)" +
+                                 " VALUES( '" +
+                                 String.Format("{0:d}", DateTime.Now) + "','" +
+                                 String.Format("{0:T}", DateTime.Now) + "','" +
+                                 "Debug" + "','" +
+                                 s_err + "(Test)');";
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
+                                string s_insert = CardObject.InsertD(s_err, " myMachineReset");
+                                if (!lis_err.Contains(s_insert))
+                                    lis_err.Add(s_insert);
+                                //while (true)
+                                //{
+                                //    Thread.Sleep(1);
+                                //    if (Lib_Card.CardObject.keyValuePairs[s_insert].Choose != 0)
+                                //        break;
+
+                                //}
+
+                                //int _i_alarm_Choose = Lib_Card.CardObject.keyValuePairs[s_insert].Choose;
+                                //CardObject.DeleteD(s_insert);
+
+                            }
+
+                        }
+                    }
+
+                    while (true)
+                    {
+                        for (int p = lis_err.Count - 1; p >= 0; p--)
+                        {
+                            if (Lib_Card.CardObject.keyValuePairs[lis_err[p]].Choose != 0)
+                            {
+                                CardObject.DeleteD(lis_err[p]);
+                                lis_err.Remove(lis_err[p]);
+                            }
+                        }
+                        if (lis_err.Count == 0)
+                        {
+                            break;
+                        }
+                        Thread.Sleep(1);
+                    }
+
+                }
+                else
+                {
+                    FADM_Object.Communal.WriteMachineStatus(8);
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "定点移动", MessageBoxButtons.OK, true);
+                    else
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "Fixed-point movement", MessageBoxButtons.OK, true);
+                }
+            }
+        }
         private void BtnHome_Click(object sender, EventArgs e)
         {
             FADM_Object.Communal._fadmSqlserver.InsertRun("Machine", "点击回零");
@@ -3013,6 +3345,12 @@ namespace SmartDyeing.FADM_Control
             {
                 RdoWash.Visible = false;
             }
+
+            if (Lib_Card.Configure.Parameter.Other_UseAbs == 0)
+            {
+                RdoExtraction.Visible = false;
+                RdoAbs.Visible = false;
+            }
         }
 
         private void Debug_Leave(object sender, EventArgs e)
@@ -3117,6 +3455,7 @@ namespace SmartDyeing.FADM_Control
             //{
             //    _b_istrue = false;
             //}
+
         }
 
         private void BtnStop_Click(object sender, EventArgs e)
@@ -3273,7 +3612,7 @@ namespace SmartDyeing.FADM_Control
         private void Slow()
         {
             CylinderMo cylinderMo = new CylinderMo();
-            if (-1 == cylinderMo.CylinderSlow(1))
+            if (-1 == cylinderMo.CylinderSlow(Lib_Card.Configure.Parameter.Machine_CylinderVersion, 1))
                 return;
         }
 
@@ -4929,6 +5268,223 @@ namespace SmartDyeing.FADM_Control
                     }
                 }
             }
+            else if (RdoStandBy.Checked)
+            {
+                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                {
+                    DialogResult dialogResult = FADM_Form.CustomMessageBox.Show("确定写入?", "温馨提示", MessageBoxButtons.YesNo, true);
+
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                    else
+                    {
+
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Standby_X", Lib_Card.Configure.Parameter.Coordinate_Standby_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Standby_Y", Lib_Card.Configure.Parameter.Coordinate_Standby_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                        //读取当前坐标写入
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Standby_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Standby_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        Lib_Card.Configure.Parameter.Coordinate_Standby_X = Convert.ToInt32(TxtRPosX.Text);
+                        Lib_Card.Configure.Parameter.Coordinate_Standby_Y = Convert.ToInt32(TxtRPosY.Text);
+                    }
+                }
+                else
+                {
+                    DialogResult dialogResult = FADM_Form.CustomMessageBox.Show("Definite write?", "Tips", MessageBoxButtons.YesNo, true);
+
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                    else
+                    {
+
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Standby_X", Lib_Card.Configure.Parameter.Coordinate_Standby_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Standby_Y", Lib_Card.Configure.Parameter.Coordinate_Standby_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                        //读取当前坐标写入
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Standby_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Standby_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        Lib_Card.Configure.Parameter.Coordinate_Standby_X = Convert.ToInt32(TxtRPosX.Text);
+                        Lib_Card.Configure.Parameter.Coordinate_Standby_Y = Convert.ToInt32(TxtRPosY.Text);
+                    }
+                }
+            }
+            else if (RdoExtraction.Checked)
+            {
+                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                {
+                    DialogResult dialogResult = FADM_Form.CustomMessageBox.Show("确定写入?", "温馨提示", MessageBoxButtons.YesNo, true);
+
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                    else
+                    {
+
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Syringes_X", Lib_Card.Configure.Parameter.Coordinate_Syringes_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Syringes_Y", Lib_Card.Configure.Parameter.Coordinate_Syringes_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                        //读取当前坐标写入
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Syringes_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Syringes_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        Lib_Card.Configure.Parameter.Coordinate_Syringes_X = Convert.ToInt32(TxtRPosX.Text);
+                        Lib_Card.Configure.Parameter.Coordinate_Syringes_Y = Convert.ToInt32(TxtRPosY.Text);
+                    }
+                }
+                else
+                {
+                    DialogResult dialogResult = FADM_Form.CustomMessageBox.Show("Definite write?", "Tips", MessageBoxButtons.YesNo, true);
+
+                    if (dialogResult == DialogResult.No)
+                    {
+                        return;
+                    }
+                    else
+                    {
+
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Syringes_X", Lib_Card.Configure.Parameter.Coordinate_Syringes_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Syringes_Y", Lib_Card.Configure.Parameter.Coordinate_Syringes_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                        //读取当前坐标写入
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Syringes_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Syringes_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                        Lib_Card.Configure.Parameter.Coordinate_Syringes_X = Convert.ToInt32(TxtRPosX.Text);
+                        Lib_Card.Configure.Parameter.Coordinate_Syringes_Y = Convert.ToInt32(TxtRPosY.Text);
+                    }
+                }
+            }
+            else if (RdoAbs.Checked)
+            {
+                if (Convert.ToInt32(TxtNum.Text) >= 1 && Convert.ToInt32(TxtNum.Text) <= 4)
+                {
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                    {
+                        DialogResult dialogResult = FADM_Form.CustomMessageBox.Show("确定写入?", "温馨提示", MessageBoxButtons.YesNo, true);
+
+                        if (dialogResult == DialogResult.No)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            if (string.IsNullOrEmpty(TxtRPosX.Text) || string.IsNullOrEmpty(TxtRPosY.Text))
+                            {
+                                return;
+                            }
+                            if (Convert.ToInt32(TxtNum.Text) == 1)
+                            {
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs1_X", Lib_Card.Configure.Parameter.Coordinate_Abs1_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs1_Y", Lib_Card.Configure.Parameter.Coordinate_Abs1_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                                //读取当前坐标写入
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs1_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs1_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_Card.Configure.Parameter.Coordinate_Abs1_X = Convert.ToInt32(TxtRPosX.Text);
+                                Lib_Card.Configure.Parameter.Coordinate_Abs1_Y = Convert.ToInt32(TxtRPosY.Text);
+                            }
+                            else if (Convert.ToInt32(TxtNum.Text) == 2)
+                            {
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs2_X", Lib_Card.Configure.Parameter.Coordinate_Abs2_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs2_Y", Lib_Card.Configure.Parameter.Coordinate_Abs2_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                                //读取当前坐标写入
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs2_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs2_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_Card.Configure.Parameter.Coordinate_Abs2_X = Convert.ToInt32(TxtRPosX.Text);
+                                Lib_Card.Configure.Parameter.Coordinate_Abs2_Y = Convert.ToInt32(TxtRPosY.Text);
+                            }
+                            else if (Convert.ToInt32(TxtNum.Text) == 3)
+                            {
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs3_X", Lib_Card.Configure.Parameter.Coordinate_Abs3_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs3_Y", Lib_Card.Configure.Parameter.Coordinate_Abs3_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                                //读取当前坐标写入
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs3_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs3_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_Card.Configure.Parameter.Coordinate_Abs3_X = Convert.ToInt32(TxtRPosX.Text);
+                                Lib_Card.Configure.Parameter.Coordinate_Abs3_Y = Convert.ToInt32(TxtRPosY.Text);
+                            }
+                            else if (Convert.ToInt32(TxtNum.Text) == 4)
+                            {
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs4_X", Lib_Card.Configure.Parameter.Coordinate_Abs4_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs4_Y", Lib_Card.Configure.Parameter.Coordinate_Abs4_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                                //读取当前坐标写入
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs4_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs4_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_Card.Configure.Parameter.Coordinate_Abs4_X = Convert.ToInt32(TxtRPosX.Text);
+                                Lib_Card.Configure.Parameter.Coordinate_Abs4_Y = Convert.ToInt32(TxtRPosY.Text);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        DialogResult dialogResult = FADM_Form.CustomMessageBox.Show("Definite write?", "Tips", MessageBoxButtons.YesNo, true);
+
+                        if (dialogResult == DialogResult.No)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            if (string.IsNullOrEmpty(TxtRPosX.Text) || string.IsNullOrEmpty(TxtRPosY.Text))
+                            {
+                                return;
+                            }
+
+                            if (Convert.ToInt32(TxtNum.Text) == 1)
+                            {
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs1_X", Lib_Card.Configure.Parameter.Coordinate_Abs1_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs1_Y", Lib_Card.Configure.Parameter.Coordinate_Abs1_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                                //读取当前坐标写入
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs1_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs1_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_Card.Configure.Parameter.Coordinate_Abs1_X = Convert.ToInt32(TxtRPosX.Text);
+                                Lib_Card.Configure.Parameter.Coordinate_Abs1_Y = Convert.ToInt32(TxtRPosY.Text);
+                            }
+                            else if (Convert.ToInt32(TxtNum.Text) == 2)
+                            {
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs2_X", Lib_Card.Configure.Parameter.Coordinate_Abs2_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs2_Y", Lib_Card.Configure.Parameter.Coordinate_Abs2_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                                //读取当前坐标写入
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs2_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs2_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_Card.Configure.Parameter.Coordinate_Abs2_X = Convert.ToInt32(TxtRPosX.Text);
+                                Lib_Card.Configure.Parameter.Coordinate_Abs2_Y = Convert.ToInt32(TxtRPosY.Text);
+                            }
+                            else if (Convert.ToInt32(TxtNum.Text) == 3)
+                            {
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs3_X", Lib_Card.Configure.Parameter.Coordinate_Abs3_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs3_Y", Lib_Card.Configure.Parameter.Coordinate_Abs3_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                                //读取当前坐标写入
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs3_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs3_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_Card.Configure.Parameter.Coordinate_Abs3_X = Convert.ToInt32(TxtRPosX.Text);
+                                Lib_Card.Configure.Parameter.Coordinate_Abs3_Y = Convert.ToInt32(TxtRPosY.Text);
+                            }
+                            else if (Convert.ToInt32(TxtNum.Text) == 4)
+                            {
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs4_X", Lib_Card.Configure.Parameter.Coordinate_Abs4_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs4_Y", Lib_Card.Configure.Parameter.Coordinate_Abs4_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                                //读取当前坐标写入
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs4_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Abs4_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                                Lib_Card.Configure.Parameter.Coordinate_Abs4_X = Convert.ToInt32(TxtRPosX.Text);
+                                Lib_Card.Configure.Parameter.Coordinate_Abs4_Y = Convert.ToInt32(TxtRPosY.Text);
+                            }
+                        }
+                    }
+                }
+            }
             else
             {
                 if (Lib_Card.Configure.Parameter.Other_Language == 0)
@@ -6006,6 +6562,90 @@ namespace SmartDyeing.FADM_Control
             }
         }
 
-      
+        private void BtnOutPut_Dissolving_Click(object sender, EventArgs e)
+        {
+            if (Lib_Card.Configure.Parameter.Machine_Type == 0)
+            {
+                return;
+            }
+            else
+            {
+                try
+                {
+                    _b_istrue = true;
+                    if (this.BtnOutPut_Dissolving.ForeColor == Color.Red)
+                    {
+                        _ia_array[0] = 51;
+                    }
+                    else
+                    {
+                        _ia_array[0] = 50;
+                    }
+                    int i_state = FADM_Object.Communal._tcpModBus.Write(811, _ia_array);
+
+                }
+                catch { }
+                finally
+                {
+                    _b_istrue = false;
+                }
+            }
+        }
+
+        private void BtnOutPut_Slow_2_Click(object sender, EventArgs e)
+        {
+            if (Lib_Card.Configure.Parameter.Machine_Type == 0)
+            {
+                //if (Lib_Card.Configure.Parameter.Machine_BlockCylinder != 0)
+                //{
+                //    //气缸到阻挡位
+                //    Thread thread = new Thread(Block);
+                //    thread.Start();
+                //}
+            }
+            else
+            {
+                try
+                {
+                    _b_istrue = true;
+                    _ia_array[0] = 52;
+                    int i_state = FADM_Object.Communal._tcpModBus.Write(811, _ia_array);
+
+                }
+                catch { }
+                finally
+                {
+                    _b_istrue = false;
+                }
+            }
+        }
+
+        private void BtnOutPut_Slow_3_Click(object sender, EventArgs e)
+        {
+            if (Lib_Card.Configure.Parameter.Machine_Type == 0)
+            {
+                //if (Lib_Card.Configure.Parameter.Machine_BlockCylinder != 0)
+                //{
+                //    //气缸到阻挡位
+                //    Thread thread = new Thread(Block);
+                //    thread.Start();
+                //}
+            }
+            else
+            {
+                try
+                {
+                    _b_istrue = true;
+                    _ia_array[0] = 53;
+                    int i_state = FADM_Object.Communal._tcpModBus.Write(811, _ia_array);
+
+                }
+                catch { }
+                finally
+                {
+                    _b_istrue = false;
+                }
+            }
+        }
     }
 }

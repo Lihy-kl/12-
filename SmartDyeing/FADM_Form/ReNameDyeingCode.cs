@@ -35,6 +35,15 @@ namespace SmartDyeing.FADM_Form
 
                     return;
                 }
+                if (txt_Remark.Text == "")
+                {
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        FADM_Form.CustomMessageBox.Show("请输入备注", "温馨提示", MessageBoxButtons.OK, false);
+                    else
+                        FADM_Form.CustomMessageBox.Show("Please enter Remark", "Tips", MessageBoxButtons.OK, false);
+
+                    return;
+                }
                 //查询新名字是否已存在
                 if (_i_nType == 1)
                 {

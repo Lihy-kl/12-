@@ -5197,6 +5197,28 @@ namespace SmartDyeing.FADM_Control
             }
         }
 
+        private void tsm_Wash_Click(object sender, EventArgs e)
+        {
+            //把需要洗针筒的母液瓶插入字典
+            if ((0 == FADM_Object.Communal.ReadMachineStatus() || 8 == FADM_Object.Communal.ReadMachineStatus()) && null == FADM_Object.Communal.ReadDyeThread())
+            {
+                List<int> value = new List<int>();
+                //可以放针
+                value.Add(1);
+                //可以洗
+                value.Add(1);
+                if (!Communal.GetValueWash(_i_nBottleNum.ToString(), out value))
+                {
+                    List<int> value1 = new List<int>();
+                    //可以放针
+                    value1.Add(1);
+                    //可以洗
+                    value1.Add(1);
+                    Communal.AddOrUpdateWash(_i_nBottleNum.ToString(), value1);
+                }
+            }
+        }
+
         private void contextMenuStrip2_Opening(object sender, CancelEventArgs e)
         {
             if(FADM_Object.Communal._b_pause)
@@ -5214,6 +5236,10 @@ namespace SmartDyeing.FADM_Control
                 tsm_TestStanAbs.Visible = false;
                 tsm_TestBaseAbs.Visible = false;
                 tsm_TestAbsCompensate.Visible = false;
+            }
+            if (!FADM_Object.Communal._b_isHasWashSyringe)
+            {
+                tsm_Wash.Visible = false;
             }
 
 

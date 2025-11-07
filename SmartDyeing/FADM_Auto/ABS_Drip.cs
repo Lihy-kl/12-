@@ -2487,20 +2487,22 @@ namespace SmartDyeing.FADM_Auto
                         //混合液纯含量
                         double d_wei = 0;
 
-                        if(dt_drop_head_suc.Rows.Count > 0)
-                        {
-                            d_sum += Convert.ToDouble(dt_drop_head_suc.Rows[0]["RealAddWaterWeight"].ToString());
-                        }
-                        foreach (DataRow row_suc in dt_drop_details_suc.Rows)
-                        {
-                            d_sum += Convert.ToDouble(row_suc["RealDropWeight"].ToString()) ;
-                        }
-                        foreach (DataRow row_suc in dt_drop_details_suc.Rows)
-                        {
-                            d_wei += Convert.ToDouble(row_suc["RealDropWeight"].ToString())* Convert.ToDouble(row_suc["RealConcentration"].ToString());
-                        }
-                        if (d_sum > 0)
-                            FADM_Object.Communal._d_abs_mixture = d_wei / d_sum;
+                        //if(dt_drop_head_suc.Rows.Count > 0)
+                        //{
+                        //    d_sum += Convert.ToDouble(dt_drop_head_suc.Rows[0]["RealAddWaterWeight"].ToString());
+                        //}
+                        //foreach (DataRow row_suc in dt_drop_details_suc.Rows)
+                        //{
+                        //    d_sum += Convert.ToDouble(row_suc["RealDropWeight"].ToString()) ;
+                        //}
+                        //foreach (DataRow row_suc in dt_drop_details_suc.Rows)
+                        //{
+                        //    d_wei += Convert.ToDouble(row_suc["RealDropWeight"].ToString())* Convert.ToDouble(row_suc["RealConcentration"].ToString());
+                        //}
+                        //if (d_sum > 0)
+                        //    FADM_Object.Communal._d_abs_mixture = d_wei / d_sum;
+
+                        FADM_Object.Communal._d_abs_mixture = Convert.ToDouble(dt_drop_head_suc.Rows[0]["ClothWeight"].ToString()) / Convert.ToDouble(dt_drop_head_suc.Rows[0]["TotalWeight"].ToString());
 
                         FADM_Object.Communal._fadmSqlserver.ReviseData(
                         "INSERT INTO abs_history_head (" + s_columnHead + ") (SELECT " + s_columnHead + " FROM abs_drop_head " +
@@ -2778,20 +2780,22 @@ namespace SmartDyeing.FADM_Auto
                         //混合液纯含量
                         double d_wei = 0;
 
-                        if (dt_drop_head_suc.Rows.Count > 0)
-                        {
-                            d_sum += Convert.ToDouble(dt_drop_head_suc.Rows[0]["RealAddWaterWeight"].ToString());
-                        }
-                        foreach (DataRow row_suc in dt_drop_details_suc.Rows)
-                        {
-                            d_sum += Convert.ToDouble(row_suc["RealDropWeight"].ToString());
-                        }
-                        foreach (DataRow row_suc in dt_drop_details_suc.Rows)
-                        {
-                            d_wei += Convert.ToDouble(row_suc["RealDropWeight"].ToString()) * Convert.ToDouble(row_suc["RealConcentration"].ToString());
-                        }
-                        if (d_sum > 0)
-                            FADM_Object.Communal._d_abs_mixture = d_wei / d_sum;
+                        //if (dt_drop_head_suc.Rows.Count > 0)
+                        //{
+                        //    d_sum += Convert.ToDouble(dt_drop_head_suc.Rows[0]["RealAddWaterWeight"].ToString());
+                        //}
+                        //foreach (DataRow row_suc in dt_drop_details_suc.Rows)
+                        //{
+                        //    d_sum += Convert.ToDouble(row_suc["RealDropWeight"].ToString());
+                        //}
+                        //foreach (DataRow row_suc in dt_drop_details_suc.Rows)
+                        //{
+                        //    d_wei += Convert.ToDouble(row_suc["RealDropWeight"].ToString()) * Convert.ToDouble(row_suc["RealConcentration"].ToString());
+                        //}
+                        //if (d_sum > 0)
+                        //    FADM_Object.Communal._d_abs_mixture = d_wei / d_sum;
+
+                        FADM_Object.Communal._d_abs_mixture = Convert.ToDouble(dt_drop_head_suc.Rows[0]["ClothWeight"].ToString()) / Convert.ToDouble(dt_drop_head_suc.Rows[0]["TotalWeight"].ToString());
 
                         FADM_Object.Communal._fadmSqlserver.ReviseData(
                         "INSERT INTO abs_history_head (" + s_columnHead + ") (SELECT " + s_columnHead + " FROM abs_drop_head " +

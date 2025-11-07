@@ -220,6 +220,24 @@
   <data name="grp_in.Text" xml:space="preserve">
     <value>InputMonitor</value>
   </data>
+  <data name="ChkInPut_Slow_Cylinder_Mid_3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 9pt</value>
+  </data>
+  <data name="ChkInPut_Slow_Cylinder_Mid_3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 16</value>
+  </data>
+  <data name="ChkInPut_Slow_Cylinder_Mid_3.Text" xml:space="preserve">
+    <value>ToSlow_3</value>
+  </data>
+  <data name="ChkInPut_Slow_Cylinder_Mid_2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 9pt</value>
+  </data>
+  <data name="ChkInPut_Slow_Cylinder_Mid_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 16</value>
+  </data>
+  <data name="ChkInPut_Slow_Cylinder_Mid_2.Text" xml:space="preserve">
+    <value>ToSlow_2</value>
+  </data>
   <data name="ChkInPut_SupportCover.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 9pt</value>
   </data>
@@ -235,23 +253,23 @@
   <data name="ChkInPut_Back.Text" xml:space="preserve">
     <value>BackLight</value>
   </data>
-  <data name="ChkInPut_Slow_Mid.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="ChkInPut_Slow_Cylinder_Mid.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 9pt</value>
   </data>
-  <data name="ChkInPut_Slow_Mid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>96, 16</value>
+  <data name="ChkInPut_Slow_Cylinder_Mid.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 16</value>
   </data>
-  <data name="ChkInPut_Slow_Mid.Text" xml:space="preserve">
-    <value>SlowCylinder</value>
+  <data name="ChkInPut_Slow_Cylinder_Mid.Text" xml:space="preserve">
+    <value>ToSlow</value>
   </data>
-  <data name="ChkInPut_Block.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="ChkInPut_Cylinder_Block.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 9pt</value>
   </data>
-  <data name="ChkInPut_Block.Size" type="System.Drawing.Size, System.Drawing">
-    <value>114, 16</value>
+  <data name="ChkInPut_Cylinder_Block.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 16</value>
   </data>
-  <data name="ChkInPut_Block.Text" xml:space="preserve">
-    <value>CylinderToBlock</value>
+  <data name="ChkInPut_Cylinder_Block.Text" xml:space="preserve">
+    <value>ToBlock</value>
   </data>
   <data name="ChkInPut_Apocenosis_Up.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 9pt</value>
@@ -508,6 +526,30 @@
   <data name="grp_out.Text" xml:space="preserve">
     <value>OutputMonitor</value>
   </data>
+  <data name="BtnOutPut_Slow_3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 64</value>
+  </data>
+  <data name="BtnOutPut_Slow_3.Text" xml:space="preserve">
+    <value>SlowCylinderSpeed_3</value>
+  </data>
+  <data name="BtnOutPut_Slow_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>514, 406</value>
+  </data>
+  <data name="BtnOutPut_Slow_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 64</value>
+  </data>
+  <data name="BtnOutPut_Slow_2.Text" xml:space="preserve">
+    <value>SlowCylinderSpeed_2</value>
+  </data>
+  <data name="BtnOutPut_Dissolving.Location" type="System.Drawing.Point, System.Drawing">
+    <value>263, 406</value>
+  </data>
+  <data name="BtnOutPut_Dissolving.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 64</value>
+  </data>
+  <data name="BtnOutPut_Dissolving.Text" xml:space="preserve">
+    <value>Dissolving</value>
+  </data>
   <data name="BtnOutPut_Wash_Blow.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 64</value>
   </data>
@@ -515,7 +557,7 @@
     <value>WashSyringe_Blow</value>
   </data>
   <data name="BtnOutPut_Wash_Out.Location" type="System.Drawing.Point, System.Drawing">
-    <value>514, 373</value>
+    <value>514, 342</value>
   </data>
   <data name="BtnOutPut_Wash_Out.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 64</value>
@@ -524,7 +566,7 @@
     <value>WashSyringe_Out</value>
   </data>
   <data name="BtnOutPut_Wash_In.Location" type="System.Drawing.Point, System.Drawing">
-    <value>263, 373</value>
+    <value>263, 342</value>
   </data>
   <data name="BtnOutPut_Wash_In.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 64</value>
@@ -545,7 +587,7 @@
     <value>SlowCylinderSpeed</value>
   </data>
   <data name="BtnOutPut_ResetY.Location" type="System.Drawing.Point, System.Drawing">
-    <value>514, 303</value>
+    <value>514, 278</value>
   </data>
   <data name="BtnOutPut_ResetY.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 64</value>
@@ -554,7 +596,7 @@
     <value>Y-axisAlarmReset</value>
   </data>
   <data name="BtnOutPut_ResetX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>263, 303</value>
+    <value>263, 278</value>
   </data>
   <data name="BtnOutPut_ResetX.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 64</value>
@@ -562,14 +604,14 @@
   <data name="BtnOutPut_ResetX.Text" xml:space="preserve">
     <value>X-axisAlarmReset</value>
   </data>
-  <data name="BtnOutPut_Block.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="BtnOutPut_Block_Out.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 64</value>
   </data>
-  <data name="BtnOutPut_Block.Text" xml:space="preserve">
+  <data name="BtnOutPut_Block_Out.Text" xml:space="preserve">
     <value>Block</value>
   </data>
   <data name="BtnOutPut_Decompression.Location" type="System.Drawing.Point, System.Drawing">
-    <value>263, 169</value>
+    <value>263, 150</value>
   </data>
   <data name="BtnOutPut_Decompression.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 64</value>
@@ -578,7 +620,7 @@
     <value>DecompressionDown</value>
   </data>
   <data name="BtnOutPut_Apocenosis.Location" type="System.Drawing.Point, System.Drawing">
-    <value>514, 169</value>
+    <value>514, 150</value>
   </data>
   <data name="BtnOutPut_Apocenosis.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 64</value>
@@ -593,7 +635,7 @@
     <value>Buzzer</value>
   </data>
   <data name="BtnOutPut_Tray.Location" type="System.Drawing.Point, System.Drawing">
-    <value>263, 102</value>
+    <value>263, 86</value>
   </data>
   <data name="BtnOutPut_Tray.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 64</value>
@@ -602,7 +644,7 @@
     <value>TakeTheTray</value>
   </data>
   <data name="BtnOutPut_Water.Location" type="System.Drawing.Point, System.Drawing">
-    <value>263, 236</value>
+    <value>263, 214</value>
   </data>
   <data name="BtnOutPut_Water.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 64</value>
@@ -611,7 +653,7 @@
     <value>Water</value>
   </data>
   <data name="BtnOutPut_Waste.Location" type="System.Drawing.Point, System.Drawing">
-    <value>514, 236</value>
+    <value>514, 214</value>
   </data>
   <data name="BtnOutPut_Waste.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 64</value>
@@ -626,7 +668,7 @@
     <value>StopStirring</value>
   </data>
   <data name="BtnOutPut_Cylinder_Down.Location" type="System.Drawing.Point, System.Drawing">
-    <value>514, 35</value>
+    <value>514, 22</value>
   </data>
   <data name="BtnOutPut_Cylinder_Down.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 64</value>
@@ -635,7 +677,7 @@
     <value>UnderTheCylinder</value>
   </data>
   <data name="BtnOutPut_Tongs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>514, 102</value>
+    <value>514, 86</value>
   </data>
   <data name="BtnOutPut_Tongs.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 64</value>
@@ -644,7 +686,7 @@
     <value>GrabHands</value>
   </data>
   <data name="BtnOutPut_Y_Power.Location" type="System.Drawing.Point, System.Drawing">
-    <value>262, 35</value>
+    <value>262, 22</value>
   </data>
   <data name="BtnOutPut_Y_Power.Size" type="System.Drawing.Size, System.Drawing">
     <value>219, 64</value>
@@ -660,6 +702,45 @@
   </data>
   <data name="groupBox5.Text" xml:space="preserve">
     <value>FixedPointMove</value>
+  </data>
+  <data name="RdoSupportCover.Location" type="System.Drawing.Point, System.Drawing">
+    <value>281, 277</value>
+  </data>
+  <data name="RdoSupportCover.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 23</value>
+  </data>
+  <data name="RdoSupportCover.Text" xml:space="preserve">
+    <value>SupportCover</value>
+  </data>
+  <data name="RdoExtraction.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomCenter</value>
+  </data>
+  <data name="RdoExtraction.Location" type="System.Drawing.Point, System.Drawing">
+    <value>281, 236</value>
+  </data>
+  <data name="RdoExtraction.Size" type="System.Drawing.Size, System.Drawing">
+    <value>127, 23</value>
+  </data>
+  <data name="RdoExtraction.Text" xml:space="preserve">
+    <value>Extraction</value>
+  </data>
+  <data name="RdoStandBy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 236</value>
+  </data>
+  <data name="RdoStandBy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 23</value>
+  </data>
+  <data name="RdoStandBy.Text" xml:space="preserve">
+    <value>StandBy</value>
+  </data>
+  <data name="RdoAbs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>29, 277</value>
+  </data>
+  <data name="RdoAbs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 23</value>
+  </data>
+  <data name="RdoAbs.Text" xml:space="preserve">
+    <value>Abs</value>
   </data>
   <data name="RdoWash.Location" type="System.Drawing.Point, System.Drawing">
     <value>281, 197</value>
@@ -770,16 +851,16 @@
     <value>MotherLiquidArea</value>
   </data>
   <data name="BtnStartMove.Location" type="System.Drawing.Point, System.Drawing">
-    <value>176, 319</value>
+    <value>176, 350</value>
   </data>
   <data name="BtnStartMove.Text" xml:space="preserve">
     <value>Start</value>
   </data>
   <data name="TxtNum.Location" type="System.Drawing.Point, System.Drawing">
-    <value>226, 251</value>
+    <value>203, 309</value>
   </data>
   <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>73, 256</value>
+    <value>50, 314</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 19</value>

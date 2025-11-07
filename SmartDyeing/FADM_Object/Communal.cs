@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using CHNSpec.Device.COM;
 using CHNSpec.Device.Bluetooth;
 using CHNSpec.Device.Models;
 using CHNSpec.Device.Models.Enums;
@@ -23,6 +23,9 @@ namespace SmartDyeing.FADM_Object
     {
         //蓝牙分光仪
         public static BluetoothHelper _helper = new BluetoothHelper();
+
+        //分光仪
+        public static SerialPortHelper _Comhelper = new SerialPortHelper();
 
         private static readonly ReaderWriterLockSlim _rwLock = new ReaderWriterLockSlim();
 
@@ -202,6 +205,11 @@ namespace SmartDyeing.FADM_Object
         public static int _i_OptCupNum { get; set; }
 
         /// <summary>
+        /// 开关盖杯号
+        /// </summary>
+        public static int _i_OptCoverCupNum { get; set; }
+
+        /// <summary>
         /// 上下气缸类型
         /// </summary>
         public static int _i_cylinderVersion = 1;
@@ -294,6 +302,16 @@ namespace SmartDyeing.FADM_Object
         /// 报警(翻转缸)
         /// </summary>
         public static string[] _sa_dyeAlarm1 = new string[Lib_Card.Configure.Parameter.Machine_Cup_Total];
+
+        /// <summary>
+        /// 报警(翻转缸)
+        /// </summary>
+        public static int[] _ia_alarmNum2 = new int[Lib_Card.Configure.Parameter.Machine_Cup_Total];
+
+        /// <summary>
+        /// 报警(翻转缸)
+        /// </summary>
+        public static string[] _sa_dyeAlarm2 = new string[Lib_Card.Configure.Parameter.Machine_Cup_Total];
 
         /// <summary>
         /// 染色机对象
@@ -403,6 +421,30 @@ namespace SmartDyeing.FADM_Object
         /// </summary>
         public static List<int> _lis_HighWashCup = new List<int>();
 
+        /// <summary>
+        /// 重新下发的杯号
+        /// </summary>
+        public static List<int> _lis_ReSendCup = new List<int>();
+
+        /// <summary>
+        /// 打板机急停状态  true 急停按下 false 急停松开
+        /// </summary>
+        public static bool _b_isDyeStop = false;
+
+        /// <summary>
+        /// 打板机是否有急停  true 有 false 无
+        /// </summary>
+        public static bool _b_isHaveDyeStop = false;
+
+        /// <summary>
+        /// 是否有自动开料  true 有 false 无
+        /// </summary>
+        public static bool _b_isHaveAutoBrew = false;
+
+        /// <summary>
+        /// 是否有自动洗瓶  true 有 false 无
+        /// </summary>
+        public static bool _b_isHaveAutoWashBottle = false;
 
         /// <summary>
         /// 染色线程
@@ -646,6 +688,8 @@ namespace SmartDyeing.FADM_Object
         public static bool _b_isUseClamp = false;//是否使用夹子自动放布
 
         public static bool _b_isUseClampOut = false;//是否使用夹子自动出布
+
+        public static bool _b_isUseClampOutBig = true;//4,6杯大杯是否使用夹子自动出布
 
         public static bool _b_isUseAuto = true;//是否使用自动启动
 
@@ -891,6 +935,11 @@ namespace SmartDyeing.FADM_Object
         /// </summary>
         public static double _d_AlarmDropWeight = 0.1;
 
+        /// <summary>
+        ///机台编号
+        /// </summary>
+        public static string _s_MachineNumber = "01";
+
 
         /// <summary>
         /// 是否在放布确认前可添加副杯滴液
@@ -916,6 +965,16 @@ namespace SmartDyeing.FADM_Object
         /// 是否高温洗杯
         /// </summary>
         public static bool _b_isHighWash = false;
+
+        /// <summary>
+        ///是否使用分光仪测量LAB
+        /// </summary>
+        public static bool _b_isUseLAB = false;
+
+        /// <summary>
+        /// 分光仪通讯方式 0 蓝牙 1 usb
+        /// </summary>
+        public static int _i_LabMode = 0;
 
 
         /// <summary>
@@ -1067,7 +1126,33 @@ namespace SmartDyeing.FADM_Object
         /// </summary>
         public static int[] _ia_d900 = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0 };
 
+        /// <summary>
+        /// 调试页面吸光度数据13188-13227地址数据
+        /// </summary>
+        public static int[] _ia_d13188 = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
+        /// <summary>
+        /// 调试页面吸光度数据13088开始100个寄存器地址数据
+        /// </summary>
+        public static int[] _ia_d13088 = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                           0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+        /// <summary>
+        /// 调试页面自动开料机22688-22762地址数据
+        /// </summary>
+        public static int[] _ia_d22688 = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0 };
+
+        /// <summary>
+        /// 调试页面自动洗瓶22938-22947地址数据
+        /// </summary>
+        public static int[] _ia_d22938 = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+
+        /// <summary>
+        /// ABS调试页面是否打开
+        /// </summary>
+        public static bool _b_IsABSOpen = false;
 
         /// <summary>
         /// 蜂鸣器状态 0:初始状态 1:已打开 2：已关闭
@@ -1175,6 +1260,7 @@ namespace SmartDyeing.FADM_Object
 
             public Dictionary<int, int> _dic_pulse;//  _dic_pulse：配液杯对应加药脉冲
             public Dictionary<int, double> _dic_water;//  directoryWeight：配液杯对应加水重
+            public Dictionary<int, int> _dic_step;//  _dic_pulse：配液杯对应步号
         }
 
         /// <summary>
@@ -1206,6 +1292,7 @@ namespace SmartDyeing.FADM_Object
 
             Dictionary<int, int> dic_pulse = o._dic_pulse;
             Dictionary<int, double> dic_water = o._dic_water;
+            Dictionary<int, int> dic_step = o._dic_step;
 
             Thread thread = null;
 
@@ -2072,6 +2159,24 @@ namespace SmartDyeing.FADM_Object
                     _d_reviewBalance = Lib_Card.Configure.Parameter.Correcting_S_Weight;
                 else
                     _d_reviewBalance = Lib_Card.Configure.Parameter.Correcting_B_Weight;
+
+                //带带盖加药时，需要洗针筒才放回去
+                if (FADM_Object.Communal._b_isHasWashSyringe)
+                {
+                    if (i_special == 2)
+                    {
+                        //移动到洗针位置
+                        i_mRes = MyModbusFun.TargetMove(12, 0, 0);
+                        if ("小针筒" == s_syringeType || "Little Syringe" == s_syringeType)
+                        {
+                            MyModbusFun.WashSyringes(0);
+                        }
+                        else
+                        {
+                            MyModbusFun.WashSyringes(1);
+                        }
+                    }
+                }
             }
             else
             {
@@ -2171,6 +2276,183 @@ namespace SmartDyeing.FADM_Object
             {
                 goto label9;
             }
+            //如果带盖加药，前置加药完成，方针前先洗针
+            if(i_special == 1)
+            {
+                for (int i = 0; i < lis_data.Count; i++)
+                {
+                    //对应值复称值写入
+                    directoryReturn.Add(lis_data[i], _d_reviewBalance);
+                }
+                //循环判断是否加药完成
+                foreach (KeyValuePair<int, double> kvp in directoryReturn)
+                {
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(
+                          "UPDATE dye_details SET  Finish = 1 WHERE StepNum = " + dic_step[kvp.Key]  + " AND " +
+                          "CupNum = " + kvp.Key + ";");
+
+                    //查询另外一杯是否完成加药
+                    DataTable dt_d = FADM_Object.Communal._fadmSqlserver.GetData(
+                                "SELECT * FROM dye_details WHERE  BatchName !='0' And StepNum = " + dic_step[kvp.Key] + " AND " +
+                          "CupNum = " + SmartDyeing.FADM_Object.Communal._dic_first_second[kvp.Key] + ";");
+                    if (dt_d.Rows.Count > 0)
+                    {
+                        if (dt_d.Rows[0]["Finish"].ToString() == "1")
+                        {
+                            //由于触摸屏反应太慢，导致连续加药时没及时反应，必须等打板机步号和上位机步号一致才能完成加药
+                            while (true)
+                            {
+                                if (dic_step[kvp.Key] == FADM_Auto.Dye._cup_Temps[SmartDyeing.FADM_Object.Communal._dic_first_second[kvp.Key] - 1]._i_stepNum
+                                    && 2 == FADM_Auto.Dye._cup_Temps[SmartDyeing.FADM_Object.Communal._dic_first_second[kvp.Key] - 1]._i_staus)
+                                {
+                                    //复位加药启动信号
+                                    int[] ia_zero = new int[1];
+                                    //
+                                    ia_zero[0] = 0;
+                                    FADM_Auto.Dye.DyeHMIWrite(kvp.Key, 509, 309, ia_zero);
+
+                                    //发送加药完成
+                                    ia_zero = new int[1];
+                                    //
+                                    ia_zero[0] = 2;
+
+                                    FADM_Auto.Dye.DyeHMIWrite(kvp.Key, 115, 114, ia_zero);
+
+                                    break;
+                                }
+                                else
+                                {
+                                    Thread.Sleep(100);
+                                }
+                            }
+                            //判断下一步是否需要关盖
+                            DataTable dt_s = FADM_Object.Communal._fadmSqlserver.GetData("Select * from dye_details where  BatchName !='0' And CupNum = " + kvp.Key + " And StepNum = " + (dic_step[kvp.Key] + 1));
+                            if (dt_s.Rows.Count > 0)
+                            {
+                                if (dt_s.Rows[0]["TechnologyName"].ToString() == "搅拌" || dt_s.Rows[0]["TechnologyName"].ToString() == "冷行" || dt_s.Rows[0]["TechnologyName"].ToString() == "温控")
+                                {
+                                    int i_cupNo = kvp.Key;
+                                    //判断是否开盖状态
+                                    if (FADM_Auto.Dye._cup_Temps[i_cupNo - 1]._i_cupCover == 2)
+                                    {
+                                        //判断是否翻转缸，如果是就执行关盖动作
+                                        //关盖
+                                        if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 4 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 5)
+                                        {
+                                            //复位加药启动信号
+                                            int[] ia_zero1 = new int[1];
+                                            //
+                                            ia_zero1[0] = 0;
+
+
+                                            FADM_Auto.Dye.DyeOpenOrCloseCover(i_cupNo, 1);
+                                            Thread.Sleep(1000);
+                                            Communal._fadmSqlserver.ReviseData("Update  cup_details set CoverStatus = 1 where CupNum = " + i_cupNo);
+
+                                            FADM_Auto.Dye._cup_Temps[i_cupNo - 1]._i_cupCover = 1;
+                                        }
+                                    }
+                                    //if (b_sec)
+                                    {
+                                        //判断是否开盖状态
+                                        if (FADM_Auto.Dye._cup_Temps[SmartDyeing.FADM_Object.Communal._dic_first_second[i_cupNo] - 1]._i_cupCover == 2)
+                                        {
+                                            if (SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 2 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 4 || SmartDyeing.FADM_Object.Communal._dic_dyeType[_dic_first_second[i_cupNo]] == 5)
+                                            {
+                                                //复位加药启动信号
+                                                int[] ia_zero1 = new int[1];
+                                                //
+                                                ia_zero1[0] = 0;
+
+
+                                                FADM_Auto.Dye.DyeOpenOrCloseCover(_dic_first_second[i_cupNo], 1);
+                                                Thread.Sleep(1000);
+                                                Communal._fadmSqlserver.ReviseData("Update  cup_details set CoverStatus = 1 where CupNum = " + _dic_first_second[i_cupNo]);
+
+                                                FADM_Auto.Dye._cup_Temps[_dic_first_second[i_cupNo] - 1]._i_cupCover = 1;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        while (true)
+                        {
+                            if (dic_step[kvp.Key] == FADM_Auto.Dye._cup_Temps[kvp.Key - 1]._i_stepNum && 2 == FADM_Auto.Dye._cup_Temps[kvp.Key - 1]._i_staus)
+                            {
+                                //复位加药启动信号
+                                int[] ia_zero = new int[1];
+                                //
+                                ia_zero[0] = 0;
+                                FADM_Auto.Dye.DyeHMIWrite(kvp.Key, 509, 309, ia_zero);
+
+                                //发送加药完成
+                                ia_zero = new int[1];
+                                //
+                                ia_zero[0] = 2;
+
+                                FADM_Auto.Dye.DyeHMIWrite(kvp.Key, 115, 114, ia_zero);
+                                break;
+                            }
+                            else
+                            {
+                                Thread.Sleep(100);
+                            }
+                        }
+                        //判断下一步是否需要关盖
+                        DataTable dt_s = FADM_Object.Communal._fadmSqlserver.GetData("Select * from dye_details where  BatchName !='0' And CupNum = " + kvp.Key + " And StepNum = " + (dic_step[kvp.Key] + 1));
+                        if (dt_s.Rows.Count > 0)
+                        {
+                            if (dt_s.Rows[0]["TechnologyName"].ToString() == "搅拌" || dt_s.Rows[0]["TechnologyName"].ToString() == "冷行" || dt_s.Rows[0]["TechnologyName"].ToString() == "温控")
+                            {
+                                int i_cupNo = kvp.Key;
+                                //判断是否开盖状态
+                                if (FADM_Auto.Dye._cup_Temps[i_cupNo - 1]._i_cupCover == 2)
+                                {
+                                    //判断是否翻转缸，如果是就执行关盖动作
+                                    //关盖
+                                    if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 1 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 2 
+                                        || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 3 || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 4 
+                                        || SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNo] == 5)
+                                    {
+                                        //复位加药启动信号
+                                        int[] ia_zero1 = new int[1];
+                                        //
+                                        ia_zero1[0] = 0;
+
+
+                                        FADM_Auto.Dye.DyeOpenOrCloseCover(i_cupNo, 1);
+                                        Thread.Sleep(1000);
+                                        Communal._fadmSqlserver.ReviseData("Update  cup_details set CoverStatus = 1 where CupNum = " + i_cupNo);
+
+                                        FADM_Auto.Dye._cup_Temps[i_cupNo - 1]._i_cupCover = 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    
+
+                }
+                //判断洗针筒字典是否存在需要洗针的
+                if (FADM_Object.Communal._b_isHasWashSyringe)
+                {
+                    //移动到洗针位置
+                    i_mRes = MyModbusFun.TargetMove(12, 0, 0);
+                    if ("小针筒" == s_syringeType || "Little Syringe" == s_syringeType)
+                    {
+                        MyModbusFun.WashSyringes(0);
+                    }
+                    else
+                    {
+                        MyModbusFun.WashSyringes(1);
+                    }
+                }
+            }
 
             //移动到母液瓶
             if (FADM_Auto.Drip._b_dripStop)
@@ -2221,10 +2503,14 @@ namespace SmartDyeing.FADM_Object
             Communal._b_isGetSyringes = false;
             if (null != thread)
                 thread.Join();
-            for (int i = 0; i < lis_data.Count; i++)
+
+            if (i_special != 1)
             {
-                //对应值复称值写入
-                directoryReturn.Add(lis_data[i], _d_reviewBalance);
+                for (int i = 0; i < lis_data.Count; i++)
+                {
+                    //对应值复称值写入
+                    directoryReturn.Add(lis_data[i], _d_reviewBalance);
+                }
             }
 
             return 0;

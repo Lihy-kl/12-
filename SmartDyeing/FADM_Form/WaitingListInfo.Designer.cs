@@ -52,13 +52,13 @@ namespace SmartDyeing.FADM_Form
             // 
             // dgv_WaitList
             // 
-            resources.ApplyResources(this.dgv_WaitList, "dgv_WaitList");
             this.dgv_WaitList.AllowUserToAddRows = false;
             this.dgv_WaitList.AllowUserToDeleteRows = false;
             this.dgv_WaitList.AllowUserToResizeColumns = false;
             this.dgv_WaitList.AllowUserToResizeRows = false;
             this.dgv_WaitList.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgv_WaitList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            resources.ApplyResources(this.dgv_WaitList, "dgv_WaitList");
             this.dgv_WaitList.MultiSelect = false;
             this.dgv_WaitList.Name = "dgv_WaitList";
             this.dgv_WaitList.ReadOnly = true;
@@ -97,35 +97,35 @@ namespace SmartDyeing.FADM_Form
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.dgv_WaitList);
             this.groupBox1.Controls.Add(this.Btn_Save);
             this.groupBox1.Controls.Add(this.Btn_Up);
             this.groupBox1.Controls.Add(this.Btn_Del);
             this.groupBox1.Controls.Add(this.Btn_Down);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.dgv_WaitList1);
             this.groupBox2.Controls.Add(this.Btn_Save1);
             this.groupBox2.Controls.Add(this.Btn_Up1);
             this.groupBox2.Controls.Add(this.Btn_Del1);
             this.groupBox2.Controls.Add(this.Btn_Down1);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
             // dgv_WaitList1
             // 
-            resources.ApplyResources(this.dgv_WaitList1, "dgv_WaitList1");
             this.dgv_WaitList1.AllowUserToAddRows = false;
             this.dgv_WaitList1.AllowUserToDeleteRows = false;
             this.dgv_WaitList1.AllowUserToResizeColumns = false;
             this.dgv_WaitList1.AllowUserToResizeRows = false;
             this.dgv_WaitList1.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dgv_WaitList1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            resources.ApplyResources(this.dgv_WaitList1, "dgv_WaitList1");
             this.dgv_WaitList1.MultiSelect = false;
             this.dgv_WaitList1.Name = "dgv_WaitList1";
             this.dgv_WaitList1.ReadOnly = true;

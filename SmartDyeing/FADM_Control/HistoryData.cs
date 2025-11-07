@@ -1,7 +1,11 @@
-﻿using CHNSpec.Device.Bluetooth;
+﻿using BLECode;
+using CHNSpec.Device.Bluetooth;
+using CHNSpec.Device.COM.Demo;
 using CHNSpec.Device.Models;
 using CHNSpec.Device.Models.Enums;
-using BLECode;
+using HslControls;
+using HslControls.Charts;
+using PdfTableExportTool;
 using SmartDyeing.FADM_Form;
 using System;
 using System.Collections.Generic;
@@ -15,8 +19,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using HslControls;
-using HslControls.Charts;
 using System.Windows.Forms.DataVisualization.Charting;
 using static SmartDyeing.FADM_Control.CurveControl;
 //using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -120,50 +122,66 @@ namespace SmartDyeing.FADM_Control
 
         private void ThreadBlueToothCon()
         {
-            bool b_find = false;
-            string s_path = Environment.CurrentDirectory + "\\Config\\Config.ini";
-            string s_name = Lib_File.Ini.GetIni("BlueTooth", "Name", "", s_path);
-            if (s_name == "")
+            if (FADM_Object.Communal._i_LabMode == 0)
             {
-                Lib_File.Ini.WriteIni("BlueTooth", "Name", "", s_path);
-            }
-
-            _lis_bluetoothNane.Clear();
-            bluetoothList.Clear();
-            txt_TotalTime.Text = string.Empty;
-
-            SmartDyeing.FADM_Object.Communal._helper.bleCode.StartBleDeviceWatcher("CM");
-
-            Thread.Sleep(5000);
-            DeviceInfo deviceInfo = null; ;
-            for (int i = 0; i < bluetoothList.Count; i++)
-            {
-                deviceInfo = bluetoothList[i];
-                if (deviceInfo.Name == s_name)
+                bool b_find = false;
+                string s_path = Environment.CurrentDirectory + "\\Config\\Config.ini";
+                string s_name = Lib_File.Ini.GetIni("BlueTooth", "Name", "", s_path);
+                if (s_name == "")
                 {
-                    b_find = true;
-                    break;
+                    Lib_File.Ini.WriteIni("BlueTooth", "Name", "", s_path);
                 }
-            }
 
-            if (deviceInfo == null)
-            {
-                return;
+                _lis_bluetoothNane.Clear();
+                bluetoothList.Clear();
+                txt_TotalTime.Text = string.Empty;
+
+                SmartDyeing.FADM_Object.Communal._helper.bleCode.StartBleDeviceWatcher("CM");
+
+                Thread.Sleep(5000);
+                DeviceInfo deviceInfo = null; ;
+                for (int i = 0; i < bluetoothList.Count; i++)
+                {
+                    deviceInfo = bluetoothList[i];
+                    if (deviceInfo.Name == s_name)
+                    {
+                        b_find = true;
+                        break;
+                    }
+                }
+
+                if (deviceInfo == null)
+                {
+                    return;
+                }
+                if (!b_find)
+                {
+                    return;
+                }
+                bool b_result = SmartDyeing.FADM_Object.Communal._helper.OpenBluetooth(deviceInfo.DeviceId, deviceInfo.Name);
+                if (!b_result)
+                {
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        FADM_Form.CustomMessageBox.Show("连接分光仪失败", "温馨提示", MessageBoxButtons.OK, false);
+                    else
+                        FADM_Form.CustomMessageBox.Show("Failed to connect the spectrometer", "Tips", MessageBoxButtons.OK, false);
+                    return;
+                }
+                _b_isShowButton = true;
             }
-            if (!b_find)
+            else if (FADM_Object.Communal._i_LabMode == 1)
             {
-                return;
+                //初始状态
+                SmartDyeing.FADM_Object.Communal._Comhelper.StopUSBWatcher();
+                SmartDyeing.FADM_Object.Communal._Comhelper.CloseSerialPort();
+
+                //USB监听
+                SmartDyeing.FADM_Object.Communal._Comhelper.StartUSBWatcher();
+                Thread.Sleep(500);//创建串口监听后需要等待一定的时候后才能打开串口
+                                  //打开串口
+                string portName = string.Empty;
+                SmartDyeing.FADM_Object.Communal._Comhelper.OpenSerialPort(ref portName);
             }
-            bool b_result = SmartDyeing.FADM_Object.Communal._helper.OpenBluetooth(deviceInfo.DeviceId, deviceInfo.Name);
-            if (!b_result)
-            {
-                if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                    FADM_Form.CustomMessageBox.Show("连接分光仪失败", "温馨提示", MessageBoxButtons.OK, false);
-                else
-                    FADM_Form.CustomMessageBox.Show("Failed to connect the spectrometer", "Tips", MessageBoxButtons.OK, false);
-                return;
-            }
-            _b_isShowButton = true;
         }
 
         private static void CreateFile(string s_message)
@@ -1012,7 +1030,8 @@ namespace SmartDyeing.FADM_Control
                        s_ti
                        );
                     }
-                    else if (dt_dye_details.Rows[i]["TechnologyName"].ToString() == "放布" || dt_dye_details.Rows[i]["TechnologyName"].ToString() == "出布")
+                    else if (dt_dye_details.Rows[i]["TechnologyName"].ToString() == "放布" || dt_dye_details.Rows[i]["TechnologyName"].ToString() == "出布"
+                         || dt_dye_details.Rows[i]["TechnologyName"].ToString() == "测PH" || dt_dye_details.Rows[i]["TechnologyName"].ToString() == "取小样")
                     {
                         dgv_Details.Rows.Add(dt_dye_details.Rows[i]["Code"] is DBNull ? "" : dt_dye_details.Rows[i]["Code"].ToString(),
                             (i + 1 + dt_formuladetail.Rows.Count).ToString(),
@@ -1398,9 +1417,9 @@ namespace SmartDyeing.FADM_Control
                     case "测PH":
                         // 固定时间设定为3分钟
                         fixedDuration = step.Duration ?? 3;
-                        for (int i = 0; i < fixedDuration * 2; i++) // 每分钟记录两个温度值
+                        for (int i = 0; i < fixedDuration * (FADM_Object.Communal._b_is60Mark ? 1 : 2); i++) // 每分钟记录两个温度值
                         {
-                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / 2; // 根据牛顿冷却定律降温
+                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 根据牛顿冷却定律降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
@@ -1421,9 +1440,9 @@ namespace SmartDyeing.FADM_Control
                     case "加N":
                         // 固定时间设定为0.5分钟
                         fixedDuration = step.Duration ?? 0.5;
-                        for (int i = 0; i < fixedDuration * 2; i++) // 每分钟记录两个温度值
+                        for (int i = 0; i < fixedDuration * (FADM_Object.Communal._b_is60Mark ? 1 : 2); i++) // 每分钟记录两个温度值
                         {
-                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / 2; // 根据牛顿冷却定律降温
+                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 根据牛顿冷却定律降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
@@ -1432,9 +1451,9 @@ namespace SmartDyeing.FADM_Control
                     case "洗杯":
                         // 固定时间设定为10分钟
                         fixedDuration = step.Duration ?? 10;
-                        for (int i = 0; i < fixedDuration * 2; i++) // 每分钟记录两个温度值
+                        for (int i = 0; i < fixedDuration * (FADM_Object.Communal._b_is60Mark ? 1 : 2); i++) // 每分钟记录两个温度值
                         {
-                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / 2; // 根据牛顿冷却定律降温
+                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 根据牛顿冷却定律降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
@@ -1443,9 +1462,9 @@ namespace SmartDyeing.FADM_Control
                     case "排液":
                         // 使用结构体中的时间参数，默认0.25分钟
                         duration = step.Duration ?? 0.25;
-                        for (int i = 0; i < duration * 2; i++) // 每分钟记录两个温度值
+                        for (int i = 0; i < duration * (FADM_Object.Communal._b_is60Mark ? 1 : 2); i++) // 每分钟记录两个温度值
                         {
-                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / 2; // 根据牛顿冷却定律降温
+                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 根据牛顿冷却定律降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
@@ -1453,9 +1472,9 @@ namespace SmartDyeing.FADM_Control
                     case "加水":
                         // 使用结构体中的时间参数，默认1分钟
                         duration = step.Duration ?? 1;
-                        for (int i = 0; i < duration * 2; i++) // 每分钟记录两个温度值
+                        for (int i = 0; i < duration * (FADM_Object.Communal._b_is60Mark ? 1 : 2); i++) // 每分钟记录两个温度值
                         {
-                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / 2; // 根据牛顿冷却定律降温
+                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 根据牛顿冷却定律降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
@@ -1463,9 +1482,9 @@ namespace SmartDyeing.FADM_Control
                     case "冷行":
                         // 使用结构体中的时间参数，默认5分钟
                         duration = step.Duration ?? 5;
-                        for (int i = 0; i < duration * 2; i++) // 每分钟记录两个温度值
+                        for (int i = 0; i < duration * (FADM_Object.Communal._b_is60Mark ? 1 : 2); i++) // 每分钟记录两个温度值
                         {
-                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / 2; // 根据牛顿冷却定律降温
+                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 根据牛顿冷却定律降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
@@ -1473,9 +1492,9 @@ namespace SmartDyeing.FADM_Control
                     case "搅拌":
                         // 使用结构体中的时间参数，默认5分钟
                         duration = step.Duration ?? 5;
-                        for (int i = 0; i < duration * 2; i++) // 每分钟记录两个温度值
+                        for (int i = 0; i < duration * (FADM_Object.Communal._b_is60Mark ? 1 : 2); i++) // 每分钟记录两个温度值
                         {
-                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / 2; // 根据牛顿冷却定律降温
+                            currentTemperature -= coolingConstant * (currentTemperature - ambientTemperature) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 根据牛顿冷却定律降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
@@ -1489,19 +1508,19 @@ namespace SmartDyeing.FADM_Control
                         // 升温或降温阶段
                         double temperatureDifference = targetTemperature - currentTemperature;
                         double heatingTime = Math.Abs(temperatureDifference) / heatingRate; // 转换为分钟
-                        int heatingPoints = (int)(heatingTime * 2); // 每分钟记录两个温度值
+                        int heatingPoints = (int)(heatingTime * (FADM_Object.Communal._b_is60Mark ? 1 : 2)); // 每分钟记录两个温度值
                         for (int i = 0; i < heatingPoints; i++)
                         {
-                            currentTemperature += (temperatureDifference > 0 ? heatingRate : -heatingRate) / 2; // 每分钟升温或降温
+                            currentTemperature += (temperatureDifference > 0 ? heatingRate : -heatingRate) / (FADM_Object.Communal._b_is60Mark ? 1 : 2); // 每分钟升温或降温
                             temperatureBuilder.Append($"{currentTemperature}@");
                             timePoint++;
                         }
 
                         // 保温阶段
-                        int holdPoints = (int)(holdTime * 2); // 每分钟记录两个温度值
+                        int holdPoints = (int)(holdTime * (FADM_Object.Communal._b_is60Mark ? 1 : 2)); // 每分钟记录两个温度值
                         for (int i = 0; i < holdPoints; i++)
                         {
-                            temperatureBuilder.Append($"{currentTemperature}@");
+                            temperatureBuilder.Append($"{targetTemperature}@");
                             timePoint++;
                         }
                         break;
@@ -1851,20 +1870,41 @@ namespace SmartDyeing.FADM_Control
                         _s_cupNum = dgv_DropRecord.CurrentRow.Cells[3].Value.ToString();
                         _s_batch = dgv_DropRecord.CurrentRow.Cells[4].Value.ToString();
 
-                        if (SmartDyeing.FADM_Object.Communal._helper.Send_MeasureCmd(EnumMeasure_Mode.SCI, 0))
+                        if (FADM_Object.Communal._i_LabMode == 0)
                         {
-                            //测量下发成功
-                            btn_save.Visible = false;
-                            _i_nCount = 0;
-                            timer2.Enabled = true;
-                        }
-                        else
-                        {
-                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                                FADM_Form.CustomMessageBox.Show("测量下发失败", "温馨提示", MessageBoxButtons.OK, false);
+                            if (SmartDyeing.FADM_Object.Communal._helper.Send_MeasureCmd(EnumMeasure_Mode.SCI, 0))
+                            {
+                                //测量下发成功
+                                btn_save.Visible = false;
+                                _i_nCount = 0;
+                                timer2.Enabled = true;
+                            }
                             else
-                                FADM_Form.CustomMessageBox.Show("Measurement distribution failed", "Tips", MessageBoxButtons.OK, false);
+                            {
+                                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                    FADM_Form.CustomMessageBox.Show("测量下发失败", "温馨提示", MessageBoxButtons.OK, false);
+                                else
+                                    FADM_Form.CustomMessageBox.Show("Measurement distribution failed", "Tips", MessageBoxButtons.OK, false);
 
+                            }
+                        }
+                        else if (FADM_Object.Communal._i_LabMode == 1)
+                        {
+                            if (SmartDyeing.FADM_Object.Communal._Comhelper.Send_MeasureCmd(EnumMeasure_Mode.SCI))
+                            {
+                                //测量下发成功
+                                btn_save.Visible = false;
+                                _i_nCount = 0;
+                                timer2.Enabled = true;
+                            }
+                            else
+                            {
+                                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                    FADM_Form.CustomMessageBox.Show("测量下发失败", "温馨提示", MessageBoxButtons.OK, false);
+                                else
+                                    FADM_Form.CustomMessageBox.Show("Measurement distribution failed", "Tips", MessageBoxButtons.OK, false);
+
+                            }
                         }
                     }
                     else
@@ -1890,119 +1930,203 @@ namespace SmartDyeing.FADM_Control
         {
             //cmb_multilingual.SelectedIndex = 0;
 
-            #region 蓝牙回调
-
-            if (SmartDyeing.FADM_Object.Communal._helper.bleCode != null)
+            if (FADM_Object.Communal._b_isUseLAB && FADM_Object.Communal._i_LabMode == 0)
             {
-                //查找到的蓝牙设备
-                SmartDyeing.FADM_Object.Communal._helper.bleCode.Added = AddBluetoothDevice;
 
-                //停止查找蓝牙设备
-                SmartDyeing.FADM_Object.Communal._helper.bleCode.WatcherStopped = WatcherStopped;
+                #region 蓝牙回调
 
-                //查找完设备完成
-                SmartDyeing.FADM_Object.Communal._helper.bleCode.EnumerationCompleted = EnumerationCompleted;
+                if (SmartDyeing.FADM_Object.Communal._helper.bleCode != null)
+                {
+                    //查找到的蓝牙设备
+                    SmartDyeing.FADM_Object.Communal._helper.bleCode.Added = AddBluetoothDevice;
+
+                    //停止查找蓝牙设备
+                    SmartDyeing.FADM_Object.Communal._helper.bleCode.WatcherStopped = WatcherStopped;
+
+                    //查找完设备完成
+                    SmartDyeing.FADM_Object.Communal._helper.bleCode.EnumerationCompleted = EnumerationCompleted;
+                }
+                #endregion
             }
-            #endregion
 
-
-            //订阅仪器连接状态
-            DeviceCallback.ConnectionChangeCallback = (state) =>
+            if (FADM_Object.Communal._b_isUseLAB)
             {
-                this.Invoke(new Action(() =>
+                //订阅仪器连接状态
+                DeviceCallback.ConnectionChangeCallback = (state) =>
                 {
-                    //if(state)
-                    //{
-                    //    btn_save.Visible = true;
-                    //}
-                    //if (cmb_multilingual.SelectedIndex == 0)
-                    //{
-                    //lab_state.Text = state ? "已连接" : "未连接";
-                    //}
-                    //else
-                    //{
-                    //    lab_state.Text = state ? "Connected" : "Not connected";
-                    //}
-                }));
-
-            };
-
-
-            //订阅测量状态
-            DeviceCallback.MeasureCallback = (state, result) =>
-            {
-                this.Invoke(new Action(() =>
-                {
-                    string s_msg = string.Empty;
-                    if (state)
+                    this.Invoke(new Action(() =>
                     {
-                        //if (cmb_multilingual.SelectedIndex == 0)
+                        if (FADM_Object.Communal._i_LabMode == 1)
                         {
-                            string s_spectrum = string.Empty;
-                            foreach (var item in result.spectrums)
+                            if (state)
                             {
-                                s_spectrum += "测量模式：" + item.measure_mode.ToString() + Environment.NewLine;
-                                float[] f = new float[item.spectral_data.Count() - 12];
-                                for (int i = 4; i < item.spectral_data.Count() - 8; i++)
+                                btn_save.Visible = true;
+                            }
+                        }
+                        //if (cmb_multilingual.SelectedIndex == 0)
+                        //{
+                        //lab_state.Text = state ? "已连接" : "未连接";
+                        //}
+                        //else
+                        //{
+                        //    lab_state.Text = state ? "Connected" : "Not connected";
+                        //}
+                    }));
+
+                };
+
+
+                //订阅测量状态
+                DeviceCallback.MeasureCallback = (state, result) =>
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        if (FADM_Object.Communal._i_LabMode == 0)
+                        {
+                            string s_msg = string.Empty;
+                            if (state)
+                            {
+                                //if (cmb_multilingual.SelectedIndex == 0)
                                 {
-                                    f[i - 4] = item.spectral_data[i];
-                                    s_msg += item.spectral_data[i].ToString() + ",";
+                                    string s_spectrum = string.Empty;
+                                    foreach (var item in result.spectrums)
+                                    {
+                                        s_spectrum += "测量模式：" + item.measure_mode.ToString() + Environment.NewLine;
+                                        float[] f = new float[item.spectral_data.Count() - 12];
+                                        for (int i = 4; i < item.spectral_data.Count() - 8; i++)
+                                        {
+                                            f[i - 4] = item.spectral_data[i];
+                                            s_msg += item.spectral_data[i].ToString() + ",";
+                                        }
+                                        s_spectrum += "光谱信息：" + string.Join(",", item.spectral_data) + Environment.NewLine;
+                                    }
                                 }
-                                s_spectrum += "光谱信息：" + string.Join(",", item.spectral_data) + Environment.NewLine;
+
+                            }
+                            else
+                            {
+                                {
+                                    s_msg = "测量失败" + Environment.NewLine + Environment.NewLine;
+                                }
+                            }
+
+                            if (!s_msg.Contains("测量失败"))
+                            {
+                                //保存到数据库
+                                string s_sql = "Update history_head set Spectrum = '" + s_msg +
+                            "' WHERE BatchName = '" + _s_batch + "' and FormulaCode = '" + _s_formulaCode + "' and VersionNum = " + _s_versionNum + " and CupNum = " + _s_cupNum + ";";
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
+                                timer2.Enabled = false;
+                                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                    FADM_Form.CustomMessageBox.Show("保存成功", "温馨提示", MessageBoxButtons.OK, false);
+                                else
+                                    FADM_Form.CustomMessageBox.Show("Successfully saved", "Tips", MessageBoxButtons.OK, false);
+                                btn_save.Visible = true;
+
+
+                            }
+                            else
+                            {
+                                timer2.Enabled = true;
+                                //MessageBox.Show("测量失败");
+                            }
+                        }
+                        else if (FADM_Object.Communal._i_LabMode == 1)
+                        {
+                            ColorFormula formula = new ColorFormula(EnumLightSource.D65, EnumAngle.TenDegree);
+                            string s_msg;
+                            if (state)
+                            {
+                                //if (cmb_multilingual.SelectedIndex == 0)
+                                {
+                                    string spectrum = string.Empty;
+                                    foreach (var item in result.spectrums)
+                                    {
+                                        spectrum += "测量模式：" + item.measure_mode.ToString() + Environment.NewLine;
+
+                                        formula.GetSpectrum2XYZ(item.spectral_data, out double _X, out double _Y, out double _Z);
+                                        //if (chkLightSource.Checked)
+                                        spectrum += "光源：" + (EnumLightSource.D65).ToDescription() + Environment.NewLine;
+                                        //if (chkAngle.Checked)
+                                        spectrum += "角度：" + (EnumAngle.TenDegree).ToDescription() + Environment.NewLine;
+                                        //if (chkXYZ.Checked)
+                                        spectrum += "XYZ：" + _X.ToString("F4") + " , " + _Y.ToString("F4") + " , " + _Z.ToString("F4") + Environment.NewLine;
+                                        //if (chkLab.Checked)
+                                        {
+                                            formula.GetXYZ2LABCH(_X, _Y, _Z, out double _L, out double _a, out double _b, out double _C, out double _H);
+                                            spectrum += "LabCH：" + _L.ToString("F4") + " , " + _a.ToString("F4") + " , " + _b.ToString("F4") + " , " + _C.ToString("F4") + " , " + _H.ToString("F4") + Environment.NewLine;
+                                        }
+
+                                        //if (chkSpectral.Checked)
+                                        spectrum += "光谱信息：" + string.Join(",", item.spectral_data) + Environment.NewLine;
+                                    }
+                                    s_msg = $"测量成功{Environment.NewLine}UV模式：{result.uv_mode + Environment.NewLine}口径大小：{result.caliber_size + Environment.NewLine}开始波长：{result.wave_start + Environment.NewLine}波长间隔：{result.wave_interval + Environment.NewLine}波长数量：{result.wave_number + Environment.NewLine}{spectrum}";
+                                }
+
+                            }
+                            else
+                            {
+                                {
+                                    s_msg = "测量失败" + Environment.NewLine + Environment.NewLine;
+                                }
+                            }
+
+                            if (!s_msg.Contains("测量失败"))
+                            {
+                                //保存到数据库
+                                string s_sql = "Update history_head set Spectrum = '" + s_msg +
+                            "' WHERE BatchName = '" + _s_batch + "' and FormulaCode = '" + _s_formulaCode + "' and VersionNum = " + _s_versionNum + " and CupNum = " + _s_cupNum + ";";
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
+                                timer2.Enabled = false;
+                                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                    FADM_Form.CustomMessageBox.Show("保存成功", "温馨提示", MessageBoxButtons.OK, false);
+                                else
+                                    FADM_Form.CustomMessageBox.Show("Successfully saved", "Tips", MessageBoxButtons.OK, false);
+                                btn_save.Visible = true;
+
+
+                            }
+                            else
+                            {
+                                timer2.Enabled = true;
+                                //MessageBox.Show("测量失败");
                             }
                         }
 
-                    }
-                    else
-                    {
-                        {
-                            s_msg = "测量失败" + Environment.NewLine + Environment.NewLine;
-                        }
-                    }
-
-                    if (!s_msg.Contains("测量失败"))
-                    {
-                        //保存到数据库
-                        string s_sql = "Update history_head set Spectrum = '" + s_msg +
-                    "' WHERE BatchName = '" + _s_batch + "' and FormulaCode = '" + _s_formulaCode + "' and VersionNum = " + _s_versionNum + " and CupNum = " + _s_cupNum + ";";
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
-
-                        timer2.Enabled = false;
-                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                            FADM_Form.CustomMessageBox.Show("保存成功", "温馨提示", MessageBoxButtons.OK, false);
-                        else
-                            FADM_Form.CustomMessageBox.Show("Successfully saved", "Tips", MessageBoxButtons.OK, false);
-                        btn_save.Visible = true;
 
 
-                    }
-                    else
-                    {
-                        timer2.Enabled = true ;
-                        //MessageBox.Show("测量失败");
-                    }
-                    
+                        //txt_TotalTime.Text = msg ;
 
+                    }));
+                };
 
-                    //txt_TotalTime.Text = msg ;
-
-                }));
-            };
-
-            //订阅校准状态
-            DeviceCallback.CalibrateCallback = (state) =>
-            {
+                //订阅校准状态
+                DeviceCallback.CalibrateCallback = (state) =>
                 {
-                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                        FADM_Form.CustomMessageBox.Show(state ? "校准成功" : "校准失败", "温馨提示", MessageBoxButtons.OK, false);
-                    else
-                        FADM_Form.CustomMessageBox.Show(state ? "Calibration Successful" : "Calibration Failed", "Tips", MessageBoxButtons.OK, false);
-                }
-            };
+                    {
+                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                            FADM_Form.CustomMessageBox.Show(state ? "校准成功" : "校准失败", "温馨提示", MessageBoxButtons.OK, false);
+                        else
+                            FADM_Form.CustomMessageBox.Show(state ? "Calibration Successful" : "Calibration Failed", "Tips", MessageBoxButtons.OK, false);
+                    }
+                };
 
-            Thread P_thd2 = new Thread(ThreadBlueToothCon);
-            P_thd2.IsBackground = true;
-            P_thd2.Start();
+                Thread P_thd2 = new Thread(ThreadBlueToothCon);
+                P_thd2.IsBackground = true;
+                P_thd2.Start();
+
+                if (FADM_Object.Communal._i_LabMode == 1)
+                {
+                    timer1.Enabled = false;
+                }
+            }
+            else
+            {
+                timer1.Enabled = false;
+                timer2.Enabled = false;
+            }
         }
 
         /// <summary>
@@ -2143,25 +2267,53 @@ namespace SmartDyeing.FADM_Control
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-            _i_nCount++;
-            if(_i_nCount>1)
+            if (FADM_Object.Communal._i_LabMode == 1)
             {
-                timer2.Enabled = false;
-                if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                    FADM_Form.CustomMessageBox.Show("测量失败", "温馨提示", MessageBoxButtons.OK, false);
-                else
-                    FADM_Form.CustomMessageBox.Show("Measurement failed", "Tips", MessageBoxButtons.OK, false);
-                btn_save.Visible = true;
-
-            }
-            else
-            {
-                //再次发送测量命令
-                if (SmartDyeing.FADM_Object.Communal._helper.bleCode.IsConnected)
+                _i_nCount++;
+                if (_i_nCount > 1)
                 {
-                    if (SmartDyeing.FADM_Object.Communal._helper.Send_MeasureCmd(EnumMeasure_Mode.SCI, 0))
+                    timer2.Enabled = false;
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        FADM_Form.CustomMessageBox.Show("测量失败", "温馨提示", MessageBoxButtons.OK, false);
+                    else
+                        FADM_Form.CustomMessageBox.Show("Measurement failed", "Tips", MessageBoxButtons.OK, false);
+                    btn_save.Visible = true;
+
+                }
+                else
+                {
+                    //再次发送测量命令
+                    //if (SmartDyeing.FADM_Object.Communal._helper.bleCode.IsConnected)
                     {
-                        //发送测量信息
+                        if (SmartDyeing.FADM_Object.Communal._Comhelper.Send_MeasureCmd(EnumMeasure_Mode.SCI))
+                        {
+                            //发送测量信息
+                        }
+                    }
+                }
+            }
+            else if (FADM_Object.Communal._i_LabMode == 0)
+            {
+                _i_nCount++;
+                if (_i_nCount > 1)
+                {
+                    timer2.Enabled = false;
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        FADM_Form.CustomMessageBox.Show("测量失败", "温馨提示", MessageBoxButtons.OK, false);
+                    else
+                        FADM_Form.CustomMessageBox.Show("Measurement failed", "Tips", MessageBoxButtons.OK, false);
+                    btn_save.Visible = true;
+
+                }
+                else
+                {
+                    //再次发送测量命令
+                    if (SmartDyeing.FADM_Object.Communal._helper.bleCode.IsConnected)
+                    {
+                        if (SmartDyeing.FADM_Object.Communal._helper.Send_MeasureCmd(EnumMeasure_Mode.SCI, 0))
+                        {
+                            //发送测量信息
+                        }
                     }
                 }
             }
@@ -2381,18 +2533,114 @@ namespace SmartDyeing.FADM_Control
             }
         }
 
-      
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
 
+                if (dgv_DropRecord.CurrentRow != null)
+                {
 
-  
-     
+                    //如果选中行
+                    if (dgv_DropRecord.SelectedRows.Count > 0)
+                    {
+                        _s_formulaCode = dgv_DropRecord.CurrentRow.Cells[0].Value.ToString();
+                        _s_versionNum = dgv_DropRecord.CurrentRow.Cells[1].Value.ToString();
+                        string s_finishTime = dgv_DropRecord.CurrentRow.Cells[2].Value.ToString();
+                        _s_cupNum = dgv_DropRecord.CurrentRow.Cells[3].Value.ToString();
+                        _s_batch = dgv_DropRecord.CurrentRow.Cells[4].Value.ToString();
 
-      
+                        string sql = "Update history_head set Result = '" + txt_Result.Text + "' where BatchName = '" + _s_batch + "' And CupNum = " + _s_cupNum;
+                        FADM_Object.Communal._fadmSqlserver.ReviseData(sql);
 
-     
+                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                            FADM_Form.CustomMessageBox.Show("保存完成", "温馨提示", MessageBoxButtons.OK, false);
+                        else
+                            FADM_Form.CustomMessageBox.Show("Save Finish", "Tips", MessageBoxButtons.OK, false);
+                    }
+                    else
+                    {
+                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                            FADM_Form.CustomMessageBox.Show("请选择保存记录", "温馨提示", MessageBoxButtons.OK, false);
+                        else
+                            FADM_Form.CustomMessageBox.Show("Please choose to save  records", "Tips", MessageBoxButtons.OK, false);
+                    }
+                }
+               
+            }
+            catch { }
+        }
 
-     
+        private void Btn_PDF_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //// 执行导出
+                string outputPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".pdf";
+                var exporter = new PdfTableExporter();
 
-       
+                DataTable dt_data = new DataTable();
+                string s_sql = "";
+
+                //获取配方浏览资料表头
+                if (rdo_Record_Now.Checked)
+                {
+                    s_sql = "SELECT StartTime as 时间,FormulaCode as 配方代码, ClothType as 布种, FormulaName as 配方名称, IsAutoIn as 自动, Result as 备注,Operator as 操作员 FROM history_head WHERE" +
+                                " FinishTime > CONVERT(varchar,GETDATE(),23) ORDER BY MyID DESC;";
+                    dt_data = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
+                }
+                else if (rdo_Record_All.Checked)
+                {
+                    s_sql = "SELECT StartTime as 时间,FormulaCode as 配方代码, ClothType as 布种, FormulaName as 配方名称, IsAutoIn as 自动, Result as 备注,Operator as 操作员 FROM history_head" +
+                                " WHERE FinishTime != '' ORDER BY MyID DESC;";
+                    dt_data = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
+                }
+                else
+                {
+                    string s_str = null;
+                    if (txt_Record_Operator.Text != null && txt_Record_Operator.Text != "")
+                    {
+                        s_str = (" Operator = '" + txt_Record_Operator.Text + "' AND");
+                    }
+                    if (txt_Record_CupNum.Text != null && txt_Record_CupNum.Text != "")
+                    {
+                        s_str = (" CupNum = '" + txt_Record_CupNum.Text + "' AND");
+                    }
+                    if (txt_Record_Code.Text != null && txt_Record_Code.Text != "")
+                    {
+                        s_str += (" FormulaCode = '" + txt_Record_Code.Text + "' AND");
+                    }
+                    if (dt_Record_Start.Text != null && dt_Record_Start.Text != "")
+                    {
+                        s_str += (" FinishTime >= '" + dt_Record_Start.Text + "' AND");
+                    }
+                    else
+                    {
+                        return;
+                    }
+
+                    if (dt_Record_End.Text != null && dt_Record_End.Text != "")
+                    {
+                        s_str += (" FinishTime <= '" + dt_Record_End.Text + "' ");
+                    }
+                    else
+                    {
+                        return;
+                    }
+
+                    s_sql = "SELECT StartTime as 时间,FormulaCode as 配方代码, ClothType as 布种, FormulaName as 配方名称, IsAutoIn as 自动, Result as 备注,Operator as 操作员 FROM history_head Where" + s_str + "" +
+                               " ORDER BY MyID DESC;";
+                    dt_data = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
+                }
+
+                exporter.Demo(dt_data, outputPath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"导出失败: {ex.Message}");
+            }
+
+            return;
+        }
     }
 }

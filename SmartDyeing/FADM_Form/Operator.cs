@@ -56,26 +56,50 @@ namespace SmartDyeing.FADM_Form
                         }
                     }
                 }
-
-                string s_sql = "TRUNCATE TABLE operator_table;";
-                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
-
-                foreach (DataGridViewRow dgvr in dgv_Operator.Rows)
+                if (rdo_1.Checked)
                 {
-                    if (dgvr.Index < dgv_Operator.Rows.Count - 1)
+                    string s_sql = "TRUNCATE TABLE operator_table;";
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
+                    foreach (DataGridViewRow dgvr in dgv_Operator.Rows)
                     {
-                        s_sql = "INSERT INTO operator_table (" +
-                                    " operatorname) VALUES( '" + dgvr.Cells[0].Value.ToString() + "');";
+                        if (dgvr.Index < dgv_Operator.Rows.Count - 1)
+                        {
+                            s_sql = "INSERT INTO operator_table (" +
+                                        " operatorname) VALUES( '" + dgvr.Cells[0].Value.ToString() + "');";
 
-                        FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
                     }
-                }
-                if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                    FADM_Form.CustomMessageBox.Show("保存完成!", "温馨提示", MessageBoxButtons.OK, false);
-                else
-                    FADM_Form.CustomMessageBox.Show("Save completed!", "Tips", MessageBoxButtons.OK, false);
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        FADM_Form.CustomMessageBox.Show("保存完成!", "温馨提示", MessageBoxButtons.OK, false);
+                    else
+                        FADM_Form.CustomMessageBox.Show("Save completed!", "Tips", MessageBoxButtons.OK, false);
 
-                this.Close();
+                    this.Close();
+                }
+                else
+                {
+                    string s_sql = "TRUNCATE TABLE Colorists_table;";
+                    FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
+                    foreach (DataGridViewRow dgvr in dgv_Operator.Rows)
+                    {
+                        if (dgvr.Index < dgv_Operator.Rows.Count - 1)
+                        {
+                            s_sql = "INSERT INTO Colorists_table (" +
+                                        " Coloristsname) VALUES( '" + dgvr.Cells[0].Value.ToString() + "');";
+
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
+                    }
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        FADM_Form.CustomMessageBox.Show("保存完成!", "温馨提示", MessageBoxButtons.OK, false);
+                    else
+                        FADM_Form.CustomMessageBox.Show("Save completed!", "Tips", MessageBoxButtons.OK, false);
+
+                    this.Close();
+                }
             }
             catch
             {
@@ -123,6 +147,80 @@ namespace SmartDyeing.FADM_Form
         private void Operator_FormClosing(object sender, FormClosingEventArgs e)
         {
             //P_btn.Visible = true;
+        }
+
+        private void rdo_2_Click(object sender, EventArgs e)
+        {
+            string s_sql = "SELECT * FROM Colorists_table ;";
+            DataTable dt_data = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
+            dgv_Operator.DataSource = new DataView(dt_data);
+
+            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+            {
+                dgv_Operator.Columns[0].HeaderCell.Value = "配色员姓名";
+            }
+            else
+            {
+                dgv_Operator.Columns[0].HeaderCell.Value = "Colorists";
+            }
+
+            //设置标题宽度
+            dgv_Operator.Columns[0].Width = 320;
+
+            //关闭自动排序功能
+            dgv_Operator.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            //设置标题居中显示
+            dgv_Operator.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            //设置标题字体
+            dgv_Operator.ColumnHeadersDefaultCellStyle.Font = new Font("宋体", 14.25F);
+
+            //设置内容居中显示
+            dgv_Operator.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            //设置内容字体
+            dgv_Operator.RowsDefaultCellStyle.Font = new Font("宋体", 14.25F);
+
+            //设置行高
+            dgv_Operator.RowTemplate.Height = 30;
+        }
+
+        private void rdo_1_Click(object sender, EventArgs e)
+        {
+            string s_sql = "SELECT * FROM operator_table ;";
+            DataTable dt_data = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
+            dgv_Operator.DataSource = new DataView(dt_data);
+
+            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+            {
+                dgv_Operator.Columns[0].HeaderCell.Value = "操作员姓名";
+            }
+            else
+            {
+                dgv_Operator.Columns[0].HeaderCell.Value = "OperatorName";
+            }
+
+            //设置标题宽度
+            dgv_Operator.Columns[0].Width = 320;
+
+            //关闭自动排序功能
+            dgv_Operator.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            //设置标题居中显示
+            dgv_Operator.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            //设置标题字体
+            dgv_Operator.ColumnHeadersDefaultCellStyle.Font = new Font("宋体", 14.25F);
+
+            //设置内容居中显示
+            dgv_Operator.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            //设置内容字体
+            dgv_Operator.RowsDefaultCellStyle.Font = new Font("宋体", 14.25F);
+
+            //设置行高
+            dgv_Operator.RowTemplate.Height = 30;
         }
     }
 }

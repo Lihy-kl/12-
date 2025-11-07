@@ -1,4 +1,5 @@
 ﻿using Lib_Card.ADT8940A1.OutPut.Blender;
+using Lib_DataBank;
 using Lib_File;
 using Newtonsoft.Json.Linq;
 using SmartDyeing.FADM_Object;
@@ -210,6 +211,10 @@ namespace SmartDyeing.FADM_Form
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2717, "关盖时撑盖开失败");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2718, "关盖撑盖时气缸下失败");
 
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2719, "开盖前染杯无上锁止");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2720, "关盖前染杯无上锁止");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2730, "关盖时染杯无上锁止");
+
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(3301, "天平通讯异常,检查恢复后请点是");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(3302, "天平开机未拿走废液桶,请先拿走废液桶，等待天平清零后重新放置废液桶，然后点确定");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(3303, "天平超下限,检查恢复后请点是");
@@ -241,6 +246,10 @@ namespace SmartDyeing.FADM_Form
 
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(1131, "气缸到阻挡位超时");
+
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(1118, "气缸慢速中2超时");
+
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(1119, "气缸慢速中3超时");
 
 
                 //大于10000就是询问
@@ -306,6 +315,10 @@ namespace SmartDyeing.FADM_Form
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(11129, "慢速中限位与气缸下同时接通,请检查，排除异常请点是，退出运行请点否");
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(11131, "气缸到阻挡位超时,请检查，排除异常请点是，退出运行请点否");
+
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(11118, "气缸慢速中2超时,请检查，排除异常请点是，退出运行请点否");
+
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(11119, "气缸慢速中3超时,请检查，排除异常请点是，退出运行请点否");
             }
             else
             {
@@ -420,6 +433,10 @@ namespace SmartDyeing.FADM_Form
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2717, "The lid failed to open when it was closed");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2718, "The cylinder failed to descend when closing and supporting the cover");
 
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2719, "The dyeing cup was not locked before opening the lid");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2720, "The dyeing cup was not locked before the lid was closed");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(2730, "When closing the lid, the dye cup was not locked");
+
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(3301, "Abnormal communication on the balance,Click Yes after checking the recovery");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(3302, "The balance was turned on but the waste liquid tank was not taken away,Please take away the waste liquid bucket first, wait for the balance to be cleared and re-place the waste liquid bucket, and then click OK");
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(3303, "Balance exceeds the lower limit,Click Yes after checking the recovery");
@@ -453,6 +470,11 @@ namespace SmartDyeing.FADM_Form
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(1131, "Cylinder timeout to block position");
 
+
+
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(1118, "Cylinder slow two speed timeout");
+
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(1119, "Cylinder slow three speed timeout");
 
                 //大于10000就是询问
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(10301, "Overtime on cylinder,Please check and rule out any abnormalities. Click Yes. Click No to exit the operation");
@@ -517,6 +539,10 @@ namespace SmartDyeing.FADM_Form
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(11129, "Slow speed middle limit and cylinder lower already connected,Please check and rule out any abnormalities. Click Yes. Click No to exit the operation");
 
                 SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(11131, "Cylinder timeout to block position,Please check and rule out any abnormalities. Click Yes. Click No to exit the operation");
+
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(11118, "Cylinder slow two speed timeout,Please check and rule out any abnormalities. Click Yes. Click No to exit the operation");
+                SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.Add(11119, "Cylinder slow three speed timeout,Please check and rule out any abnormalities. Click Yes. Click No to exit the operation");
+
             }
 
         }
@@ -598,6 +624,12 @@ namespace SmartDyeing.FADM_Form
                 FADM_Object.Communal._fadmSqlserver = new Lib_DataBank.SQLServer(con);
                 FADM_Object.Communal._fadmSqlserver.Open();
                 FADM_Object.Communal._fadmSqlserver.Close();
+
+                //Lib_DataBank.AAndB aAndB = new Lib_DataBank.AAndB();
+                //aAndB.MB = "3";
+                //aAndB.XS = "2";
+                //aAndB.SJ =Convert.ToDateTime( "2024-12-16 10:15:09.000");
+                //FADM_Object.Communal._fadmSqlserver.Update(aAndB);
 
                 //SqlConnectionStringBuilder scsb = new SqlConnectionStringBuilder();
                 //scsb.DataSource = "MS-BLRIIRQRCRHU\\SQLEXPRESS2";    // 设置数据源服务器
@@ -1200,6 +1232,41 @@ namespace SmartDyeing.FADM_Form
                     int i_d170_170 = 0;
                     this.ComParment(i_other_RepeatGetCloth, ref i_d170, ref i_d170_170);
 
+                    int i_other_UseAbs = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_UseAbs);//是否有吸光度
+                    int i_d176 = 0;
+                    int i_d176_176 = 0;
+                    this.ComParment(i_other_UseAbs, ref i_d176, ref i_d176_176);
+
+                    int i_other_OutClothZero = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_OutClothZero);//50g布夹放布后回零点
+                    int i_d178 = 0;
+                    int i_d178_178 = 0;
+                    this.ComParment(i_other_OutClothZero, ref i_d178, ref i_d178_178);
+
+                    int i_other_ValveTerminalOpen = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_ValveTerminalOpen);//慢速中气缸常开常闭切换
+                    int i_d180 = 0;
+                    int i_d180_180 = 0;
+                    this.ComParment(i_other_ValveTerminalOpen, ref i_d180, ref i_d180_180);
+
+                    int i_other_ClothUp = (int)(Convert.ToDouble(Lib_Card.Configure.Parameter.Other_ClothUp) * 100);//布重上限
+                    int i_d182 = 0;
+                    int i_d182_182 = 0;
+                    this.ComParment(i_other_ClothUp, ref i_d182, ref i_d182_182);
+
+                    int i_other_ClothDown = (int)(Convert.ToDouble(Lib_Card.Configure.Parameter.Other_ClothDown) * 100);//布重下限
+                    int i_d184 = 0;
+                    int i_d184_184 = 0;
+                    this.ComParment(i_other_ClothDown, ref i_d184, ref i_d184_184);
+
+                    int i_other_ClothPulseUp = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_ClothPulseUp);//合夹夹布脉冲上限
+                    int i_d186 = 0;
+                    int i_d186_186 = 0;
+                    this.ComParment(i_other_ClothPulseUp, ref i_d186, ref i_d186_186);
+
+                    int i_other_ClothPulseDown = Convert.ToInt32(Lib_Card.Configure.Parameter.Other_ClothPulseDown);//合夹夹布脉冲下限
+                    int i_d188 = 0;
+                    int i_d188_188 = 0;
+                    this.ComParment(i_other_ClothPulseDown, ref i_d188, ref i_d188_188);
+
                     if (Convert.ToInt32(Lib_Card.Configure.Parameter.Correcting_B_Pulse) < 0)
                     {
                         FADM_Form.CustomMessageBox.Show("大针筒校正脉冲错误!", "设备", MessageBoxButtons.OK, false);
@@ -1277,7 +1344,8 @@ namespace SmartDyeing.FADM_Form
                         }
 
                         int[] ia_array2 = { i_d148, i_d148_148, i_d150, i_d150_150, i_d152, i_d152_152, i_d154, i_d154_154, i_d156, i_d156_156, i_d158
-                                , i_d158_158, i_d160, i_d160_160, i_d162, i_d162_162,i_d164,i_d164_164,i_d166,i_d166_166,i_d168,i_d168_168,i_d170,i_d170_170 };
+                                , i_d158_158, i_d160, i_d160_160, i_d162, i_d162_162,i_d164,i_d164_164,i_d166,i_d166_166,i_d168,i_d168_168,i_d170,i_d170_170,
+                            0,0,0,0,i_d176,i_d176_176,i_d178,i_d178_178,i_d180,i_d180_180,i_d182,i_d182_182,i_d184,i_d184_184,i_d186,i_d186_186,i_d188,i_d188_188 };
 
                         int i_c2 = FADM_Object.Communal._tcpModBus.Write(1148, ia_array2);
                         if (i_c2 == -1)
@@ -1527,8 +1595,23 @@ namespace SmartDyeing.FADM_Form
                     int i_i78_78 = 0;
                     this.ComParment(i_InPut_SupportCover, ref i_i78, ref i_i78_78);
 
+                    int i_inPut_Slow_Cylinder_Mid_2 = Convert.ToInt32(IOMapping.InPut_Slow_Cylinder_Mid_2);//气缸慢速中2限位
+                    int i_i80 = 0;
+                    int i_i80_80 = 0;
+                    this.ComParment(i_inPut_Slow_Cylinder_Mid_2, ref i_i80, ref i_i80_80);
 
-                  
+                    int i_inPut_Slow_Cylinder_Mid_3 = Convert.ToInt32(IOMapping.InPut_Slow_Cylinder_Mid_3);//气缸慢速中3限位
+                    int i_i82 = 0;
+                    int i_i82_82 = 0;
+                    this.ComParment(i_inPut_Slow_Cylinder_Mid_3, ref i_i82, ref i_i82_82);
+
+                    int i_inPut_Dye_Stop = Convert.ToInt32(IOMapping.InPut_Dye_Stop);//转子缸急停
+                    int i_i84 = 0;
+                    int i_i84_84 = 0;
+                    this.ComParment(i_inPut_Dye_Stop, ref i_i84, ref i_i84_84);
+
+
+
 
                     //int i_inPut_Tongs_B_Decompression = Convert.ToInt32(IOMapping.InPut_Tongs_B_Decompression);//抓手B泄压
                     //int i_i80 = 0;
@@ -1540,7 +1623,7 @@ namespace SmartDyeing.FADM_Form
                 i_i28,i_i28_28,i_i30,i_i30_30,i_i32,i_i32_32,i_i34,i_i34_34,i_i36,i_i36_36,i_i38,i_i38_38,i_i40,i_i40_40,
                 i_i42,i_i42_42,i_i44,i_i44_44,i_i46,i_i46_46,i_i48,i_i48_48,i_i50,i_i50_50,i_i52,i_i52_52,i_i54,i_i54_54,
                 i_i56,i_i56_56,i_i58,i_i58_58,i_i60,i_i60_60,i_i62,i_i62_62,i_i64,i_i64_64,i_i66,i_i66_66,i_i68,i_i68_68,
-                        i_i70,i_i70_70,i_i72,i_i72_72,i_i74,i_i74_74,i_i76,i_i76_76,i_i78,i_i78_78};
+                        i_i70,i_i70_70,i_i72,i_i72_72,i_i74,i_i74_74,i_i76,i_i76_76,i_i78,i_i78_78,i_i80,i_i80_80,i_i82,i_i82_82,i_i84,i_i84_84};
                     if (!FADM_Object.Communal._b_isUseBrewOnly)
                     {
                         int i_ic = FADM_Object.Communal._tcpModBus.Write(3500, ia_iarray);
@@ -2746,6 +2829,114 @@ namespace SmartDyeing.FADM_Form
                 {
                     Communal._fadmSqlserver.ReviseData("ALTER TABLE dyeing_process ADD OpenMedicine int null ");
                     Communal._fadmSqlserver.ReviseData("Update dyeing_process Set OpenMedicine=0");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'formula_head' AND COLUMN_NAME = 'DyeingCodeRemark'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE formula_head ADD DyeingCodeRemark nvarchar(50) null ");
+
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'drop_head' AND COLUMN_NAME = 'DyeingCodeRemark'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE drop_head ADD DyeingCodeRemark nvarchar(50) null ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'history_head' AND COLUMN_NAME = 'DyeingCodeRemark'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE history_head ADD DyeingCodeRemark nvarchar(50) null");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'formula_head' AND COLUMN_NAME = 'Recoloration'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE formula_head ADD Recoloration nvarchar(50) null ");
+
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'drop_head' AND COLUMN_NAME = 'Recoloration'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE drop_head ADD Recoloration nvarchar(50) null ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'history_head' AND COLUMN_NAME = 'Recoloration'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE history_head ADD Recoloration nvarchar(50) null");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'drop_head' AND COLUMN_NAME = 'VatNumber'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE drop_head ADD VatNumber nvarchar(50) null ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'history_head' AND COLUMN_NAME = 'VatNumber'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE history_head ADD VatNumber nvarchar(50) null");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'enabled_set' AND COLUMN_NAME = 'txt_Recoloration'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE enabled_set ADD txt_Recoloration tinyint null ");
+                    Communal._fadmSqlserver.ReviseData("Update enabled_set set txt_Recoloration = 0 ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'dyeing_code' AND COLUMN_NAME = 'Remark'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE dyeing_code ADD Remark nvarchar(50) null ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'history_head' AND COLUMN_NAME = 'Result'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE history_head ADD Result nvarchar(200) null");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'enabled_set' AND COLUMN_NAME = 'txt_Colorists'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE enabled_set ADD txt_Colorists tinyint null ");
+                    Communal._fadmSqlserver.ReviseData("Update enabled_set set txt_Colorists = 0 ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'formula_head' AND COLUMN_NAME = 'Colorists'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE formula_head ADD Colorists nvarchar(50) null ");
+
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'drop_head' AND COLUMN_NAME = 'Colorists'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE drop_head ADD Colorists nvarchar(50) null ");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'history_head' AND COLUMN_NAME = 'Colorists'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE history_head ADD Colorists nvarchar(50) null");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("select COUNT(*) from sysobjects where id = object_id('drop_system.dbo.Colorists_table')");
+                if (dt_head.Rows[0][0].ToString() == "0")
+                {
+
+                    Communal._fadmSqlserver.ReviseData("CREATE TABLE [dbo].[Colorists_table]([Coloristsname] [nvarchar](100) NULL) ON [PRIMARY]");
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'wait_list' AND COLUMN_NAME = 'ClothNum'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE wait_list ADD ClothNum int null ");
                 }
 
             }

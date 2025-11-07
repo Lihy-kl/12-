@@ -123,10 +123,13 @@ namespace SmartDyeing.FADM_Control
             try
             {
                 dgv_Combination.Rows.Clear();
+                txt_Remark.Text = "";
 
                 //获取染固色流程代码
-                string s_sql = "SELECT Code,IsUse  FROM dyeing_code where DyeingCode = '" + s_dyeingCode + "' order by IndexNum;";
+                string s_sql = "SELECT Code,IsUse,Remark  FROM dyeing_code where DyeingCode = '" + s_dyeingCode + "' order by IndexNum;";
                 DataTable dt_dyeingcode = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
+
+                
 
                 //////捆绑
                 //dgv_DyeDetails.DataSource = new DataView(dt_dyeingcode);
@@ -162,6 +165,7 @@ namespace SmartDyeing.FADM_Control
                     {
                         checkBox1.Checked = true;
                     }
+                    txt_Remark.Text = dt_dyeingcode.Rows[0][2].ToString();
                 }
 
                 for (int i = 0; i < dt_dyeingcode.Rows.Count; i++)
@@ -522,6 +526,25 @@ namespace SmartDyeing.FADM_Control
                         }
                     }
                 }
+                if (txt_Remark.Text == "")
+                {
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                    {
+                        if (DialogResult.OK == FADM_Form.CustomMessageBox.Show("备注为空，不能保存",
+                                        "温馨提示", MessageBoxButtons.OK, false))
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (DialogResult.OK == FADM_Form.CustomMessageBox.Show("Remarks is empty and cannot be saved",
+                                        "Tips", MessageBoxButtons.OK, false))
+                        {
+                            return;
+                        }
+                    }
+                }
                 string s_sql = "select COUNT(*) from formula_head where DyeingCode  = '" + txt_DyeingCode.Text + "' and State = '已滴定配方'";
                 DataTable dt_formula_head = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
                 //if (dt_temp.Rows[0][0].ToString() != "0")
@@ -784,7 +807,8 @@ namespace SmartDyeing.FADM_Control
                     }
                     
                     s_sql = "INSERT INTO dyeing_code (DyeingCode, Type," +
-                                               " Step, Code,IndexNum,IsUse) VALUES('" + txt_DyeingCode.Text + "',"+ s_type+"," + s_step + ",'" + dgv_Combination.Rows[i].Cells[0].Value.ToString() +"',"+(i+1).ToString() +",'"+ (checkBox1.Checked?"1":"0")+ "');";
+                                               " Step, Code,IndexNum,IsUse,Remark) VALUES('" + txt_DyeingCode.Text + "',"+ s_type+"," + s_step + ",'" 
+                                               + dgv_Combination.Rows[i].Cells[0].Value.ToString() +"',"+(i+1).ToString() +",'"+ (checkBox1.Checked?"1":"0") + "','" + txt_Remark.Text + "');";
                     if (FADM_Object.Communal._b_isJustShowInfo)
                     {
                         FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
@@ -942,33 +966,8 @@ namespace SmartDyeing.FADM_Control
                                 }
                             }
                         }
-                        //将新的调液流程代码写入数据库
-                        string s_sql = "INSERT INTO dyeing_code" +
-                                           " (DyeingCode) VALUES( '" + txt_DyeingCode.Text + "' );";
-                        if (FADM_Object.Communal._b_isJustShowInfo)
-                        {
-                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
-                        }
-                        else
-                        {
-                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
-                        }
 
-                        //更新调液流程代码表
-                        DyeingCodeShow(txt_DyeingCode.Text);
-
-                        DyeDetailsShow(txt_DyeingCode.Text);
-                        dgv_Combination.ClearSelection();
-
-                        dgv_Dye_Set.ClearSelection();
-                        dgv_Handle_Set.ClearSelection();
-
-                        ChildDyeDataShow(txt_DyeingCode.Text, 1);
-
-
-                        txt_DyeingCode.Enabled = false;
-                        ////设置添加按钮焦点
-                        //btn_DyeingProcessAdd.Focus();
+                        txt_Remark.Focus();
                     }
                     break;
                 default:
@@ -1050,6 +1049,66 @@ namespace SmartDyeing.FADM_Control
                     FADM_Object.Communal._fadmSqlserver.ReviseData("Update dyeing_code Set IsUse=0 where DyeingCode = '" + txt_DyeingCode.Text + "';");
                 }
             }
+        }
+
+        private void txt_Remark_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:
+                    if (txt_Remark.Enabled && txt_Remark.Text != null && txt_Remark.Text != "")
+                    {
+                        
+                        //将新的调液流程代码写入数据库
+                        string s_sql = "INSERT INTO dyeing_code" +
+                                           " (DyeingCode,Remark) VALUES( '" + txt_DyeingCode.Text + "','" + txt_Remark.Text + " ');";
+                        if (FADM_Object.Communal._b_isJustShowInfo)
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                        }
+                        else
+                        {
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                        }
+
+                        //更新调液流程代码表
+                        DyeingCodeShow(txt_DyeingCode.Text);
+
+                        DyeDetailsShow(txt_DyeingCode.Text);
+                        dgv_Combination.ClearSelection();
+
+                        dgv_Dye_Set.ClearSelection();
+                        dgv_Handle_Set.ClearSelection();
+
+                        ChildDyeDataShow(txt_DyeingCode.Text, 1);
+
+
+                        txt_DyeingCode.Enabled = false;
+                        ////设置添加按钮焦点
+                        //btn_DyeingProcessAdd.Focus();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string s_sql = "Update dyeing_code Set Remark = '" + txt_Remark.Text + "' where DyeingCode = '" + txt_DyeingCode.Text + "'";
+            if (FADM_Object.Communal._b_isJustShowInfo)
+            {
+                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+            }
+            else
+            {
+                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+            }
+
+            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                new SmartDyeing.FADM_Object.MyAlarm("保存完成", 0);
+            else
+                new SmartDyeing.FADM_Object.MyAlarm("Save completed", 0);
         }
     }
 }

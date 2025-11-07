@@ -262,11 +262,77 @@
   <data name="grp_FormulaData.Text" xml:space="preserve">
     <value>FormulaInformation</value>
   </data>
+  <data name="txt_Colorists.Location" type="System.Drawing.Point, System.Drawing">
+    <value>803, 82</value>
+  </data>
+  <data name="lab_Colorists.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 12pt</value>
+  </data>
+  <data name="lab_Colorists.Location" type="System.Drawing.Point, System.Drawing">
+    <value>711, 86</value>
+  </data>
+  <data name="lab_Colorists.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 16</value>
+  </data>
+  <data name="lab_Colorists.Text" xml:space="preserve">
+    <value>Colorists:</value>
+  </data>
+  <data name="txt_VatNumber.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1100, 80</value>
+  </data>
+  <data name="txt_VatNumber.Size" type="System.Drawing.Size, System.Drawing">
+    <value>185, 29</value>
+  </data>
+  <data name="lab_VatNumber.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 12pt</value>
+  </data>
+  <data name="lab_VatNumber.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1009, 86</value>
+  </data>
+  <data name="lab_VatNumber.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 16</value>
+  </data>
+  <data name="lab_VatNumber.Text" xml:space="preserve">
+    <value>VatNumber:</value>
+  </data>
+  <data name="txt_Recoloration.Location" type="System.Drawing.Point, System.Drawing">
+    <value>588, 20</value>
+  </data>
+  <data name="lab_Recoloration.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 12pt</value>
+  </data>
+  <data name="lab_Recoloration.Location" type="System.Drawing.Point, System.Drawing">
+    <value>480, 26</value>
+  </data>
+  <data name="lab_Recoloration.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 16</value>
+  </data>
+  <data name="lab_Recoloration.Text" xml:space="preserve">
+    <value>Recoloration:</value>
+  </data>
+  <data name="txt_DyeingCodeRemark.Location" type="System.Drawing.Point, System.Drawing">
+    <value>479, 111</value>
+  </data>
+  <data name="txt_DyeingCodeRemark.Size" type="System.Drawing.Size, System.Drawing">
+    <value>243, 29</value>
+  </data>
+  <data name="lab_DyeingCodeRemark.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 12pt</value>
+  </data>
+  <data name="lab_DyeingCodeRemark.Location" type="System.Drawing.Point, System.Drawing">
+    <value>338, 116</value>
+  </data>
+  <data name="lab_DyeingCodeRemark.Size" type="System.Drawing.Size, System.Drawing">
+    <value>143, 16</value>
+  </data>
+  <data name="lab_DyeingCodeRemark.Text" xml:space="preserve">
+    <value>DyeingCodeRemark:</value>
+  </data>
   <data name="chk_Auto.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 12pt</value>
   </data>
   <data name="chk_Auto.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1220, 96</value>
+    <value>729, 112</value>
   </data>
   <data name="chk_Auto.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 20</value>
@@ -275,13 +341,13 @@
     <value>AutoIn</value>
   </data>
   <data name="txt_FormulaName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1127, 20</value>
+    <value>95, 49</value>
   </data>
   <data name="txt_FormulaName.Size" type="System.Drawing.Size, System.Drawing">
     <value>158, 29</value>
   </data>
   <data name="txt_ClothNum.Location" type="System.Drawing.Point, System.Drawing">
-    <value>714, 20</value>
+    <value>979, 20</value>
   </data>
   <data name="txt_ClothNum.Size" type="System.Drawing.Size, System.Drawing">
     <value>64, 29</value>
@@ -290,7 +356,7 @@
     <value>宋体, 12pt</value>
   </data>
   <data name="lab_FormulaName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1035, 26</value>
+    <value>3, 55</value>
   </data>
   <data name="lab_FormulaName.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 16</value>
@@ -302,7 +368,7 @@
     <value>宋体, 12pt</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>632, 26</value>
+    <value>897, 26</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>79, 16</value>
@@ -314,7 +380,7 @@
     <value>宋体, 12pt</value>
   </data>
   <data name="lab_CupNum.Location" type="System.Drawing.Point, System.Drawing">
-    <value>472, 26</value>
+    <value>737, 26</value>
   </data>
   <data name="lab_CupNum.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 16</value>
@@ -323,13 +389,13 @@
     <value>CupNumber:</value>
   </data>
   <data name="txt_CupNum.Location" type="System.Drawing.Point, System.Drawing">
-    <value>557, 20</value>
+    <value>822, 20</value>
   </data>
   <data name="txt_CupNum.Size" type="System.Drawing.Size, System.Drawing">
     <value>67, 29</value>
   </data>
   <data name="txt_DyeingCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>557, 96</value>
+    <value>84, 112</value>
   </data>
   <data name="txt_DyeingCode.Size" type="System.Drawing.Size, System.Drawing">
     <value>246, 27</value>
@@ -338,7 +404,7 @@
     <value>宋体, 12pt</value>
   </data>
   <data name="lab_DyeingCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>478, 100</value>
+    <value>5, 116</value>
   </data>
   <data name="lab_DyeingCode.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 16</value>
@@ -347,13 +413,13 @@
     <value>DyeCode:</value>
   </data>
   <data name="txt_Operator.Location" type="System.Drawing.Point, System.Drawing">
-    <value>339, 94</value>
+    <value>596, 80</value>
   </data>
   <data name="txt_Operator.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 29</value>
+    <value>87, 29</value>
   </data>
   <data name="txt_FormulaGroup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>893, 20</value>
+    <value>1158, 20</value>
   </data>
   <data name="txt_FormulaGroup.Size" type="System.Drawing.Size, System.Drawing">
     <value>134, 27</value>
@@ -362,7 +428,7 @@
     <value>宋体, 12pt</value>
   </data>
   <data name="lab_FormulaGroup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>786, 26</value>
+    <value>1051, 26</value>
   </data>
   <data name="lab_FormulaGroup.Size" type="System.Drawing.Size, System.Drawing">
     <value>103, 16</value>
@@ -371,7 +437,7 @@
     <value>Combination:</value>
   </data>
   <data name="txt_AnhydrationWR.Location" type="System.Drawing.Point, System.Drawing">
-    <value>203, 94</value>
+    <value>460, 80</value>
   </data>
   <data name="txt_AnhydrationWR.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 29</value>
@@ -380,7 +446,7 @@
     <value>宋体, 12pt</value>
   </data>
   <data name="lab_AnhydrationWR.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 100</value>
+    <value>263, 86</value>
   </data>
   <data name="lab_AnhydrationWR.Size" type="System.Drawing.Size, System.Drawing">
     <value>199, 16</value>
@@ -389,7 +455,7 @@
     <value>DehydrationToWaterRatio:</value>
   </data>
   <data name="txt_Non_AnhydrationWR.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1241, 56</value>
+    <value>207, 79</value>
   </data>
   <data name="txt_Non_AnhydrationWR.Size" type="System.Drawing.Size, System.Drawing">
     <value>46, 29</value>
@@ -398,7 +464,7 @@
     <value>宋体, 12pt</value>
   </data>
   <data name="lab_Non_AnhydrationWR.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1037, 62</value>
+    <value>3, 85</value>
   </data>
   <data name="lab_Non_AnhydrationWR.Size" type="System.Drawing.Size, System.Drawing">
     <value>207, 16</value>
@@ -440,28 +506,28 @@
     <value>Selecting</value>
   </data>
   <data name="txt_ClothType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>135, 56</value>
+    <value>397, 49</value>
   </data>
   <data name="txt_ClothType.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 29</value>
   </data>
   <data name="txt_CreateTime.Location" type="System.Drawing.Point, System.Drawing">
-    <value>910, 94</value>
+    <value>1071, 109</value>
   </data>
   <data name="txt_CreateTime.Size" type="System.Drawing.Size, System.Drawing">
-    <value>299, 29</value>
+    <value>216, 29</value>
   </data>
   <data name="txt_TotalWeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>846, 56</value>
+    <value>1108, 49</value>
   </data>
   <data name="txt_TotalWeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 29</value>
   </data>
   <data name="txt_BathRatio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>659, 56</value>
+    <value>921, 49</value>
   </data>
   <data name="txt_ClothWeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>522, 56</value>
+    <value>784, 49</value>
   </data>
   <data name="txt_ClothWeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>45, 29</value>
@@ -470,7 +536,7 @@
     <value>宋体, 12pt</value>
   </data>
   <data name="chk_AddWaterChoose.Location" type="System.Drawing.Point, System.Drawing">
-    <value>941, 62</value>
+    <value>1203, 51</value>
   </data>
   <data name="chk_AddWaterChoose.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 20</value>
@@ -479,7 +545,7 @@
     <value>AddWater</value>
   </data>
   <data name="txt_Customer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>331, 56</value>
+    <value>593, 49</value>
   </data>
   <data name="txt_Customer.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 29</value>
@@ -497,7 +563,7 @@
     <value>宋体, 12pt</value>
   </data>
   <data name="lab_CreateTime.Location" type="System.Drawing.Point, System.Drawing">
-    <value>818, 100</value>
+    <value>979, 115</value>
   </data>
   <data name="lab_CreateTime.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 16</value>
@@ -509,7 +575,7 @@
     <value>宋体, 12pt</value>
   </data>
   <data name="lab_Operator.Location" type="System.Drawing.Point, System.Drawing">
-    <value>252, 100</value>
+    <value>509, 86</value>
   </data>
   <data name="lab_Operator.Size" type="System.Drawing.Size, System.Drawing">
     <value>79, 16</value>
@@ -521,7 +587,7 @@
     <value>宋体, 12pt</value>
   </data>
   <data name="lab_TotalWeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>714, 62</value>
+    <value>976, 55</value>
   </data>
   <data name="lab_TotalWeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>135, 16</value>
@@ -533,7 +599,7 @@
     <value>宋体, 12pt</value>
   </data>
   <data name="lab_BathRatio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>575, 62</value>
+    <value>837, 55</value>
   </data>
   <data name="lab_BathRatio.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 16</value>
@@ -545,7 +611,7 @@
     <value>宋体, 12pt</value>
   </data>
   <data name="lab_ClothWeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>430, 62</value>
+    <value>692, 55</value>
   </data>
   <data name="lab_ClothWeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 16</value>
@@ -557,7 +623,7 @@
     <value>宋体, 12pt</value>
   </data>
   <data name="lab_Customer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>242, 62</value>
+    <value>504, 55</value>
   </data>
   <data name="lab_Customer.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 16</value>
@@ -569,7 +635,7 @@
     <value>宋体, 12pt</value>
   </data>
   <data name="lab_ClothType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-2, 62</value>
+    <value>260, 55</value>
   </data>
   <data name="lab_ClothType.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 16</value>

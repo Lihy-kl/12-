@@ -15,10 +15,13 @@ namespace Lib_Card.ADT8940A1.Module
         /// 气缸慢速中
         /// </summary>
         /// <param name="iCylinderVersion">0：单控上下气缸；1：双控上下气缸</param>
+        /// <param name="i_type">0：杯盖区取挡水板；1：放布区取布笼 2：杯盖区放挡水板  3：出布区放布笼 4：配液杯取挡水板 5：配液杯放挡水板 6：配液杯放布笼 7：其他</param>
         /// <returns>0：正常；-1：异常；-2：收到退出消息</returns>
-        public int CylinderSlow(int iCylinderVersion)
+        public int CylinderSlow(int iCylinderVersion,int i_type)
         {
             bool bReset = false;
+            int i_rep = 0;
+            int i_rep_slow = 0;
         lable:
             //检查气缸多个传感器信号是否存在信号
             int i_Cylinder_Up = CardObject.OA1Input.InPutStatus(ADT8940A1_IO.InPut_Cylinder_Up);
@@ -182,28 +185,52 @@ namespace Lib_Card.ADT8940A1.Module
                         iRes = CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Slow_Cylinder, 0);
                         if (-1 == iRes)
                             return -1;
-                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                            s = CardObject.InsertD("气缸阻挡限位已通，请检查，排除异常请点是，退出运行请点否", " CylinderUp");
-                        else
-                            s = CardObject.InsertD("The cylinder blocking limit has been activated, please check, troubleshooting please click Yes, exit please click no", " CylinderUp");
 
-                        while (true)
+                        if (i_type == 0 || i_type == 1)
                         {
-                            Thread.Sleep(1);
-                            if (Lib_Card.CardObject.keyValuePairs[s].Choose != 0)
-                                break;
-
+                            if(i_rep > 1)
+                            {
+                                //直接完成不报警
+                                
+                            }
+                            else
+                            {
+                                //重复执行一次
+                                i_rep++;
+                                goto lable;
+                            }
                         }
-                        int Alarm_Choose = Lib_Card.CardObject.keyValuePairs[s].Choose;
-                        CardObject.DeleteD(s);
-                        if (Alarm_Choose == 1)
+                        else if (i_type == 3 || i_type == 2 || i_type == 4 || i_type == 5 || i_type == 6)
                         {
-                            goto lable;
+                            //直接完成
                         }
                         else
                         {
-                            throw new Exception("气缸阻挡限位已通");
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                s = CardObject.InsertD("气缸阻挡限位已通，请检查，排除异常请点是，退出运行请点否", " CylinderUp");
+                            else
+                                s = CardObject.InsertD("The cylinder blocking limit has been activated, please check, troubleshooting please click Yes, exit please click no", " CylinderUp");
+
+                            while (true)
+                            {
+                                Thread.Sleep(1);
+                                if (Lib_Card.CardObject.keyValuePairs[s].Choose != 0)
+                                    break;
+
+                            }
+                            int Alarm_Choose = Lib_Card.CardObject.keyValuePairs[s].Choose;
+                            CardObject.DeleteD(s);
+                            if (Alarm_Choose == 1)
+                            {
+                                goto lable;
+                            }
+                            else
+                            {
+                                throw new Exception("气缸阻挡限位已通");
+                            }
                         }
+
+                        //throw new Exception("气缸阻挡限位已通");
                     }
 
                     if (bDelay)
@@ -220,29 +247,55 @@ namespace Lib_Card.ADT8940A1.Module
                         iRes = CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Slow_Cylinder, 0);
                         if (-1 == iRes)
                             return -1;
-
-                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                            s = CardObject.InsertD("气缸慢速中超时，请检查，排除异常请点是，退出运行请点否", " CylinderUp");
-                        else
-                            s = CardObject.InsertD("The cylinder exceeded the time limit during slow speed, please check, troubleshooting please click Yes, exit please click no", " CylinderUp");
-
-                        while (true)
+                        if (i_type == 0 || i_type == 1)
                         {
-                            Thread.Sleep(1);
-                            if (Lib_Card.CardObject.keyValuePairs[s].Choose != 0)
-                                break;
+                            if (i_rep_slow > 1)
+                            {
+                                //直接完成不报警
+                                throw new Exception("气缸慢速中超时");
 
+                            }
+                            else
+                            {
+                                //重复执行一次
+                                i_rep_slow++;
+                                goto lable;
+                            }
                         }
-                        int Alarm_Choose = Lib_Card.CardObject.keyValuePairs[s].Choose;
-                        CardObject.DeleteD(s);
-                        if (Alarm_Choose == 1)
+                        else if(i_type == 3 || i_type == 4 || i_type == 2)
                         {
-                            goto lable;
                         }
-                        else
+                        else if ( i_type == 5 || i_type == 6)
                         {
+                            //需要放回去再执行一次
                             throw new Exception("气缸慢速中超时");
                         }
+                        else
+                        {
+                            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                s = CardObject.InsertD("气缸慢速中超时，请检查，排除异常请点是，退出运行请点否", " CylinderUp");
+                            else
+                                s = CardObject.InsertD("The cylinder exceeded the time limit during slow speed, please check, troubleshooting please click Yes, exit please click no", " CylinderUp");
+
+                            while (true)
+                            {
+                                Thread.Sleep(1);
+                                if (Lib_Card.CardObject.keyValuePairs[s].Choose != 0)
+                                    break;
+
+                            }
+                            int Alarm_Choose = Lib_Card.CardObject.keyValuePairs[s].Choose;
+                            CardObject.DeleteD(s);
+                            if (Alarm_Choose == 1)
+                            {
+                                goto lable;
+                            }
+                            else
+                            {
+                                throw new Exception("气缸慢速中超时");
+                            }
+                        }
+
                     }
                 }
 
@@ -539,28 +592,30 @@ namespace Lib_Card.ADT8940A1.Module
                         iRes = CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Cylinder_Down, 0);
                         if (-1 == iRes)
                             return -1;
-                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                            s = CardObject.InsertD("气缸到阻挡超时，请检查，排除异常请点是，退出运行请点否", " CylinderUp");
-                        else
-                            s = CardObject.InsertD("The cylinder has exceeded the blocking time limit, please check, troubleshooting please click Yes, exit please click no", " CylinderUp");
+                        //if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        //    s = CardObject.InsertD("气缸到阻挡超时，请检查，排除异常请点是，退出运行请点否", " CylinderUp");
+                        //else
+                        //    s = CardObject.InsertD("The cylinder has exceeded the blocking time limit, please check, troubleshooting please click Yes, exit please click no", " CylinderUp");
 
-                        while (true)
-                        {
-                            Thread.Sleep(1);
-                            if (Lib_Card.CardObject.keyValuePairs[s].Choose != 0)
-                                break;
+                        //while (true)
+                        //{
+                        //    Thread.Sleep(1);
+                        //    if (Lib_Card.CardObject.keyValuePairs[s].Choose != 0)
+                        //        break;
 
-                        }
-                        int Alarm_Choose = Lib_Card.CardObject.keyValuePairs[s].Choose;
-                        CardObject.DeleteD(s);
-                        if (Alarm_Choose == 1)
-                        {
-                            goto lable;
-                        }
-                        else
-                        {
-                            throw new Exception("气缸到阻挡超时");
-                        }
+                        //}
+                        //int Alarm_Choose = Lib_Card.CardObject.keyValuePairs[s].Choose;
+                        //CardObject.DeleteD(s);
+                        //if (Alarm_Choose == 1)
+                        //{
+                        //    goto lable;
+                        //}
+                        //else
+                        //{
+                        //    throw new Exception("气缸到阻挡超时");
+                        //}
+
+                        throw new Exception("气缸到阻挡超时");
                     }
                 }
                 iRes = CardObject.OA1.WriteOutPut(ADT8940A1_IO.OutPut_Cylinder_Up, 0);

@@ -33,9 +33,9 @@ namespace SmartDyeing.FADM_Control
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Formula));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.grp_BatchData = new System.Windows.Forms.GroupBox();
             this.dgv_BatchData = new System.Windows.Forms.DataGridView();
             this.btn_FormulaCodeAdd = new System.Windows.Forms.Button();
@@ -65,6 +65,14 @@ namespace SmartDyeing.FADM_Control
             this.label11 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.grp_FormulaData = new System.Windows.Forms.GroupBox();
+            this.txt_Colorists = new System.Windows.Forms.ComboBox();
+            this.lab_Colorists = new System.Windows.Forms.Label();
+            this.txt_VatNumber = new System.Windows.Forms.TextBox();
+            this.lab_VatNumber = new System.Windows.Forms.Label();
+            this.txt_Recoloration = new System.Windows.Forms.ComboBox();
+            this.lab_Recoloration = new System.Windows.Forms.Label();
+            this.txt_DyeingCodeRemark = new System.Windows.Forms.TextBox();
+            this.lab_DyeingCodeRemark = new System.Windows.Forms.Label();
             this.chk_Auto = new System.Windows.Forms.CheckBox();
             this.txt_FormulaName = new System.Windows.Forms.TextBox();
             this.txt_ClothNum = new System.Windows.Forms.TextBox();
@@ -81,6 +89,18 @@ namespace SmartDyeing.FADM_Control
             this.lab_AnhydrationWR = new System.Windows.Forms.Label();
             this.txt_Non_AnhydrationWR = new System.Windows.Forms.TextBox();
             this.lab_Non_AnhydrationWR = new System.Windows.Forms.Label();
+            this.dgv_FormulaData = new SmartDyeing.FADM_Object.MyDataGridView();
+            this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AssistantCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AssistantName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FormulaDosage = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UnitOfAccount = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.SettingConcentration = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RealConcentration = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ObjectDropWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RealDropWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BottleSelection = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.txt_ClothType = new System.Windows.Forms.TextBox();
             this.txt_CreateTime = new System.Windows.Forms.TextBox();
             this.txt_TotalWeight = new System.Windows.Forms.TextBox();
@@ -102,18 +122,6 @@ namespace SmartDyeing.FADM_Control
             this.panel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.btn_pre = new System.Windows.Forms.Button();
             this.btn_upd = new System.Windows.Forms.Button();
-            this.dgv_FormulaData = new SmartDyeing.FADM_Object.MyDataGridView();
-            this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AssistantCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AssistantName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FormulaDosage = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UnitOfAccount = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.SettingConcentration = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RealConcentration = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ObjectDropWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RealDropWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BottleSelection = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.grp_BatchData.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_BatchData)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -349,6 +357,14 @@ namespace SmartDyeing.FADM_Control
             // 
             // grp_FormulaData
             // 
+            this.grp_FormulaData.Controls.Add(this.txt_Colorists);
+            this.grp_FormulaData.Controls.Add(this.lab_Colorists);
+            this.grp_FormulaData.Controls.Add(this.txt_VatNumber);
+            this.grp_FormulaData.Controls.Add(this.lab_VatNumber);
+            this.grp_FormulaData.Controls.Add(this.txt_Recoloration);
+            this.grp_FormulaData.Controls.Add(this.lab_Recoloration);
+            this.grp_FormulaData.Controls.Add(this.txt_DyeingCodeRemark);
+            this.grp_FormulaData.Controls.Add(this.lab_DyeingCodeRemark);
             this.grp_FormulaData.Controls.Add(this.chk_Auto);
             this.grp_FormulaData.Controls.Add(this.txt_FormulaName);
             this.grp_FormulaData.Controls.Add(this.txt_ClothNum);
@@ -387,6 +403,60 @@ namespace SmartDyeing.FADM_Control
             resources.ApplyResources(this.grp_FormulaData, "grp_FormulaData");
             this.grp_FormulaData.Name = "grp_FormulaData";
             this.grp_FormulaData.TabStop = false;
+            // 
+            // txt_Colorists
+            // 
+            resources.ApplyResources(this.txt_Colorists, "txt_Colorists");
+            this.txt_Colorists.FormattingEnabled = true;
+            this.txt_Colorists.Name = "txt_Colorists";
+            // 
+            // lab_Colorists
+            // 
+            resources.ApplyResources(this.lab_Colorists, "lab_Colorists");
+            this.lab_Colorists.Name = "lab_Colorists";
+            // 
+            // txt_VatNumber
+            // 
+            resources.ApplyResources(this.txt_VatNumber, "txt_VatNumber");
+            this.txt_VatNumber.Name = "txt_VatNumber";
+            // 
+            // lab_VatNumber
+            // 
+            resources.ApplyResources(this.lab_VatNumber, "lab_VatNumber");
+            this.lab_VatNumber.ForeColor = System.Drawing.SystemColors.ButtonShadow;
+            this.lab_VatNumber.Name = "lab_VatNumber";
+            // 
+            // txt_Recoloration
+            // 
+            resources.ApplyResources(this.txt_Recoloration, "txt_Recoloration");
+            this.txt_Recoloration.FormattingEnabled = true;
+            this.txt_Recoloration.Items.AddRange(new object[] {
+            resources.GetString("txt_Recoloration.Items"),
+            resources.GetString("txt_Recoloration.Items1"),
+            resources.GetString("txt_Recoloration.Items2"),
+            resources.GetString("txt_Recoloration.Items3"),
+            resources.GetString("txt_Recoloration.Items4"),
+            resources.GetString("txt_Recoloration.Items5"),
+            resources.GetString("txt_Recoloration.Items6"),
+            resources.GetString("txt_Recoloration.Items7"),
+            resources.GetString("txt_Recoloration.Items8")});
+            this.txt_Recoloration.Name = "txt_Recoloration";
+            // 
+            // lab_Recoloration
+            // 
+            resources.ApplyResources(this.lab_Recoloration, "lab_Recoloration");
+            this.lab_Recoloration.Name = "lab_Recoloration";
+            // 
+            // txt_DyeingCodeRemark
+            // 
+            resources.ApplyResources(this.txt_DyeingCodeRemark, "txt_DyeingCodeRemark");
+            this.txt_DyeingCodeRemark.Name = "txt_DyeingCodeRemark";
+            // 
+            // lab_DyeingCodeRemark
+            // 
+            resources.ApplyResources(this.lab_DyeingCodeRemark, "lab_DyeingCodeRemark");
+            this.lab_DyeingCodeRemark.ForeColor = System.Drawing.SystemColors.ButtonShadow;
+            this.lab_DyeingCodeRemark.Name = "lab_DyeingCodeRemark";
             // 
             // chk_Auto
             // 
@@ -482,6 +552,147 @@ namespace SmartDyeing.FADM_Control
             // 
             resources.ApplyResources(this.lab_Non_AnhydrationWR, "lab_Non_AnhydrationWR");
             this.lab_Non_AnhydrationWR.Name = "lab_Non_AnhydrationWR";
+            // 
+            // dgv_FormulaData
+            // 
+            this.dgv_FormulaData.AllowUserToDeleteRows = false;
+            this.dgv_FormulaData.AllowUserToResizeColumns = false;
+            this.dgv_FormulaData.AllowUserToResizeRows = false;
+            this.dgv_FormulaData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_FormulaData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+            this.dgv_FormulaData.BackgroundColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 10.5F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_FormulaData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgv_FormulaData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_FormulaData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Index,
+            this.AssistantCode,
+            this.AssistantName,
+            this.FormulaDosage,
+            this.UnitOfAccount,
+            this.Column1,
+            this.SettingConcentration,
+            this.RealConcentration,
+            this.ObjectDropWeight,
+            this.RealDropWeight,
+            this.BottleSelection});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 10.5F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgv_FormulaData.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgv_FormulaData.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            resources.ApplyResources(this.dgv_FormulaData, "dgv_FormulaData");
+            this.dgv_FormulaData.MultiSelect = false;
+            this.dgv_FormulaData.Name = "dgv_FormulaData";
+            this.dgv_FormulaData.RowHeadersVisible = false;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 14.25F);
+            this.dgv_FormulaData.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgv_FormulaData.RowTemplate.Height = 30;
+            this.dgv_FormulaData.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_FormulaData.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgv_FormulaData_EditingControlShowing);
+            this.dgv_FormulaData.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_FormulaData_RowLeave);
+            this.dgv_FormulaData.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgv_FormulaData_RowsAdded);
+            this.dgv_FormulaData.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgv_FormulaData_RowsRemoved);
+            this.dgv_FormulaData.SelectionChanged += new System.EventHandler(this.dgv_FormulaData_SelectionChanged);
+            this.dgv_FormulaData.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dgv_FormulaData_UserAddedRow);
+            this.dgv_FormulaData.Leave += new System.EventHandler(this.dgv_FormulaData_Leave);
+            // 
+            // Index
+            // 
+            this.Index.FillWeight = 77.02372F;
+            resources.ApplyResources(this.Index, "Index");
+            this.Index.Name = "Index";
+            this.Index.ReadOnly = true;
+            this.Index.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // AssistantCode
+            // 
+            this.AssistantCode.FillWeight = 104.9278F;
+            resources.ApplyResources(this.AssistantCode, "AssistantCode");
+            this.AssistantCode.Name = "AssistantCode";
+            this.AssistantCode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // AssistantName
+            // 
+            this.AssistantName.FillWeight = 152.5202F;
+            resources.ApplyResources(this.AssistantName, "AssistantName");
+            this.AssistantName.Name = "AssistantName";
+            this.AssistantName.ReadOnly = true;
+            this.AssistantName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // FormulaDosage
+            // 
+            this.FormulaDosage.FillWeight = 75.44542F;
+            resources.ApplyResources(this.FormulaDosage, "FormulaDosage");
+            this.FormulaDosage.Name = "FormulaDosage";
+            this.FormulaDosage.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // UnitOfAccount
+            // 
+            this.UnitOfAccount.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.UnitOfAccount.FillWeight = 79.8297F;
+            this.UnitOfAccount.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            resources.ApplyResources(this.UnitOfAccount, "UnitOfAccount");
+            this.UnitOfAccount.Name = "UnitOfAccount";
+            this.UnitOfAccount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // Column1
+            // 
+            this.Column1.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.Column1.FillWeight = 60.30895F;
+            this.Column1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            resources.ApplyResources(this.Column1, "Column1");
+            this.Column1.Name = "Column1";
+            // 
+            // SettingConcentration
+            // 
+            this.SettingConcentration.FillWeight = 116.9112F;
+            resources.ApplyResources(this.SettingConcentration, "SettingConcentration");
+            this.SettingConcentration.Name = "SettingConcentration";
+            this.SettingConcentration.ReadOnly = true;
+            this.SettingConcentration.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // RealConcentration
+            // 
+            this.RealConcentration.FillWeight = 122.0618F;
+            resources.ApplyResources(this.RealConcentration, "RealConcentration");
+            this.RealConcentration.Name = "RealConcentration";
+            this.RealConcentration.ReadOnly = true;
+            this.RealConcentration.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ObjectDropWeight
+            // 
+            this.ObjectDropWeight.FillWeight = 138.4942F;
+            resources.ApplyResources(this.ObjectDropWeight, "ObjectDropWeight");
+            this.ObjectDropWeight.Name = "ObjectDropWeight";
+            this.ObjectDropWeight.ReadOnly = true;
+            this.ObjectDropWeight.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // RealDropWeight
+            // 
+            this.RealDropWeight.FillWeight = 147.1373F;
+            resources.ApplyResources(this.RealDropWeight, "RealDropWeight");
+            this.RealDropWeight.Name = "RealDropWeight";
+            this.RealDropWeight.ReadOnly = true;
+            this.RealDropWeight.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // BottleSelection
+            // 
+            this.BottleSelection.FillWeight = 69.70769F;
+            resources.ApplyResources(this.BottleSelection, "BottleSelection");
+            this.BottleSelection.Name = "BottleSelection";
+            this.BottleSelection.ReadOnly = true;
             // 
             // txt_ClothType
             // 
@@ -603,147 +814,6 @@ namespace SmartDyeing.FADM_Control
             this.btn_upd.UseVisualStyleBackColor = true;
             this.btn_upd.Click += new System.EventHandler(this.btn_upd_Click);
             // 
-            // dgv_FormulaData
-            // 
-            this.dgv_FormulaData.AllowUserToDeleteRows = false;
-            this.dgv_FormulaData.AllowUserToResizeColumns = false;
-            this.dgv_FormulaData.AllowUserToResizeRows = false;
-            this.dgv_FormulaData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgv_FormulaData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-            this.dgv_FormulaData.BackgroundColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 10.5F);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_FormulaData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.dgv_FormulaData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_FormulaData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Index,
-            this.AssistantCode,
-            this.AssistantName,
-            this.FormulaDosage,
-            this.UnitOfAccount,
-            this.Column1,
-            this.SettingConcentration,
-            this.RealConcentration,
-            this.ObjectDropWeight,
-            this.RealDropWeight,
-            this.BottleSelection});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("宋体", 10.5F);
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgv_FormulaData.DefaultCellStyle = dataGridViewCellStyle5;
-            this.dgv_FormulaData.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            resources.ApplyResources(this.dgv_FormulaData, "dgv_FormulaData");
-            this.dgv_FormulaData.MultiSelect = false;
-            this.dgv_FormulaData.Name = "dgv_FormulaData";
-            this.dgv_FormulaData.RowHeadersVisible = false;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 14.25F);
-            this.dgv_FormulaData.RowsDefaultCellStyle = dataGridViewCellStyle6;
-            this.dgv_FormulaData.RowTemplate.Height = 30;
-            this.dgv_FormulaData.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_FormulaData.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgv_FormulaData_EditingControlShowing);
-            this.dgv_FormulaData.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_FormulaData_RowLeave);
-            this.dgv_FormulaData.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgv_FormulaData_RowsAdded);
-            this.dgv_FormulaData.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgv_FormulaData_RowsRemoved);
-            this.dgv_FormulaData.SelectionChanged += new System.EventHandler(this.dgv_FormulaData_SelectionChanged);
-            this.dgv_FormulaData.UserAddedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dgv_FormulaData_UserAddedRow);
-            this.dgv_FormulaData.Leave += new System.EventHandler(this.dgv_FormulaData_Leave);
-            // 
-            // Index
-            // 
-            this.Index.FillWeight = 77.02372F;
-            resources.ApplyResources(this.Index, "Index");
-            this.Index.Name = "Index";
-            this.Index.ReadOnly = true;
-            this.Index.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // AssistantCode
-            // 
-            this.AssistantCode.FillWeight = 104.9278F;
-            resources.ApplyResources(this.AssistantCode, "AssistantCode");
-            this.AssistantCode.Name = "AssistantCode";
-            this.AssistantCode.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // AssistantName
-            // 
-            this.AssistantName.FillWeight = 152.5202F;
-            resources.ApplyResources(this.AssistantName, "AssistantName");
-            this.AssistantName.Name = "AssistantName";
-            this.AssistantName.ReadOnly = true;
-            this.AssistantName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // FormulaDosage
-            // 
-            this.FormulaDosage.FillWeight = 75.44542F;
-            resources.ApplyResources(this.FormulaDosage, "FormulaDosage");
-            this.FormulaDosage.Name = "FormulaDosage";
-            this.FormulaDosage.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // UnitOfAccount
-            // 
-            this.UnitOfAccount.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.UnitOfAccount.FillWeight = 79.8297F;
-            this.UnitOfAccount.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            resources.ApplyResources(this.UnitOfAccount, "UnitOfAccount");
-            this.UnitOfAccount.Name = "UnitOfAccount";
-            this.UnitOfAccount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // Column1
-            // 
-            this.Column1.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.Column1.FillWeight = 60.30895F;
-            this.Column1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            resources.ApplyResources(this.Column1, "Column1");
-            this.Column1.Name = "Column1";
-            // 
-            // SettingConcentration
-            // 
-            this.SettingConcentration.FillWeight = 116.9112F;
-            resources.ApplyResources(this.SettingConcentration, "SettingConcentration");
-            this.SettingConcentration.Name = "SettingConcentration";
-            this.SettingConcentration.ReadOnly = true;
-            this.SettingConcentration.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // RealConcentration
-            // 
-            this.RealConcentration.FillWeight = 122.0618F;
-            resources.ApplyResources(this.RealConcentration, "RealConcentration");
-            this.RealConcentration.Name = "RealConcentration";
-            this.RealConcentration.ReadOnly = true;
-            this.RealConcentration.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // ObjectDropWeight
-            // 
-            this.ObjectDropWeight.FillWeight = 138.4942F;
-            resources.ApplyResources(this.ObjectDropWeight, "ObjectDropWeight");
-            this.ObjectDropWeight.Name = "ObjectDropWeight";
-            this.ObjectDropWeight.ReadOnly = true;
-            this.ObjectDropWeight.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // RealDropWeight
-            // 
-            this.RealDropWeight.FillWeight = 147.1373F;
-            resources.ApplyResources(this.RealDropWeight, "RealDropWeight");
-            this.RealDropWeight.Name = "RealDropWeight";
-            this.RealDropWeight.ReadOnly = true;
-            this.RealDropWeight.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // BottleSelection
-            // 
-            this.BottleSelection.FillWeight = 69.70769F;
-            resources.ApplyResources(this.BottleSelection, "BottleSelection");
-            this.BottleSelection.Name = "BottleSelection";
-            this.BottleSelection.ReadOnly = true;
-            // 
             // Formula
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -861,5 +931,13 @@ namespace SmartDyeing.FADM_Control
         public TextBox txt_ClothNum;
         private Label label1;
         private CheckBox chk_Auto;
+        private TextBox txt_DyeingCodeRemark;
+        private Label lab_DyeingCodeRemark;
+        private TextBox txt_VatNumber;
+        private Label lab_VatNumber;
+        private ComboBox txt_Recoloration;
+        private Label lab_Recoloration;
+        private ComboBox txt_Colorists;
+        private Label lab_Colorists;
     }
 }

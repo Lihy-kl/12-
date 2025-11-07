@@ -24,7 +24,7 @@ namespace SmartDyeing.FADM_Form
             try
             {
                 //获取染固色流程代码
-                string s_sql = "SELECT ROW_NUMBER() over (order by IndexNum) as num,FormulaCode,VersionNum,CupNum,IndexNum  FROM wait_list  where Type = 3 order by IndexNum;";
+                string s_sql = "SELECT ROW_NUMBER() over (order by IndexNum) as num,FormulaCode,VersionNum,CupNum,IndexNum,ClothNum  FROM wait_list  where Type = 3 order by IndexNum;";
                 DataTable dt_dyeingcode = FADM_Object.Communal._fadmSqlserver.GetData(s_sql);
 
                 //捆绑
@@ -38,6 +38,7 @@ namespace SmartDyeing.FADM_Form
                     dgv_WaitList.Columns[2].HeaderCell.Value = "版本";
                     dgv_WaitList.Columns[3].HeaderCell.Value = "杯号";
                     dgv_WaitList.Columns[4].HeaderCell.Value = "原序号";
+                    dgv_WaitList.Columns[5].HeaderCell.Value = "布位";
                 }
                 else
                 {
@@ -47,6 +48,7 @@ namespace SmartDyeing.FADM_Form
                     dgv_WaitList.Columns[2].HeaderCell.Value = "Version";
                     dgv_WaitList.Columns[3].HeaderCell.Value = "CupNumber";
                     dgv_WaitList.Columns[4].HeaderCell.Value = "Old Index";
+                    dgv_WaitList.Columns[5].HeaderCell.Value = "ClothNum";
                 }
 
                 //设置标题宽度
@@ -55,6 +57,7 @@ namespace SmartDyeing.FADM_Form
                 dgv_WaitList.Columns[2].Width = 60;
                 dgv_WaitList.Columns[3].Width = 60;
                 dgv_WaitList.Columns[4].Width = 80;
+                dgv_WaitList.Columns[5].Width = 80;
 
                 //关闭点击标题自动排序功能
                 dgv_WaitList.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -62,6 +65,7 @@ namespace SmartDyeing.FADM_Form
                 dgv_WaitList.Columns[2].SortMode = DataGridViewColumnSortMode.NotSortable;
                 dgv_WaitList.Columns[3].SortMode = DataGridViewColumnSortMode.NotSortable;
                 dgv_WaitList.Columns[4].SortMode = DataGridViewColumnSortMode.NotSortable;
+                dgv_WaitList.Columns[5].SortMode = DataGridViewColumnSortMode.NotSortable;
 
                 //设置标题居中显示
                 dgv_WaitList.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -169,22 +173,26 @@ namespace SmartDyeing.FADM_Form
                         string s_versionNum = "";
                         string s_cupNum = "";
                         string s_indexNum = "";
+                        string s_clothNum = "";
 
                         s_formulaCode = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[1].Value.ToString();
                         s_versionNum = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[2].Value.ToString();
                         s_cupNum = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[3].Value.ToString();
                         s_indexNum = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[4].Value.ToString();
+                        s_clothNum = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[5].Value.ToString();
 
                         //交换2行数据
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[1].Value = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex - 1].Cells[1].Value;
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[2].Value = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex - 1].Cells[2].Value;
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[3].Value = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex - 1].Cells[3].Value;
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[4].Value = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex - 1].Cells[4].Value;
+                        dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[5].Value = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex - 1].Cells[5].Value;
 
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex - 1].Cells[1].Value = s_formulaCode;
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex - 1].Cells[2].Value = s_versionNum;
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex - 1].Cells[3].Value = s_cupNum;
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex - 1].Cells[4].Value = s_indexNum;
+                        dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex - 1].Cells[5].Value = s_clothNum;
 
                         dgv_WaitList.CurrentCell = dgv_WaitList[0, dgv_WaitList.CurrentCell.RowIndex - 1];
                     }
@@ -215,22 +223,26 @@ namespace SmartDyeing.FADM_Form
                         string s_versionNum = "";
                         string s_cupNum = "";
                         string s_indexNum = "";
+                        string s_clothNum = "";
 
                         s_formulaCode = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[1].Value.ToString();
                         s_versionNum = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[2].Value.ToString();
                         s_cupNum = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[3].Value.ToString();
                         s_indexNum = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[4].Value.ToString();
+                        s_clothNum = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[5].Value.ToString();
 
                         //交换2行数据
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[1].Value = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex + 1].Cells[1].Value;
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[2].Value = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex + 1].Cells[2].Value;
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[3].Value = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex + 1].Cells[3].Value;
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[4].Value = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex + 1].Cells[4].Value;
+                        dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex].Cells[5].Value = dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex + 1].Cells[5].Value;
 
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex + 1].Cells[1].Value = s_formulaCode;
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex + 1].Cells[2].Value = s_versionNum;
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex + 1].Cells[3].Value = s_cupNum;
                         dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex + 1].Cells[4].Value = s_indexNum;
+                        dgv_WaitList.Rows[dgv_WaitList.CurrentCell.RowIndex + 1].Cells[5].Value = s_clothNum;
 
                         dgv_WaitList.CurrentCell = dgv_WaitList[0, dgv_WaitList.CurrentCell.RowIndex + 1];
                     }
@@ -273,7 +285,10 @@ namespace SmartDyeing.FADM_Form
                 FADM_Object.Communal._fadmSqlserver.GetData("Delete from wait_list where Type = 3 ");
                 foreach (DataGridViewRow dgvr in dgv_WaitList.Rows)
                 {
-                    string s_sql_0 = "INSERT INTO wait_list ( FormulaCode, VersionNum, IndexNum, CupNum,Type) values('" + dgv_WaitList[1, dgvr.Index].Value.ToString() + "','" + dgv_WaitList[2, dgvr.Index].Value.ToString() + "','" + dgv_WaitList[0, dgvr.Index].Value.ToString() + "','" + dgv_WaitList[3, dgvr.Index].Value.ToString() + "',3);";
+                    string s_sql_0 = "INSERT INTO wait_list ( FormulaCode, VersionNum, IndexNum, CupNum,ClothNum,Type) values('"
+                        + dgv_WaitList[1, dgvr.Index].Value.ToString() + "','" + dgv_WaitList[2, dgvr.Index].Value.ToString() 
+                        + "','" + dgv_WaitList[0, dgvr.Index].Value.ToString() + "','" + dgv_WaitList[3, dgvr.Index].Value.ToString() + "','" 
+                        + dgv_WaitList[5, dgvr.Index].Value.ToString() + "',3);";
                     if (FADM_Object.Communal._b_isJustShowInfo)
                     {
                         FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql_0);

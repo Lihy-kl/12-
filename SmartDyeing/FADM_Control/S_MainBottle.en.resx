@@ -118,6 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>236, 114</value>
+  </data>
   <data name="tsm_Check.Size" type="System.Drawing.Size, System.Drawing">
     <value>235, 22</value>
   </data>
@@ -136,40 +139,34 @@
   <data name="tsm_Water.Text" xml:space="preserve">
     <value>Water-Correction/Checking</value>
   </data>
-  <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>236, 70</value>
+  <data name="tsm_Abs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 22</value>
   </data>
-  <data name="tsm_SignCheck.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 22</value>
+  <data name="tsm_InsertAbs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 22</value>
   </data>
   <data name="tsm_SignCheck.Text" xml:space="preserve">
     <value>Correction</value>
   </data>
-  <data name="tsm_SignSelf.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 22</value>
-  </data>
   <data name="tsm_SignSelf.Text" xml:space="preserve">
     <value>SelfChecking</value>
-  </data>
-  <data name="tsm_SignPause.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 22</value>
   </data>
   <data name="tsm_SignPause.Text" xml:space="preserve">
     <value>Pause</value>
   </data>
-  <data name="tsm_SignStop.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 22</value>
-  </data>
   <data name="tsm_SignStop.Text" xml:space="preserve">
     <value>Stop</value>
-  </data>
-  <data name="tsm_SignUpdate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 22</value>
   </data>
   <data name="tsm_SignUpdate.Text" xml:space="preserve">
     <value>Update</value>
   </data>
+  <data name="tsm_TestAbs.Text" xml:space="preserve">
+    <value>TestAbs</value>
+  </data>
+  <data name="tsm_Wash.Text" xml:space="preserve">
+    <value>Wash</value>
+  </data>
   <data name="contextMenuStrip2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 114</value>
+    <value>151, 224</value>
   </data>
 </root>
