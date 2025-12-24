@@ -1574,7 +1574,7 @@ namespace SmartDyeing.FADM_Auto
                                     i_k++;
                                 }
 
-
+                                Lib_Log.Log.writeLogException("输入完成"+s_inPut);
                                 s_sql = "Insert into brew_run_table(MyDateTime,State,Info) values ('" + DateTime.Now.ToString() + "','开始','" + s_inPut + "');";
                                 FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
 

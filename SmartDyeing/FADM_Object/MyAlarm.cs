@@ -340,6 +340,14 @@ namespace SmartDyeing.FADM_Object
                             {
                                 //什么都不需要做，只是提示
                             }
+                            else if (i_type == 51)
+                            {
+                                //修改为放瓶
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(
+                                   "UPDATE brew_station_details SET  Cooperate = 1 WHERE  Station = " + i_cupNum + " ;");
+                                _i_alarm_Repeat = 1;
+                                return;
+                            }
                             else
                             {
                                 FADM_Auto.Dye._cup_Temps[i_cupNum - 1]._i_cover = 0;
@@ -461,6 +469,12 @@ namespace SmartDyeing.FADM_Object
                                 {
                                     //什么都不需要做，只是提示
                                 }
+                                else if (i_type == 51)
+                                {
+                                    //修改为放瓶
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(
+                                       "UPDATE brew_station_details SET  Cooperate = 1 WHERE  Station = " + i_cupNum + " ;");
+                                }
                                 else
                                 {
                                     FADM_Auto.Dye._cup_Temps[i_cupNum - 1]._i_cover = 0;
@@ -550,6 +564,12 @@ namespace SmartDyeing.FADM_Object
                                        "UPDATE drop_details SET  MinWeight = 0 WHERE  MinWeight = " + 4 + " AND BottleNum = " + i_cupNum + " ;");
 
                                         _i_alarm_Repeat = 1;
+                                    }
+                                    else if (i_type == 51)
+                                    {
+                                        //修改为放瓶
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(
+                                           "UPDATE brew_station_details SET  Cooperate = 1 WHERE  Station = " + i_cupNum + " ;");
                                     }
 
                                 }
@@ -718,6 +738,24 @@ namespace SmartDyeing.FADM_Object
                             {
                                 //什么都不需要做，只是提示
                             }
+                            else if (i_type == 51)
+                            {
+                                //修改为放瓶
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(
+                                   "UPDATE brew_station_details SET  Cooperate = 1 WHERE  Station = " + i_cupNum + " ;");
+
+                                _i_alarm_Repeat = 1;
+                                return;
+                            }
+                            else if (i_type == 52)
+                            {
+                                //修改为放瓶
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(
+                                   "UPDATE cup_details SET  Cooperate = 12 WHERE  CupNum = " + i_cupNum + " ;");
+
+                                _i_alarm_Repeat = 1;
+                                return;
+                            }
                             else
                             {
                                 FADM_Auto.Dye._cup_Temps[i_cupNum - 1]._i_cover = 0;
@@ -841,6 +879,22 @@ namespace SmartDyeing.FADM_Object
                                 {
                                     //什么都不需要做，只是提示
                                 }
+                                else if (i_type == 51)
+                                {
+                                    //修改为放瓶
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(
+                                       "UPDATE brew_station_details SET  Cooperate = 1 WHERE  Station = " + i_cupNum + " ;");
+                                }
+
+                                else if (i_type == 52)
+                                {
+                                    //修改为放瓶
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(
+                                       "UPDATE cup_details SET  Cooperate = 12 WHERE  CupNum = " + i_cupNum + " ;");
+
+                                    _i_alarm_Repeat = 1;
+                                    return;
+                                }
                                 else
                                 {
                                     FADM_Auto.Dye._cup_Temps[i_cupNum - 1]._i_cover = 0;
@@ -931,6 +985,13 @@ namespace SmartDyeing.FADM_Object
 
                                         _i_alarm_Repeat = 1;
                                     }
+                                    else if (i_type == 51)
+                                    {
+                                        //修改为放瓶
+                                        FADM_Object.Communal._fadmSqlserver.ReviseData(
+                                           "UPDATE brew_station_details SET  Cooperate = 1 WHERE  Station = " + i_cupNum + " ;");
+
+                                    }
 
                                 }
                                 //无锁止信号操作
@@ -968,6 +1029,16 @@ namespace SmartDyeing.FADM_Object
                                 else if (i_type == 22)
                                 {
                                     //什么都不需要做，只是提示
+                                }
+
+                                else if (i_type == 52)
+                                {
+                                    //修改为放瓶
+                                    FADM_Object.Communal._fadmSqlserver.ReviseData(
+                                       "UPDATE cup_details SET  Cooperate = 12 WHERE  CupNum = " + i_cupNum + " ;");
+
+                                    _i_alarm_Repeat = 1;
+                                    return;
                                 }
                                 //7滴液过程加水在外边处理
 

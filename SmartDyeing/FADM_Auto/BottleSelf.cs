@@ -312,7 +312,12 @@ namespace SmartDyeing.FADM_Auto
 
             //抽液
             DataTable dt_temp = FADM_Object.Communal._fadmSqlserver.GetData(
-                "SELECT bottle_details.SyringeType, bottle_details.AdjustValue,assistant_details.UnitOfAccount FROM bottle_details LEFT JOIN assistant_details ON assistant_details.AssistantCode=bottle_details.AssistantCode WHERE bottle_details.BottleNum = '" + i_bottleNo + "';");
+                "SELECT bottle_details.SyringeType, bottle_details.AdjustValue,bottle_details.LastUseTime,assistant_details.UnitOfAccount FROM bottle_details LEFT JOIN assistant_details ON assistant_details.AssistantCode=bottle_details.AssistantCode WHERE bottle_details.BottleNum = '" + i_bottleNo + "';");
+            
+            object lastUseTimeObj = dt_temp.Rows[0]["LastUseTime"];
+            DateTime dateTime = (lastUseTimeObj == DBNull.Value || lastUseTimeObj == null)
+                ? DateTime.Now
+                : Convert.ToDateTime(lastUseTimeObj);
 
             if ("计量泵" == Convert.ToString(dt_temp.Rows[0][0]) || "Metering Pump" == Convert.ToString(dt_temp.Rows[0][0]))
             {
@@ -357,16 +362,24 @@ namespace SmartDyeing.FADM_Auto
                 label2:
                     try
                     {
-                        if ("g/l" == Convert.ToString(dt_temp.Rows[0]["UnitOfAccount"]))
+                        if (FADM_Object.Communal._b_isTimeToExtract)
                         {
                             int i_totalPulse = i_pulse - Lib_Card.Configure.Parameter.Other_Z_BackPulse;
-                            i_mRes = MyModbusFun.Extract(i_totalPulse, true, 0); //排空
-
+                            i_mRes = MyModbusFun.Extract(i_totalPulse, (DateTime.Now - dateTime).TotalMinutes / 60 > FADM_Object.Communal._i_DrainTime ? true : false, 0); //排空
                         }
                         else
                         {
-                            int i_totalPulse = i_pulse - Lib_Card.Configure.Parameter.Other_Z_BackPulse;
-                            i_mRes = MyModbusFun.Extract(i_totalPulse, false, 0); //排空
+                            if ("g/l" == Convert.ToString(dt_temp.Rows[0]["UnitOfAccount"]))
+                            {
+                                int i_totalPulse = i_pulse - Lib_Card.Configure.Parameter.Other_Z_BackPulse;
+                                i_mRes = MyModbusFun.Extract(i_totalPulse, true, 0); //排空
+
+                            }
+                            else
+                            {
+                                int i_totalPulse = i_pulse - Lib_Card.Configure.Parameter.Other_Z_BackPulse;
+                                i_mRes = MyModbusFun.Extract(i_totalPulse, false, 0); //排空
+                            }
                         }
                         if (-2 == i_mRes)
                             throw new Exception("收到退出消息");
@@ -515,15 +528,23 @@ namespace SmartDyeing.FADM_Auto
                 label3:
                     try
                     {
-                        if ("g/l" == Convert.ToString(dt_temp.Rows[0]["UnitOfAccount"]))
+                        if (FADM_Object.Communal._b_isTimeToExtract)
                         {
                             int i_totalPulse = i_pulse - Lib_Card.Configure.Parameter.Other_Z_BackPulse;
-                            i_mRes = MyModbusFun.Extract(i_totalPulse, true, 1); //排空
+                            i_mRes = MyModbusFun.Extract(i_totalPulse, (DateTime.Now - dateTime).TotalMinutes / 60 > FADM_Object.Communal._i_DrainTime ? true : false, 1); //排空
                         }
                         else
                         {
-                            int i_totalPulse = i_pulse - Lib_Card.Configure.Parameter.Other_Z_BackPulse;
-                            i_mRes = MyModbusFun.Extract(i_totalPulse, false, 1); //排空
+                            if ("g/l" == Convert.ToString(dt_temp.Rows[0]["UnitOfAccount"]))
+                            {
+                                int i_totalPulse = i_pulse - Lib_Card.Configure.Parameter.Other_Z_BackPulse;
+                                i_mRes = MyModbusFun.Extract(i_totalPulse, true, 1); //排空
+                            }
+                            else
+                            {
+                                int i_totalPulse = i_pulse - Lib_Card.Configure.Parameter.Other_Z_BackPulse;
+                                i_mRes = MyModbusFun.Extract(i_totalPulse, false, 1); //排空
+                            }
                         }
                         if (-2 == i_mRes)
                             throw new Exception("收到退出消息");
@@ -747,14 +768,14 @@ namespace SmartDyeing.FADM_Auto
                     if ("小针筒" == Convert.ToString(dt_temp.Rows[0][0]) || "Little Syringe" == Convert.ToString(dt_temp.Rows[0][0]))
                     {
                         FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "注液启动(" + i_pulse + ")");
-                        i_mRes = MyModbusFun.Shove(i_pulse, 0);
+                        i_mRes = MyModbusFun.Shove(i_pulse, 0, i_bottleNo);
                         if (-2 == i_mRes)
                             throw new Exception("收到退出消息");
                     }
                     else
                     {
                         FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "注液启动(" + i_pulse + ")");
-                        i_mRes = MyModbusFun.Shove(i_pulse, 1);
+                        i_mRes = MyModbusFun.Shove(i_pulse, 1, i_bottleNo);
                         if (-2 == i_mRes)
                             throw new Exception("收到退出消息");
                     }

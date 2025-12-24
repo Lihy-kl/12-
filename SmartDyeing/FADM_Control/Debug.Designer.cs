@@ -69,6 +69,7 @@ namespace SmartDyeing.FADM_Control
             this.btn_reset_a = new System.Windows.Forms.Button();
             this.LabBalanceValue = new System.Windows.Forms.Label();
             this.grp_in = new System.Windows.Forms.GroupBox();
+            this.ChkInPut_Dye_Stop = new System.Windows.Forms.CheckBox();
             this.ChkInPut_Slow_Cylinder_Mid_3 = new System.Windows.Forms.CheckBox();
             this.ChkInPut_Slow_Cylinder_Mid_2 = new System.Windows.Forms.CheckBox();
             this.ChkInPut_SupportCover = new System.Windows.Forms.CheckBox();
@@ -148,7 +149,8 @@ namespace SmartDyeing.FADM_Control
             this.TxtNum = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.Tmr = new System.Windows.Forms.Timer(this.components);
-            this.ChkInPut_Dye_Stop = new System.Windows.Forms.CheckBox();
+            this.RdoPHTest = new System.Windows.Forms.RadioButton();
+            this.RdoPH = new System.Windows.Forms.RadioButton();
             this.grp_move.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.grp_in.SuspendLayout();
@@ -420,6 +422,12 @@ namespace SmartDyeing.FADM_Control
             resources.ApplyResources(this.grp_in, "grp_in");
             this.grp_in.Name = "grp_in";
             this.grp_in.TabStop = false;
+            // 
+            // ChkInPut_Dye_Stop
+            // 
+            resources.ApplyResources(this.ChkInPut_Dye_Stop, "ChkInPut_Dye_Stop");
+            this.ChkInPut_Dye_Stop.Name = "ChkInPut_Dye_Stop";
+            this.ChkInPut_Dye_Stop.UseVisualStyleBackColor = true;
             // 
             // ChkInPut_Slow_Cylinder_Mid_3
             // 
@@ -809,6 +817,8 @@ namespace SmartDyeing.FADM_Control
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.RdoPHTest);
+            this.groupBox5.Controls.Add(this.RdoPH);
             this.groupBox5.Controls.Add(this.RdoSupportCover);
             this.groupBox5.Controls.Add(this.RdoExtraction);
             this.groupBox5.Controls.Add(this.RdoStandBy);
@@ -974,11 +984,19 @@ namespace SmartDyeing.FADM_Control
             this.Tmr.Enabled = true;
             this.Tmr.Tick += new System.EventHandler(this.Tmr_Tick);
             // 
-            // ChkInPut_Dye_Stop
+            // RdoPHTest
             // 
-            resources.ApplyResources(this.ChkInPut_Dye_Stop, "ChkInPut_Dye_Stop");
-            this.ChkInPut_Dye_Stop.Name = "ChkInPut_Dye_Stop";
-            this.ChkInPut_Dye_Stop.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.RdoPHTest, "RdoPHTest");
+            this.RdoPHTest.Name = "RdoPHTest";
+            this.RdoPHTest.TabStop = true;
+            this.RdoPHTest.UseVisualStyleBackColor = true;
+            // 
+            // RdoPH
+            // 
+            resources.ApplyResources(this.RdoPH, "RdoPH");
+            this.RdoPH.Name = "RdoPH";
+            this.RdoPH.TabStop = true;
+            this.RdoPH.UseVisualStyleBackColor = true;
             // 
             // Debug
             // 
@@ -1123,5 +1141,7 @@ namespace SmartDyeing.FADM_Control
         private Button BtnOutPut_Slow_3;
         private Button BtnOutPut_Slow_2;
         private CheckBox ChkInPut_Dye_Stop;
+        private RadioButton RdoPHTest;
+        private RadioButton RdoPH;
     }
 }

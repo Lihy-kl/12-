@@ -447,6 +447,16 @@ namespace SmartDyeing.FADM_Object
         public static bool _b_isHaveAutoWashBottle = false;
 
         /// <summary>
+        /// 是否使用时间来决定抽拉次数
+        /// </summary>
+        public static bool _b_isTimeToExtract = false;
+
+        /// <summary>
+        /// 需要抽拉间隔时间(小时)
+        /// </summary>
+        public static int _i_DrainTime = 3;
+
+        /// <summary>
         /// 染色线程
         /// </summary>
         private static Thread DyeThread = null;
@@ -681,6 +691,10 @@ namespace SmartDyeing.FADM_Object
 
         public static bool _b_isGetWetClamp = false;//是否拿着湿布夹子
 
+        public static bool _b_isGetPowerClamp = false;//是否拿着粉筒夹子
+
+        public static bool _b_isGetPHClamp = false;//是否拿着PH夹子
+
         public static bool _b_isGetSyringes = false;//是否拿着针筒(ABS抽液针筒)
 
         public static bool _b_isSaveRealConcentration = false;//保存时是否将设定浓度保存到实际浓度中
@@ -690,6 +704,10 @@ namespace SmartDyeing.FADM_Object
         public static bool _b_isUseClampOut = false;//是否使用夹子自动出布
 
         public static bool _b_isUseClampOutBig = true;//4,6杯大杯是否使用夹子自动出布
+
+        public static bool _b_isUsePH = false;//是否使用自动测PH
+
+        public static bool _b_isPHSys = false;//PH计类型，0小针筒 1大针筒
 
         public static bool _b_isUseAuto = true;//是否使用自动启动
 
@@ -976,6 +994,11 @@ namespace SmartDyeing.FADM_Object
         /// </summary>
         public static int _i_LabMode = 0;
 
+        /// <summary>
+        ///助剂页面是否按照助剂代码来排序
+        /// </summary>
+        public static bool _b_isAssOrderByCode = false;
+
 
         /// <summary>
         /// 区域1触摸屏版本
@@ -1258,6 +1281,7 @@ namespace SmartDyeing.FADM_Object
             public int _i_adjust;// _i_adjust：校正脉冲
             public string _s_unitOfAccount;//  _s_unitOfAccount：单位
 
+            public DateTime _lastUseTime;//上次针筒使用时间
             public Dictionary<int, int> _dic_pulse;//  _dic_pulse：配液杯对应加药脉冲
             public Dictionary<int, double> _dic_water;//  directoryWeight：配液杯对应加水重
             public Dictionary<int, int> _dic_step;//  _dic_pulse：配液杯对应步号
@@ -1322,6 +1346,28 @@ namespace SmartDyeing.FADM_Object
                     MyModbusFun.CalTarget(8, 0, ref i_xStart, ref i_yStart);
                     int iMRes1 = MyModbusFun.PutClamp(i_xStart, i_yStart);
                     if (-2 == iMRes1)
+                        throw new Exception("收到退出消息");
+                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放夹子完成");
+                }
+                if (Communal._b_isGetPowerClamp)
+                {
+                    //3.放夹子
+                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放夹子启动");
+                    //int i_xStart = 0, i_yStart = 0;
+                    MyModbusFun.CalTarget(14, 0, ref i_xStart, ref i_yStart);
+                    int i_mRes1 = MyModbusFun.PutClamp(i_xStart, i_yStart);
+                    if (-2 == i_mRes1)
+                        throw new Exception("收到退出消息");
+                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放夹子完成");
+                }
+                if (Communal._b_isGetPHClamp)
+                {
+                    //3.放夹子
+                    FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放夹子启动");
+                    //int i_xStart = 0, i_yStart = 0;
+                    MyModbusFun.CalTarget(17, 0, ref i_xStart, ref i_yStart);
+                    int i_mRes1 = MyModbusFun.PutClamp(i_xStart, i_yStart);
+                    if (-2 == i_mRes1)
                         throw new Exception("收到退出消息");
                     FADM_Object.Communal._fadmSqlserver.InsertRun("Dail", "放夹子完成");
                 }
@@ -1504,7 +1550,16 @@ namespace SmartDyeing.FADM_Object
                 {
                     iExtractionPulse = iExtractionPulse - Lib_Card.Configure.Parameter.Other_Z_BackPulse;
                     if (i_type == 1)
-                        i_mRes = MyModbusFun.Extract(iExtractionPulse, s_unitOfAccount.Equals("g/l") ? true : false, 0); //抽液
+                    {
+                        if (FADM_Object.Communal._b_isTimeToExtract)
+                        {
+                            i_mRes = MyModbusFun.Extract(iExtractionPulse, (DateTime.Now - o._lastUseTime).TotalMinutes / 60 > FADM_Object.Communal._i_DrainTime  ? true : false, 0); //抽液
+                        }
+                        else
+                        {
+                            i_mRes = MyModbusFun.Extract(iExtractionPulse, s_unitOfAccount.Equals("g/l") ? true : false, 0); //抽液
+                        }
+                    }
                     else
                     {
                         if (i_minBottleNo == 999)
@@ -1676,7 +1731,16 @@ namespace SmartDyeing.FADM_Object
                 {
                     iExtractionPulse = iExtractionPulse - Lib_Card.Configure.Parameter.Other_Z_BackPulse;
                     if (i_type == 1)
-                        i_mRes = MyModbusFun.Extract(iExtractionPulse, s_unitOfAccount.Equals("g/l") ? true : false, 1); //抽液
+                    {
+                        if (FADM_Object.Communal._b_isTimeToExtract)
+                        {
+                            i_mRes = MyModbusFun.Extract(iExtractionPulse, (DateTime.Now - o._lastUseTime).TotalMinutes / 60 > FADM_Object.Communal._i_DrainTime ? true : false, 1); //抽液
+                        }
+                        else
+                        {
+                            i_mRes = MyModbusFun.Extract(iExtractionPulse, s_unitOfAccount.Equals("g/l") ? true : false, 1); //抽液
+                        }
+                    }
                     else
                     {
                         if (i_minBottleNo == 999)
@@ -1866,9 +1930,9 @@ namespace SmartDyeing.FADM_Object
 
                 FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "废液注液启动(" + i_infusionPulse1 + ")");
                 if ("小针筒" == s_syringeType || "Little Syringe" == s_syringeType)
-                    i_mRes = MyModbusFun.Shove(i_infusionPulse1, 0);
+                    i_mRes = MyModbusFun.Shove(i_infusionPulse1, 0, i_minBottleNo);
                 else
-                    i_mRes = MyModbusFun.Shove(i_infusionPulse1, 1);
+                    i_mRes = MyModbusFun.Shove(i_infusionPulse1, 1, i_minBottleNo);
                 if (-2 == i_mRes)
                     throw new Exception("收到退出消息");
                 FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "废液注液完成");
@@ -2060,7 +2124,7 @@ namespace SmartDyeing.FADM_Object
                     }
                     else
                     {
-                        i_mRes = MyModbusFun.Shove(iInfusionPulse, 0);
+                        i_mRes = MyModbusFun.Shove(iInfusionPulse, 0, i_minBottleNo);
                     }
                     if (-2 == i_mRes)
                         throw new Exception("收到退出消息");
@@ -2077,7 +2141,7 @@ namespace SmartDyeing.FADM_Object
                     else
                     {
                         FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "注液启动(" + iInfusionPulse + ")");
-                        i_mRes = MyModbusFun.Shove(iInfusionPulse, 0);
+                        i_mRes = MyModbusFun.Shove(iInfusionPulse, 0, i_minBottleNo);
                         if (-2 == i_mRes)
                             throw new Exception("收到退出消息");
                     }
@@ -2121,7 +2185,7 @@ namespace SmartDyeing.FADM_Object
                     }
                     else
                     {
-                        i_mRes = MyModbusFun.Shove(iInfusionPulse, 1);
+                        i_mRes = MyModbusFun.Shove(iInfusionPulse, 1, i_minBottleNo);
                     }
                     if (-2 == i_mRes)
                         throw new Exception("收到退出消息");
@@ -2138,7 +2202,7 @@ namespace SmartDyeing.FADM_Object
                     else
                     {
                         FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "注液启动(" + iInfusionPulse + ")");
-                        i_mRes = MyModbusFun.Shove(iInfusionPulse,1);
+                        i_mRes = MyModbusFun.Shove(iInfusionPulse,1, i_minBottleNo);
                         if (-2 == i_mRes)
                             throw new Exception("收到退出消息");
                     }
@@ -2244,7 +2308,7 @@ namespace SmartDyeing.FADM_Object
                 {
                     iInfusionPulse = i_adjust;
                     FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "验证启动(" + iInfusionPulse + ")");
-                    i_mRes = MyModbusFun.Shove(iInfusionPulse, 0);
+                    i_mRes = MyModbusFun.Shove(iInfusionPulse, 0, i_minBottleNo);
                     if (-1 == i_mRes)
                         throw new Exception("驱动异常");
                     else if (-2 == i_mRes)
@@ -2254,7 +2318,7 @@ namespace SmartDyeing.FADM_Object
                 {
                     iInfusionPulse = i_adjust;
                     FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "验证启动(" + iInfusionPulse + ")");
-                    i_mRes = MyModbusFun.Shove(iInfusionPulse, 1);
+                    i_mRes = MyModbusFun.Shove(iInfusionPulse, 1, i_minBottleNo);
                     if (-2 == i_mRes)
                         throw new Exception("收到退出消息");
                 }

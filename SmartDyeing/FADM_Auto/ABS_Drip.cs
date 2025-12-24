@@ -1268,7 +1268,10 @@ namespace SmartDyeing.FADM_Auto
             bool b_lCheckSuccess = (Convert.ToString(dt_bottle_details.Rows[0]["AdjustSuccess"]) == "1");
             string s_syringeType = Convert.ToString(dt_bottle_details.Rows[0]["SyringeType"]);
 
-
+            object lastUseTimeObj = dt_bottle_details.Rows[0]["LastUseTime"];
+            DateTime dateTime = (lastUseTimeObj == DBNull.Value || lastUseTimeObj == null)
+                ? DateTime.Now
+                : Convert.ToDateTime(lastUseTimeObj);
 
             Dictionary<int, int> dic_pulse = new Dictionary<int, int>();
             Dictionary<int, double> dic_weight = new Dictionary<int, double>();
@@ -1613,6 +1616,7 @@ namespace SmartDyeing.FADM_Auto
             o._s_unitOfAccount = s_unitOfAccount;
             o._dic_pulse= dic_pulse;
             o._dic_water =dic_water;
+            o._lastUseTime = dateTime;
             Dictionary<int, double> dic_return = new Dictionary<int, double>();
             int i_ret=FADM_Object.Communal.AddMac(o,ref dic_return,2, 0);
             //夹不到针筒

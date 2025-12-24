@@ -75,7 +75,7 @@ namespace SmartDyeing.FADM_Form
                 FADM_Object.Communal._b_isUseAutoChoose = false;
             }
 
-            FADM_Object.Communal._i_AskTimes = Convert.ToInt32(Lib_File.Ini.GetIni("Setting", "AskTimes", "2", s_path));
+            FADM_Object.Communal._i_AskTimes = Convert.ToInt32(Lib_File.Ini.GetIni("Setting", "AskTimes", "5", s_path));
             if(FADM_Object.Communal._i_AskTimes < 2)
             {
                 FADM_Object.Communal._i_AskTimes = 2;
@@ -156,9 +156,18 @@ namespace SmartDyeing.FADM_Form
                 FADM_Object.Communal._b_isHaveAutoWashBottle = true;
             }
 
+            string s_isTimeToExtract = Lib_File.Ini.GetIni("Setting", "IsTimeToExtract", "0", s_path);
+            if (s_isTimeToExtract == "1")
+            {
+                FADM_Object.Communal._b_isTimeToExtract = true;
+            }
+
+            string s_DrainTime = Lib_File.Ini.GetIni("Setting", "DrainTime", "3", s_path);
+            FADM_Object.Communal._i_DrainTime = Convert.ToInt32(s_DrainTime);
+
             BtnMain_Click(sender, e);
 
-            if (!FADM_Object.Communal._b_isJustShowInfo)
+            if (!FADM_Object.Communal._b_isJustShowInfo && !FADM_Object.Communal._b_isUseBrewOnly)
             {
                 Thread thread = new Thread(ReadBalance); //读取天平数据和光幕数据
                 thread.IsBackground = true;
@@ -417,6 +426,18 @@ namespace SmartDyeing.FADM_Form
             if (s_useClampOutBig == "0")
             {
                 FADM_Object.Communal._b_isUseClampOutBig = false;
+            }
+
+            string s_usePH = Lib_File.Ini.GetIni("Setting", "IsUsePH", "0", s_path);
+            if (s_usePH == "1")
+            {
+                FADM_Object.Communal._b_isUsePH = true;
+            }
+
+            string s_PHSys = Lib_File.Ini.GetIni("Setting", "IsPHSys", "0", s_path);
+            if (s_PHSys == "1")
+            {
+                FADM_Object.Communal._b_isPHSys = true;
             }
 
             string IsDyMin = Lib_File.Ini.GetIni("Setting", "IsDyMin", "0", s_path);
@@ -789,6 +810,12 @@ namespace SmartDyeing.FADM_Form
 
             string s_LabMode = Lib_File.Ini.GetIni("Setting", "LabMode", "1", s_path);
             FADM_Object.Communal._i_LabMode = Convert.ToInt32(s_LabMode);
+
+            string s_isAssOrderByCode = Lib_File.Ini.GetIni("Setting", "IsAssOrderByCode", "0", s_path);
+            if (s_isAssOrderByCode == "1")
+            {
+                FADM_Object.Communal._b_isAssOrderByCode = true;
+            }
         }
 
         public void countDown()
@@ -3211,7 +3238,7 @@ namespace SmartDyeing.FADM_Form
 
         private void MiDebug_Click(object sender, EventArgs e)
         {
-            if (!FADM_Object.Communal._b_isJustShowInfo)
+            if (!FADM_Object.Communal._b_isJustShowInfo && !FADM_Object.Communal._b_isUseBrewOnly)
             {
                 try
                 {
@@ -3857,7 +3884,7 @@ namespace SmartDyeing.FADM_Form
                 {
                     if (FADM_Auto.Dye._cup_Temps[i]._b_start)
                     {
-                        if (Convert.ToDouble(FADM_Auto.Dye._cup_Temps[i]._s_temp) > 0)
+                        //if (Convert.ToDouble(FADM_Auto.Dye._cup_Temps[i]._s_temp) > 0)
                         {
                             Txt.WriteTXT(i + 1, FADM_Auto.Dye._cup_Temps[i]._s_temp);
                             FADM_Object.Communal._fadmSqlserver.ReviseData(

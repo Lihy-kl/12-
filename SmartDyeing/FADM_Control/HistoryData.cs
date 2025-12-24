@@ -66,6 +66,112 @@ namespace SmartDyeing.FADM_Control
         /// </summary>
         public bool _b_isDiscovering = false;
 
+        // 字体大小的上下限（避免过小/过大）
+        private const int MinFontSize = 6;
+        private const int MaxFontSize = 16;
+        // 单元格内边距（避免文本贴边）
+        private const int CellPadding = 5;
+
+        /// <summary>
+        /// 初始化DataGridView并添加测试数据
+        /// </summary>
+        private void InitDataGridView()
+        {
+            dgv_Details.Dock = DockStyle.Fill;
+            dgv_Details.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv_Details.RowTemplate.Height = 30;
+
+            // 添加列
+            dgv_Details.Columns.Add("Col1", "测试列1");
+            dgv_Details.Columns.Add("Col2", "测试列2");
+
+            // 添加测试数据（包含长短不同的文本）
+            dgv_Details.Rows.Add("短文本", "这是一段很长的文本，测试字体自动缩小效果");
+            dgv_Details.Rows.Add("中等长度的文本内容", "超超超超超超长的文本内容示例，用于验证字体自适应功能");
+            dgv_Details.Rows.Add("1234567890", "abcdefghijklmnopqrstuvwxyz");
+        }
+
+        /// <summary>
+        /// 单元格绘制时调整字体大小
+        /// </summary>
+        private void dgv_Details_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            // 跳过表头和空单元格
+            if (e.RowIndex < 0 || e.ColumnIndex < 0 || e.Value == null) return;
+
+            string cellText = e.Value.ToString();
+            if (string.IsNullOrEmpty(cellText)) return;
+
+            // 获取单元格可用宽度（减去内边距）
+            int cellWidth = e.CellBounds.Width - 2 * CellPadding;
+            if (cellWidth <= 0) return;
+
+            // 计算适配的字体大小
+            float fontSize = GetAdaptiveFontSize(cellText, cellWidth, e.CellStyle.Font.FontFamily);
+
+            // 应用新字体（避免重复设置）
+            if (Math.Abs(e.CellStyle.Font.Size - fontSize) > 0.1)
+            {
+                e.CellStyle.Font = new Font(e.CellStyle.Font.FontFamily, fontSize, FontStyle.Regular);
+                // 刷新单元格（确保样式生效）
+                dgv_Details.InvalidateCell(e.ColumnIndex, e.RowIndex);
+            }
+        }
+
+        /// <summary>
+        /// 计算适配单元格宽度的字体大小
+        /// </summary>
+        /// <param name="text">单元格文本</param>
+        /// <param name="maxWidth">单元格可用宽度</param>
+        /// <param name="fontFamily">字体家族（保持字体样式一致）</param>
+        /// <returns>适配的字体大小</returns>
+        private float GetAdaptiveFontSize(string text, int maxWidth, FontFamily fontFamily)
+        {
+            // 初始字体大小（从最大值开始尝试）
+            float fontSize = MaxFontSize;
+            Size textSize;
+
+            do
+            {
+                // 测量当前字体大小的文本宽度
+                using (Font font = new Font(fontFamily, fontSize, FontStyle.Regular))
+                {
+                    textSize = TextRenderer.MeasureText(text, font);
+                }
+
+                // 如果文本宽度超过限制，缩小字体
+                if (textSize.Width > maxWidth)
+                {
+                    fontSize -= 0.5f; // 步长可根据需求调整
+                }
+                else
+                {
+                    break; // 适配成功
+                }
+
+            } while (fontSize >= MinFontSize); // 不低于最小字体
+
+            return Math.Max(fontSize, MinFontSize); // 确保不小于最小值
+        }
+
+        /// <summary>
+        /// 单元格内容变更时刷新
+        /// </summary>
+        private void dgv_Details_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                dgv_Details.InvalidateCell(e.ColumnIndex, e.RowIndex);
+            }
+        }
+
+        /// <summary>
+        /// 控件大小变更时刷新所有单元格
+        /// </summary>
+        private void dgv_Details_Resize(object sender, EventArgs e)
+        {
+            dgv_Details.Refresh();
+        }
 
         Main _main;
         public HistoryData(Main m)
@@ -77,6 +183,11 @@ namespace SmartDyeing.FADM_Control
                 txt_Record_Code.KeyPress += dy_nodelist_comboBox2_KeyPress;
 
                 this.Load += MyUserControl_Load;
+
+                // 绑定事件
+                dgv_Details.CellPainting += dgv_Details_CellPainting;
+                dgv_Details.CellValueChanged += dgv_Details_CellValueChanged;
+                dgv_Details.Resize += dgv_Details_Resize;
 
             }
             catch(Exception ex)
@@ -451,12 +562,14 @@ namespace SmartDyeing.FADM_Control
                     dgv_Details.Columns[i].HeaderCell.Value = sa_lineName[i];
                     //关闭点击标题自动排序功能
                     dgv_Details.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                    dgv_Details.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                    //dgv_Details.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 }
                 //设置标题字体
-                dgv_Details.ColumnHeadersDefaultCellStyle.Font = new Font("宋体", 14.25F);
+                dgv_Details.ColumnHeadersDefaultCellStyle.Font = new Font("宋体", 12.8F);
                 //设置内容字体
-                dgv_Details.RowsDefaultCellStyle.Font = new Font("宋体", 14.25F);
+                dgv_Details.RowsDefaultCellStyle.Font = new Font("宋体", 12.8F);
+
+                
             }
             else
             {
@@ -467,33 +580,35 @@ namespace SmartDyeing.FADM_Control
                     dgv_Details.Columns[i].HeaderCell.Value = sa_lineName[i];
                     //关闭点击标题自动排序功能
                     dgv_Details.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                    dgv_Details.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                    //dgv_Details.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 }
                 //设置标题字体
                 dgv_Details.ColumnHeadersDefaultCellStyle.Font = new Font("宋体", 7.5F);
                 //设置内容字体
                 dgv_Details.RowsDefaultCellStyle.Font = new Font("宋体", 10.5F);
             }
+            int totalWidth = dgv_Details.Width - 20; // 预留边框空间
+
             ////设置标题宽度
-            //dgv_Details.Columns[0].Width = 100;
-            //dgv_Details.Columns[1].Width = 60;
-            //dgv_Details.Columns[2].Width = 60;
-            //dgv_Details.Columns[3].Width = 120;
-            //dgv_Details.Columns[4].Width = 200;
-            //dgv_Details.Columns[5].Width = 60;
-            //dgv_Details.Columns[6].Width = 60;
-            //dgv_Details.Columns[7].Width = 60;
-            //dgv_Details.Columns[8].Width = 100;
-            //dgv_Details.Columns[9].Width = 100;
-            //dgv_Details.Columns[10].Width = 100;
-            //dgv_Details.Columns[11].Width = 100;
-            //dgv_Details.Columns[12].Width = 100;
-            //dgv_Details.Columns[13].Width = 70;
-            //dgv_Details.Columns[14].Width = 70;
-            //dgv_Details.Columns[15].Width = 100;
-            //dgv_Details.Columns[16].Width = 60;
-            //dgv_Details.Columns[17].Width = 100;
-            //dgv_Details.Columns[18].Width = 100;
+            dgv_Details.Columns[0].Width = (int)(totalWidth * 0.09);
+            dgv_Details.Columns[1].Width = (int)(totalWidth * 0.04);
+            dgv_Details.Columns[2].Width = (int)(totalWidth * 0.04);
+            dgv_Details.Columns[3].Width = (int)(totalWidth * 0.05);
+            dgv_Details.Columns[4].Width = (int)(totalWidth * 0.09);
+            dgv_Details.Columns[5].Width = (int)(totalWidth * 0.05);
+            dgv_Details.Columns[6].Width = (int)(totalWidth * 0.035);
+            dgv_Details.Columns[7].Width = (int)(totalWidth * 0.035);
+            dgv_Details.Columns[8].Width = (int)(totalWidth * 0.05);
+            dgv_Details.Columns[9].Width = (int)(totalWidth * 0.07);
+            dgv_Details.Columns[10].Width = (int)(totalWidth * 0.05);
+            dgv_Details.Columns[11].Width = (int)(totalWidth * 0.05);
+            dgv_Details.Columns[12].Width = (int)(totalWidth * 0.05);
+            dgv_Details.Columns[13].Width = (int)(totalWidth * 0.04);
+            dgv_Details.Columns[14].Width = (int)(totalWidth * 0.04);
+            dgv_Details.Columns[15].Width = (int)(totalWidth * 0.05);
+            dgv_Details.Columns[16].Width = (int)(totalWidth * 0.04);
+            dgv_Details.Columns[17].Width = (int)(totalWidth * 0.07);
+            dgv_Details.Columns[18].Width = (int)(totalWidth * 0.07);
             //设置标题居中显示
             dgv_Details.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 

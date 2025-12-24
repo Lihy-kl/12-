@@ -2803,6 +2803,14 @@ namespace SmartDyeing.FADM_Form
                     
                 }
 
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'bottle_details' AND COLUMN_NAME = 'LastUseTime'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE bottle_details ADD LastUseTime [datetime2](0) null ");
+                    Communal._fadmSqlserver.ReviseData("Update bottle_details Set LastUseTime='" + DateTime.Now + "'");
+
+                }
+
                 dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'formula_handle_details' AND COLUMN_NAME = 'No'");
                 if (dt_head.Rows.Count == 0)
                 {
@@ -2838,6 +2846,13 @@ namespace SmartDyeing.FADM_Form
 
                 }
 
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'formula_head_temp' AND COLUMN_NAME = 'DyeingCodeRemark'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE formula_head_temp ADD DyeingCodeRemark nvarchar(50) null ");
+
+                }
+
                 dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'drop_head' AND COLUMN_NAME = 'DyeingCodeRemark'");
                 if (dt_head.Rows.Count == 0)
                 {
@@ -2854,6 +2869,13 @@ namespace SmartDyeing.FADM_Form
                 if (dt_head.Rows.Count == 0)
                 {
                     Communal._fadmSqlserver.ReviseData("ALTER TABLE formula_head ADD Recoloration nvarchar(50) null ");
+
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'formula_head_temp' AND COLUMN_NAME = 'Recoloration'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE formula_head_temp ADD Recoloration nvarchar(50) null ");
 
                 }
 
@@ -2911,6 +2933,13 @@ namespace SmartDyeing.FADM_Form
                 if (dt_head.Rows.Count == 0)
                 {
                     Communal._fadmSqlserver.ReviseData("ALTER TABLE formula_head ADD Colorists nvarchar(50) null ");
+
+                }
+
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'formula_head_temp' AND COLUMN_NAME = 'Colorists'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE formula_head_temp ADD Colorists nvarchar(50) null ");
 
                 }
 

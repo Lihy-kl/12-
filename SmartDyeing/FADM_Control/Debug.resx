@@ -3180,6 +3180,78 @@
   <data name="&gt;&gt;grp_out.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="RdoPHTest.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RdoPHTest.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
+  </data>
+  <data name="RdoPHTest.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RdoPHTest.Location" type="System.Drawing.Point, System.Drawing">
+    <value>249, 201</value>
+  </data>
+  <data name="RdoPHTest.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="RdoPHTest.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 23</value>
+  </data>
+  <data name="RdoPHTest.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="RdoPHTest.Text" xml:space="preserve">
+    <value>PH测量液</value>
+  </data>
+  <data name="&gt;&gt;RdoPHTest.Name" xml:space="preserve">
+    <value>RdoPHTest</value>
+  </data>
+  <data name="&gt;&gt;RdoPHTest.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RdoPHTest.Parent" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;RdoPHTest.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="RdoPH.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RdoPH.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 14.25pt</value>
+  </data>
+  <data name="RdoPH.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RdoPH.Location" type="System.Drawing.Point, System.Drawing">
+    <value>364, 201</value>
+  </data>
+  <data name="RdoPH.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="RdoPH.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 23</value>
+  </data>
+  <data name="RdoPH.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="RdoPH.Text" xml:space="preserve">
+    <value>PH计</value>
+  </data>
+  <data name="&gt;&gt;RdoPH.Name" xml:space="preserve">
+    <value>RdoPH</value>
+  </data>
+  <data name="&gt;&gt;RdoPH.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RdoPH.Parent" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;RdoPH.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="RdoSupportCover.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -3214,7 +3286,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;RdoSupportCover.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="RdoExtraction.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3250,7 +3322,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;RdoExtraction.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="RdoStandBy.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3286,7 +3358,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;RdoStandBy.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="RdoAbs.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3322,7 +3394,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;RdoAbs.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="RdoWash.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3358,7 +3430,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;RdoWash.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="button4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -3385,7 +3457,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;button4.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="button3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -3412,7 +3484,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;button3.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="button2.Location" type="System.Drawing.Point, System.Drawing">
     <value>27, 442</value>
@@ -3436,7 +3508,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;button2.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="RdoWetClamp.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3472,7 +3544,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;RdoWetClamp.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="RdoDryClamp.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3508,7 +3580,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;RdoDryClamp.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="RdoWetCloth.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3544,7 +3616,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;RdoWetCloth.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>12</value>
   </data>
   <data name="RdoDryCloth.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3580,7 +3652,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;RdoDryCloth.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>13</value>
   </data>
   <data name="RdoStress.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3616,7 +3688,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;RdoStress.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>14</value>
   </data>
   <data name="RdoDecompression.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3649,7 +3721,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;RdoDecompression.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>15</value>
   </data>
   <data name="RdoBalance.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3682,7 +3754,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;RdoBalance.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>16</value>
   </data>
   <data name="RdoCup.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3715,7 +3787,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;RdoCup.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>17</value>
   </data>
   <data name="RdoBottle.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3748,7 +3820,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;RdoBottle.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>18</value>
   </data>
   <data name="BtnStartMove.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
@@ -3778,7 +3850,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;BtnStartMove.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>19</value>
   </data>
   <data name="TxtNum.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>
@@ -3808,7 +3880,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;TxtNum.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>20</value>
   </data>
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3844,7 +3916,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>21</value>
   </data>
   <data name="groupBox5.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 14.25pt</value>

@@ -1065,8 +1065,8 @@ namespace SmartDyeing.FADM_Auto
                 {
                     Communal._dic_cup_bottle.Remove(Convert.ToInt32(dr["CupNum"]));
                 }
-
-                MyModbusFun.SetBatchStart();
+                if (!FADM_Object.Communal._b_isJustShowInfo && !FADM_Object.Communal._b_isUseBrewOnly)
+                    MyModbusFun.SetBatchStart();
 
                 Communal._b_isAllowDrip = true;
 
@@ -1091,7 +1091,8 @@ namespace SmartDyeing.FADM_Auto
                 //回零               
                 string s_homeErr = "";
 
-                MyModbusFun.Reset();
+                if (!FADM_Object.Communal._b_isJustShowInfo && !FADM_Object.Communal._b_isUseBrewOnly)
+                    MyModbusFun.Reset();
 
                 //if (Lib_Card.Configure.Parameter.Machine_Type == 0 && Lib_Card.Configure.Parameter.Machine_Type_Lv == 1)
                 //{
@@ -2097,6 +2098,7 @@ namespace SmartDyeing.FADM_Auto
                 //}
                 //else
                 //    Communal._b_isWaitDrip = false;
+                if (!FADM_Object.Communal._b_isJustShowInfo && !FADM_Object.Communal._b_isUseBrewOnly)
                 if (null == FADM_Object.Communal.ReadDyeThread())
                 {
                     i_mRes = MyModbusFun.TargetMove(3, 0, 1);
@@ -2109,7 +2111,8 @@ namespace SmartDyeing.FADM_Auto
                 //    MyModbusFun.Power(2);
                 //}
                 FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "抵达待机位");
-                MyModbusFun.SetBatchClose(); //设置关闭批次
+                if (!FADM_Object.Communal._b_isJustShowInfo && !FADM_Object.Communal._b_isUseBrewOnly)
+                    MyModbusFun.SetBatchClose(); //设置关闭批次
 
 
                
@@ -2819,9 +2822,27 @@ namespace SmartDyeing.FADM_Auto
                             Thread.Sleep(1);
                         }
 
-                        
+
                         if (2 == myAlarm._i_alarm_Choose)
+                        {
+                            //判断染色线程是否需要用机械手
+                            if (null != FADM_Object.Communal.ReadDyeThread())
+                            {
+                                FADM_Object.Communal.WriteDripWait(true);
+                                Communal._b_isWaitDrip = true;
+                                Communal._b_isAllowDrip = true;
+                                while (true)
+                                {
+                                    if (false == FADM_Object.Communal.ReadDripWait())
+                                        break;
+                                    Thread.Sleep(1);
+                                }
+                                Communal._b_isWaitDrip = false;
+                            }
+                            else
+                                Communal._b_isWaitDrip = false;
                             throw new Exception("收到退出消息");
+                        }
 
                         Communal._b_isAllowDrip = true;
 
@@ -3070,7 +3091,10 @@ namespace SmartDyeing.FADM_Auto
                 s_dripReserveFirst = dt_bottle_details.Rows[0]["DripReserveFirst"].ToString();
             }
             string s_unitOfAccount = "";
-
+            object lastUseTimeObj = dt_bottle_details.Rows[0]["LastUseTime"];
+            DateTime dateTime = (lastUseTimeObj == DBNull.Value || lastUseTimeObj == null)
+                ? DateTime.Now
+                : Convert.ToDateTime(lastUseTimeObj);
 
 
             Dictionary<int, int> dic_pulse = new Dictionary<int, int>();
@@ -3426,6 +3450,7 @@ namespace SmartDyeing.FADM_Auto
             o._s_unitOfAccount = s_unitOfAccount;
             o._dic_pulse = dic_pulse;
             o._dic_water = dic_water;
+            o._lastUseTime = dateTime;
             if (_b_isAloneDripReserve)
             {
                 if (s_dripReserveFirst == "0")
@@ -6637,7 +6662,7 @@ namespace SmartDyeing.FADM_Auto
                     iInfusionPulse1 = iZPulse1 - iAdjust;
 
                 FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "废液注液启动(" + iInfusionPulse1 + ")");
-                i_mRes = MyModbusFun.Shove(iInfusionPulse1, 0);
+                i_mRes = MyModbusFun.Shove(iInfusionPulse1, 0, i_minBottleNo);
                 if (-2 == i_mRes)
                     throw new Exception("收到退出消息");
                 FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "废液注液完成");
@@ -6746,7 +6771,7 @@ namespace SmartDyeing.FADM_Auto
 
 
                 FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "注液启动(" + i_infusionPulse + ")");
-                i_mRes = MyModbusFun.Shove(i_infusionPulse, 0);
+                i_mRes = MyModbusFun.Shove(i_infusionPulse, 0, i_minBottleNo);
                 if (-2 == i_mRes)
                     throw new Exception("收到退出消息");
 
@@ -6778,7 +6803,7 @@ namespace SmartDyeing.FADM_Auto
                 }
 
                 FADM_Object.Communal._fadmSqlserver.InsertRun("RobotHand", "注液启动(" + i_infusionPulse + ")");
-                i_mRes = MyModbusFun.Shove(i_infusionPulse,1);
+                i_mRes = MyModbusFun.Shove(i_infusionPulse,1, i_minBottleNo);
                 if (-2 == i_mRes)
                     throw new Exception("收到退出消息");
             }
@@ -8410,7 +8435,25 @@ namespace SmartDyeing.FADM_Auto
 
 
                             if (2 == myAlarm._i_alarm_Choose)
+                            {
+                                //判断染色线程是否需要用机械手
+                                if (null != FADM_Object.Communal.ReadDyeThread())
+                                {
+                                    FADM_Object.Communal.WriteDripWait(true);
+                                    Communal._b_isWaitDrip = true;
+                                    Communal._b_isAllowDrip = true;
+                                    while (true)
+                                    {
+                                        if (false == FADM_Object.Communal.ReadDripWait())
+                                            break;
+                                        Thread.Sleep(1);
+                                    }
+                                    Communal._b_isWaitDrip = false;
+                                }
+                                else
+                                    Communal._b_isWaitDrip = false;
                                 throw new Exception("收到退出消息");
+                            }
 
                             Communal._b_isAllowDrip = true;
 
@@ -8601,7 +8644,25 @@ namespace SmartDyeing.FADM_Auto
 
 
                             if (2 == myAlarm._i_alarm_Choose)
+                            {
+                                //判断染色线程是否需要用机械手
+                                if (null != FADM_Object.Communal.ReadDyeThread())
+                                {
+                                    FADM_Object.Communal.WriteDripWait(true);
+                                    Communal._b_isWaitDrip = true;
+                                    Communal._b_isAllowDrip = true;
+                                    while (true)
+                                    {
+                                        if (false == FADM_Object.Communal.ReadDripWait())
+                                            break;
+                                        Thread.Sleep(1);
+                                    }
+                                    Communal._b_isWaitDrip = false;
+                                }
+                                else
+                                    Communal._b_isWaitDrip = false;
                                 throw new Exception("收到退出消息");
+                            }
 
                             Communal._b_isAllowDrip = true;
 
@@ -8751,7 +8812,10 @@ namespace SmartDyeing.FADM_Auto
                 s_dripReserveFirst = dt_bottle_details.Rows[0]["DripReserveFirst"].ToString();
             }
 
-
+            object lastUseTimeObj = dt_bottle_details.Rows[0]["LastUseTime"];
+            DateTime dateTime = (lastUseTimeObj == DBNull.Value || lastUseTimeObj == null)
+                ? DateTime.Now
+                : Convert.ToDateTime(lastUseTimeObj);
             Dictionary<int, int> dic_pulse = new Dictionary<int, int>();
             Dictionary<int, double> dic_weight = new Dictionary<int, double>();
             Dictionary<int, double> dic_water = new Dictionary<int, double>();
@@ -9114,6 +9178,7 @@ namespace SmartDyeing.FADM_Auto
             o._s_unitOfAccount = s_unitOfAccount;
             o._dic_pulse= dic_pulse;
             o._dic_water =dic_water;
+            o._lastUseTime = dateTime;
             if (_b_isAloneDripReserve)
             {
                 if (s_dripReserveFirst == "0")
@@ -10620,7 +10685,8 @@ namespace SmartDyeing.FADM_Auto
         //滴液完成    
         label6:
             //关闭失能
-            MyModbusFun.Power(2);
+            if (!FADM_Object.Communal._b_isJustShowInfo && !FADM_Object.Communal._b_isUseBrewOnly)
+                MyModbusFun.Power(2);
             FADM_Object.Communal.WriteDripWait(true);
             Communal._b_isAllowDrip = false;
             if (!b_chooseNo)
@@ -12193,7 +12259,10 @@ namespace SmartDyeing.FADM_Auto
             {
                 s_dripReserveFirst = dt_bottle_details.Rows[0]["DripReserveFirst"].ToString();
             }
-
+            object lastUseTimeObj = dt_bottle_details.Rows[0]["LastUseTime"];
+            DateTime dateTime = (lastUseTimeObj == DBNull.Value || lastUseTimeObj == null)
+                ? DateTime.Now
+                : Convert.ToDateTime(lastUseTimeObj);
 
             Dictionary<int, int> dic_pulse = new Dictionary<int, int>();
             Dictionary<int, double> dic_weight = new Dictionary<int, double>();
@@ -12555,6 +12624,7 @@ namespace SmartDyeing.FADM_Auto
             o._s_unitOfAccount = s_unitOfAccount;
             o._dic_pulse = dic_pulse;
             o._dic_water = dic_water;
+            o._lastUseTime = dateTime;
             if (_b_isAloneDripReserve)
             {
                 if (s_dripReserveFirst == "0")
