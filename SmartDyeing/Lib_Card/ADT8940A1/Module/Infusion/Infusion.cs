@@ -19,7 +19,8 @@
         /// </summary>
         /// <param name="iSyringeType">0：小针筒；1：大针筒</param>
         /// <param name="iPulse">注液后脉冲</param>
+        /// <param name="b">是否需要调用收接液盘</param>
         /// <returns>0：正常；-1：异常；-2；收到退出消息</returns>
-        public abstract int LiquidInfusion(int iSyringeType, int iPulse);
+        public abstract int LiquidInfusion(int iSyringeType, int iPulse,bool b);
     }
 }

@@ -1785,10 +1785,20 @@ namespace SmartDyeing.FADM_Object
                             i_xPules = Lib_Card.Configure.Parameter.Coordinate_Abs1_X;
                             i_yPules = Lib_Card.Configure.Parameter.Coordinate_Abs1_Y;
                         }
-                        else
+                        else if (i_no == 2)
                         {
                             i_xPules = Lib_Card.Configure.Parameter.Coordinate_Abs2_X;
                             i_yPules = Lib_Card.Configure.Parameter.Coordinate_Abs2_Y;
+                        }
+                        else if (i_no == 3)
+                        {
+                            i_xPules = Lib_Card.Configure.Parameter.Coordinate_Abs3_X;
+                            i_yPules = Lib_Card.Configure.Parameter.Coordinate_Abs3_Y;
+                        }
+                        else if (i_no == 4)
+                        {
+                            i_xPules = Lib_Card.Configure.Parameter.Coordinate_Abs4_X;
+                            i_yPules = Lib_Card.Configure.Parameter.Coordinate_Abs4_Y;
                         }
                         break;
                     case 11:
@@ -3417,10 +3427,20 @@ namespace SmartDyeing.FADM_Object
                             i_xPules = Lib_Card.Configure.Parameter.Coordinate_Abs1_X;
                             i_yPules = Lib_Card.Configure.Parameter.Coordinate_Abs1_Y;
                         }
-                        else
+                        else if (i_no == 2)
                         {
                             i_xPules = Lib_Card.Configure.Parameter.Coordinate_Abs2_X;
                             i_yPules = Lib_Card.Configure.Parameter.Coordinate_Abs2_Y;
+                        }
+                        else if (i_no == 3)
+                        {
+                            i_xPules = Lib_Card.Configure.Parameter.Coordinate_Abs3_X;
+                            i_yPules = Lib_Card.Configure.Parameter.Coordinate_Abs3_Y;
+                        }
+                        else if (i_no == 4)
+                        {
+                            i_xPules = Lib_Card.Configure.Parameter.Coordinate_Abs4_X;
+                            i_yPules = Lib_Card.Configure.Parameter.Coordinate_Abs4_Y;
                         }
                         break;
                     case 11:
@@ -5024,10 +5044,20 @@ namespace SmartDyeing.FADM_Object
                                 i_xPules = Lib_Card.Configure.Parameter.Coordinate_Abs1_X;
                                 i_yPules = Lib_Card.Configure.Parameter.Coordinate_Abs1_Y;
                             }
-                            else
+                            else if (i_no == 2)
                             {
                                 i_xPules = Lib_Card.Configure.Parameter.Coordinate_Abs2_X;
                                 i_yPules = Lib_Card.Configure.Parameter.Coordinate_Abs2_Y;
+                            }
+                            else if (i_no == 3)
+                            {
+                                i_xPules = Lib_Card.Configure.Parameter.Coordinate_Abs3_X;
+                                i_yPules = Lib_Card.Configure.Parameter.Coordinate_Abs3_Y;
+                            }
+                            else if (i_no == 4)
+                            {
+                                i_xPules = Lib_Card.Configure.Parameter.Coordinate_Abs4_X;
+                                i_yPules = Lib_Card.Configure.Parameter.Coordinate_Abs4_Y;
                             }
                             break;
                         case 11:
@@ -5733,7 +5763,7 @@ namespace SmartDyeing.FADM_Object
                 OpenOrCloseBear();
                 Lib_Card.ADT8940A1.Module.Infusion.Infusion infusion;
                 infusion = new Lib_Card.ADT8940A1.Module.Infusion.Infusion_Up();
-                int iMRes = infusion.LiquidInfusion(i_syringeType, i_extract_Pulse);
+                int iMRes = infusion.LiquidInfusion(i_syringeType, i_extract_Pulse,true);
                 if (-1 == iMRes)
                     throw new Exception("驱动异常");
                 else if (-2 == iMRes)
@@ -5842,9 +5872,10 @@ namespace SmartDyeing.FADM_Object
                 CylinderMo cylinderMo = new CylinderMo();
                 if (-1 == cylinderMo.CylinderSlow(1,7))
                     return -1;
+                Thread.Sleep(2000);
                 Lib_Card.ADT8940A1.Module.Infusion.Infusion infusion;
                 infusion = new Lib_Card.ADT8940A1.Module.Infusion.Infusion_Up();
-                int iMRes = infusion.LiquidInfusion(i_syringeType, i_extract_Pulse);
+                int iMRes = infusion.LiquidInfusion(i_syringeType, i_extract_Pulse, false);
                 if (-1 == iMRes)
                     throw new Exception("驱动异常");
                 else if (-2 == iMRes)
@@ -5952,7 +5983,7 @@ namespace SmartDyeing.FADM_Object
                 OpenOrCloseBear();
                 Lib_Card.ADT8940A1.Module.Infusion.Infusion infusion;
                 infusion = new Lib_Card.ADT8940A1.Module.Infusion.Infusion_Up();
-                int iMRes = infusion.LiquidInfusion(i_syringeType, i_extract_Pulse);
+                int iMRes = infusion.LiquidInfusion(i_syringeType, i_extract_Pulse, true);
                 if (-1 == iMRes)
                     throw new Exception("驱动异常");
                 else if (-2 == iMRes)
@@ -8045,6 +8076,22 @@ namespace SmartDyeing.FADM_Object
             }
 
         }
+
+        ///// <summary>
+        ///// 计算加溶解剂时间
+        ///// </summary>
+        ///// <returns></returns>
+        //public static double GetDissolvingTime(double d_water)
+        //{
+        //    //计算加溶解剂时间
+        //    double d_blTime = 0;
+
+
+        //    d_blTime = d_water / Lib_Card.Configure.Parameter.Correcting_Dissolving_Value;
+
+
+        //    return d_blTime;
+        //}
 
         /// <summary>
         /// 计算加水时间

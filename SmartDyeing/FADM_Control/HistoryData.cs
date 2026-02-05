@@ -109,13 +109,23 @@ namespace SmartDyeing.FADM_Control
             // 计算适配的字体大小
             float fontSize = GetAdaptiveFontSize(cellText, cellWidth, e.CellStyle.Font.FontFamily);
 
-            // 应用新字体（避免重复设置）
-            if (Math.Abs(e.CellStyle.Font.Size - fontSize) > 0.1)
+            // 创建一个临时字体对象（不修改全局样式）
+            using (Font tempFont = new Font(e.CellStyle.Font.FontFamily, fontSize, FontStyle.Regular))
             {
-                e.CellStyle.Font = new Font(e.CellStyle.Font.FontFamily, fontSize, FontStyle.Regular);
-                // 刷新单元格（确保样式生效）
-                dgv_Details.InvalidateCell(e.ColumnIndex, e.RowIndex);
+                // 自己绘制文本，不依赖 DataGridView 默认绘制
+                e.PaintBackground(e.CellBounds, true);
+                TextRenderer.DrawText(e.Graphics, cellText, tempFont, e.CellBounds,
+                                      e.CellStyle.ForeColor, TextFormatFlags.Left | TextFormatFlags.VerticalCenter);
+                e.Handled = true; // 阻止默认绘制
             }
+
+            //// 应用新字体（避免重复设置）
+            //if (Math.Abs(e.CellStyle.Font.Size - fontSize) > 0.1)
+            //{
+            //    e.CellStyle.Font = new Font(e.CellStyle.Font.FontFamily, fontSize, FontStyle.Regular);
+            //    // 刷新单元格（确保样式生效）
+            //    dgv_Details.InvalidateCell(e.ColumnIndex, e.RowIndex);
+            //}
         }
 
         /// <summary>
@@ -184,7 +194,7 @@ namespace SmartDyeing.FADM_Control
 
                 this.Load += MyUserControl_Load;
 
-                // 绑定事件
+                //// 绑定事件
                 dgv_Details.CellPainting += dgv_Details_CellPainting;
                 dgv_Details.CellValueChanged += dgv_Details_CellValueChanged;
                 dgv_Details.Resize += dgv_Details_Resize;
@@ -573,7 +583,7 @@ namespace SmartDyeing.FADM_Control
             }
             else
             {
-                string[] sa_lineName = { "ProcessCode", "StepNumber", "name", "DyeingAuxiliariesCode", "DyeingAuxiliariesName", "DosageOfFormula", "Units", "BottleNumber", "SetConcentration", "ActualConcentration", "TargetVolume", "ActualVolume", "TargetTemperature", "Rate", "Time", "TargetWaterAddition", "Speed", "Time-on", "Duration" };
+                string[] sa_lineName = { "ProcessCode", "StepNumber", "name", "DyeCode", "DyeName", "Dosage", "Units", "Bottle", "SetCon", "ActualCon", "TarVolume", "ActVolume", "TarTempe", "Rate", "Time", "TarWater", "Speed", "Time-on", "Duration" };
                 for (int i = 0; i < sa_lineName.Count(); i++)
                 {
                     dgv_Details.Columns.Add("", "");
@@ -1497,7 +1507,9 @@ namespace SmartDyeing.FADM_Control
                     }
                 }
 
+
                 dgv_Details.ClearSelection();
+
             }
             catch (Exception ex)
             {

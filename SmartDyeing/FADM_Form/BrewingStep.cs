@@ -70,6 +70,14 @@ namespace SmartDyeing.FADM_Form
                 txt_Ratio.Enabled = false;
             }
 
+            if (1 != Lib_Card.Configure.Parameter.Machine_Opening_Type)
+            {
+                cbo_TechnologyName.Items.Remove("加补充剂");
+                cbo_TechnologyName.Items.Remove("加温水");
+                cbo_TechnologyName.Items.Remove("Add supplements");
+                cbo_TechnologyName.Items.Remove("Add warm water");
+            }
+
         }
 
         //输入检查

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -214,6 +215,7 @@ namespace SmartDyeing
             Process instance = RunningInstance();
             if (instance == null)
             {
+                Lib_Log.Log.writeLogException("currentPath 判断空");
                 string sLanguage = Lib_Card.Configure.Parameter.Other_Language  == 0 ? "zh":"en";
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo(sLanguage);
 
@@ -270,22 +272,36 @@ namespace SmartDyeing
         {
             Process current = Process.GetCurrentProcess();
             Process[] processes = Process.GetProcessesByName(current.ProcessName);
+
             foreach (Process process in processes)
             {
-                if (process.Id != current.Id)
+                if (process.Id == current.Id) continue;
+                try
                 {
-#pragma warning disable CS8602 // 解引用可能出现空引用。
-                    if (Assembly.GetExecutingAssembly().Location.Replace("/", "\\") != current.MainModule.FileName)
+                    // 优化：统一路径格式 + 忽略大小写 + 容错
+                    string currentPath = Path.GetFullPath(current.MainModule.FileName).ToLowerInvariant();
+                    string processPath = Path.GetFullPath(process.MainModule.FileName).ToLowerInvariant();
+
+                    // 对比时忽略路径分隔符（/和\）
+                    currentPath = currentPath.Replace("/", "\\");
+                    processPath = processPath.Replace("/", "\\");
+
+                    if (currentPath == processPath)
                     {
-                        continue;
+                        Lib_Log.Log.writeLogException("currentPath" + current.StartTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                        Lib_Log.Log.writeLogException("processPath" + process.StartTime.ToString("yyyy-MM-dd HH:mm:ss"));
+                        // 等待进程加载窗口（解决句柄无效问题）
+                        process.WaitForInputIdle(2000); // 最多等2秒
+                        return process;
                     }
-#pragma warning restore CS8602 // 解引用可能出现空引用。
-                    return process;
+                }
+                catch (Exception)
+                {
+                    // 无权限读取其他进程信息时，跳过
+                    continue;
                 }
             }
-#pragma warning disable CS8603 // 可能返回 null 引用。
             return null;
-#pragma warning restore CS8603 // 可能返回 null 引用。
         }
 
         /// <summary> 

@@ -2171,6 +2171,7 @@ namespace SmartDyeing.FADM_Auto
                                     {
 
                                         case "加大冷水":
+                                        case "Add cold water":
                                             //1
 
                                             P_int_no_1[j] = 1;
@@ -2179,6 +2180,7 @@ namespace SmartDyeing.FADM_Auto
                                             break;
 
                                         case "加小冷水":
+                                        case "Add a little cold water":
                                             //2
                                             P_int_no_1[j] = 2;
                                             P_int_data_1[j] = P_int_data;
@@ -2186,6 +2188,7 @@ namespace SmartDyeing.FADM_Auto
                                             break;
 
                                         case "加热水":
+                                        case "Add hot water":
                                             //3
                                             P_int_no_1[j] = 3;
                                             P_int_data_1[j] = P_int_data;
@@ -2193,12 +2196,14 @@ namespace SmartDyeing.FADM_Auto
                                             break;
 
                                         case "手动加染助剂":
+                                        case "Add dyeing auxiliaries manually":
                                             //4
                                             P_int_no_1[j] = 4;
                                             P_int_data_1[j] = P_int_data;
 
                                             break;
                                         case "搅拌":
+                                        case "Stir":
                                             //5
                                             P_int_no_1[j] = 5;
                                             P_int_data_1[j] = P_int_data;
@@ -2901,6 +2906,7 @@ namespace SmartDyeing.FADM_Auto
                                     {
 
                                         case "加大冷水":
+                                        case "Add cold water":
                                             //1
 
                                             P_int_no_1[j] = 1;
@@ -2909,6 +2915,7 @@ namespace SmartDyeing.FADM_Auto
                                             break;
 
                                         case "加小冷水":
+                                        case "Add a little cold water":
                                             //2
                                             P_int_no_1[j] = 2;
                                             P_int_data_1[j] = P_int_data;
@@ -2916,6 +2923,7 @@ namespace SmartDyeing.FADM_Auto
                                             break;
 
                                         case "加热水":
+                                        case "Add hot water":
                                             //3
                                             P_int_no_1[j] = 3;
                                             P_int_data_1[j] = P_int_data;
@@ -2923,12 +2931,14 @@ namespace SmartDyeing.FADM_Auto
                                             break;
 
                                         case "手动加染助剂":
+                                        case "Add dyeing auxiliaries manually":
                                             //4
                                             P_int_no_1[j] = 4;
                                             P_int_data_1[j] = P_int_data;
 
                                             break;
                                         case "搅拌":
+                                        case "Stir":
                                             //5
                                             P_int_no_1[j] = 5;
                                             P_int_data_1[j] = P_int_data;

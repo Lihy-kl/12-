@@ -9,11 +9,12 @@ namespace Lib_Card.ADT8940A1.Module.Infusion
 {
     public class Infusion_Mid : Infusion
     {
-        public override int LiquidInfusion(int iSyringeType, int iPulse)
+        public override int LiquidInfusion(int iSyringeType, int iPulse, bool b)
         {
             OutPut.Tray.Tray tray = new OutPut.Tray.Tray_Condition();
-            if (-1 == tray.Tray_Off())
-                return -1;
+            if (b)
+                if (-1 == tray.Tray_Off())
+                    return -1;
 
             OutPut.Cylinder.Cylinder cylinder = new OutPut.Cylinder.DualControl.Cylinder_Condition();
             if (-1 == cylinder.CylinderMid())

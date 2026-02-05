@@ -147,10 +147,13 @@
     <value>AddBatches(F4)</value>
   </data>
   <data name="txt_ClothType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1169, 28</value>
+    <value>930, 75</value>
+  </data>
+  <data name="txt_ClothType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>232, 29</value>
   </data>
   <data name="txt_CreateTime.Location" type="System.Drawing.Point, System.Drawing">
-    <value>893, 146</value>
+    <value>825, 172</value>
   </data>
   <data name="txt_CreateTime.Size" type="System.Drawing.Size, System.Drawing">
     <value>349, 29</value>
@@ -264,9 +267,6 @@
   <data name="label6.Text" xml:space="preserve">
     <value>TotalNumberOfDroplets:</value>
   </data>
-  <data name="grp_DropRecord.Text" xml:space="preserve">
-    <value>DropletRecord</value>
-  </data>
   <data name="btn_Record_Select.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 10.5pt</value>
   </data>
@@ -281,6 +281,9 @@
   </data>
   <data name="btn_Record_Select.Text" xml:space="preserve">
     <value>Query</value>
+  </data>
+  <data name="grp_DropRecord.Text" xml:space="preserve">
+    <value>DropletRecord</value>
   </data>
   <data name="btn_Stop.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 10.5pt</value>
@@ -301,10 +304,10 @@
     <value>Start(F10)</value>
   </data>
   <data name="group.Location" type="System.Drawing.Point, System.Drawing">
-    <value>591, 29</value>
+    <value>185, 76</value>
   </data>
   <data name="group.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 27</value>
+    <value>205, 27</value>
   </data>
   <data name="label16.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -316,7 +319,7 @@
     <value>NoControl</value>
   </data>
   <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
-    <value>421, 34</value>
+    <value>15, 81</value>
   </data>
   <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
     <value>175, 16</value>
@@ -325,10 +328,10 @@
     <value>CombinationOfRecipes:</value>
   </data>
   <data name="txt_Operator.Location" type="System.Drawing.Point, System.Drawing">
-    <value>95, 146</value>
+    <value>277, 172</value>
   </data>
   <data name="txt_Non_AnhydrationWR.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1169, 87</value>
+    <value>101, 173</value>
   </data>
   <data name="lab_Non_AnhydrationWR.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -340,7 +343,7 @@
     <value>NoControl</value>
   </data>
   <data name="lab_Non_AnhydrationWR.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1074, 92</value>
+    <value>6, 178</value>
   </data>
   <data name="lab_Non_AnhydrationWR.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 16</value>
@@ -385,7 +388,7 @@
     <value>Operator:</value>
   </data>
   <data name="txt_CupCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>506, 146</value>
+    <value>617, 172</value>
   </data>
   <data name="label14.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -406,19 +409,19 @@
     <value>EndDate:</value>
   </data>
   <data name="txt_TotalWeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>931, 87</value>
+    <value>1047, 123</value>
   </data>
   <data name="txt_TotalWeight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 29</value>
+    <value>125, 29</value>
   </data>
   <data name="txt_BathRatio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>699, 87</value>
+    <value>803, 123</value>
   </data>
   <data name="txt_BathRatio.Size" type="System.Drawing.Size, System.Drawing">
     <value>82, 29</value>
   </data>
   <data name="txt_ClothWeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>522, 87</value>
+    <value>626, 123</value>
   </data>
   <data name="txt_ClothWeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>74, 29</value>
@@ -430,7 +433,7 @@
     <value>NoControl</value>
   </data>
   <data name="chk_AddWaterChoose.Location" type="System.Drawing.Point, System.Drawing">
-    <value>310, 91</value>
+    <value>433, 127</value>
   </data>
   <data name="chk_AddWaterChoose.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 20</value>
@@ -439,22 +442,28 @@
     <value>AddWater</value>
   </data>
   <data name="txt_Customer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 87</value>
+    <value>109, 123</value>
   </data>
   <data name="txt_Customer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>209, 29</value>
+    <value>318, 29</value>
   </data>
   <data name="txt_FormulaName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>893, 28</value>
+    <value>487, 75</value>
   </data>
   <data name="txt_FormulaName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 29</value>
+    <value>279, 29</value>
   </data>
   <data name="txt_State.Location" type="System.Drawing.Point, System.Drawing">
-    <value>289, 28</value>
+    <value>550, 28</value>
+  </data>
+  <data name="txt_State.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 29</value>
   </data>
   <data name="txt_VersionNum.Location" type="System.Drawing.Point, System.Drawing">
-    <value>252, 28</value>
+    <value>499, 28</value>
+  </data>
+  <data name="txt_VersionNum.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 29</value>
   </data>
   <data name="txt_FormulaCode.Location" type="System.Drawing.Point, System.Drawing">
     <value>100, 28</value>
@@ -469,7 +478,7 @@
     <value>NoControl</value>
   </data>
   <data name="lab_CreateTime.Location" type="System.Drawing.Point, System.Drawing">
-    <value>802, 152</value>
+    <value>734, 178</value>
   </data>
   <data name="lab_CreateTime.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 16</value>
@@ -487,7 +496,7 @@
     <value>NoControl</value>
   </data>
   <data name="lab_CupCode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>421, 152</value>
+    <value>532, 178</value>
   </data>
   <data name="lab_CupCode.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 16</value>
@@ -505,7 +514,7 @@
     <value>NoControl</value>
   </data>
   <data name="lab_Operator.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 152</value>
+    <value>185, 178</value>
   </data>
   <data name="lab_Operator.Size" type="System.Drawing.Size, System.Drawing">
     <value>79, 16</value>
@@ -523,7 +532,7 @@
     <value>NoControl</value>
   </data>
   <data name="lab_TotalWeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>802, 93</value>
+    <value>906, 129</value>
   </data>
   <data name="lab_TotalWeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>135, 16</value>
@@ -541,7 +550,7 @@
     <value>NoControl</value>
   </data>
   <data name="lab_BathRatio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>606, 93</value>
+    <value>710, 129</value>
   </data>
   <data name="lab_BathRatio.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 16</value>
@@ -559,7 +568,7 @@
     <value>NoControl</value>
   </data>
   <data name="lab_ClothWeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>421, 93</value>
+    <value>525, 129</value>
   </data>
   <data name="lab_ClothWeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 16</value>
@@ -577,7 +586,7 @@
     <value>NoControl</value>
   </data>
   <data name="lab_Customer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 93</value>
+    <value>15, 129</value>
   </data>
   <data name="lab_Customer.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 16</value>
@@ -595,16 +604,13 @@
     <value>NoControl</value>
   </data>
   <data name="lab_ClothType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1026, 34</value>
+    <value>787, 81</value>
   </data>
   <data name="lab_ClothType.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 16</value>
   </data>
   <data name="lab_ClothType.Text" xml:space="preserve">
     <value>Fabric/Substrate:</value>
-  </data>
-  <data name="grp_FormulaData.Text" xml:space="preserve">
-    <value>FormulaInformation</value>
   </data>
   <data name="dataGridViewTextBoxColumn10.HeaderText" xml:space="preserve">
     <value>ID</value>
@@ -682,7 +688,7 @@
     <value>NoControl</value>
   </data>
   <data name="lab_FormulaName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>802, 34</value>
+    <value>396, 81</value>
   </data>
   <data name="lab_FormulaName.Size" type="System.Drawing.Size, System.Drawing">
     <value>95, 16</value>
@@ -708,6 +714,9 @@
   <data name="lab_FormulaCode.Text" xml:space="preserve">
     <value>RecipeCode:</value>
   </data>
+  <data name="grp_FormulaData.Text" xml:space="preserve">
+    <value>FormulaInformation</value>
+  </data>
   <data name="grp_BatchData.Text" xml:space="preserve">
     <value>BatchData</value>
   </data>
@@ -722,12 +731,6 @@
   </data>
   <data name="rdo_Browse_All.Text" xml:space="preserve">
     <value>ShowToday</value>
-  </data>
-  <data name="grp_FormulaBrowse.Size" type="System.Drawing.Size, System.Drawing">
-    <value>321, 982</value>
-  </data>
-  <data name="grp_FormulaBrowse.Text" xml:space="preserve">
-    <value>RecipeBrowsing</value>
   </data>
   <data name="txt_Browse_Operator.Location" type="System.Drawing.Point, System.Drawing">
     <value>91, 81</value>
@@ -794,6 +797,15 @@
   </data>
   <data name="rdo_Browse_NoDrop.Text" xml:space="preserve">
     <value>UndroppedLiquid</value>
+  </data>
+  <data name="grp_FormulaBrowse.Size" type="System.Drawing.Size, System.Drawing">
+    <value>321, 982</value>
+  </data>
+  <data name="grp_FormulaBrowse.Text" xml:space="preserve">
+    <value>RecipeBrowsing</value>
+  </data>
+  <data name="tsm_Delete.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 22</value>
   </data>
   <data name="tsm_Delete.Text" xml:space="preserve">
     <value>Delete</value>

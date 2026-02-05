@@ -13314,7 +13314,48 @@ namespace SmartDyeing.FADM_Control
                         //后处理杯号就发一个停止信号
                         else
                         {
-                            FADM_Object.Communal._lis_dripStopCup.Add(Convert.ToInt16(s_cup));
+                            //FADM_Object.Communal._lis_dripStopCup.Add(Convert.ToInt16(s_cup));
+
+                            //删除批次浏览表头资料
+                            s_sql = "DELETE FROM drop_head WHERE CupNum = '" + s_cup + "';";
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
+
+                            //删除批次浏览表详细资料
+                            s_sql = "DELETE FROM drop_details WHERE CupNum = '" + s_cup + "';";
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
+
+                            //删除批次浏览表详细资料
+                            s_sql = "DELETE FROM dye_details WHERE CupNum = '" + s_cup + "';";
+                            FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
+                            ////删除批次浏览表详细资料
+                            //s_sql = "DELETE FROM dye_details WHERE CupNum = '" + s_temp + "';";
+                            //FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
+                            //更新杯号使用情况
+                            s_sql = "Update cup_details set IsUsing = 0,Statues='待机' where CupNum = '" + s_cup + "';";
+                            if (FADM_Object.Communal._b_isJustShowInfo)
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData_show(s_sql);
+                            }
+                            else
+                            {
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+                            }
                         }
                     }
 

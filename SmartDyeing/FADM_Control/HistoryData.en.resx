@@ -130,8 +130,21 @@
   <data name="txt_Record_Operator.Location" type="System.Drawing.Point, System.Drawing">
     <value>105, 63</value>
   </data>
-  <data name="grp_DropRecord.Text" xml:space="preserve">
-    <value>DropletRecord</value>
+  <data name="Btn_PDF.Font" type="System.Drawing.Font, System.Drawing">
+    <value>宋体, 10.5pt</value>
+  </data>
+  <data name="Btn_PDF.Location" type="System.Drawing.Point, System.Drawing">
+    <value>445, 174</value>
+  </data>
+  <data name="Btn_PDF.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 29</value>
+  </data>
+  <data name="Btn_PDF.Text" xml:space="preserve">
+    <value>Export_PDF</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Btn_PDF.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="btn_Record_Print.Font" type="System.Drawing.Font, System.Drawing">
     <value>宋体, 10.5pt</value>
@@ -142,7 +155,6 @@
   <data name="btn_Record_Print.Text" xml:space="preserve">
     <value>Print</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="txt_Record_CupNum.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -305,6 +317,9 @@
   </data>
   <data name="dgv_DropRecord.Size" type="System.Drawing.Size, System.Drawing">
     <value>551, 685</value>
+  </data>
+  <data name="grp_DropRecord.Text" xml:space="preserve">
+    <value>DropletRecord</value>
   </data>
   <data name="txt_Operator.Location" type="System.Drawing.Point, System.Drawing">
     <value>289, 121</value>

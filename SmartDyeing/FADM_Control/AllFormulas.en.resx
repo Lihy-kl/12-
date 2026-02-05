@@ -339,10 +339,10 @@
     <value>ID/Name</value>
   </data>
   <data name="dataGridViewTextBoxColumn56.HeaderText" xml:space="preserve">
-    <value>DyeingAuxiliariesCode</value>
+    <value>DyeCode</value>
   </data>
   <data name="dataGridViewTextBoxColumn57.HeaderText" xml:space="preserve">
-    <value>DosageOfFormula</value>
+    <value>Dosage</value>
   </data>
   <data name="dataGridViewTextBoxColumn58.HeaderText" xml:space="preserve">
     <value>Units</value>
@@ -354,16 +354,16 @@
     <value>SetConcentration</value>
   </data>
   <data name="dataGridViewTextBoxColumn60.HeaderText" xml:space="preserve">
-    <value>ActualConcentration</value>
+    <value>ActCon</value>
   </data>
   <data name="dataGridViewTextBoxColumn61.HeaderText" xml:space="preserve">
-    <value>DyeingAuxiliariesName</value>
+    <value>DyeName</value>
   </data>
   <data name="dataGridViewTextBoxColumn62.HeaderText" xml:space="preserve">
-    <value>TargetVolume</value>
+    <value>TarVolume</value>
   </data>
   <data name="dataGridViewTextBoxColumn63.HeaderText" xml:space="preserve">
-    <value>ActualVolume</value>
+    <value>ActVolume</value>
   </data>
   <data name="dataGridViewCheckBoxColumn7.HeaderText" xml:space="preserve">
     <value>Selecting</value>

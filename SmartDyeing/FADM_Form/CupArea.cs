@@ -295,7 +295,45 @@ namespace SmartDyeing.FADM_Form
                             }
                         }
                     }
+                    //16杯翻转缸
+                    else if (Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 4)
+                    {
+                        FADM_Control.SixteenBeater s = new SixteenBeater();
+                        panel1.Controls.Add(s);
 
+                        foreach (Control c1 in s.Controls)
+                        {
+                            if (c1 is GroupBox)
+                            {
+                                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                {
+                                    c1.Text = "一号染固色区";
+                                }
+                                else
+                                {
+
+                                    c1.Text = "No.1 dyeing and fixation area";
+                                }
+                                int i_n = 0;
+                                foreach (Control c2 in c1.Controls)
+                                {
+                                    if (c2 is SmartDyeing.FADM_Control.Cup)
+                                    {
+                                        ((SmartDyeing.FADM_Control.Cup)c2).Name = (Lib_Card.Configure.Parameter.Machine_Area1_CupMin + i_n).ToString();
+                                        ((SmartDyeing.FADM_Control.Cup)c2).NO = (Lib_Card.Configure.Parameter.Machine_Area1_CupMin + i_n).ToString();
+                                        ((SmartDyeing.FADM_Control.Cup)c2).Click += Cup_Click;
+                                        ((SmartDyeing.FADM_Control.Cup)c2).MouseLeave += Cup_MouseLeave;
+                                        _lis_cup.Add((SmartDyeing.FADM_Control.Cup)c2);
+                                        i_n++;
+                                    }
+                                    else if (c2 is Label)
+                                    {
+                                        _lis_lab.Add((Label)c2);
+                                    }
+                                }
+                            }
+                        }
+                    }
                     //4杯翻转缸
                     else if (Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 3)
                     {
@@ -368,6 +406,10 @@ namespace SmartDyeing.FADM_Form
                                     if (c2 is Label)
                                     {
                                         _lis_lab_abs.Add((Label)c2);
+                                    }
+                                    else if (c2 is Cup)
+                                    {
+                                        ((Cup)c2).Click += Cup_Click3;
                                     }
                                 }
                             }
@@ -556,7 +598,45 @@ namespace SmartDyeing.FADM_Form
                             }
                         }
                     }
+                    //16杯翻转缸
+                    else if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 4)
+                    {
+                        FADM_Control.SixteenBeater s = new SixteenBeater();
+                        panel2.Controls.Add(s);
 
+                        foreach (Control c1 in s.Controls)
+                        {
+                            if (c1 is GroupBox)
+                            {
+                                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                {
+                                    c1.Text = "二号染固色区";
+                                }
+                                else
+                                {
+
+                                    c1.Text = "No.2 dyeing and fixation area";
+                                }
+                                int i_n = 0;
+                                foreach (Control c2 in c1.Controls)
+                                {
+                                    if (c2 is SmartDyeing.FADM_Control.Cup)
+                                    {
+                                        ((SmartDyeing.FADM_Control.Cup)c2).Name = (Lib_Card.Configure.Parameter.Machine_Area2_CupMin + i_n).ToString();
+                                        ((SmartDyeing.FADM_Control.Cup)c2).NO = (Lib_Card.Configure.Parameter.Machine_Area2_CupMin + i_n).ToString();
+                                        ((SmartDyeing.FADM_Control.Cup)c2).Click += Cup_Click;
+                                        ((SmartDyeing.FADM_Control.Cup)c2).MouseLeave += Cup_MouseLeave;
+                                        _lis_cup.Add((SmartDyeing.FADM_Control.Cup)c2);
+                                        i_n++;
+                                    }
+                                    else if (c2 is Label)
+                                    {
+                                        _lis_lab.Add((Label)c2);
+                                    }
+                                }
+                            }
+                        }
+                    }
                     //4杯翻转缸
                     else if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 3)
                     {
@@ -624,6 +704,10 @@ namespace SmartDyeing.FADM_Form
                                     if (c2 is Label)
                                     {
                                         _lis_lab_abs.Add((Label)c2);
+                                    }
+                                    else if (c2 is Cup)
+                                    {
+                                        ((Cup)c2).Click += Cup_Click3;
                                     }
                                 }
                             }
@@ -815,7 +899,45 @@ namespace SmartDyeing.FADM_Form
                             }
                         }
                     }
+                    //16杯翻转缸
+                    else if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 4)
+                    {
+                        FADM_Control.SixteenBeater s = new SixteenBeater();
+                        panel3.Controls.Add(s);
 
+                        foreach (Control c1 in s.Controls)
+                        {
+                            if (c1 is GroupBox)
+                            {
+                                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                {
+                                    c1.Text = "三号染固色区";
+                                }
+                                else
+                                {
+
+                                    c1.Text = "No.3 dyeing and fixation area";
+                                }
+                                int i_n = 0;
+                                foreach (Control c2 in c1.Controls)
+                                {
+                                    if (c2 is SmartDyeing.FADM_Control.Cup)
+                                    {
+                                        ((SmartDyeing.FADM_Control.Cup)c2).Name = (Lib_Card.Configure.Parameter.Machine_Area3_CupMin + i_n).ToString();
+                                        ((SmartDyeing.FADM_Control.Cup)c2).NO = (Lib_Card.Configure.Parameter.Machine_Area3_CupMin + i_n).ToString();
+                                        ((SmartDyeing.FADM_Control.Cup)c2).Click += Cup_Click;
+                                        ((SmartDyeing.FADM_Control.Cup)c2).MouseLeave += Cup_MouseLeave;
+                                        _lis_cup.Add((SmartDyeing.FADM_Control.Cup)c2);
+                                        i_n++;
+                                    }
+                                    else if (c2 is Label)
+                                    {
+                                        _lis_lab.Add((Label)c2);
+                                    }
+                                }
+                            }
+                        }
+                    }
                     //4杯翻转缸
                     else if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 3)
                     {
@@ -883,6 +1005,10 @@ namespace SmartDyeing.FADM_Form
                                     if (c2 is Label)
                                     {
                                         _lis_lab_abs.Add((Label)c2);
+                                    }
+                                    else if (c2 is Cup)
+                                    {
+                                        ((Cup)c2).Click += Cup_Click3;
                                     }
                                 }
                             }
@@ -1071,7 +1197,45 @@ namespace SmartDyeing.FADM_Form
                             }
                         }
                     }
+                    //16杯翻转缸
+                    else if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 4)
+                    {
+                        FADM_Control.SixteenBeater s = new SixteenBeater();
+                        panel4.Controls.Add(s);
 
+                        foreach (Control c1 in s.Controls)
+                        {
+                            if (c1 is GroupBox)
+                            {
+                                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                {
+                                    c1.Text = "四号染固色区";
+                                }
+                                else
+                                {
+
+                                    c1.Text = "No.4 dyeing and fixation area";
+                                }
+                                int i_n = 0;
+                                foreach (Control c2 in c1.Controls)
+                                {
+                                    if (c2 is SmartDyeing.FADM_Control.Cup)
+                                    {
+                                        ((SmartDyeing.FADM_Control.Cup)c2).Name = (Lib_Card.Configure.Parameter.Machine_Area4_CupMin + i_n).ToString();
+                                        ((SmartDyeing.FADM_Control.Cup)c2).NO = (Lib_Card.Configure.Parameter.Machine_Area4_CupMin + i_n).ToString();
+                                        ((SmartDyeing.FADM_Control.Cup)c2).Click += Cup_Click;
+                                        ((SmartDyeing.FADM_Control.Cup)c2).MouseLeave += Cup_MouseLeave;
+                                        _lis_cup.Add((SmartDyeing.FADM_Control.Cup)c2);
+                                        i_n++;
+                                    }
+                                    else if (c2 is Label)
+                                    {
+                                        _lis_lab.Add((Label)c2);
+                                    }
+                                }
+                            }
+                        }
+                    }
                     //4杯翻转缸
                     else if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 3)
                     {
@@ -1139,6 +1303,10 @@ namespace SmartDyeing.FADM_Form
                                     if (c2 is Label)
                                     {
                                         _lis_lab_abs.Add((Label)c2);
+                                    }
+                                    else if (c2 is Cup)
+                                    {
+                                        ((Cup)c2).Click += Cup_Click3;
                                     }
                                 }
                             }
@@ -1327,7 +1495,45 @@ namespace SmartDyeing.FADM_Form
                             }
                         }
                     }
+                    //16杯翻转缸
+                    else if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 4)
+                    {
+                        FADM_Control.SixteenBeater s = new SixteenBeater();
+                        panel5.Controls.Add(s);
 
+                        foreach (Control c1 in s.Controls)
+                        {
+                            if (c1 is GroupBox)
+                            {
+                                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                {
+                                    c1.Text = "五号染固色区";
+                                }
+                                else
+                                {
+
+                                    c1.Text = "No.5 dyeing and fixation area";
+                                }
+                                int i_n = 0;
+                                foreach (Control c2 in c1.Controls)
+                                {
+                                    if (c2 is SmartDyeing.FADM_Control.Cup)
+                                    {
+                                        ((SmartDyeing.FADM_Control.Cup)c2).Name = (Lib_Card.Configure.Parameter.Machine_Area5_CupMin + i_n).ToString();
+                                        ((SmartDyeing.FADM_Control.Cup)c2).NO = (Lib_Card.Configure.Parameter.Machine_Area5_CupMin + i_n).ToString();
+                                        ((SmartDyeing.FADM_Control.Cup)c2).Click += Cup_Click;
+                                        ((SmartDyeing.FADM_Control.Cup)c2).MouseLeave += Cup_MouseLeave;
+                                        _lis_cup.Add((SmartDyeing.FADM_Control.Cup)c2);
+                                        i_n++;
+                                    }
+                                    else if (c2 is Label)
+                                    {
+                                        _lis_lab.Add((Label)c2);
+                                    }
+                                }
+                            }
+                        }
+                    }
                     //4杯翻转缸
                     else if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 3)
                     {
@@ -1394,6 +1600,10 @@ namespace SmartDyeing.FADM_Form
                                     if (c2 is Label)
                                     {
                                         _lis_lab_abs.Add((Label)c2);
+                                    }
+                                    else if (c2 is Cup)
+                                    {
+                                        ((Cup)c2).Click += Cup_Click3;
                                     }
                                 }
                             }
@@ -1582,7 +1792,45 @@ namespace SmartDyeing.FADM_Form
                             }
                         }
                     }
+                    //16杯翻转缸
+                    else if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 4)
+                    {
+                        FADM_Control.SixteenBeater s = new SixteenBeater();
+                        panel6.Controls.Add(s);
 
+                        foreach (Control c1 in s.Controls)
+                        {
+                            if (c1 is GroupBox)
+                            {
+                                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                                {
+                                    c1.Text = "六号染固色区";
+                                }
+                                else
+                                {
+
+                                    c1.Text = "No.6 dyeing and fixation area";
+                                }
+                                int i_n = 0;
+                                foreach (Control c2 in c1.Controls)
+                                {
+                                    if (c2 is SmartDyeing.FADM_Control.Cup)
+                                    {
+                                        ((SmartDyeing.FADM_Control.Cup)c2).Name = (Lib_Card.Configure.Parameter.Machine_Area6_CupMin + i_n).ToString();
+                                        ((SmartDyeing.FADM_Control.Cup)c2).NO = (Lib_Card.Configure.Parameter.Machine_Area6_CupMin + i_n).ToString();
+                                        ((SmartDyeing.FADM_Control.Cup)c2).Click += Cup_Click;
+                                        ((SmartDyeing.FADM_Control.Cup)c2).MouseLeave += Cup_MouseLeave;
+                                        _lis_cup.Add((SmartDyeing.FADM_Control.Cup)c2);
+                                        i_n++;
+                                    }
+                                    else if (c2 is Label)
+                                    {
+                                        _lis_lab.Add((Label)c2);
+                                    }
+                                }
+                            }
+                        }
+                    }
                     //4杯翻转缸
                     else if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 3)
                     {
@@ -1650,6 +1898,10 @@ namespace SmartDyeing.FADM_Form
                                     if (c2 is Label)
                                     {
                                         _lis_lab_abs.Add((Label)c2);
+                                    }
+                                    else if (c2 is Cup)
+                                    {
+                                        ((Cup)c2).Click += Cup_Click3;
                                     }
                                 }
                             }
@@ -1784,6 +2036,28 @@ namespace SmartDyeing.FADM_Form
                 PostMessage(ptr, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
                 string s_num = Cup.NO.ToString();
                 new FADM_Form.DripCupDetails(Convert.ToInt16(s_num)).Show();
+            }
+        }
+
+        void Cup_Click3(object sender, EventArgs e)
+        {
+            SmartDyeing.FADM_Control.Cup Cup = (SmartDyeing.FADM_Control.Cup)sender;
+            IntPtr ptr;
+            if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                ptr = FindWindow(null, "吸光度杯资料");
+            else
+                ptr = FindWindow(null, "AbsCupDetails");
+            if (ptr == IntPtr.Zero)
+            {
+                string s_num = Cup.NO.ToString();
+                new FADM_Form.AbsCupDetails(Convert.ToInt16(s_num)).Show();
+            }
+            else
+            {
+                //先删除页面，再重新打开
+                PostMessage(ptr, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+                string s_num = Cup.NO.ToString();
+                new FADM_Form.AbsCupDetails(Convert.ToInt16(s_num)).Show();
             }
         }
 

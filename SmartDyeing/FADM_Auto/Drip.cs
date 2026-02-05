@@ -75,10 +75,16 @@ namespace SmartDyeing.FADM_Auto
                             {
                                 int[] ia_zero = new int[1];
                                 ia_zero[0] = 0;
-                                DyeHMIWrite(lis_iUse[j], 119, 119, ia_zero);
+                                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[lis_iUse[j]] != 4)
+                                    DyeHMIWrite(lis_iUse[j], 119, 119, ia_zero);
+                                else
+                                    DyeHMIWrite(lis_iUse[j], 0x13, 0x13, ia_zero);
                                 //滴液状态
                                 ia_zero[0] = 3;
-                                DyeHMIWrite(lis_iUse[j], 100, 100, ia_zero);
+                                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[lis_iUse[j]] != 4)
+                                    DyeHMIWrite(lis_iUse[j], 100, 100, ia_zero);
+                                else
+                                    DyeHMIWrite(lis_iUse[j], 0x00, 0x00, ia_zero);
 
                                 _lis_SendReadyCup.Add(lis_iUse[j]);
                                 _lis_SendReadyCup.Add(_dic_first_second[lis_iUse[j]]);
@@ -93,21 +99,41 @@ namespace SmartDyeing.FADM_Auto
                             if (_dic_first_second[lis_iUse[j]] > 0)
                             {
 
-                                //主杯
-                                if (lis_iUse[j] < _dic_first_second[lis_iUse[j]])
+                                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[lis_iUse[j]] != 4)
                                 {
-                                    ia_zero[0] = 1;
-                                    DyeHMIWrite(lis_iUse[j], 119, 119, ia_zero);
+                                    //主杯
+                                    if (lis_iUse[j] < _dic_first_second[lis_iUse[j]])
+                                    {
+                                        ia_zero[0] = 1;
+                                        DyeHMIWrite(lis_iUse[j], 119, 119, ia_zero);
+                                    }
+                                    else
+                                    {
+                                        ia_zero[0] = 2;
+                                        DyeHMIWrite(lis_iUse[j], 119, 119, ia_zero);
+                                    }
                                 }
                                 else
                                 {
-                                    ia_zero[0] = 2;
-                                    DyeHMIWrite(lis_iUse[j], 119, 119, ia_zero);
+                                    //主杯
+                                    if (lis_iUse[j] < _dic_first_second[lis_iUse[j]])
+                                    {
+                                        ia_zero[0] = 1;
+                                        DyeHMIWrite(lis_iUse[j], 0x13, 0x13, ia_zero);
+                                    }
+                                    else
+                                    {
+                                        ia_zero[0] = 2;
+                                        DyeHMIWrite(lis_iUse[j], 0x13, 0x13, ia_zero);
+                                    }
                                 }
                             }
                             //滴液状态
                             ia_zero[0] = 3;
-                            DyeHMIWrite(lis_iUse[j], 100, 100, ia_zero);
+                            if (SmartDyeing.FADM_Object.Communal._dic_dyeType[lis_iUse[j]] != 4)
+                                DyeHMIWrite(lis_iUse[j], 100, 100, ia_zero);
+                            else
+                                DyeHMIWrite(lis_iUse[j], 0x00, 0x00, ia_zero);
 
                             _lis_SendReadyCup.Add(lis_iUse[j]);
 
@@ -1582,7 +1608,10 @@ namespace SmartDyeing.FADM_Auto
                                         //杯选择更改为双杯，状态改为滴液
                                         int[] ia_zero = new int[1];
                                         ia_zero[0] = 0;
-                                        DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                        if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
+                                            DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                        else
+                                            DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
                                         FADM_Object.Communal._fadmSqlserver.ReviseData(
                                      "UPDATE cup_details SET Statues = '滴液' WHERE CupNum = " + i_cupNum + ";");
                                         continue;
@@ -1610,10 +1639,16 @@ namespace SmartDyeing.FADM_Auto
                                             {
                                                 int[] ia_zero = new int[1];
                                                 ia_zero[0] = 0;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                else
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
                                                 //滴液状态
                                                 ia_zero[0] = 3;
-                                                DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
+                                                    DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                                else
+                                                    DyeHMIWrite(i_cupNum, 0x00, 0x00, ia_zero);
 
                                                 _lis_SendReadyCup.Add(i_cupNum);
                                                 _lis_SendReadyCup.Add(_dic_first_second[i_cupNum]);
@@ -1629,22 +1664,42 @@ namespace SmartDyeing.FADM_Auto
                                         //12杯发送杯选择
                                         if (_dic_first_second[i_cupNum] > 0)
                                         {
-                                            //主杯
-                                            if (i_cupNum < _dic_first_second[i_cupNum])
+                                            if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
                                             {
-                                                ia_zero[0] = 1;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                //主杯
+                                                if (i_cupNum < _dic_first_second[i_cupNum])
+                                                {
+                                                    ia_zero[0] = 1;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 2;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                }
                                             }
                                             else
                                             {
-                                                ia_zero[0] = 2;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                //主杯
+                                                if (i_cupNum < _dic_first_second[i_cupNum])
+                                                {
+                                                    ia_zero[0] = 1;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 2;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+                                                }
                                             }
                                         }
 
                                         //滴液状态
                                         ia_zero[0] = 3;
-                                        DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                        if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
+                                            DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                        else
+                                            DyeHMIWrite(i_cupNum, 0x00, 0x00, ia_zero);
 
                                         _lis_SendReadyCup.Add(i_cupNum);
                                     }
@@ -1974,10 +2029,16 @@ namespace SmartDyeing.FADM_Auto
                                                 {
                                                     int[] ia_zero = new int[1];
                                                     ia_zero[0] = 0;
-                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                    if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
+                                                        DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                    else
+                                                        DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
                                                     //滴液状态
                                                     ia_zero[0] = 3;
-                                                    DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                                    if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
+                                                        DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                                    else
+                                                        DyeHMIWrite(i_cupNum, 0x00, 0x00, ia_zero);
 
                                                     _lis_SendReadyCup.Add(i_cupNum);
                                                     _lis_SendReadyCup.Add(_dic_first_second[i_cupNum]);
@@ -1988,20 +2049,40 @@ namespace SmartDyeing.FADM_Auto
                                         else
                                         {
                                             int[] ia_zero = new int[1];
-                                            //主杯
-                                            if (i_cupNum < _dic_first_second[i_cupNum])
+                                            if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
                                             {
-                                                ia_zero[0] = 1;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                //主杯
+                                                if (i_cupNum < _dic_first_second[i_cupNum])
+                                                {
+                                                    ia_zero[0] = 1;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 2;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                }
+                                                //滴液状态
+                                                ia_zero[0] = 3;
+                                                DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
                                             }
                                             else
                                             {
-                                                ia_zero[0] = 2;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                //主杯
+                                                if (i_cupNum < _dic_first_second[i_cupNum])
+                                                {
+                                                    ia_zero[0] = 1;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 2;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+                                                }
+                                                //滴液状态
+                                                ia_zero[0] = 3;
+                                                DyeHMIWrite(i_cupNum, 0x00, 0x00, ia_zero);
                                             }
-                                            //滴液状态
-                                            ia_zero[0] = 3;
-                                            DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
 
                                             _lis_SendReadyCup.Add(i_cupNum);
                                         }
@@ -2124,8 +2205,10 @@ namespace SmartDyeing.FADM_Auto
                 //Lib_SerialPort.Balance.METTLER.bReSetSign = true;
 
                 _b_dripStop = false;
-
-                new FADM_Object.MyAlarm("批次滴液完成", 1);
+                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                    new FADM_Object.MyAlarm("批次滴液完成", 1);
+                else
+                    new FADM_Object.MyAlarm("Drip Finish", 1);
                 Communal._b_isAllowDrip = false;
 
                 SmartDyeing.FADM_Control.P_Formula.P_bl_update = true;
@@ -9198,6 +9281,7 @@ namespace SmartDyeing.FADM_Auto
                 if (i_lowSrart == 2)
                 {
                     FADM_Object.Communal.WriteDripWait(true);
+                    Communal._b_isAllowDrip = false;
                     FADM_Object.MyAlarm myAlarm;
                     if (Lib_Card.Configure.Parameter.Other_Language == 0)
                         myAlarm = new FADM_Object.MyAlarm(i_minBottleNo + "号母液瓶未找到针筒，是否继续执行?(继续寻找请点是，退出滴液请点否)", "滴液", true, 1, true);
@@ -9216,11 +9300,13 @@ namespace SmartDyeing.FADM_Auto
                             
                         Thread.Sleep(1);
                     }
+                    Communal._b_isAllowDrip = true;
                     //判断染色线程是否需要用机械手
                     if (null != FADM_Object.Communal.ReadDyeThread())
                     {
                         FADM_Object.Communal.WriteDripWait(true);
                         Communal._b_isWaitDrip = true;
+                        Communal._b_isAllowDrip = true;
                         while (true)
                         {
                             if (false == FADM_Object.Communal.ReadDripWait())
@@ -10946,24 +11032,24 @@ namespace SmartDyeing.FADM_Auto
                                 
                             Thread.Sleep(1);
                         }
-                        //判断染色线程是否需要用机械手
-                        if (null != FADM_Object.Communal.ReadDyeThread())
-                        {
-                            FADM_Object.Communal.WriteDripWait(true);
-                            Communal._b_isWaitDrip = true;
-                            while (true)
-                            {
-                                if (false == FADM_Object.Communal.ReadDripWait())
-                                    break;
-                                Thread.Sleep(1);
-                            }
-                            Communal._b_isWaitDrip = false;
-                        }
-                        else
-                        {
-                            Communal._b_isWaitDrip = false;
-                            FADM_Object.Communal.WriteDripWait(false);
-                        }
+                        ////判断染色线程是否需要用机械手
+                        //if (null != FADM_Object.Communal.ReadDyeThread())
+                        //{
+                        //    FADM_Object.Communal.WriteDripWait(true);
+                        //    Communal._b_isWaitDrip = true;
+                        //    while (true)
+                        //    {
+                        //        if (false == FADM_Object.Communal.ReadDripWait())
+                        //            break;
+                        //        Thread.Sleep(1);
+                        //    }
+                        //    Communal._b_isWaitDrip = false;
+                        //}
+                        //else
+                        //{
+                        //    Communal._b_isWaitDrip = false;
+                        //    FADM_Object.Communal.WriteDripWait(false);
+                        //}
 
                         if (1 == myAlarm._i_alarm_Choose)
                         {
@@ -11132,11 +11218,22 @@ namespace SmartDyeing.FADM_Auto
                                             //if (!lis_iUse.Contains(_dic_first_second[i_cupNum]))
                                             {
                                                 int[] ia_zero = new int[1];
-                                                ia_zero[0] = 0;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
-                                                //滴液状态
-                                                ia_zero[0] = 3;
-                                                DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
+                                                {
+                                                    ia_zero[0] = 0;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                    //滴液状态
+                                                    ia_zero[0] = 3;
+                                                    DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 0;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+                                                    //滴液状态
+                                                    ia_zero[0] = 3;
+                                                    DyeHMIWrite(i_cupNum, 0x00, 0x00, ia_zero);
+                                                }
 
 
                                                 _lis_SendReadyCup.Add(i_cupNum);
@@ -11150,21 +11247,41 @@ namespace SmartDyeing.FADM_Auto
                                         int[] ia_zero = new int[1];
                                         if (_dic_first_second[i_cupNum] > 0)
                                         {
-                                            //主杯
-                                            if (i_cupNum < _dic_first_second[i_cupNum])
+                                            if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
                                             {
-                                                ia_zero[0] = 1;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                //主杯
+                                                if (i_cupNum < _dic_first_second[i_cupNum])
+                                                {
+                                                    ia_zero[0] = 1;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 2;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                }
                                             }
                                             else
                                             {
-                                                ia_zero[0] = 2;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                //主杯
+                                                if (i_cupNum < _dic_first_second[i_cupNum])
+                                                {
+                                                    ia_zero[0] = 1;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 2;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+                                                }
                                             }
                                         }
                                         //滴液状态
                                         ia_zero[0] = 3;
-                                        DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                        if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
+                                            DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                        else
+                                            DyeHMIWrite(i_cupNum, 0x00, 0x00, ia_zero);
 
                                         _lis_SendReadyCup.Add(i_cupNum);
                                     }
@@ -11647,12 +11764,24 @@ namespace SmartDyeing.FADM_Auto
                                             {
                                                 int[] ia_zero = new int[1];
 
-                                                ia_zero[0] = 0;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
+                                                {
+                                                    ia_zero[0] = 0;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
 
-                                                //滴液状态
-                                                ia_zero[0] = 3;
-                                                DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                                    //滴液状态
+                                                    ia_zero[0] = 3;
+                                                    DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 0;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+
+                                                    //滴液状态
+                                                    ia_zero[0] = 3;
+                                                    DyeHMIWrite(i_cupNum, 0x00, 0x00, ia_zero);
+                                                }
 
                                                 _lis_SendReadyCup.Add(i_cupNum);
                                                 _lis_SendReadyCup.Add(_dic_first_second[i_cupNum]);
@@ -11665,21 +11794,41 @@ namespace SmartDyeing.FADM_Auto
                                         int[] ia_zero = new int[1];
                                         if (_dic_first_second[i_cupNum] > 0)
                                         {
-                                            //主杯
-                                            if (i_cupNum < _dic_first_second[i_cupNum])
+                                            if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
                                             {
-                                                ia_zero[0] = 1;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                //主杯
+                                                if (i_cupNum < _dic_first_second[i_cupNum])
+                                                {
+                                                    ia_zero[0] = 1;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 2;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                }
                                             }
                                             else
                                             {
-                                                ia_zero[0] = 2;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                //主杯
+                                                if (i_cupNum < _dic_first_second[i_cupNum])
+                                                {
+                                                    ia_zero[0] = 1;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 2;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+                                                }
                                             }
                                         }
                                         //滴液状态
                                         ia_zero[0] = 3;
-                                        DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                        if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
+                                            DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                        else
+                                            DyeHMIWrite(i_cupNum, 0x00, 0x00, ia_zero);
 
                                         _lis_SendReadyCup.Add(i_cupNum);
                                     }
@@ -14047,11 +14196,22 @@ namespace SmartDyeing.FADM_Auto
                                             //if (!lis_iUse.Contains(_dic_first_second[i_cupNum]))
                                             {
                                                 int[] ia_zero = new int[1];
-                                                ia_zero[0] = 0;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
-                                                //滴液状态
-                                                ia_zero[0] = 3;
-                                                DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
+                                                {
+                                                    ia_zero[0] = 0;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                    //滴液状态
+                                                    ia_zero[0] = 3;
+                                                    DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 0;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+                                                    //滴液状态
+                                                    ia_zero[0] = 3;
+                                                    DyeHMIWrite(i_cupNum, 0x00, 0x00, ia_zero);
+                                                }
 
 
                                                 _lis_SendReadyCup.Add(i_cupNum);
@@ -14065,21 +14225,41 @@ namespace SmartDyeing.FADM_Auto
                                         int[] ia_zero = new int[1];
                                         if (_dic_first_second[i_cupNum] > 0)
                                         {
-                                            //主杯
-                                            if (i_cupNum < _dic_first_second[i_cupNum])
+                                            if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
                                             {
-                                                ia_zero[0] = 1;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                //主杯
+                                                if (i_cupNum < _dic_first_second[i_cupNum])
+                                                {
+                                                    ia_zero[0] = 1;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 2;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                }
                                             }
                                             else
                                             {
-                                                ia_zero[0] = 2;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                //主杯
+                                                if (i_cupNum < _dic_first_second[i_cupNum])
+                                                {
+                                                    ia_zero[0] = 1;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 2;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+                                                }
                                             }
                                         }
                                         //滴液状态
                                         ia_zero[0] = 3;
-                                        DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                        if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
+                                            DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                        else
+                                            DyeHMIWrite(i_cupNum, 0x00, 0x00, ia_zero);
 
                                         _lis_SendReadyCup.Add(i_cupNum);
                                     }
@@ -14560,12 +14740,22 @@ namespace SmartDyeing.FADM_Auto
                                             {
                                                 int[] ia_zero = new int[1];
 
-                                                ia_zero[0] = 0;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
-
-                                                //滴液状态
-                                                ia_zero[0] = 3;
-                                                DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                                if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
+                                                {
+                                                    ia_zero[0] = 0;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                    //滴液状态
+                                                    ia_zero[0] = 3;
+                                                    DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 0;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+                                                    //滴液状态
+                                                    ia_zero[0] = 3;
+                                                    DyeHMIWrite(i_cupNum, 0x00, 0x00, ia_zero);
+                                                }
 
                                                 _lis_SendReadyCup.Add(i_cupNum);
                                                 _lis_SendReadyCup.Add(_dic_first_second[i_cupNum]);
@@ -14578,21 +14768,41 @@ namespace SmartDyeing.FADM_Auto
                                         int[] ia_zero = new int[1];
                                         if (_dic_first_second[i_cupNum] > 0)
                                         {
-                                            //主杯
-                                            if (i_cupNum < _dic_first_second[i_cupNum])
+                                            if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
                                             {
-                                                ia_zero[0] = 1;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                //主杯
+                                                if (i_cupNum < _dic_first_second[i_cupNum])
+                                                {
+                                                    ia_zero[0] = 1;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 2;
+                                                    DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                }
                                             }
                                             else
                                             {
-                                                ia_zero[0] = 2;
-                                                DyeHMIWrite(i_cupNum, 119, 119, ia_zero);
+                                                //主杯
+                                                if (i_cupNum < _dic_first_second[i_cupNum])
+                                                {
+                                                    ia_zero[0] = 1;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+                                                }
+                                                else
+                                                {
+                                                    ia_zero[0] = 2;
+                                                    DyeHMIWrite(i_cupNum, 0x13, 0x13, ia_zero);
+                                                }
                                             }
                                         }
                                         //滴液状态
                                         ia_zero[0] = 3;
-                                        DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                        if (SmartDyeing.FADM_Object.Communal._dic_dyeType[i_cupNum] != 4)
+                                            DyeHMIWrite(i_cupNum, 100, 100, ia_zero);
+                                        else
+                                            DyeHMIWrite(i_cupNum, 0x00, 0x00, ia_zero);
 
                                         _lis_SendReadyCup.Add(i_cupNum);
                                     }

@@ -54,6 +54,7 @@ namespace SmartDyeing.FADM_Form
             this.MiFullDrip1 = new System.Windows.Forms.ToolStripMenuItem();
             this.MiOutAllowDrip = new System.Windows.Forms.ToolStripMenuItem();
             this.MiLowAllowDrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.MiDye = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSplitButton2 = new System.Windows.Forms.ToolStripSplitButton();
             this.MiDebug = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,6 +95,8 @@ namespace SmartDyeing.FADM_Form
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timerNeedToDo = new System.Windows.Forms.Timer(this.components);
             this.timer_Update = new System.Windows.Forms.Timer(this.components);
+            this.MiAbsDebug = new System.Windows.Forms.ToolStripMenuItem();
+            this.MiABSProcess = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -154,7 +157,8 @@ namespace SmartDyeing.FADM_Form
             this.MiCup,
             this.MiLimitSet,
             this.MiFormulaGroup,
-            this.MiOperator});
+            this.MiOperator,
+            this.MiABSProcess});
             resources.ApplyResources(this.toolStripSplitButton1, "toolStripSplitButton1");
             this.toolStripSplitButton1.Name = "toolStripSplitButton1";
             // 
@@ -236,7 +240,8 @@ namespace SmartDyeing.FADM_Form
             this.MiLow1,
             this.MiFullDrip1,
             this.MiOutAllowDrip,
-            this.MiLowAllowDrip});
+            this.MiLowAllowDrip,
+            this.MiDye});
             resources.ApplyResources(this.toolStripSplitButton6, "toolStripSplitButton6");
             this.toolStripSplitButton6.Name = "toolStripSplitButton6";
             // 
@@ -270,6 +275,12 @@ namespace SmartDyeing.FADM_Form
             resources.ApplyResources(this.MiLowAllowDrip, "MiLowAllowDrip");
             this.MiLowAllowDrip.Click += new System.EventHandler(this.MiLowAllowDrip_Click);
             // 
+            // MiDye
+            // 
+            this.MiDye.Name = "MiDye";
+            resources.ApplyResources(this.MiDye, "MiDye");
+            this.MiDye.Click += new System.EventHandler(this.MiDye_Click);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -281,7 +292,8 @@ namespace SmartDyeing.FADM_Form
             this.toolStripSplitButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MiDebug,
             this.MiRun,
-            this.MiAlarm});
+            this.MiAlarm,
+            this.MiAbsDebug});
             resources.ApplyResources(this.toolStripSplitButton2, "toolStripSplitButton2");
             this.toolStripSplitButton2.Name = "toolStripSplitButton2";
             // 
@@ -521,6 +533,18 @@ namespace SmartDyeing.FADM_Form
             this.timer_Update.Interval = 1000;
             this.timer_Update.Tick += new System.EventHandler(this.timer_Update_Tick);
             // 
+            // MiAbsDebug
+            // 
+            this.MiAbsDebug.Name = "MiAbsDebug";
+            resources.ApplyResources(this.MiAbsDebug, "MiAbsDebug");
+            this.MiAbsDebug.Click += new System.EventHandler(this.MiAbsDebug_Click);
+            // 
+            // MiABSProcess
+            // 
+            this.MiABSProcess.Name = "MiABSProcess";
+            resources.ApplyResources(this.MiABSProcess, "MiABSProcess");
+            this.MiABSProcess.Click += new System.EventHandler(this.MiABSProcess_Click);
+            // 
             // Main
             // 
             resources.ApplyResources(this, "$this");
@@ -602,5 +626,8 @@ namespace SmartDyeing.FADM_Form
         private Timer timer_Update;
         private ToolStripSeparator toolStripSeparator11;
         private ToolStripButton CupStatus;
+        private ToolStripMenuItem MiDye;
+        private ToolStripMenuItem MiAbsDebug;
+        private ToolStripMenuItem MiABSProcess;
     }
 }

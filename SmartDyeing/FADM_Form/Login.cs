@@ -821,6 +821,13 @@ namespace SmartDyeing.FADM_Form
                                 System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
                             }
                         }
+
+                        //吸光度配置
+                        if (Lib_Card.Configure.Parameter.Other_UseAbs == 1)
+                        {
+                            FADM_Object.Communal._tcpModBusAbs = FADM_Object.Communal._tcpModBus;
+
+                        }
                     }
                     catch
                     {
@@ -1886,16 +1893,22 @@ namespace SmartDyeing.FADM_Form
                     //FADM_Object.Communal.DyeHMI.Open();
                     string s_path = Environment.CurrentDirectory + "\\Config\\Config.ini";
                     string s_server1 = Lib_File.Ini.GetIni("HMI1", "IP", s_path);
+                    string s_server1_s = Lib_File.Ini.GetIni("HMI1", "IP_s", s_path);
                     string s_port1 = Lib_File.Ini.GetIni("HMI1", "Port", s_path);
                     string s_server2 = Lib_File.Ini.GetIni("HMI2", "IP", s_path);
+                    string s_server2_s = Lib_File.Ini.GetIni("HMI2", "IP_s", s_path);
                     string s_port2 = Lib_File.Ini.GetIni("HMI2", "Port", s_path);
                     string s_server3 = Lib_File.Ini.GetIni("HMI3", "IP", s_path);
+                    string s_server3_s = Lib_File.Ini.GetIni("HMI3", "IP_s", s_path);
                     string s_port3 = Lib_File.Ini.GetIni("HMI3", "Port", s_path);
                     string s_server4 = Lib_File.Ini.GetIni("HMI4", "IP", s_path);
+                    string s_server4_s = Lib_File.Ini.GetIni("HMI4", "IP_s", s_path);
                     string s_port4 = Lib_File.Ini.GetIni("HMI4", "Port", s_path);
                     string s_server5 = Lib_File.Ini.GetIni("HMI5", "IP", s_path);
+                    string s_server5_s = Lib_File.Ini.GetIni("HMI5", "IP_s", s_path);
                     string s_port5 = Lib_File.Ini.GetIni("HMI5", "Port", s_path);
                     string s_server6 = Lib_File.Ini.GetIni("HMI6", "IP", s_path);
+                    string s_server6_s = Lib_File.Ini.GetIni("HMI6", "IP_s", s_path);
                     string s_port6 = Lib_File.Ini.GetIni("HMI6", "Port", s_path);
                     string HMIBaClo_IP = Lib_File.Ini.GetIni("HMIBaClo", "IP", s_path);
                     string HMIBaClo_s_port6 = Lib_File.Ini.GetIni("HMIBaClo", "Port", s_path);
@@ -1920,6 +1933,13 @@ namespace SmartDyeing.FADM_Form
                         FADM_Object.Communal._tcpDyeHMI1._i_port = Convert.ToInt32(s_port1);
                         FADM_Object.Communal._tcpDyeHMI1._s_ip = s_server1;
                         FADM_Object.Communal._tcpDyeHMI1.Connect();
+                        if (Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 4)
+                        {
+                            FADM_Object.Communal._tcpDyeHMI1_s = new HMITCPModBus();
+                            FADM_Object.Communal._tcpDyeHMI1_s._i_port = Convert.ToInt32(s_port1);
+                            FADM_Object.Communal._tcpDyeHMI1_s._s_ip = s_server1_s;
+                            FADM_Object.Communal._tcpDyeHMI1_s.Connect();
+                        }
                     }
                     if (Lib_Card.Configure.Parameter.Machine_Area2_Type == 3)
                     {
@@ -1927,6 +1947,13 @@ namespace SmartDyeing.FADM_Form
                         FADM_Object.Communal._tcpDyeHMI2._i_port = Convert.ToInt32(s_port2);
                         FADM_Object.Communal._tcpDyeHMI2._s_ip = s_server2;
                         FADM_Object.Communal._tcpDyeHMI2.Connect();
+                        if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 4)
+                        {
+                            FADM_Object.Communal._tcpDyeHMI2_s = new HMITCPModBus();
+                            FADM_Object.Communal._tcpDyeHMI2_s._i_port = Convert.ToInt32(s_port2);
+                            FADM_Object.Communal._tcpDyeHMI2_s._s_ip = s_server2_s;
+                            FADM_Object.Communal._tcpDyeHMI2_s.Connect();
+                        }
                     }
                     if (Lib_Card.Configure.Parameter.Machine_Area3_Type == 3)
                     {
@@ -1934,6 +1961,13 @@ namespace SmartDyeing.FADM_Form
                         FADM_Object.Communal._tcpDyeHMI3._i_port = Convert.ToInt32(s_port3);
                         FADM_Object.Communal._tcpDyeHMI3._s_ip = s_server3;
                         FADM_Object.Communal._tcpDyeHMI3.Connect();
+                        if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 4)
+                        {
+                            FADM_Object.Communal._tcpDyeHMI3_s = new HMITCPModBus();
+                            FADM_Object.Communal._tcpDyeHMI3_s._i_port = Convert.ToInt32(s_port3);
+                            FADM_Object.Communal._tcpDyeHMI3_s._s_ip = s_server3_s;
+                            FADM_Object.Communal._tcpDyeHMI3_s.Connect();
+                        }
                     }
                     if (Lib_Card.Configure.Parameter.Machine_Area4_Type == 3)
                     {
@@ -1941,6 +1975,13 @@ namespace SmartDyeing.FADM_Form
                         FADM_Object.Communal._tcpDyeHMI4._i_port = Convert.ToInt32(s_port4);
                         FADM_Object.Communal._tcpDyeHMI4._s_ip = s_server4;
                         FADM_Object.Communal._tcpDyeHMI4.Connect();
+                        if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 4)
+                        {
+                            FADM_Object.Communal._tcpDyeHMI4_s = new HMITCPModBus();
+                            FADM_Object.Communal._tcpDyeHMI4_s._i_port = Convert.ToInt32(s_port4);
+                            FADM_Object.Communal._tcpDyeHMI4_s._s_ip = s_server4_s;
+                            FADM_Object.Communal._tcpDyeHMI4_s.Connect();
+                        }
                     }
                     if (Lib_Card.Configure.Parameter.Machine_Area5_Type == 3)
                     {
@@ -1948,6 +1989,13 @@ namespace SmartDyeing.FADM_Form
                         FADM_Object.Communal._tcpDyeHMI5._i_port = Convert.ToInt32(s_port5);
                         FADM_Object.Communal._tcpDyeHMI5._s_ip = s_server5;
                         FADM_Object.Communal._tcpDyeHMI5.Connect();
+                        if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 4)
+                        {
+                            FADM_Object.Communal._tcpDyeHMI5_s = new HMITCPModBus();
+                            FADM_Object.Communal._tcpDyeHMI5_s._i_port = Convert.ToInt32(s_port5);
+                            FADM_Object.Communal._tcpDyeHMI5_s._s_ip = s_server5_s;
+                            FADM_Object.Communal._tcpDyeHMI5_s.Connect();
+                        }
                     }
                     if (Lib_Card.Configure.Parameter.Machine_Area6_Type == 3)
                     {
@@ -1955,6 +2003,13 @@ namespace SmartDyeing.FADM_Form
                         FADM_Object.Communal._tcpDyeHMI6._i_port = Convert.ToInt32(s_port6);
                         FADM_Object.Communal._tcpDyeHMI6._s_ip = s_server6;
                         FADM_Object.Communal._tcpDyeHMI6.Connect();
+                        if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 4)
+                        {
+                            FADM_Object.Communal._tcpDyeHMI6_s = new HMITCPModBus();
+                            FADM_Object.Communal._tcpDyeHMI6_s._i_port = Convert.ToInt32(s_port6);
+                            FADM_Object.Communal._tcpDyeHMI6_s._s_ip = s_server6_s;
+                            FADM_Object.Communal._tcpDyeHMI6_s.Connect();
+                        }
                     }
                     if (HMIBaClo_IP != "" && HMIBaClo_IP.Length > 0 && HMIBaClo_s_port6 != "" && HMIBaClo_s_port6.Length > 0)
                     {
@@ -2050,29 +2105,29 @@ namespace SmartDyeing.FADM_Form
                     System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
                 }
 
-                //吸光度配置
-                if (Lib_Card.Configure.Parameter.Other_UseAbs == 1)
-                {
-                    try
-                    {
-                        string s_path = Environment.CurrentDirectory + "\\Config\\Config.ini";
-                        string s_server1 = Lib_File.Ini.GetIni("HMIAbs", "IP", s_path);
-                        string s_port1 = Lib_File.Ini.GetIni("HMIAbs", "Port", s_path);
+                ////吸光度配置
+                //if (Lib_Card.Configure.Parameter.Other_UseAbs == 1)
+                //{
+                //    try
+                //    {
+                //        string s_path = Environment.CurrentDirectory + "\\Config\\Config.ini";
+                //        string s_server1 = Lib_File.Ini.GetIni("HMIAbs", "IP", s_path);
+                //        string s_port1 = Lib_File.Ini.GetIni("HMIAbs", "Port", s_path);
 
-                        FADM_Object.Communal._tcpModBusAbs = new TCPModBus();
-                        FADM_Object.Communal._tcpModBusAbs._i_port = Convert.ToInt32(s_port1);
-                        FADM_Object.Communal._tcpModBusAbs._s_IP = s_server1;
-                        FADM_Object.Communal._tcpModBusAbs.Connect();
-                    }
-                    catch (Exception ex)
-                    {
-                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
-                            FADM_Form.CustomMessageBox.Show(ex.Message, "测试吸光度机", MessageBoxButtons.OK, false);
-                        else
-                            FADM_Form.CustomMessageBox.Show(ex.Message, "Test the absorbance machine", MessageBoxButtons.OK, false);
-                        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
-                    }
-                }
+                //        FADM_Object.Communal._tcpModBusAbs = new TCPModBus();
+                //        FADM_Object.Communal._tcpModBusAbs._i_port = Convert.ToInt32(s_port1);
+                //        FADM_Object.Communal._tcpModBusAbs._s_IP = s_server1;
+                //        FADM_Object.Communal._tcpModBusAbs.Connect();
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                //            FADM_Form.CustomMessageBox.Show(ex.Message, "测试吸光度机", MessageBoxButtons.OK, false);
+                //        else
+                //            FADM_Form.CustomMessageBox.Show(ex.Message, "Test the absorbance machine", MessageBoxButtons.OK, false);
+                //        System.Diagnostics.Process.GetProcessById(System.Diagnostics.Process.GetCurrentProcess().Id).Kill();
+                //    }
+                //}
 
 
                 FADM_Object.Communal._fadmSqlserver.ReviseData(
@@ -2113,7 +2168,6 @@ namespace SmartDyeing.FADM_Form
 
         private void BtnLogOn_Click(object sender, EventArgs e)
         {
-
             //FADM_Object.Communal._fadmSqlserver.ReviseData(
             //            "INSERT INTO abs_wait_list(BottleNum, InsertDate) VALUES('" + 1 + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + "');");
             //string s_sql_QQ = "SELECT top 1 * FROM abs_wait_list  order by InsertDate;";
@@ -2968,6 +3022,12 @@ namespace SmartDyeing.FADM_Form
                     Communal._fadmSqlserver.ReviseData("ALTER TABLE wait_list ADD ClothNum int null ");
                 }
 
+                dt_head = Communal._fadmSqlserver.GetData("SELECT *FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'cup_details' AND COLUMN_NAME = 'HoldTime'");
+                if (dt_head.Rows.Count == 0)
+                {
+                    Communal._fadmSqlserver.ReviseData("ALTER TABLE cup_details ADD HoldTime int null ");
+                }
+
             }
             catch { }
 
@@ -2980,6 +3040,8 @@ namespace SmartDyeing.FADM_Form
             SmartDyeing.FADM_Object.Communal._dic_big_small_cup.Clear();
             SmartDyeing.FADM_Object.Communal._dic_cup_index.Clear();
             SmartDyeing.FADM_Object.Communal._lis_PrecisionCupNum.Clear();
+            SmartDyeing.FADM_Object.Communal._dic_SixteenCupNum.Clear();
+            SmartDyeing.FADM_Object.Communal._lis_SixteenCupNum.Clear();
             Communal._dic_dyecup_index.Clear();
             int i_cupmin = 0;
             int i_cupmax = 0;
@@ -3022,6 +3084,19 @@ namespace SmartDyeing.FADM_Form
                     }
                     if (Lib_Card.Configure.Parameter.Machine_Area1_Type == 3)
                     {
+                        if (Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 4)
+                        {
+                            SmartDyeing.FADM_Object.Communal._lis_SixteenCupNum.Add(i);
+                            if (Communal._dic_SixteenCupNum.Count == 0)
+                            {
+                                Communal._dic_SixteenCupNum.Add(i, 0);
+                            }
+                            else
+                            {
+                                Communal._dic_SixteenCupNum.Add(i, Communal._dic_SixteenCupNum.Count);
+                            }
+                        }
+
                         if (Communal._dic_dyecup_index.Count == 0)
                         {
                             Communal._dic_dyecup_index.Add(i, 0);
@@ -3032,7 +3107,8 @@ namespace SmartDyeing.FADM_Form
                         }
                         SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Add(i);
                         SmartDyeing.FADM_Object.Communal._dic_dyeType.Add(i, Lib_Card.Configure.Parameter.Machine_Area1_DyeType);
-                        if(Lib_Card.Configure.Parameter.Machine_Area1_DyeType==2
+                        if(Lib_Card.Configure.Parameter.Machine_Area1_DyeType== 2
+                            || Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 4
                             || Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 5)
                         {
                             try
@@ -3144,6 +3220,18 @@ namespace SmartDyeing.FADM_Form
                     }
                     if (Lib_Card.Configure.Parameter.Machine_Area2_Type == 3)
                     {
+                        if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 4)
+                        {
+                            SmartDyeing.FADM_Object.Communal._lis_SixteenCupNum.Add(i);
+                            if (Communal._dic_SixteenCupNum.Count == 0)
+                            {
+                                Communal._dic_SixteenCupNum.Add(i, 0);
+                            }
+                            else
+                            {
+                                Communal._dic_SixteenCupNum.Add(i, Communal._dic_SixteenCupNum.Count);
+                            }
+                        }
                         if (Communal._dic_dyecup_index.Count == 0)
                         {
                             Communal._dic_dyecup_index.Add(i, 0);
@@ -3154,7 +3242,9 @@ namespace SmartDyeing.FADM_Form
                         }
                         SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Add(i);
                         SmartDyeing.FADM_Object.Communal._dic_dyeType.Add(i, Lib_Card.Configure.Parameter.Machine_Area2_DyeType);
-                        if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 2|| Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 5)
+                        if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 2
+                            || Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 4 
+                            || Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 5)
                         {
                             try
                             {
@@ -3268,6 +3358,18 @@ namespace SmartDyeing.FADM_Form
                     }
                     if (Lib_Card.Configure.Parameter.Machine_Area3_Type == 3)
                     {
+                        if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 4)
+                        {
+                            SmartDyeing.FADM_Object.Communal._lis_SixteenCupNum.Add(i);
+                            if (Communal._dic_SixteenCupNum.Count == 0)
+                            {
+                                Communal._dic_SixteenCupNum.Add(i, 0);
+                            }
+                            else
+                            {
+                                Communal._dic_SixteenCupNum.Add(i, Communal._dic_SixteenCupNum.Count);
+                            }
+                        }
                         if (Communal._dic_dyecup_index.Count == 0)
                         {
                             Communal._dic_dyecup_index.Add(i, 0);
@@ -3278,7 +3380,8 @@ namespace SmartDyeing.FADM_Form
                         }
                         SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Add(i);
                         SmartDyeing.FADM_Object.Communal._dic_dyeType.Add(i, Lib_Card.Configure.Parameter.Machine_Area3_DyeType);
-                        if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 5)
+                        if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 4
+                            || Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 5)
                         {
                             try
                             {
@@ -3392,6 +3495,18 @@ namespace SmartDyeing.FADM_Form
                     }
                     if (Lib_Card.Configure.Parameter.Machine_Area4_Type == 3)
                     {
+                        if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 4)
+                        {
+                            SmartDyeing.FADM_Object.Communal._lis_SixteenCupNum.Add(i);
+                            if (Communal._dic_SixteenCupNum.Count == 0)
+                            {
+                                Communal._dic_SixteenCupNum.Add(i, 0);
+                            }
+                            else
+                            {
+                                Communal._dic_SixteenCupNum.Add(i, Communal._dic_SixteenCupNum.Count);
+                            }
+                        }
                         if (Communal._dic_dyecup_index.Count == 0)
                         {
                             Communal._dic_dyecup_index.Add(i, 0);
@@ -3402,7 +3517,9 @@ namespace SmartDyeing.FADM_Form
                         }
                         SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Add(i);
                         SmartDyeing.FADM_Object.Communal._dic_dyeType.Add(i, Lib_Card.Configure.Parameter.Machine_Area4_DyeType);
-                        if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 5)
+                        if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 2
+                            || Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 4 
+                            || Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 5)
                         {
                             try
                             {
@@ -3517,6 +3634,18 @@ namespace SmartDyeing.FADM_Form
                     }
                     if (Lib_Card.Configure.Parameter.Machine_Area5_Type == 3)
                     {
+                        if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 4)
+                        {
+                            SmartDyeing.FADM_Object.Communal._lis_SixteenCupNum.Add(i);
+                            if (Communal._dic_SixteenCupNum.Count == 0)
+                            {
+                                Communal._dic_SixteenCupNum.Add(i, 0);
+                            }
+                            else
+                            {
+                                Communal._dic_SixteenCupNum.Add(i, Communal._dic_SixteenCupNum.Count);
+                            }
+                        }
                         if (Communal._dic_dyecup_index.Count == 0)
                         {
                             Communal._dic_dyecup_index.Add(i, 0);
@@ -3527,7 +3656,8 @@ namespace SmartDyeing.FADM_Form
                         }
                         SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Add(i);
                         SmartDyeing.FADM_Object.Communal._dic_dyeType.Add(i, Lib_Card.Configure.Parameter.Machine_Area5_DyeType);
-                        if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 5)
+                        if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 4
+                            || Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 5)
                         {
                             try
                             {
@@ -3640,6 +3770,18 @@ namespace SmartDyeing.FADM_Form
                     }
                     if (Lib_Card.Configure.Parameter.Machine_Area6_Type == 3)
                     {
+                        if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 4)
+                        {
+                            SmartDyeing.FADM_Object.Communal._lis_SixteenCupNum.Add(i);
+                            if (Communal._dic_SixteenCupNum.Count == 0)
+                            {
+                                Communal._dic_SixteenCupNum.Add(i, 0);
+                            }
+                            else
+                            {
+                                Communal._dic_SixteenCupNum.Add(i, Communal._dic_SixteenCupNum.Count);
+                            }
+                        }
                         if (Communal._dic_dyecup_index.Count == 0)
                         {
                             Communal._dic_dyecup_index.Add(i, 0);
@@ -3650,7 +3792,8 @@ namespace SmartDyeing.FADM_Form
                         }
                         SmartDyeing.FADM_Object.Communal._lis_dyeCupNum.Add(i);
                         SmartDyeing.FADM_Object.Communal._dic_dyeType.Add(i, Lib_Card.Configure.Parameter.Machine_Area6_DyeType);
-                        if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 5)
+                        if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 2 || Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 4
+                            || Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 5)
                         {
                             try
                             {

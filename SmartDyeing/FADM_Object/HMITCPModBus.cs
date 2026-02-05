@@ -39,7 +39,7 @@ namespace SmartDyeing.FADM_Object
         public bool _b_isSendCoverStatus11 = false;
         public bool _b_isSendCoverStatus12 = false;
         //是否已经发送过开关盖状态（用于12杯）
-        public bool[] _b_isSendCoverStatus= { false, false, false, false, false, false, false, false, false, false, false, false};
+        public bool[] _b_isSendCoverStatus= { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false };
         //是否已经读取版本号
         public bool _b_isGetVer = false;
 
@@ -93,6 +93,43 @@ namespace SmartDyeing.FADM_Object
                 {
                     int i_ret = -1;
                     i_ret = Read(4, 6, ref ia_values);
+                    if (i_ret == 0)
+                    {
+                        return 0;
+                    }
+                    else
+                    {
+                        return -1;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 读取打板机版本号
+        /// </summary>
+        /// <param name="i_type">打板机类型 0 转子机 1 摇摆机 </param>
+        /// <returns></returns>
+        public int ReadVer(ref int[] ia_values, int i_type)
+        {
+            lock (this)
+            {
+                try
+                {
+                    int i_ret = -1;
+                    if (i_type == 4)
+                    {
+                        i_ret = Read(0x400, 1, ref ia_values);
+                    }
+                    else
+                    {
+                        i_ret = Read(4, 6, ref ia_values);
+                    }
                     if (i_ret == 0)
                     {
                         return 0;
@@ -415,6 +452,98 @@ namespace SmartDyeing.FADM_Object
         }
 
         /// <summary>
+        /// 16杯翻转缸参数读取
+        /// </summary>
+        /// <returns></returns>
+        public List<ParameterData> DyeReadParameter(ref List<ParameterData> lis_l)
+        {
+
+            lock (this)
+            {
+                try
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        int[] ia_values = new int[64];
+                        int i_ret = -1;
+                        //if (i_type == 0)
+                        {
+                            i_ret = Read(0x0200 + 64 * i, 64, ref ia_values);
+                            if (i_ret == 0)
+                            {
+                                //解析数据
+                                ParameterData d = new ParameterData();
+                                d._s_rev = (ia_values[2] / 10.0).ToString("f1");
+                                d._s_zeroVelocity = (ia_values[3] / 10.0).ToString("f1");
+                                d._s_decelerationTime = (ia_values[4]).ToString();
+                                d._s_forwardTime = (ia_values[5]).ToString();
+                                d._s_pauseTime = (ia_values[6]).ToString();
+                                d._s_reversalTime = (ia_values[7]).ToString();
+                                d._s_openTem = (ia_values[13] / 10.0).ToString("f1");
+                                d._s_limitTem = (ia_values[14] / 10.0).ToString("f1");
+                                d._s_warmUp = (ia_values[19] / 10.0).ToString("f1");
+                                d._s_warmDown = (ia_values[20] / 10.0).ToString("f1");
+                                d._s_openCoverDrainage = (ia_values[21]).ToString();
+                                d._s_closeCoverDrainage = (ia_values[32]).ToString();
+                                d._s_currenAlarmValue = (ia_values[27]).ToString();
+                                d._s_alarmTime = (ia_values[28]).ToString();
+                                d._s_fastTem = (ia_values[29] / 10.0).ToString("f1");
+                                d._s_fastRate = (ia_values[30] / 10.0).ToString("f1");
+                                d._s_washTem = (ia_values[31] / 10.0).ToString("f1");
+                                d._s_HighwashTem = (ia_values[34] / 10.0).ToString("f1");
+                                d._s_mainTem = (ia_values[0] / 10.0).ToString("f1");
+                                d._s_mainTemCorrection = (ia_values[8] / 10.0).ToString("f1");
+                                d._s_mainControlCycle = (ia_values[9] / 10.0).ToString("f1");
+                                d._s_mainP = (ia_values[10]).ToString();
+                                d._s_mainI = (ia_values[11]).ToString();
+                                d._s_mainD = (ia_values[12]).ToString();
+                                d._s_mainCurrenAD = (ia_values[46]).ToString();
+                                d._s_mainLowTem = (ia_values[47] / 10.0).ToString("f1");
+                                d._s_mainLowTemAD = (ia_values[48]).ToString();
+                                d._s_mainHighTem = (ia_values[49] / 10.0).ToString("f1");
+                                d._s_mainHighTemAD = (ia_values[50]).ToString();
+
+                                int[] ia_values1 = new int[64];
+                                int ret1 = Read(0x0300 + 64 * i, 64, ref ia_values1);
+                                if (ret1 == 0)
+                                {
+                                    d._s_assistantTem = (ia_values1[0] / 10.0).ToString("f1");
+                                    d._s_assistantTemCorrection = (ia_values1[8] / 10.0).ToString("f1");
+                                    d._s_assistantControlCycle = (ia_values1[9] / 10.0).ToString("f1");
+                                    d._s_assistantP = (ia_values1[10]).ToString();
+                                    d._s_assistantI = (ia_values1[11]).ToString();
+                                    d._s_assistantD = (ia_values1[12]).ToString();
+                                    d._s_assistantCurrenAD = (ia_values1[46]).ToString();
+                                    d._s_assistantLowTem = (ia_values1[47] / 10.0).ToString("f1");
+                                    d._s_assistantLowTemAD = (ia_values1[48]).ToString();
+                                    d._s_assistantHighTem = (ia_values1[49] / 10.0).ToString("f1");
+                                    d._s_assistantHighTemAD = (ia_values1[50]).ToString();
+                                    lis_l.Add(d);
+                                    _b_Connect = true;
+                                }
+                                else
+                                {
+                                    _b_Connect = false;
+                                }
+                            }
+                            else
+                            {
+                                _b_Connect = false;
+                            }
+                        }
+
+                    }
+                    //解析数据
+                    return lis_l;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
         /// 读取报警信息
         /// </summary>
         /// <param name="iStationID">站号</param>
@@ -450,6 +579,8 @@ namespace SmartDyeing.FADM_Object
             }
         }
     }
+
+
 
     /// <summary>
     /// 染色/后处理数据交互结构
@@ -575,5 +706,221 @@ namespace SmartDyeing.FADM_Object
         /// 重启记录
         /// </summary>
         public string _s_reStart;
+    }
+
+    /// <summary>
+    /// 16杯转子缸参数结构
+    /// </summary>
+    public class ParameterData
+    {
+        /// <summary>
+        /// 转速设定
+        /// </summary>
+        public string _s_rev;
+
+        /// <summary>
+        /// 回零速度
+        /// </summary>
+        public string _s_zeroVelocity;
+
+        /// <summary>
+        /// 加减速时间
+        /// </summary>
+        public string _s_decelerationTime;
+
+        /// <summary>
+        /// 正转时间
+        /// </summary>
+        public string _s_forwardTime;
+
+        /// <summary>
+        /// 停顿时间
+        /// </summary>
+        public string _s_pauseTime;
+
+        /// <summary>
+        /// 反转时间
+        /// </summary>
+        public string _s_reversalTime;
+
+        /// <summary>
+        /// 开盖温度
+        /// </summary>
+        public string _s_openTem;
+
+        /// <summary>
+        /// 极限温度
+        /// </summary>
+        public string _s_limitTem;
+
+        /// <summary>
+        /// 保温上限
+        /// </summary>
+        public string _s_warmUp;
+
+        /// <summary>
+        /// 保温下限
+        /// </summary>
+        public string _s_warmDown;
+
+        /// <summary>
+        /// 开盖排水时间
+        /// </summary>
+        public string _s_openCoverDrainage;
+
+        /// <summary>
+        /// 关盖排水时间
+        /// </summary>
+        public string _s_closeCoverDrainage;
+
+        /// <summary>
+        /// 电流报警值
+        /// </summary>
+        public string _s_currenAlarmValue;
+
+        /// <summary>
+        /// 报警时间
+        /// </summary>
+        public string _s_alarmTime;
+
+        /// <summary>
+        /// 快速升温温度
+        /// </summary>
+        public string _s_fastTem;
+
+        /// <summary>
+        /// 快速升温速率
+        /// </summary>
+        public string _s_fastRate;
+
+        /// <summary>
+        ///  洗杯温度
+        /// </summary>
+        public string _s_washTem;
+
+        /// <summary>
+        ///  高温洗杯温度
+        /// </summary>
+        public string _s_HighwashTem;
+
+        /// <summary>
+        ///  主杯温度
+        /// </summary>
+        public string _s_mainTem;
+
+        /// <summary>
+        ///  主杯温度修正
+        /// </summary>
+        public string _s_mainTemCorrection;
+
+        /// <summary>
+        ///  主杯控制周期
+        /// </summary>
+        public string _s_mainControlCycle;
+
+        /// <summary>
+        /// 主杯控温P
+        /// </summary>
+        public string _s_mainP;
+
+        /// <summary>
+        /// 主杯控温I
+        /// </summary>
+        public string _s_mainI;
+
+        /// <summary>
+        /// 主杯控温D
+        /// </summary>
+        public string _s_mainD;
+
+        /// <summary>
+        /// 主杯当前温度AD
+        /// </summary>
+        public string _s_mainCurrenAD;
+
+        /// <summary>
+        /// 主杯低端温度设置
+        /// </summary>
+        public string _s_mainLowTem;
+
+        /// <summary>
+        /// 主杯低端温度的AD值
+        /// </summary>
+        public string _s_mainLowTemAD;
+
+        /// <summary>
+        /// 主杯高端温度设置
+        /// </summary>
+        public string _s_mainHighTem;
+
+        /// <summary>
+        /// 主杯高端温度的AD值
+        /// </summary>
+        public string _s_mainHighTemAD;
+
+        /// <summary>
+        ///  副杯温度
+        /// </summary>
+        public string _s_assistantTem;
+
+        /// <summary>
+        ///  副杯温度修正
+        /// </summary>
+        public string _s_assistantTemCorrection;
+
+        /// <summary>
+        ///  副杯控制周期
+        /// </summary>
+        public string _s_assistantControlCycle;
+
+        /// <summary>
+        /// 副杯控温P
+        /// </summary>
+        public string _s_assistantP;
+
+        /// <summary>
+        /// 副杯控温I
+        /// </summary>
+        public string _s_assistantI;
+
+        /// <summary>
+        /// 副杯控温D
+        /// </summary>
+        public string _s_assistantD;
+
+        /// <summary>
+        /// 副杯当前温度AD
+        /// </summary>
+        public string _s_assistantCurrenAD;
+
+        /// <summary>
+        /// 副杯低端温度设置
+        /// </summary>
+        public string _s_assistantLowTem;
+
+        /// <summary>
+        /// 副杯低端温度的AD值
+        /// </summary>
+        public string _s_assistantLowTemAD;
+
+        /// <summary>
+        /// 副杯高端温度设置
+        /// </summary>
+        public string _s_assistantHighTem;
+
+        /// <summary>
+        /// 副杯高端温度的AD值
+        /// </summary>
+        public string _s_assistantHighTemAD;
+
+        /// <summary>
+        /// 是否已刷新
+        /// </summary>
+        public bool _b_refresh;
+
+        public ParameterData()
+        {
+            _b_refresh = false;
+        }
     }
 }

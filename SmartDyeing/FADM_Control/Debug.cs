@@ -2070,7 +2070,7 @@ namespace SmartDyeing.FADM_Control
         {
             try
             {
-                if (0 >= Convert.ToInt32(TxtNum.Text) || Convert.ToInt32(TxtNum.Text) > Lib_Card.Configure.Parameter.Machine_Cup_Total)
+                if (0 >= Convert.ToInt32(TxtNum.Text)/* || Convert.ToInt32(TxtNum.Text) > Lib_Card.Configure.Parameter.Machine_Cup_Total*/)
                 {
                     MessageBox.Show("杯号输入错误");
                     FADM_Object.Communal.WriteDripWait(false); 
@@ -2158,7 +2158,7 @@ namespace SmartDyeing.FADM_Control
         {
             try
             {
-                if (0 >= Convert.ToInt32(TxtNum.Text) || Convert.ToInt32(TxtNum.Text) > Lib_Card.Configure.Parameter.Machine_Cup_Total)
+                if (0 >= Convert.ToInt32(TxtNum.Text)/* || Convert.ToInt32(TxtNum.Text) > Lib_Card.Configure.Parameter.Machine_Cup_Total*/)
                 {
                     MessageBox.Show("杯号输入错误");
                     FADM_Object.Communal.WriteDripWait(false);
@@ -3628,6 +3628,14 @@ namespace SmartDyeing.FADM_Control
 
         private void btn_reset_a_Click(object sender, EventArgs e)
         {
+            b = false;
+            if (FADM_Object.Communal._b_isTestMove)
+            {
+                FADM_Object.Communal.WriteMachineStatus(4);
+                Thread thread = new Thread(TestMove);
+                thread.Start();
+            }
+
             //try
             //{
             //    btn_reset_a.Enabled = false;
@@ -3654,8 +3662,114 @@ namespace SmartDyeing.FADM_Control
 
         }
 
+        bool b= false;
+
+        private void TestMove()
+        {
+            try
+            {
+
+                if (0 >= Convert.ToInt32(TxtNum.Text) || Convert.ToInt32(TxtNum.Text) > Lib_Card.Configure.Parameter.Machine_Bottle_Total)
+                {
+                    MessageBox.Show("瓶号输入错误");
+                    FADM_Object.Communal.WriteDripWait(false);
+                    FADM_Object.Communal.WriteMachineStatus(0);
+                    return;
+                }
+
+                int i_num = Convert.ToInt32(TxtNum.Text);
+                while (true)
+                {
+                    if (b)
+                    {
+                        FADM_Object.Communal.WriteMachineStatus(0);
+                        break;
+                    }
+                    if (0 != MyModbusFun.TargetMove(0, i_num, 0))
+                        throw new Exception("驱动异常");
+
+                    Thread.Sleep(1000);
+
+                    if (0 != MyModbusFun.TargetMove(2, i_num, 0))
+                        throw new Exception("驱动异常");
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Equals("-2"))
+                {
+                    FADM_Object.Communal.WriteMachineStatus(8);
+                    int[] ia_errArray = new int[100];
+                    MyModbusFun.GetErrMsgNew(ref ia_errArray);
+                    List<string> lis_err = new List<string>();
+                    for (int i = 0; i < ia_errArray.Length; i++)
+                    {
+                        if (ia_errArray[i] != 0)
+                        {
+                            if (SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew.ContainsKey(ia_errArray[i]))
+                            {
+                                string s_err = SmartDyeing.FADM_Object.Communal._dic_errModbusNoNew[ia_errArray[i]];
+                                string s_sql = "INSERT INTO alarm_table" +
+                                 "(MyDate,MyTime,AlarmHead,AlarmDetails)" +
+                                 " VALUES( '" +
+                                 String.Format("{0:d}", DateTime.Now) + "','" +
+                                 String.Format("{0:T}", DateTime.Now) + "','" +
+                                 "Debug" + "','" +
+                                 s_err + "(Test)');";
+                                FADM_Object.Communal._fadmSqlserver.ReviseData(s_sql);
+
+                                string s_insert = CardObject.InsertD(s_err, " myMachineReset");
+                                if (!lis_err.Contains(s_insert))
+                                    lis_err.Add(s_insert);
+                                //while (true)
+                                //{
+                                //    Thread.Sleep(1);
+                                //    if (Lib_Card.CardObject.keyValuePairs[s_insert].Choose != 0)
+                                //        break;
+
+                                //}
+
+                                //int _i_alarm_Choose = Lib_Card.CardObject.keyValuePairs[s_insert].Choose;
+                                //CardObject.DeleteD(s_insert);
+
+                            }
+
+                        }
+                    }
+
+                    while (true)
+                    {
+                        for (int p = lis_err.Count - 1; p >= 0; p--)
+                        {
+                            if (Lib_Card.CardObject.keyValuePairs[lis_err[p]].Choose != 0)
+                            {
+                                CardObject.DeleteD(lis_err[p]);
+                                lis_err.Remove(lis_err[p]);
+                            }
+                        }
+                        if (lis_err.Count == 0)
+                        {
+                            break;
+                        }
+                        Thread.Sleep(1);
+                    }
+
+                }
+                else
+                {
+                    FADM_Object.Communal.WriteMachineStatus(8);
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "定点移动", MessageBoxButtons.OK, true);
+                    else
+                        FADM_Form.CustomMessageBox.Show(ex.Message, "Fixed-point movement", MessageBoxButtons.OK, true);
+                }
+            }
+        }
+
         private void BtnStop_Click(object sender, EventArgs e)
         {
+            b = true;
             ////计算
             //string s = "-0.000648/-0.000287/-0.000333/-0.000583/-0.000394/-0.000120/-0.000225/0.000000/0.000256/-0.001036/-0.000969/-0.000590/-0.000596/-0.000544/-0.000388/-0.000527/-0.000480/0.000074/-0.000140/-0.000724/-0.000897/-0.000866/-0.000298/0.000345/-0.000111/-0.000159/0.000153/-0.000534/0.000093/-0.000353/0.000000/0.000040/0.000038/-0.000256/0.000071/-0.000653/-0.000605/0.000165/0.000075/0.000000/0.000000/-0.000074/0.000437/0.000215/-0.000281/0.000069/0.000879/-0.000331/-0.000389/0.000254/0.000125/-0.000677/-0.000305/-0.000607/-0.000543/-0.000359/-0.000473/0.000058/0.000633/-0.000343/-0.000117/0.000394/-0.000079/0.000072/0.000344/-0.000170/-0.000341/0.000379/-0.000105/-0.000071/-0.000216/0.000586/-0.000225/0.000956/0.000352/0.000243/-0.000503/-0.000339/0.000215/0.000043/0.001053";
             //string[] sa_e1 = s.Split('/');
@@ -5798,6 +5912,334 @@ namespace SmartDyeing.FADM_Control
                         Lib_File.Ini.WriteIni("Coordinate", "Coordinate_PH_IntervalY", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
                         Lib_Card.Configure.Parameter.Coordinate_PH_IntervalX = Convert.ToInt32(TxtRPosX.Text);
                         Lib_Card.Configure.Parameter.Coordinate_PH_IntervalY = Convert.ToInt32(TxtRPosY.Text);
+                    }
+                }
+            }
+            else if (RdoSupportCover.Checked)
+            {
+                if (string.IsNullOrEmpty(TxtNum.Text))
+                {
+                    if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                        FADM_Form.CustomMessageBox.Show("请输入杯号！", "温馨提示", MessageBoxButtons.OK, false);
+                    else
+                        FADM_Form.CustomMessageBox.Show("Please enter the cup number！", "Tips", MessageBoxButtons.OK, false);
+                    FADM_Object.Communal.WriteDripWait(false);
+                    return;
+                }
+                else
+                {
+                    if (Convert.ToInt32(TxtNum.Text) > Lib_Card.Configure.Parameter.Machine_Cup_Total)
+                    {
+                        if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                            FADM_Form.CustomMessageBox.Show("杯号输入错误！", "温馨提示", MessageBoxButtons.OK, false);
+                        else
+                            FADM_Form.CustomMessageBox.Show("The cup number is incorrect！", "Tips", MessageBoxButtons.OK, false);
+                        return;
+                    }
+                }
+                DialogResult dialogResult;
+                if (Lib_Card.Configure.Parameter.Other_Language == 0)
+                {
+                    dialogResult = FADM_Form.CustomMessageBox.Show("确定写入?", "温馨提示", MessageBoxButtons.YesNo, true);
+                }
+                else
+                {
+                    dialogResult = FADM_Form.CustomMessageBox.Show("Definite write?", "Tips", MessageBoxButtons.YesNo, true);
+                }
+
+                if (dialogResult == DialogResult.No)
+                {
+                    return;
+                }
+                else
+                {
+                    //判断是否翻转缸
+                    if (string.IsNullOrEmpty(TxtRPosX.Text) || string.IsNullOrEmpty(TxtRPosY.Text))
+                    {
+                        return;
+                    }
+                    if (Convert.ToInt32(TxtNum.Text) >= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area1_CupMin.ToString()) && Convert.ToInt32(TxtNum.Text) <= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area1_CupMax.ToString()))
+                    {
+                        //如果是滴液区，判断是否首杯，如果是才能保存
+                        if (Lib_Card.Configure.Parameter.Machine_Area1_Type == 2)
+                        {
+                            //if (Convert.ToInt32(TxtNum.Text) != Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area1_CupMin.ToString()))
+                            //{
+                            //    return;
+                            //}
+
+                            ////读取当前坐标写入
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_X", Lib_Card.Configure.Parameter.Coordinate_Area1_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_Y", Lib_Card.Configure.Parameter.Coordinate_Area1_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                            ////读取当前坐标写入
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //Lib_Card.Configure.Parameter.Coordinate_Area1_X = Convert.ToInt32(TxtRPosX.Text);
+                            //Lib_Card.Configure.Parameter.Coordinate_Area1_Y = Convert.ToInt32(TxtRPosY.Text);
+                        }
+                        else if (Lib_Card.Configure.Parameter.Machine_Area1_Type == 3)
+                        {
+                            ////如果是转子机，判断是否首杯，如果是才能保存
+                            //if (Lib_Card.Configure.Parameter.Machine_Area1_DyeType == 0)
+                            //{
+                            //    if (Convert.ToInt32(TxtNum.Text) != Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area1_CupMin.ToString()))
+                            //    {
+                            //        return;
+                            //    }
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_X", Lib_Card.Configure.Parameter.Coordinate_Area1_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_Y", Lib_Card.Configure.Parameter.Coordinate_Area1_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                            //    //读取当前坐标写入
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area1_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //    Lib_Card.Configure.Parameter.Coordinate_Area1_X = Convert.ToInt32(TxtRPosX.Text);
+                            //    Lib_Card.Configure.Parameter.Coordinate_Area1_Y = Convert.ToInt32(TxtRPosY.Text);
+                            //}
+                            ////翻转缸
+                            //else
+                            {
+                                int i_Y = Lib_Card.Configure.Parameter.Machine_Type == 0 ? Convert.ToInt32(TxtRPosY.Text) - Lib_Card.Configure.Parameter.Other_SupportCoverY : Convert.ToInt32(TxtRPosY.Text) + Lib_Card.Configure.Parameter.Other_SupportCoverY;
+
+                                WriteCupCoordinate(Convert.ToInt32(TxtNum.Text), TxtRPosX.Text, i_Y.ToString());
+
+
+                            }
+
+                        }
+                    }
+
+                    else if (Convert.ToInt32(TxtNum.Text) >= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area2_CupMin.ToString()) && Convert.ToInt32(TxtNum.Text) <= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area2_CupMax.ToString()))
+                    {
+                        //如果是滴液区，判断是否首杯，如果是才能保存
+                        if (Lib_Card.Configure.Parameter.Machine_Area2_Type == 2)
+                        {
+                            //if (Convert.ToInt32(TxtNum.Text) != Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area2_CupMin.ToString()))
+                            //{
+                            //    return;
+                            //}
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area2_X", Lib_Card.Configure.Parameter.Coordinate_Area2_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area2_Y", Lib_Card.Configure.Parameter.Coordinate_Area2_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                            ////读取当前坐标写入
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area2_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area2_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //Lib_Card.Configure.Parameter.Coordinate_Area2_X = Convert.ToInt32(TxtRPosX.Text);
+                            //Lib_Card.Configure.Parameter.Coordinate_Area2_Y = Convert.ToInt32(TxtRPosY.Text);
+                        }
+                        else if (Lib_Card.Configure.Parameter.Machine_Area2_Type == 3)
+                        {
+                            ////如果是转子机，判断是否首杯，如果是才能保存
+                            //if (Lib_Card.Configure.Parameter.Machine_Area2_DyeType == 0)
+                            //{
+                            //    if (Convert.ToInt32(TxtNum.Text) != Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area2_CupMin.ToString()))
+                            //    {
+                            //        return;
+                            //    }
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area2_X", Lib_Card.Configure.Parameter.Coordinate_Area2_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area2_Y", Lib_Card.Configure.Parameter.Coordinate_Area2_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                            //    //读取当前坐标写入
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area2_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area2_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //    Lib_Card.Configure.Parameter.Coordinate_Area2_X = Convert.ToInt32(TxtRPosX.Text);
+                            //    Lib_Card.Configure.Parameter.Coordinate_Area2_Y = Convert.ToInt32(TxtRPosY.Text);
+                            //}
+                            ////翻转缸
+                            //else
+                            {
+                                int i_Y = Lib_Card.Configure.Parameter.Machine_Type == 0 ? Convert.ToInt32(TxtRPosY.Text) - Lib_Card.Configure.Parameter.Other_SupportCoverY : Convert.ToInt32(TxtRPosY.Text) + Lib_Card.Configure.Parameter.Other_SupportCoverY;
+                                WriteCupCoordinate(Convert.ToInt32(TxtNum.Text), TxtRPosX.Text, i_Y.ToString());
+                            }
+
+                        }
+                    }
+
+                    else if (Convert.ToInt32(TxtNum.Text) >= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area3_CupMin.ToString()) && Convert.ToInt32(TxtNum.Text) <= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area3_CupMax.ToString()))
+                    {
+                        //如果是滴液区，判断是否首杯，如果是才能保存
+                        if (Lib_Card.Configure.Parameter.Machine_Area3_Type == 2)
+                        {
+                            //if (Convert.ToInt32(TxtNum.Text) != Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area3_CupMin.ToString()))
+                            //{
+                            //    return;
+                            //}
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area3_X", Lib_Card.Configure.Parameter.Coordinate_Area3_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area3_Y", Lib_Card.Configure.Parameter.Coordinate_Area3_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                            ////读取当前坐标写入
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area3_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area3_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //Lib_Card.Configure.Parameter.Coordinate_Area3_X = Convert.ToInt32(TxtRPosX.Text);
+                            //Lib_Card.Configure.Parameter.Coordinate_Area3_Y = Convert.ToInt32(TxtRPosY.Text);
+                        }
+                        else if (Lib_Card.Configure.Parameter.Machine_Area3_Type == 3)
+                        {
+                            ////如果是转子机，判断是否首杯，如果是才能保存
+                            //if (Lib_Card.Configure.Parameter.Machine_Area3_DyeType == 0)
+                            //{
+                            //    if (Convert.ToInt32(TxtNum.Text) != Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area3_CupMin.ToString()))
+                            //    {
+                            //        return;
+                            //    }
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area3_X", Lib_Card.Configure.Parameter.Coordinate_Area3_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area3_Y", Lib_Card.Configure.Parameter.Coordinate_Area3_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                            //    //读取当前坐标写入
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area3_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area3_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //    Lib_Card.Configure.Parameter.Coordinate_Area3_X = Convert.ToInt32(TxtRPosX.Text);
+                            //    Lib_Card.Configure.Parameter.Coordinate_Area3_Y = Convert.ToInt32(TxtRPosY.Text);
+                            //}
+                            ////翻转缸
+                            //else
+                            {
+                                int i_Y = Lib_Card.Configure.Parameter.Machine_Type == 0 ? Convert.ToInt32(TxtRPosY.Text) - Lib_Card.Configure.Parameter.Other_SupportCoverY : Convert.ToInt32(TxtRPosY.Text) + Lib_Card.Configure.Parameter.Other_SupportCoverY;
+                                WriteCupCoordinate(Convert.ToInt32(TxtNum.Text), TxtRPosX.Text, i_Y.ToString());
+                            }
+
+                        }
+                    }
+
+                    else if (Convert.ToInt32(TxtNum.Text) >= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area4_CupMin.ToString()) && Convert.ToInt32(TxtNum.Text) <= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area4_CupMax.ToString()))
+                    {
+                        //如果是滴液区，判断是否首杯，如果是才能保存
+                        if (Lib_Card.Configure.Parameter.Machine_Area4_Type == 2)
+                        {
+                            //if (Convert.ToInt32(TxtNum.Text) != Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area4_CupMin.ToString()))
+                            //{
+                            //    return;
+                            //}
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_X", Lib_Card.Configure.Parameter.Coordinate_Area4_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_Y", Lib_Card.Configure.Parameter.Coordinate_Area4_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            ////读取当前坐标写入
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //Lib_Card.Configure.Parameter.Coordinate_Area4_X = Convert.ToInt32(TxtRPosX.Text);
+                            //Lib_Card.Configure.Parameter.Coordinate_Area4_Y = Convert.ToInt32(TxtRPosY.Text);
+                        }
+                        else if (Lib_Card.Configure.Parameter.Machine_Area4_Type == 3)
+                        {
+                            ////如果是转子机，判断是否首杯，如果是才能保存
+                            //if (Lib_Card.Configure.Parameter.Machine_Area4_DyeType == 0)
+                            //{
+                            //    if (Convert.ToInt32(TxtNum.Text) != Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area4_CupMin.ToString()))
+                            //    {
+                            //        return;
+                            //    }
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_X", Lib_Card.Configure.Parameter.Coordinate_Area4_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_Y", Lib_Card.Configure.Parameter.Coordinate_Area4_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                            //    //读取当前坐标写入
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area4_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //    Lib_Card.Configure.Parameter.Coordinate_Area4_X = Convert.ToInt32(TxtRPosX.Text);
+                            //    Lib_Card.Configure.Parameter.Coordinate_Area4_Y = Convert.ToInt32(TxtRPosY.Text);
+                            //}
+                            ////翻转缸
+                            //else
+                            {
+                                int i_Y = Lib_Card.Configure.Parameter.Machine_Type == 0 ? Convert.ToInt32(TxtRPosY.Text) - Lib_Card.Configure.Parameter.Other_SupportCoverY : Convert.ToInt32(TxtRPosY.Text) + Lib_Card.Configure.Parameter.Other_SupportCoverY;
+                                WriteCupCoordinate(Convert.ToInt32(TxtNum.Text), TxtRPosX.Text, i_Y.ToString());
+                            }
+
+                        }
+                    }
+
+                    else if (Convert.ToInt32(TxtNum.Text) >= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area5_CupMin.ToString()) && Convert.ToInt32(TxtNum.Text) <= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area5_CupMax.ToString()))
+                    {
+                        //如果是滴液区，判断是否首杯，如果是才能保存
+                        if (Lib_Card.Configure.Parameter.Machine_Area5_Type == 2)
+                        {
+                            //if (Convert.ToInt32(TxtNum.Text) != Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area5_CupMin.ToString()))
+                            //{
+                            //    return;
+                            //}
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area5_X", Lib_Card.Configure.Parameter.Coordinate_Area5_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area5_Y", Lib_Card.Configure.Parameter.Coordinate_Area5_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                            ////读取当前坐标写入
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area5_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area5_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //Lib_Card.Configure.Parameter.Coordinate_Area5_X = Convert.ToInt32(TxtRPosX.Text);
+                            //Lib_Card.Configure.Parameter.Coordinate_Area5_Y = Convert.ToInt32(TxtRPosY.Text);
+                        }
+                        else if (Lib_Card.Configure.Parameter.Machine_Area5_Type == 3)
+                        {
+                            ////如果是转子机，判断是否首杯，如果是才能保存
+                            //if (Lib_Card.Configure.Parameter.Machine_Area5_DyeType == 0)
+                            //{
+                            //    if (Convert.ToInt32(TxtNum.Text) != Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area5_CupMin.ToString()))
+                            //    {
+                            //        return;
+                            //    }
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area5_X", Lib_Card.Configure.Parameter.Coordinate_Area5_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area5_Y", Lib_Card.Configure.Parameter.Coordinate_Area5_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                            //    //读取当前坐标写入
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area5_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area5_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //    Lib_Card.Configure.Parameter.Coordinate_Area5_X = Convert.ToInt32(TxtRPosX.Text);
+                            //    Lib_Card.Configure.Parameter.Coordinate_Area5_Y = Convert.ToInt32(TxtRPosY.Text);
+                            //}
+                            ////翻转缸
+                            //else
+                            {
+                                int i_Y = Lib_Card.Configure.Parameter.Machine_Type == 0 ? Convert.ToInt32(TxtRPosY.Text) - Lib_Card.Configure.Parameter.Other_SupportCoverY : Convert.ToInt32(TxtRPosY.Text) + Lib_Card.Configure.Parameter.Other_SupportCoverY;
+                                WriteCupCoordinate(Convert.ToInt32(TxtNum.Text), TxtRPosX.Text, i_Y.ToString());
+                            }
+
+                        }
+                    }
+
+                    else if (Convert.ToInt32(TxtNum.Text) >= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area6_CupMin.ToString()) && Convert.ToInt32(TxtNum.Text) <= Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area6_CupMax.ToString()))
+                    {
+                        //如果是滴液区，判断是否首杯，如果是才能保存
+                        if (Lib_Card.Configure.Parameter.Machine_Area6_Type == 2)
+                        {
+                            //if (Convert.ToInt32(TxtNum.Text) != Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area6_CupMin.ToString()))
+                            //{
+                            //    return;
+                            //}
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area6_X", Lib_Card.Configure.Parameter.Coordinate_Area6_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area6_Y", Lib_Card.Configure.Parameter.Coordinate_Area6_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                            ////读取当前坐标写入
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area6_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area6_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //Lib_Card.Configure.Parameter.Coordinate_Area6_X = Convert.ToInt32(TxtRPosX.Text);
+                            //Lib_Card.Configure.Parameter.Coordinate_Area6_Y = Convert.ToInt32(TxtRPosY.Text);
+                        }
+                        else if (Lib_Card.Configure.Parameter.Machine_Area6_Type == 3)
+                        {
+                            ////如果是转子机，判断是否首杯，如果是才能保存
+                            //if (Lib_Card.Configure.Parameter.Machine_Area6_DyeType == 0)
+                            //{
+                            //    if (Convert.ToInt32(TxtNum.Text) != Convert.ToInt32(Lib_Card.Configure.Parameter.Machine_Area6_CupMin.ToString()))
+                            //    {
+                            //        return;
+                            //    }
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area6_X", Lib_Card.Configure.Parameter.Coordinate_Area6_X.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area6_Y", Lib_Card.Configure.Parameter.Coordinate_Area6_Y.ToString(), Environment.CurrentDirectory + "\\Config\\Config.ini");
+
+                            //    //读取当前坐标写入
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area6_X", TxtRPosX.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //    Lib_File.Ini.WriteIni("Coordinate", "Coordinate_Area6_Y", TxtRPosY.Text, Environment.CurrentDirectory + "\\Config\\parameter.ini");
+                            //    Lib_Card.Configure.Parameter.Coordinate_Area6_X = Convert.ToInt32(TxtRPosX.Text);
+                            //    Lib_Card.Configure.Parameter.Coordinate_Area6_Y = Convert.ToInt32(TxtRPosY.Text);
+                            //}
+                            ////翻转缸
+                            //else
+                            {
+                                int i_Y = Lib_Card.Configure.Parameter.Machine_Type == 0 ? Convert.ToInt32(TxtRPosY.Text) - Lib_Card.Configure.Parameter.Other_SupportCoverY : Convert.ToInt32(TxtRPosY.Text) + Lib_Card.Configure.Parameter.Other_SupportCoverY;
+                                WriteCupCoordinate(Convert.ToInt32(TxtNum.Text), TxtRPosX.Text, i_Y.ToString());
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        return;
                     }
                 }
             }
